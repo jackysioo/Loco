@@ -1,4 +1,5 @@
 import React from "react";
+import { withNavigation } from 'react-navigation';
 import { SearchBar } from 'react-native-elements';
 import {
     Dimensions,
@@ -9,22 +10,31 @@ import {
     Image,
     Text,
     View,
-    SafeAreaView
+    SafeAreaView,
+    TouchableOpacity,
+    Button
 } from 'react-native';
 
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { Card } from '../components';
 import { Images, Colors } from "../constants";
 import businesses from '../constants/businesses';
-const { width } = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 const carouselWidth = width / 5;
 
 class HomeScreen extends React.Component {
     state = {
         search: '',
+        location: '',
+        isSearchActive: false,
     };
+
     updateSearch = search => {
         this.setState({ search });
+    };
+
+    updateLocation = location => {
+        this.setState({ location });
     };
 
     renderCategories() {
@@ -41,27 +51,81 @@ class HomeScreen extends React.Component {
             )
         });
     }
+
+    renderSearchCancel() {
+        return (
+            <View
+                style={styles.searchCancelContainer}>
+                <Button
+                    title="Cancel"
+                    color="#51bfbb"
+                    onPress={() => { this.setState({ isSearchActive: false }); this.searchBar.clear(); this.searchBar.blur();  }}>
+                </Button>
+                <Button
+                    title="Search"
+                    color="#51bfbb">
+                </Button>
+            </View>
+        )
+    }
+
+    renderSearchActive() {
+        const { location } = this.state;
+        return (
+            <View
+                style={styles.searchActiveContainer}>
+                <View style={styles.searchContainer}>
+                    <SearchBar
+                        round
+                        lightTheme
+                        placeholder='Current location' 
+                        placeholderTextColor='#cccccc'
+                        containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
+                        inputContainerStyle={{ backgroundColor: '#ffffff' }}
+                        inputStyle={{ fontSize: 13 }}
+                        searchIcon={{ size: 20 }}
+                        onChangeText={this.updateLocation}
+                        value={location}
+                        returnKeyType="search"/>
+                </View>
+                <View style={styles.searchActiveResultsContainer}>
+                    <View style={styles.searchActiveResultsContainer}>
+                    </View>
+                </View>
+            </View>
+        )
+    }
+
     render() {
         const { search } = this.state;
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.container}>
+
+                    {this.state.isSearchActive && this.renderSearchCancel()}
+
                     <View style={styles.searchContainer}>
                         <SearchBar
+                            ref={input => this.searchBar = input} 
                             round
                             lightTheme
-                            showCancel
-                            containerStyle={{ backgroundColor: '#ffffff', padding: 5, margin: 10, borderWidth: 0 }}
+                            containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
                             inputContainerStyle={{ backgroundColor: '#ffffff' }}
                             inputStyle={{ fontSize: 13 }}
                             searchIcon={{ size: 20 }}
                             onChangeText={this.updateSearch}
                             value={search}
-                            placeholder='Search for meals, tutors, beauticians on LOCO' />
+                            onFocus={() => { this.setState({ isSearchActive: true }); }}
+                            returnKeyType="search"
+                            placeholder='Search for meals, tutors, beauticians on LOCO'
+                            placeholderTextColor='#cccccc'/>
                     </View>
+
+                    {this.state.isSearchActive && this.renderSearchActive()}
+
                     <ScrollView
                         showsVerticalScrollIndicator={false}
-                        style={styles.container}
+                        style={styles.ScrollContainer}
                         contentContainerStyle={styles.contentContainer}>
                         <View style={styles.categoryContainer}>
                             {this.renderCategories()}
@@ -72,7 +136,7 @@ class HomeScreen extends React.Component {
                                 </HeadingText1>
                             <ScrollView horizontal={true}
                                 decelerationRate={0}
-                                snapToInterval={300} 
+                                snapToInterval={300}
                                 snapToAlignment={"center"}
                                 showsHorizontalScrollIndicator={false}
                                 style={styles.itemContainer}>
@@ -87,7 +151,7 @@ class HomeScreen extends React.Component {
                                 </HeadingText1>
                             <ScrollView horizontal={true}
                                 decelerationRate={0}
-                                snapToInterval={300} 
+                                snapToInterval={300}
                                 snapToAlignment={"center"}
                                 showsHorizontalScrollIndicator={false}
                                 style={styles.itemContainer}>
@@ -134,6 +198,36 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 5,
         shadowOpacity: 0.2,
+        zIndex: 10,
+    },
+    searchCancelContainer: {
+        flexDirection: 'row',
+        zIndex: 10,
+        justifyContent: 'space-between',
+        marginTop:5,
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    searchActiveContainer: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+        zIndex: 5,
+        width: width,
+        position: 'absolute',
+        left: 0,
+        top: 95,
+    },
+    searchActiveResultsContainer: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+        padding: 10,
+        height: height,
+    },
+    scrollContainer: {
+        flex: 1,
+        width: width,
+        backgroundColor: '#fff',
+        zIndex: 0
     },
     categoryContainer: {
         flex: 1,
@@ -192,4 +286,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default HomeScreen;
+export default withNavigation(HomeScreen);
