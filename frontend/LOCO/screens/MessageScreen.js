@@ -1,5 +1,12 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import React from 'react';import {
+    Image,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
 export default function MessageScreen() {
     return (<View style={styles.container}>
@@ -19,9 +26,6 @@ export default function MessageScreen() {
     );
 }
 
-MessageScreen.navigationOptions = {
-    title: 'Messages',
-};
 
 const styles = StyleSheet.create({
     container: {

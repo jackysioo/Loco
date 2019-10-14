@@ -14,17 +14,11 @@ export function ParagraphText2(props) {
 
 export function HeadingText1(props) {
     return (
-      <Text {...props} style={[props.style, { fontFamily: 'prompt-bold' }]} />
+      <Text {...props} style={[props.style, { fontFamily: 'montserrat-bold' }]} />
     );
 }
 
 export function HeadingText2(props) {
-    return (
-      <Text {...props} style={[props.style, { fontFamily: 'prompt-semibold' }]} />
-    );
-}
-
-export function HeadingText3(props) {
     return (
       <Text {...props} style={[props.style, { fontFamily: 'montserrat-semibold' }]} />
     );

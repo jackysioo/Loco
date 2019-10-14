@@ -17,7 +17,9 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-  },
+  }, {
+  headerMode: 'none',
+},
   config
 );
 
@@ -28,7 +30,7 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-search${focused ? '' : '-outline'}`
+          ? 'ios-search'
           : 'md-search'
       }
     />
@@ -40,7 +42,9 @@ HomeStack.path = '';
 const UserStack = createStackNavigator(
   {
     User: UserScreen,
-  },
+  }, {
+  headerMode: 'none',
+},
   config
 );
 
@@ -56,7 +60,9 @@ UserStack.path = '';
 const MessageStack = createStackNavigator(
   {
     Message: MessageScreen,
-  },
+  }, {
+  headerMode: 'none',
+},
   config
 );
 
