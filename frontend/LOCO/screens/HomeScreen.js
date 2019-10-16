@@ -1,5 +1,7 @@
 import React from "react";
 import { withNavigation } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import { SearchBar } from 'react-native-elements';
 import {
     Dimensions,
@@ -14,11 +16,12 @@ import {
     TouchableOpacity,
     Button
 } from 'react-native';
-
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { Card } from '../components';
 import { Images, Colors } from "../constants";
 import businesses from '../constants/businesses';
+import MessageScreen from "./MessageScreen";
+
 const { width, height } = Dimensions.get('screen');
 const carouselWidth = width / 5;
 
@@ -53,6 +56,7 @@ class HomeScreen extends React.Component {
     }
 
     renderSearchCancel() {
+        const { navigation } = this.props;
         return (
             <View
                 style={styles.searchCancelContainer}>
@@ -63,7 +67,9 @@ class HomeScreen extends React.Component {
                 </Button>
                 <Button
                     title="Search"
-                    color="#51bfbb">
+                    color="#51bfbb"
+                    onPress={() => this.props.navigation.navigate('Search')}
+                >
                 </Button>
             </View>
         )
@@ -285,5 +291,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     }
 })
+
+
+const HomeStack = createStackNavigator(
+    {
+      Home: HomeScreen,
+      SearchMap: MessageScreen,
+    },
+    {
+      initialRouteName: 'Home',
+    }
+);
+
 
 export default withNavigation(HomeScreen);
