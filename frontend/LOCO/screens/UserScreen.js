@@ -33,7 +33,7 @@ class UserScreen extends React.Component {
                                     <Text
                                         style={{
                                             fontSize: 30,
-                                            textShadowColor: "#895da3",
+                                            textShadowColor: "#2a95a3",
                                             color: "#ffffff",
                                             shadowOpacity: 0.1,
                                             textShadowRadius: 5,
@@ -50,7 +50,7 @@ class UserScreen extends React.Component {
                                 <View style={styles.profileButtons}>
                                     <Button
                                         title="Edit Profile"
-                                        color="#4c1287">
+                                        color="#2a95a3">
                                     </Button>
                                 </View>
                             </View>
@@ -75,7 +75,7 @@ class UserScreen extends React.Component {
                                 <Text style={styles.title}>Your Bio: </Text>
                                 <Text style={styles.text}>This is where the user writes their bio. Interests, hobbies, skills, etc. They can also write about their experiences and different certificates or other form of validations for the skills they have.</Text>
                             </View>
-                            <View style={{ borderBottomColor: "#9587a3", borderBottomWidth: 1.3, marginTop: 10, }} />
+                            <View style={{ borderBottomColor: "#77aebf", borderBottomWidth: 1.3, marginTop: 10, }} />
                             <View style={styles.nameAge}>
                                 <Text>
                                     <Text style={styles.title}>Full Name: </Text>
@@ -97,8 +97,8 @@ class UserScreen extends React.Component {
                         </View>
 
                         <View style={styles.info}>
-                            <View style={{ borderBottomColor: "#9587a3", borderBottomWidth: 1.3, marginTop: 10, }} />
-                            <Text style={{ marginTop: 10, color: "#4c1287", fontWeight: "300", fontSize: 20, }}>Your Businesses</Text>
+                            <View style={{ borderBottomColor: "#77aebf", borderBottomWidth: 1.3, marginTop: 10, }} />
+                            <Text style={{ marginTop: 10, color: "#2a95a3", fontWeight: "400", fontSize: 22, }}>Your Businesses</Text>
                             <View style={styles.business}>
                                 <View style={styles.businessName}>
                                     <Text style={styles.title}>Eyelash Extensions</Text>
@@ -182,13 +182,13 @@ const styles = StyleSheet.create({
     userStats: {
         textAlign: "center",
         fontSize: 17,
-        color: "#4c1287",
+        color: "#2a95a3",
         fontWeight: '300',
     },
     userStatsNum: {
         textAlign: "center",
         fontSize: 20,
-        color: "#4c1287",
+        color: "#2a95a3",
         fontWeight: '300',
         marginRight: 5,
     },
@@ -209,13 +209,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     text: {
-        color: "#4c1287",
+        color: "#2a95a3",
         fontWeight: "300",
         fontSize: 17,
     },
     title: {
-        color: "#4c1287",
-        fontWeight: "300",
+        color: "#2a95a3",
+        fontWeight: "400",
         fontSize: 20,
     },
     business: {
@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
     },
     imageGallery: {
+        marginTop: 5,
         width: 116,
         height: 116,
         borderRadius: 1,
