@@ -67,7 +67,7 @@ exports.deletePost = (req,res,next) => {
             error.statusCode = 404; 
             throw error;
         } 
-        return User.findByIdAndDelete(postId);
+        return User.findByIdAndDelete(userId);
     }) 
     .then( result => { 
         res.status(200).json({message: 'deleteed', user: result});
