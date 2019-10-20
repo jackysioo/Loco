@@ -35,8 +35,8 @@ class UserScreen extends React.Component {
                                             fontSize: 30,
                                             textShadowColor: "#895da3",
                                             color: "#ffffff",
-                                            textShadowOffset: { width: -1, height: 0 },
-                                            textShadowRadius: 10,
+                                            shadowOpacity: 0.1,
+                                            textShadowRadius: 5,
                                             marginBottom: 10,
                                             fontWeight: "400",
                                             textAlign: "center"
@@ -65,7 +65,7 @@ class UserScreen extends React.Component {
                                 <Text style={styles.userStats}>Reviews</Text>
                             </View>
                             <View style={styles.userStatInner}>
-                                <Text style={styles.userStatsNum}>5</Text>
+                                <Text style={styles.userStatsNum}>6</Text>
                                 <Text style={styles.userStats}>Photos</Text>
                             </View>
                         </View>
