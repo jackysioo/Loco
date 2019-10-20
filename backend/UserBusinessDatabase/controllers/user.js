@@ -8,7 +8,8 @@ exports.getUserData = (req,res,next) => {
         .catch(err => { 
             if(!err.statusCode){ 
                 err.statusCode = 500;
-            }
+            } 
+            next(err);
         })
 }
 
@@ -17,7 +18,7 @@ exports.postUserData = (req, res, next) => {
 
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const userName = req.body.username;
+    const userName = req.body.userName;
     const user = new User({
         firstName: firstName,
         lastName: lastName,
@@ -33,11 +34,12 @@ exports.postUserData = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            console.log(err); 
+            next(err);
         });
 } 
 
-exports.getUserDataById = () => {  
+exports.getUserDataById = (req,res,next) => {  
     const userId = req.params.userId;
     User.findById(userId) 
         .then(user => { 
@@ -51,7 +53,8 @@ exports.getUserDataById = () => {
         .catch(err => { 
             if(!err.statusCode){ 
                 err.statusCode = 500;
-            }
+            } 
+            next(err);
         })
 }; 
 
@@ -89,7 +92,7 @@ exports.updateUserData = (req,res,next) => {
                 error.statusCode = 404; 
                 throw error;
             } 
-            user.userName = username; 
+            user.userName = userName; 
             user.firstName = firstName; 
             user.lastName = lastName;
             return user.save();
@@ -101,7 +104,8 @@ exports.updateUserData = (req,res,next) => {
         .catch(err => { 
             if(!err.statusCode){ 
                 err.statusCode = 500;
-            }
+            } 
+            next(err);
         })
 
 }
