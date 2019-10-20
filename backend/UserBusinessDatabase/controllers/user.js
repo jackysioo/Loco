@@ -19,9 +19,9 @@ exports.postUserData = (req, res, next) => {
     const lastName = req.body.lastName;
     const userName = req.body.username;
     const user = new User({
-        firstName = firstName,
-        lastName = lastName,
-        userName = userName
+        firstName: firstName,
+        lastName: lastName,
+        userName: userName
     });
     
     user
