@@ -26,7 +26,7 @@ class UserScreen extends React.Component {
                     imageStyle={styles.profileBackground}>
                     <ScrollView
                         showsVerticalScrollIndicator={false}
-                        style={{ width, marginTop: '10%' }}>
+                        contentContainerStyle={{ paddingBottom: 120, marginTop: "10%" }}>
                         <View style={styles.profileCard}>
                             <View style={styles.profilePicContainer}>
                                 <View>
@@ -70,12 +70,12 @@ class UserScreen extends React.Component {
                             </View>
                         </View>
 
-                        <View style={styles.personalInfo}>
+                        <View style={styles.info}>
                             <View style={{ marginTop: 20 }}>
                                 <Text style={styles.title}>Your Bio: </Text>
                                 <Text style={styles.text}>This is where the user writes their bio. Interests, hobbies, skills, etc. They can also write about their experiences and different certificates or other form of validations for the skills they have.</Text>
                             </View>
-                            <View style={{ borderBottomColor: "#9587a3", borderBottomWidth: 1.3, marginTop: 10, }}/>
+                            <View style={{ borderBottomColor: "#9587a3", borderBottomWidth: 1.3, marginTop: 10, }} />
                             <View style={styles.nameAge}>
                                 <Text>
                                     <Text style={styles.title}>Full Name: </Text>
@@ -96,7 +96,27 @@ class UserScreen extends React.Component {
                             </View>
                         </View>
 
-                                        
+                        <View style={styles.info}>
+                            <View style={{ borderBottomColor: "#9587a3", borderBottomWidth: 1.3, marginTop: 10, }} />
+                            <Text style={{ marginTop: 10, color: "#4c1287", fontWeight: "300", fontSize: 20, }}>Your Businesses</Text>
+                            <View style={styles.business}>
+                                <View style={styles.businessName}>
+                                    <Text style={styles.title}>Eyelash Extensions</Text>
+                                </View>
+                                <View style={styles.rating}>
+                                    <Text style={styles.text}>Rating: </Text>
+                                    <Text style={styles.text}>9/10</Text>
+                                </View>
+                                <View style={styles.gallery}>
+                                    <Image source={{ uri: Images.pic1 }} style={styles.imageGallery} />
+                                    <Image source={{ uri: Images.pic2 }} style={styles.imageGallery} />
+                                    <Image source={{ uri: Images.pic3 }} style={styles.imageGallery} />
+                                    <Image source={{ uri: Images.pic4 }} style={styles.imageGallery} />
+                                    <Image source={{ uri: Images.pic5 }} style={styles.imageGallery} />
+                                    <Image source={{ uri: Images.pic6 }} style={styles.imageGallery} />
+                                </View>
+                            </View>
+                        </View>
                     </ScrollView>
                 </ImageBackground>
             </View>
@@ -184,12 +204,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
     },
-    personalInfo: {
+    info: {
         flexDirection: "column",
         marginHorizontal: 20,
     },
     text: {
-        textAlign: "center",
         color: "#4c1287",
         fontWeight: "300",
         fontSize: 17,
@@ -198,6 +217,33 @@ const styles = StyleSheet.create({
         color: "#4c1287",
         fontWeight: "300",
         fontSize: 20,
+    },
+    business: {
+        flexDirection: "column",
+        marginTop: 10,
+        padding: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        borderRadius: 10,
+    },
+    businessName: {
+
+    },
+    rating: {
+        paddingTop: 3,
+        flexDirection: "row",
+        alignItems: 'center',
+    },
+    gallery: {
+        justifyContent: "center",
+        flexDirection: "row",
+        display: "flex",
+        flexWrap: "wrap",
+    },
+    imageGallery: {
+        width: 116,
+        height: 116,
+        borderRadius: 1,
+        margin: 0.6,
     },
 });
 
