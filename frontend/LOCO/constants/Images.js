@@ -1,9 +1,9 @@
 const Logo = require("../assets/imgs/logo.png");
-const ProfileBackground = require("../assets/imgs/profile-screen-bg.png");
+const ProfileBackground = require("../assets/imgs/profile-screen-bg.jpg");
 const MealIcon = require("../assets/icons/icons8-meal-50.png");
 
 // internet imgs
-const ProfilePicture = 'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?fit=crop&w=1650&q=80'; 
+const ProfilePicture = 'https://i.pinimg.com/originals/52/f8/91/52f891d604b9dce10afd5e780219e68d.jpg'; 
 const CategoryIcons = [
     {   name: 'Tutor',
         uri: require("../assets/icons/icons8-book-and-pencil-50.png")
