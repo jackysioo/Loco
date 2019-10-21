@@ -1,4 +1,5 @@
 const User = require('../models/user'); 
+const Business = require('../models/business');
 
 exports.getUserData = (req,res,next) => { 
     User.find() 
@@ -13,9 +14,7 @@ exports.getUserData = (req,res,next) => {
         })
 }
 
-
 exports.postUserData = (req, res, next) => {
-
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const userName = req.body.userName;
@@ -58,7 +57,7 @@ exports.getUserDataById = (req,res,next) => {
         })
 }; 
 
-exports.deletePost = (req,res,next) => { 
+exports.deleteUser = (req,res,next) => { 
     const userId = req.params.userId; 
     User.findById(userId) 
     .then(user => { 
@@ -70,7 +69,7 @@ exports.deletePost = (req,res,next) => {
         return User.findByIdAndDelete(userId);
     }) 
     .then( result => { 
-        res.status(200).json({message: 'deleteed', user: result});
+        res.status(200).json({message: 'deleted', user: result});
     })
     .catch(err => { 
         if(!err.statusCode){ 

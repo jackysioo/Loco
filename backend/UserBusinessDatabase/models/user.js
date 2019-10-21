@@ -13,7 +13,13 @@ const userSchema = new Schema({
     userName: { 
         type: String, 
         required: true
-    }
+    },
+    businesses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Business"
+        }
+    ]
 }); 
 
 module.exports = mongoose.model('User',userSchema);
