@@ -25,7 +25,7 @@ class UserScreen extends React.Component {
                     style={styles.profileContainer}
                     imageStyle={styles.profileBackground}>
                     <ScrollView
-                        showsVerticalScrollIndicator={false}
+                        showsVerticalScrollIndicator={true}
                         contentContainerStyle={{ paddingBottom: 120, marginTop: "10%" }}>
                         <View style={styles.profileCard}>
                             <View style={styles.profilePicContainer}>
