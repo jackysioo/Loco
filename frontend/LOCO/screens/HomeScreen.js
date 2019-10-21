@@ -1,9 +1,9 @@
 import React from "react";
-import { withNavigation } from 'react-navigation';
-import { createAppContainer } from 'react-navigation';
+import { withNavigationFocus } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { SearchBar } from 'react-native-elements';
 import {
+    InteractionManager,
     Dimensions,
     Platform,
     StatusBar,
@@ -14,12 +14,14 @@ import {
     View,
     SafeAreaView,
     TouchableOpacity,
-    Button
+    Button,
+    Modal
 } from 'react-native';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { Card } from '../components';
 import { Images, Colors } from "../constants";
 import businesses from '../constants/businesses';
+import MapScreen from "./MapScreen";
 import MessageScreen from "./MessageScreen";
 
 const { width, height } = Dimensions.get('screen');
@@ -30,7 +32,24 @@ class HomeScreen extends React.Component {
         search: '',
         location: '',
         isSearchActive: false,
+        loadSearchResults: false,
+        mapVisible: false
     };
+
+    componentWillMount() {
+        InteractionManager.runAfterInteractions(() => {
+          this.props.navigation.setParams({
+            scrollToTop: this._scrollToTop,
+          })
+        })
+      }
+    
+      _scrollToTop = () => {
+        if (!!this.refs.scrollView.wrappedInstance.getScrollResponder) {
+          const scrollResponder = this.refs.scrollView.wrappedInstance.getScrollResponder()
+          scrollResponder.scrollTo({x: 0, y: 0, animated: true})
+        }
+      }
 
     updateSearch = search => {
         this.setState({ search });
@@ -39,6 +58,10 @@ class HomeScreen extends React.Component {
     updateLocation = location => {
         this.setState({ location });
     };
+
+    setMapVisible(visible) {
+        this.setState({ mapVisible: visible });
+    }
 
     renderCategories() {
         return Images.CategoryIcons.map(categoryIcon => {
@@ -55,6 +78,62 @@ class HomeScreen extends React.Component {
         });
     }
 
+    renderRecommendations() {
+        return (
+            <ScrollView ref="scrollView"
+                showsVerticalScrollIndicator={false}
+                style={styles.ScrollContainer}
+                contentContainerStyle={styles.contentContainer}>
+                <View style={styles.categoryContainer}>
+                    {this.renderCategories()}
+                </View>
+                <View style={styles.recommendationContainer}>
+                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
+                        Discover Near You
+                                </HeadingText1>
+                    <ScrollView horizontal={true}
+                        decelerationRate={0}
+                        snapToInterval={300}
+                        snapToAlignment={"center"}
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.itemContainer}>
+                        <Card item={businesses[0]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[2]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[4]} />
+                    </ScrollView>
+                </View>
+                <View style={styles.recommendationContainer}>
+                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
+                        We Think You Will Like
+                                </HeadingText1>
+                    <ScrollView horizontal={true}
+                        decelerationRate={0}
+                        snapToInterval={300}
+                        snapToAlignment={"center"}
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.itemContainer}>
+                        <Card item={businesses[3]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[4]} />
+                    </ScrollView>
+                </View>
+                <View style={styles.recommendationContainer}>
+                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
+                        Popular on LOCO
+                                </HeadingText1>
+                    <ScrollView horizontal={true}
+                        decelerationRate={0}
+                        snapToInterval={300}
+                        snapToAlignment={"center"}
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.itemContainer}>
+                        <Card item={businesses[1]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[0]} />
+                    </ScrollView>
+                </View>
+            </ScrollView>
+        )
+    }
+
     renderSearchCancel() {
         const { navigation } = this.props;
         return (
@@ -63,12 +142,20 @@ class HomeScreen extends React.Component {
                 <Button
                     title="Cancel"
                     color="#51bfbb"
-                    onPress={() => { this.setState({ isSearchActive: false }); this.searchBar.clear(); this.searchBar.blur();  }}>
+                    onPress={() => {
+                        this.setState({ isSearchActive: false });
+                        this.searchBar.clear();
+                        this.searchBar.blur();
+                    }}>
                 </Button>
                 <Button
                     title="Search"
                     color="#51bfbb"
-                    onPress={() => this.props.navigation.navigate('Search')}
+                    onPress={() => {
+                        this.setState({ isSearchActive: false, loadSearchResults: true });
+                        this.renderSearchResults();
+                        this.searchBar.blur();
+                    }}
                 >
                 </Button>
             </View>
@@ -84,20 +171,83 @@ class HomeScreen extends React.Component {
                     <SearchBar
                         round
                         lightTheme
-                        placeholder='Current location' 
+                        placeholder='Current location'
                         placeholderTextColor='#cccccc'
+                        returnKeyType="search"
                         containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
                         inputContainerStyle={{ backgroundColor: '#ffffff' }}
                         inputStyle={{ fontSize: 13 }}
                         searchIcon={{ size: 20 }}
+
                         onChangeText={this.updateLocation}
                         value={location}
-                        returnKeyType="search"/>
+                        onSubmitEditing={() => {
+                            this.setState({ isSearchActive: false, loadSearchResults: true });
+                            this.renderSearchResults();
+                            this.searchBar.blur();
+                        }} />
                 </View>
                 <View style={styles.searchActiveResultsContainer}>
                     <View style={styles.searchActiveResultsContainer}>
                     </View>
                 </View>
+            </View>
+        )
+    }
+
+
+    renderSearchResults() {
+        //sendSearchReults to backend:  search + location
+        //getSearchResults
+        return (
+            <View>
+                <TouchableOpacity
+                    style={styles.mapButtonContainer}
+                    color="#51bfbb"
+                    onPress={() => {
+                        this.setMapVisible(true);
+                    }}>
+                    <Image
+                        style={styles.mapButton}
+                        source={require('../assets/icons/icons8-map-64.png')}
+                    />
+                </TouchableOpacity>
+                <ScrollView ref="scrollView"
+                    showsVerticalScrollIndicator={false}
+                    style={styles.ScrollContainer}
+                    contentContainerStyle={styles.contentContainer}>
+                    <View style={styles.recommendationContainer}>
+                        <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
+                            Search Results
+                                </HeadingText1>
+                        <ScrollView horizontal={true}
+                            decelerationRate={0}
+                            snapToInterval={300}
+                            snapToAlignment={"center"}
+                            showsHorizontalScrollIndicator={false}
+                            style={styles.itemContainer}>
+                            <Card item={businesses[1]} style={{ marginRight: width / 30 }} />
+                            <Card item={businesses[0]} />
+                        </ScrollView>
+                    </View>
+                </ScrollView>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.mapVisible}
+                >
+                    <View style={{ marginTop: 22 }}>
+                        <View>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.setMapVisible(!this.state.mapVisible);
+                                }}>
+                                <Text>Hide Modal</Text>
+                            </TouchableOpacity>
+                            <MapScreen />
+                        </View>
+                    </View>
+                </Modal>
             </View>
         )
     }
@@ -112,74 +262,31 @@ class HomeScreen extends React.Component {
 
                     <View style={styles.searchContainer}>
                         <SearchBar
-                            ref={input => this.searchBar = input} 
+                            ref={input => this.searchBar = input}
                             round
                             lightTheme
                             containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
                             inputContainerStyle={{ backgroundColor: '#ffffff' }}
                             inputStyle={{ fontSize: 13 }}
                             searchIcon={{ size: 20 }}
+                            returnKeyType="search"
+                            placeholder='Search for meals, tutors, beauticians on LOCO'
+                            placeholderTextColor='#cccccc'
+
                             onChangeText={this.updateSearch}
                             value={search}
                             onFocus={() => { this.setState({ isSearchActive: true }); }}
-                            returnKeyType="search"
-                            placeholder='Search for meals, tutors, beauticians on LOCO'
-                            placeholderTextColor='#cccccc'/>
+                            onSubmitEditing={() => {
+                                this.setState({ isSearchActive: false, loadSearchResults: true });
+                                this.renderSearchResults();
+                                this.searchBar.blur();
+                            }} />
                     </View>
 
                     {this.state.isSearchActive && this.renderSearchActive()}
+                    {!this.state.loadSearchResults && this.renderRecommendations()}
+                    {this.state.loadSearchResults && this.renderSearchResults()}
 
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        style={styles.ScrollContainer}
-                        contentContainerStyle={styles.contentContainer}>
-                        <View style={styles.categoryContainer}>
-                            {this.renderCategories()}
-                        </View>
-                        <View style={styles.recommendationContainer}>
-                            <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                                Discover Near You
-                                </HeadingText1>
-                            <ScrollView horizontal={true}
-                                decelerationRate={0}
-                                snapToInterval={300}
-                                snapToAlignment={"center"}
-                                showsHorizontalScrollIndicator={false}
-                                style={styles.itemContainer}>
-                                <Card item={businesses[0]} style={{ marginRight: width / 30 }} />
-                                <Card item={businesses[2]} style={{ marginRight: width / 30 }} />
-                                <Card item={businesses[4]} />
-                            </ScrollView>
-                        </View>
-                        <View style={styles.recommendationContainer}>
-                            <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                                We Think You Will Like
-                                </HeadingText1>
-                            <ScrollView horizontal={true}
-                                decelerationRate={0}
-                                snapToInterval={300}
-                                snapToAlignment={"center"}
-                                showsHorizontalScrollIndicator={false}
-                                style={styles.itemContainer}>
-                                <Card item={businesses[3]} style={{ marginRight: width / 30 }} />
-                                <Card item={businesses[4]} />
-                            </ScrollView>
-                        </View>
-                        <View style={styles.recommendationContainer}>
-                            <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                                Popular on LOCO
-                                </HeadingText1>
-                            <ScrollView horizontal={true}
-                                decelerationRate={0}
-                                snapToInterval={300}
-                                snapToAlignment={"center"}
-                                showsHorizontalScrollIndicator={false}
-                                style={styles.itemContainer}>
-                                <Card item={businesses[1]} style={{ marginRight: width / 30 }} />
-                                <Card item={businesses[0]} />
-                            </ScrollView>
-                        </View>
-                    </ScrollView>
                 </View>
             </SafeAreaView>
         );
@@ -210,7 +317,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         zIndex: 10,
         justifyContent: 'space-between',
-        marginTop:5,
+        marginTop: 5,
         paddingLeft: 10,
         paddingRight: 10,
     },
@@ -265,6 +372,21 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         flexDirection: 'row',
     },
+    mapButton: {
+        width: 50,
+        height: 50,
+    },
+    mapButtonContainer: {
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        margin: 40,
+        zIndex: 10,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.4,
+        shadowRadius: 10,
+    },
     tabBarInfoContainer: {
         position: 'absolute',
         bottom: 0,
@@ -293,15 +415,4 @@ const styles = StyleSheet.create({
 })
 
 
-const HomeStack = createStackNavigator(
-    {
-      Home: HomeScreen,
-      SearchMap: MessageScreen,
-    },
-    {
-      initialRouteName: 'Home',
-    }
-);
-
-
-export default withNavigation(HomeScreen);
+export default withNavigationFocus(HomeScreen);

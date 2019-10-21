@@ -3,7 +3,6 @@ import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
-
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UserScreen from '../screens/UserScreen';
@@ -14,6 +13,21 @@ const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
+
+const tabBarOnPress = ({ navigation, defaultHandler }) => {
+  const { isFocused, state, goBack } = navigation;
+  if (isFocused()) {
+      if (state.routes.length > 1) {
+          for (let i = 0; i < state.routes.length - 1; i += 1) {
+              goBack();
+          }
+      } else {
+          // @TODO SCROLL TO TOP OF EACH TAB IF SCROLLABLE, $CALLBACK().
+      }
+  } else {
+      defaultHandler();
+  }
+};
 
 const HomeStack = createStackNavigator(
   {
@@ -38,7 +52,6 @@ HomeStack.navigationOptions = {
     />
   ),
 };
-
 HomeStack.path = '';
 
 const UserStack = createStackNavigator(
