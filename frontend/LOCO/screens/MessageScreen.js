@@ -19,7 +19,6 @@ import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import AutogrowInput from 'react-native-autogrow-input';
-import PopUpUI from './PopUpUI';
 const { width, height } = Dimensions.get("screen");
 
 //used to make random-sized messages
@@ -164,9 +163,9 @@ class MessageBubble extends React.Component {
             <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                 {leftSpacer}
                 <View style={bubbleStyles}>
-                    <Text style={bubbleTextStyle}>
+                    <ParagraphText1 style={bubbleTextStyle}>
                         {this.props.text}
-                    </Text>
+                    </ParagraphText1>
                 </View>
                 {rightSpacer}
             </View>
@@ -199,7 +198,7 @@ class InputBar extends React.Component {
                     onContentSizeChange={this.props.onSizeChange}
                     value={this.props.text} />
                 <TouchableHighlight style={styles.sendButton} onPress={() => this.props.onSendPressed()}>
-                    <Text style={{ color: 'white' }}>Send</Text>
+                    <ParagraphText1 style={{ color: 'white' }}>Send</ParagraphText1>
                 </TouchableHighlight>
             </View>
         );
