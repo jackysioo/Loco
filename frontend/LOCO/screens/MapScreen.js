@@ -57,8 +57,8 @@ class MapScreen extends React.Component {
                     style={styles.mapStyle}
                     customMapStyle={mapStyle}
                     initialRegion={{
-                        latitude: location.latitude,
-                        longitude: location.longitude,
+                        latitude: location.lat,
+                        longitude: location.long,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421
                     }}
@@ -66,15 +66,16 @@ class MapScreen extends React.Component {
                     showsCompass={false}>
                     {results.map(result => (
                         <MapView.Marker.Animated
+                            key={result.title}
                             ref={marker => { this.marker = marker }}
                             coordinate={{
-                                latitude: result.location.latitude,
-                                longitude: result.location.longitude,
+                                latitude: result.location.lat,
+                                longitude: result.location.long,
                                 latitudeDelta: 0.0922,
                                 longitudeDelta: 0.0421
                             }}
                             title={result.title}
-                            icon={{ uri: require('../assets/icons/icons8-marker-64.png') }}>
+                            image={{ uri: require('../assets/icons/icons8-marker-64.png') }}>
                         </MapView.Marker.Animated>
                     ))}
                 </MapView>
