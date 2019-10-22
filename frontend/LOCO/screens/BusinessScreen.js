@@ -37,23 +37,23 @@ class BusinessScreen extends React.Component {
                         source={{ uri: this.props.navigation.state.params.item.images[0] }}
                         style={styles.profileContainer}
                         imageStyle={styles.profileBackground}>
-                        <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                            <HeadingText1 style={{ fontSize: 14, color: Colors.white }}>Back</HeadingText1>
-                        </TouchableOpacity>
                         <ScrollView
                             showsVerticalScrollIndicator={false}>
+                            <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
+                                <HeadingText1 style={{ fontSize: 14, color: Colors.white }}>Back</HeadingText1>
+                            </TouchableOpacity>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
                                     <Image source={{ uri: this.props.navigation.state.params.item.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.resultDescription}>
                                     <View style={styles.rating}>
-                                        <HeadingText1 style={{ color: Colors.white }}> {this.props.navigation.state.params.item.rating} </HeadingText1>
-                                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
+                                        <HeadingText1 style={{ color: Colors.primary }}> {this.props.navigation.state.params.item.rating} </HeadingText1>
+                                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24-aqua.png')} />
                                     </View>
                                     <View style={styles.review}>
-                                        <HeadingText1 style={{ color: Colors.white }}> {this.props.navigation.state.params.item.reviews.length} </HeadingText1>
-                                        <Image style={styles.reviewIcon} source={require('../assets/icons/icons8-chat-24.png')} />
+                                        <HeadingText1 style={{ color: Colors.primary }}> {this.props.navigation.state.params.item.reviews.length} </HeadingText1>
+                                        <Image style={styles.reviewIcon} source={require('../assets/icons/icons8-chat-24-aqua.png')} />
                                     </View>
                                     <HeadingText1 style={styles.resultTitle}> {this.props.navigation.state.params.item.title}</HeadingText1>
                                     <Text style={{ fontSize: 16 }}> {this.props.navigation.state.params.item.user}</Text>
@@ -85,6 +85,16 @@ const styles = StyleSheet.create({
         height: height / 2,
         width: width
     },
+    backButton: {
+        position: "absolute",
+        top:20,
+        left:10,
+        margin: 10,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.7,
+    },
     profileContainer: {
         width: width,
         height: height,
@@ -92,17 +102,17 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     profileCard: {
-        padding: 65,
-        marginTop: 65,
-        borderTopLeftRadius: 6,
-        borderTopRightRadius: 6,
-        width: width,
+        marginTop: height/4,
+        marginHorizontal: 10,
+        borderRadius: 10,
         zIndex: 5,
         backgroundColor: Colors.white,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 10,
         shadowOpacity: 0.5,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     resultDescription: {
         flex: 1,
@@ -121,30 +131,22 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        color: Colors.white,
+        color: Colors.primary,
         position: 'absolute',
         left: 0,
-        top: 0,
+        top: -40,
         margin: 10,
-        zIndex: 1,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.7,
+        zIndex: 1
     },
     review: {
         flex: 1,
         flexDirection: "row",
-        color: Colors.white,
+        color: Colors.primary,
         position: 'absolute',
         right: 0,
-        top: 0,
+        top: -40,
         margin: 10,
-        zIndex: 1,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.7,
+        zIndex: 1
     },
     profilePicContainer: {
         position: "relative",
@@ -153,10 +155,10 @@ const styles = StyleSheet.create({
         zIndex: 5
     },
     profilePic: {
-        width: 120,
-        height: 120,
-        borderRadius: 60,
-        borderWidth: 8,
+        width: 140,
+        height: 140,
+        borderRadius: 70,
+        borderWidth: 10,
         borderColor: Colors.white
     },
     ratingIcon: {
