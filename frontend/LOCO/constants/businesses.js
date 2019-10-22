@@ -9,7 +9,11 @@ export default [
         "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
       ],
       rating: 4.15,
-      location: "Central Vancouver",
+      region: "Central Vancouver",
+      location: {
+        latitude: 49.2102,
+        longitude: -123.1172
+      },
       price: "$15/set",
       reviews: [{
         title: "Great food!",
@@ -48,7 +52,11 @@ export default [
       ],
       rating: 3.89,
       price: "$80-$120",
-      location: "Downtown Vancouver",
+      region: "Downtown Vancouver",
+      location: {
+        latitude: 49.2820,
+        longitude: -123.1171
+      },
       reviews: [{
         title: "Great food!",
         date: "Jan 23, 2019",
@@ -86,7 +94,11 @@ export default [
       ],
       rating: 4.40,
       price: "$35/hr",
-      location: "South Marine",
+      region: "Kitsilano",
+      location: {
+        latitude: 49.2684,
+        longitude: -123.1683
+      },
       reviews: [{
         title: "Thorough explanations",
         date: "July 2, 2018",
@@ -112,7 +124,11 @@ export default [
       ],
       rating: 4.72,
       price: "$50/hr",
-      location: "Vancouver",
+      region: "Marpole",
+      location: {
+        latitude: 49.2107,
+        longitude: -123.1302
+      },
       reviews: [{
         title: "Beautiful photos",
         date: "Jan 23, 2019",
@@ -144,7 +160,11 @@ export default [
       ],
       rating: 4.23, 
       price: "$25/hr",
-      location: "UBC",
+      region: "UBC",
+      location: {
+        latitude: 49.2606,
+        longitude: -123.2460
+      },
       reviews: [{
         title: "Loved chatting with them",
         date: "July 15, 2018",

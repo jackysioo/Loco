@@ -46,7 +46,7 @@ class SearchResult extends React.Component {
                         <View style={styles.tags}>
                             <Text style={{ fontSize: 12, color: Colors.placeholder}}> {item.price} </Text>
                             <Text style={{ fontSize: 4, color: Colors.placeholder}}> {'\u2B24'} </Text>
-                            <Text style={{ fontSize: 12, color: Colors.placeholder}}> {item.location}</Text>
+                            <Text style={{ fontSize: 12, color: Colors.placeholder}}> {item.region}</Text>
                         </View>
                         <View style={styles.tags}>
                             {tags}

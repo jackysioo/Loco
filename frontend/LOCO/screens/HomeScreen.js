@@ -31,6 +31,10 @@ class HomeScreen extends React.Component {
     state = {
         search: '',
         location: '',
+        searchLocation: {
+            latitude: 49.2827,
+            longitude: -123.1207
+        },
         searchResults: [],
         isSearchActive: false,
         loadSearchResults: false,
@@ -206,7 +210,7 @@ class HomeScreen extends React.Component {
     }
 
     renderSearchResultsItems() {
-        return businesses.map(result => {
+        return this.state.searchResults.map(result => {
             return (
                 <View style={styles.recommendationContainer}>
                     <SearchResult item={result} />
@@ -246,7 +250,7 @@ class HomeScreen extends React.Component {
                                 source={require('../assets/icons/icons8-cancel-64.png')}
                             />
                         </TouchableOpacity>
-                        <MapScreen />
+                        <MapScreen location={this.state.searchLocation}  results={this.state.searchResults}/>
                     </View>
                 </Modal>
         )

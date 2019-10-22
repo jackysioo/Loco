@@ -98,7 +98,7 @@ class BusinessScreen extends React.Component {
                                     <View style={styles.tags}>
                                         <Text style={{ fontSize: 12, color: Colors.placeholder }}> {this.props.navigation.state.params.item.price} </Text>
                                         <Text style={{ fontSize: 4, color: Colors.placeholder }}> {'\u2B24'} </Text>
-                                        <Text style={{ fontSize: 12, color: Colors.placeholder }}> {this.props.navigation.state.params.item.location}</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.placeholder }}> {this.props.navigation.state.params.item.region}</Text>
                                     </View>
                                     <View style={styles.tags}>
                                         {tags}
