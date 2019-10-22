@@ -32,8 +32,8 @@ class HomeScreen extends React.Component {
         search: '',
         location: '',
         searchLocation: {
-            latitude: 49.2827,
-            longitude: -123.1207
+            lat: 49.2827,
+            long: -123.1207
         },
         searchResults: [],
         isSearchActive: false,
@@ -50,7 +50,7 @@ class HomeScreen extends React.Component {
     };
 
     cancelSearch = () => {
-        this.setState({ isSearchActive: false });
+        this.setState({  });
         this.searchBar.clear();
         this.searchBar.blur();
     }
@@ -59,17 +59,34 @@ class HomeScreen extends React.Component {
         this.setState({ isSearchActive: true });
     }
 
-    search = () => {
-        this.setState({
+    resetSearch = () => {
+        this.setState({ 
+            search: '',
+            location: '',
+            searchResults: [],
             isSearchActive: false,
-            loadSearchResults: true,
-            searchResults: [...businesses]
+            loadSearchResults: false,
+            mapVisible: false
         });
-        this.renderSearchResults();
+        this.searchBar.clear();
         this.searchBar.blur();
+    }
 
-        //sendSearchReults to backend:  search + location
-        //getSearchResults
+    search = () => {
+        this.searchBar.blur();
+        //get search results from backend
+        fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=${encodeURIComponent(this.state.search)}")
+            .then(response => response.json())
+            .then((data) => {
+                this.setState({
+                    isSearchActive: false,
+                    loadSearchResults: true,
+                    searchResults: data.Business
+                })
+                this.renderSearchResults();
+            })
+            .catch(error => console.log(error))
+
     }
 
     setMapVisible(visible) {
@@ -197,15 +214,18 @@ class HomeScreen extends React.Component {
 
     renderSearchResults() {
         return (
-                <ScrollView ref="scrollView"
-                    showsVerticalScrollIndicator={false}
-                    style={styles.ScrollContainer}
-                    contentContainerStyle={styles.contentContainer}>
-                    <HeadingText1 style={{ marginHorizontal: 20, fontSize: 24 }}>
-                        Search Results
+            <ScrollView ref="scrollView"
+                showsVerticalScrollIndicator={false}
+                style={styles.ScrollContainer}
+                contentContainerStyle={styles.contentContainer}>
+                <TouchableOpacity style={styles.backButton} onPress={this.resetSearch}>
+                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
+                </TouchableOpacity>
+                <HeadingText1 style={{ marginHorizontal: 20, fontSize: 24 }}>
+                    Search Results
                     </HeadingText1>
-                    {this.renderSearchResultsItems()}
-                </ScrollView>
+                {this.renderSearchResultsItems()}
+            </ScrollView>
         )
     }
 
@@ -221,38 +241,38 @@ class HomeScreen extends React.Component {
 
     renderMapButton() {
         return (
-                <TouchableOpacity
-                    style={styles.openMapButtonContainer}
-                    onPress={() => {
-                        this.setMapVisible(true);
-                    }}>
-                    <Image
-                        style={styles.mapButton}
-                        source={require('../assets/icons/icons8-map-64.png')}/>
-                </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.openMapButtonContainer}
+                onPress={() => {
+                    this.setMapVisible(true);
+                }}>
+                <Image
+                    style={styles.mapButton}
+                    source={require('../assets/icons/icons8-map-64.png')} />
+            </TouchableOpacity>
         )
     }
 
     renderMapView() {
-        return(
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.mapVisible}>
-                    <View>
-                        <TouchableOpacity
-                            style={styles.closeMapButtonContainer}
-                            onPress={() => {
-                                this.setMapVisible(!this.state.mapVisible);
-                            }}>
-                            <Image
-                                style={styles.mapButton}
-                                source={require('../assets/icons/icons8-cancel-64.png')}
-                            />
-                        </TouchableOpacity>
-                        <MapScreen location={this.state.searchLocation}  results={this.state.searchResults}/>
-                    </View>
-                </Modal>
+        return (
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.mapVisible}>
+                <View>
+                    <TouchableOpacity
+                        style={styles.closeMapButtonContainer}
+                        onPress={() => {
+                            this.setMapVisible(!this.state.mapVisible);
+                        }}>
+                        <Image
+                            style={styles.mapButton}
+                            source={require('../assets/icons/icons8-cancel-64.png')}
+                        />
+                    </TouchableOpacity>
+                    <MapScreen location={this.state.searchLocation} results={this.state.searchResults} />
+                </View>
+            </Modal>
         )
     }
 
@@ -408,6 +428,12 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.5,
         shadowRadius: 10,
+    },
+    backButton: {
+        position: "relative",
+        top: 0,
+        left: 10,
+        margin: 10,
     },
     tabBarInfoContainer: {
         position: 'absolute',
