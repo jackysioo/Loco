@@ -26,12 +26,12 @@ class PopUpUI extends React.Component {
     // TEST POP UP NOTIFICATION
     componentDidMount() {
         this.popup.show({
-            onPress: function () { console.log('Pressed') },
-            appTitle: 'Some App',
+            appIconSource: require("../assets/icon.png"),
+            appTitle: 'LOCO',
             timeText: 'Now',
-            title: 'Hello World',
-            body: 'This is a sample message.\nTesting emoji 😀',
-            slideOutTime: 5000
+            title: "Username",
+            body: 'This is a sample message.\nTesting emoji 😀\nHi!',
+            slideOutTime: 4000
         });
     }
 
