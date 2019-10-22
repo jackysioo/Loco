@@ -4,6 +4,7 @@ Business Data Object:
 { 
   title: String,
   user: String,
+  about: String,
   profilePic: Url,
   images: [Url],     /// max size = 6
   rating: Num,       /// 0 to 5
@@ -24,6 +25,7 @@ exmaple:
 {
       title: "Homemade Fresh Pasta",
       user: "Alfonso",
+      aobut: "Viverra adipiscing at in tellus. Et leo duis ut diam. Adipiscing commodo elit at imperdiet. Amet consectetur adipiscing elit ut. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis.",
       profilePic: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
       images: [
         'https://images.unsplash.com/photo-1473093226795-af9932fe5856?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80',
