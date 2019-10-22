@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
 
     textBox: {
         borderRadius: 20,
-        borderWidth: 2,
+        borderWidth: 1.2,
         borderColor: 'gray',
         flex: 1,
         fontSize: 15,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     },
 
     messageBubbleLeft: {
-        backgroundColor: '#cccccc',
+        backgroundColor: '#e8e8e8',
     },
 
     messageBubbleTextLeft: {
