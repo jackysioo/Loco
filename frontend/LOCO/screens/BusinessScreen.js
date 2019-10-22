@@ -32,14 +32,18 @@ class BusinessScreen extends React.Component {
         const reviews = this.props.navigation.state.params.item.reviews.map(review => {
             return (
                 <View style={styles.reviewContainer}>
-                    <View style={styles.ratingNum}>
-                        <HeadingText1 style={{ color: Colors.primary }}> {review.rating} </HeadingText1>
-                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24-aqua.png')} />
+                    <View style={styles.rating}>
+                        <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
+                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
                     </View>
                     <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
-                    <HeadingText1>{review.title}</HeadingText1>
-                    <Text>{review.date}</Text>
-                    <Text>{review.review}</Text>
+                    <View style={{ margin: 15 }}>
+                        <View style={styles.review}>
+                            <HeadingText1>{review.title}</HeadingText1>
+                            <Text style={{color: Colors.placeholder}}>{review.date}</Text>
+                        </View>
+                        <Text>{review.review}</Text>
+                    </View>
                 </View>)
         })
 
@@ -80,7 +84,7 @@ class BusinessScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1>REVIEWS</HeadingText1>
+                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>R E V I E W S</HeadingText1>
                                     {reviews}
                                 </View>
                             </View>
@@ -210,13 +214,13 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginVertical: 10
     },
     reviewContainer: {
-        width: width - 40,
-        marginHorizontal: 10,
+        width: width - 60,
+        marginHorizontal: 30,
         marginVertical: 10,
-        padding: 10,
         backgroundColor: Colors.white,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
@@ -225,12 +229,27 @@ const styles = StyleSheet.create({
     },
     review: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    rating: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        color: Colors.white,
+        position: 'absolute',
+        left: 0,
+        margin: 10,
+        zIndex: 1,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.5,
     },
     reviewImage: {
         width: "100%",
-        height: height/6,
-        borderRadius: 5
+        height: height / 6,
     },
     shadow: {
         shadowColor: Colors.black,
