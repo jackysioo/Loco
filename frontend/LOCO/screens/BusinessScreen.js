@@ -66,6 +66,9 @@ class BusinessScreen extends React.Component {
                                         {tags}
                                     </View>
                                 </View>
+                                <View style={styles.reviewContainer}>
+
+                                </View>
                             </View>
                         </ScrollView>
                     </ImageBackground>
@@ -187,6 +190,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    reviewContainer : {
+        flex: 1,
+        flexDirection: "column"
     },
     shadow: {
         shadowColor: Colors.black,

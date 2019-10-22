@@ -6,8 +6,11 @@ import { Platform, StatusBar, StyleSheet, View, SafeAreaView } from 'react-nativ
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
+import PopUpUI from './screens/PopUpUI';
 
 export default function App(props) {
+
+
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
@@ -20,12 +23,14 @@ export default function App(props) {
     );
   } else {
     return (
-        <View style={styles.container}>
-          <AppNavigator />
-        </View>
+      <View style={styles.container}>
+        <AppNavigator />
+        <PopUpUI/>
+      </View>
     );
   }
 }
+
 
 async function loadResourcesAsync() {
   await Promise.all([
