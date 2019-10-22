@@ -20,7 +20,7 @@ class Card extends React.Component {
       <View style={cardContainer}>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Me')}>
           <View style={imgContainer}>
-            <Image source={{uri: item.image}} style={imageStyles} />
+            <Image source={{uri: item.images[0]}} style={imageStyles} />
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Me')}>

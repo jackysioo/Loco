@@ -7,32 +7,32 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UserScreen from '../screens/UserScreen';
 import MessageScreen from '../screens/MessageScreen';
-import MapScreen from '../screens/MapScreen';
+import BusinessScreen from '../screens/BusinessScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
-const tabBarOnPress = ({ navigation, defaultHandler }) => {
-  const { isFocused, state, goBack } = navigation;
-  if (isFocused()) {
-      if (state.routes.length > 1) {
-          for (let i = 0; i < state.routes.length - 1; i += 1) {
-              goBack();
-          }
-      } else {
-          // @TODO SCROLL TO TOP OF EACH TAB IF SCROLLABLE, $CALLBACK().
-      }
-  } else {
-      defaultHandler();
-  }
-};
+// const tabBarOnPress = ({ navigation, defaultHandler }) => {
+//   const { isFocused, state, goBack } = navigation;
+//   if (isFocused()) {
+//       if (state.routes.length > 1) {
+//           for (let i = 0; i < state.routes.length - 1; i += 1) {
+//               goBack();
+//           }
+//       } else {
+//           // @TODO SCROLL TO TOP OF EACH TAB IF SCROLLABLE, $CALLBACK().
+//       }
+//   } else {
+//       defaultHandler();
+//   }
+// };
 
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Search: MapScreen
+    Business: BusinessScreen
   }, {
   headerMode: 'none',
 },

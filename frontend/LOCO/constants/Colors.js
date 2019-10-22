@@ -11,8 +11,8 @@ export default {
     placeholder: '#9FA5AA',
     switch_on: '#51bfbb',
     switch_off: '#D4D9DD',
-    white: '#000000',
-    black: '#ffffff',
+    black: '#000000',
+    white: '#ffffff',
     tabIconDefault: '#ccc',
     tabIconSelected: '#51bfbb',
     tabBar: '#fefefe'

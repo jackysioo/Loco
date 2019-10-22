@@ -22,7 +22,7 @@ import { Card } from '../components';
 import { Images, Colors } from "../constants";
 import businesses from '../constants/businesses';
 import MapScreen from "./MapScreen";
-import MessageScreen from "./MessageScreen";
+import SearchResult from "../components/SearchResult";
 
 const { width, height } = Dimensions.get('screen');
 const carouselWidth = width / 5;
@@ -31,25 +31,26 @@ class HomeScreen extends React.Component {
     state = {
         search: '',
         location: '',
+        searchResults: [],
         isSearchActive: false,
         loadSearchResults: false,
         mapVisible: false
     };
 
-    componentWillMount() {
-        InteractionManager.runAfterInteractions(() => {
-          this.props.navigation.setParams({
-            scrollToTop: this._scrollToTop,
-          })
-        })
-      }
-    
-      _scrollToTop = () => {
-        if (!!this.refs.scrollView.wrappedInstance.getScrollResponder) {
-          const scrollResponder = this.refs.scrollView.wrappedInstance.getScrollResponder()
-          scrollResponder.scrollTo({x: 0, y: 0, animated: true})
-        }
-      }
+    // componentWillMount() {
+    //     InteractionManager.runAfterInteractions(() => {
+    //       this.props.navigation.setParams({
+    //         scrollToTop: this._scrollToTop,
+    //       })
+    //     })
+    //   }
+
+    //   _scrollToTop = () => {
+    //     if (!!this.refs.scrollView.wrappedInstance.getScrollResponder) {
+    //       const scrollResponder = this.refs.scrollView.wrappedInstance.getScrollResponder()
+    //       scrollResponder.scrollTo({x: 0, y: 0, animated: true})
+    //     }
+    //   }
 
     updateSearch = search => {
         this.setState({ search });
@@ -58,6 +59,29 @@ class HomeScreen extends React.Component {
     updateLocation = location => {
         this.setState({ location });
     };
+
+    cancelSearch = () => {
+        this.setState({ isSearchActive: false });
+        this.searchBar.clear();
+        this.searchBar.blur();
+    }
+
+    triggerSearch = () => {
+        this.setState({ isSearchActive: true });
+    }
+
+    search = () => {
+        this.setState({
+            isSearchActive: false,
+            loadSearchResults: true,
+            searchResults: [...businesses]
+        });
+        this.renderSearchResults();
+        this.searchBar.blur();
+
+        //sendSearchReults to backend:  search + location
+        //getSearchResults
+    }
 
     setMapVisible(visible) {
         this.setState({ mapVisible: visible });
@@ -135,28 +159,18 @@ class HomeScreen extends React.Component {
     }
 
     renderSearchCancel() {
-        const { navigation } = this.props;
         return (
             <View
                 style={styles.searchCancelContainer}>
                 <Button
                     title="Cancel"
                     color="#51bfbb"
-                    onPress={() => {
-                        this.setState({ isSearchActive: false });
-                        this.searchBar.clear();
-                        this.searchBar.blur();
-                    }}>
+                    onPress={this.cancelSearch}>
                 </Button>
                 <Button
                     title="Search"
                     color="#51bfbb"
-                    onPress={() => {
-                        this.setState({ isSearchActive: false, loadSearchResults: true });
-                        this.renderSearchResults();
-                        this.searchBar.blur();
-                    }}
-                >
+                    onPress={this.search}>
                 </Button>
             </View>
         )
@@ -181,11 +195,7 @@ class HomeScreen extends React.Component {
 
                         onChangeText={this.updateLocation}
                         value={location}
-                        onSubmitEditing={() => {
-                            this.setState({ isSearchActive: false, loadSearchResults: true });
-                            this.renderSearchResults();
-                            this.searchBar.blur();
-                        }} />
+                        onSubmitEditing={this.search} />
                 </View>
                 <View style={styles.searchActiveResultsContainer}>
                     <View style={styles.searchActiveResultsContainer}>
@@ -197,58 +207,63 @@ class HomeScreen extends React.Component {
 
 
     renderSearchResults() {
-        //sendSearchReults to backend:  search + location
-        //getSearchResults
         return (
-            <View>
+                <ScrollView ref="scrollView"
+                    showsVerticalScrollIndicator={false}
+                    style={styles.ScrollContainer}
+                    contentContainerStyle={styles.contentContainer}>
+                    <HeadingText1 style={{ marginHorizontal: 20, fontSize: 24 }}>
+                        Search Results
+                    </HeadingText1>
+                    {this.renderSearchResultsItems()}
+                </ScrollView>
+        )
+    }
+
+    renderSearchResultsItems() {
+        return businesses.map(result => {
+            return (
+                <View style={styles.recommendationContainer}>
+                    <SearchResult item={result} />
+                </View>
+            )
+        });
+    }
+
+    renderMapButton() {
+        return (
                 <TouchableOpacity
-                    style={styles.mapButtonContainer}
-                    color="#51bfbb"
+                    style={styles.openMapButtonContainer}
                     onPress={() => {
                         this.setMapVisible(true);
                     }}>
                     <Image
                         style={styles.mapButton}
-                        source={require('../assets/icons/icons8-map-64.png')}
-                    />
+                        source={require('../assets/icons/icons8-map-64.png')}/>
                 </TouchableOpacity>
-                <ScrollView ref="scrollView"
-                    showsVerticalScrollIndicator={false}
-                    style={styles.ScrollContainer}
-                    contentContainerStyle={styles.contentContainer}>
-                    <View style={styles.recommendationContainer}>
-                        <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                            Search Results
-                                </HeadingText1>
-                        <ScrollView horizontal={true}
-                            decelerationRate={0}
-                            snapToInterval={300}
-                            snapToAlignment={"center"}
-                            showsHorizontalScrollIndicator={false}
-                            style={styles.itemContainer}>
-                            <Card item={businesses[1]} style={{ marginRight: width / 30 }} />
-                            <Card item={businesses[0]} />
-                        </ScrollView>
-                    </View>
-                </ScrollView>
+        )
+    }
+
+    renderMapView() {
+        return(
                 <Modal
                     animationType="slide"
                     transparent={false}
-                    visible={this.state.mapVisible}
-                >
-                    <View style={{ marginTop: 22 }}>
-                        <View>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.setMapVisible(!this.state.mapVisible);
-                                }}>
-                                <Text>Hide Modal</Text>
-                            </TouchableOpacity>
-                            <MapScreen />
-                        </View>
+                    visible={this.state.mapVisible}>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.closeMapButtonContainer}
+                            onPress={() => {
+                                this.setMapVisible(!this.state.mapVisible);
+                            }}>
+                            <Image
+                                style={styles.mapButton}
+                                source={require('../assets/icons/icons8-cancel-64.png')}
+                            />
+                        </TouchableOpacity>
+                        <MapScreen />
                     </View>
                 </Modal>
-            </View>
         )
     }
 
@@ -275,17 +290,15 @@ class HomeScreen extends React.Component {
 
                             onChangeText={this.updateSearch}
                             value={search}
-                            onFocus={() => { this.setState({ isSearchActive: true }); }}
-                            onSubmitEditing={() => {
-                                this.setState({ isSearchActive: false, loadSearchResults: true });
-                                this.renderSearchResults();
-                                this.searchBar.blur();
-                            }} />
+                            onFocus={this.triggerSearch}
+                            onSubmitEditing={this.search} />
                     </View>
 
                     {this.state.isSearchActive && this.renderSearchActive()}
                     {!this.state.loadSearchResults && this.renderRecommendations()}
                     {this.state.loadSearchResults && this.renderSearchResults()}
+                    {this.state.loadSearchResults && this.renderMapButton()}
+                    {this.state.mapVisible && this.renderMapView()}
 
                 </View>
             </SafeAreaView>
@@ -301,7 +314,7 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
     },
     contentContainer: {
-        paddingTop: 5,
+        paddingVertical: 20,
     },
     searchContainer: {
         paddingLeft: 10,
@@ -372,19 +385,39 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         flexDirection: 'row',
     },
-    mapButton: {
-        width: 50,
-        height: 50,
+    resultsContainer: {
+        height: height - 100
     },
-    mapButtonContainer: {
+    mapButton: {
+        width: 35,
+        height: 35
+    },
+    closeMapButtonContainer: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        margin: 20,
+        padding: 0,
+        borderRadius: 40,
+        zIndex: 10,
+        backgroundColor: Colors.white,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.6,
+        shadowRadius: 10,
+    },
+    openMapButtonContainer: {
         position: "absolute",
         bottom: 0,
         right: 0,
-        margin: 40,
+        margin: 20,
+        padding: 10,
+        borderRadius: 40,
         zIndex: 10,
+        backgroundColor: Colors.white,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.4,
+        shadowOpacity: 0.5,
         shadowRadius: 10,
     },
     tabBarInfoContainer: {
@@ -413,6 +446,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     }
 })
+
+
 
 
 export default withNavigationFocus(HomeScreen);
