@@ -78,8 +78,8 @@ exports.getBusinessDataById = (req,res,next) => {
 }; 
 
 exports.getBusinessDataByName = (req,res,next) => {  
-    const businessName = req.params.businessName;
-    Business.find({businessName: businessName}) 
+    const title = req.params.title;
+    Business.find({title: title}) 
         .then(business => { 
             if(!business){ 
                 const error = new Error('Could not find Business'); 
