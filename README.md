@@ -94,7 +94,6 @@ User Data Object:
   services: [{
     title: String,
     rating: Num,
-    numReviews: Num,
     image: URL
   }]
 }
@@ -139,7 +138,6 @@ username: "pengu123",
     }, {
       title: "3D Volume Lash Extensions",
       rating: 4,
-      numReviews: 3,
       image: "https://images.unsplash.com/photo-1558622625-697f40efc834?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60"
     }]
 }
