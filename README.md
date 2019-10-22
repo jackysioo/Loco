@@ -20,7 +20,8 @@ Business Data Object:
     date: String,
     review: String,
     rating: Num,
-    image: Url
+    image: Url,
+    user: String
   }]
 }
 
