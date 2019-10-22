@@ -25,7 +25,7 @@ export default function App(props) {
     return (
       <View style={styles.container}>
         <AppNavigator />
-        <PopUpUI/>
+        {/* <PopUpUI/> */}
       </View>
     );
   }

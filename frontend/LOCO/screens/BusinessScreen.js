@@ -29,6 +29,19 @@ class BusinessScreen extends React.Component {
                 </View>
             )
         })
+        const reviews = this.props.navigation.state.params.item.reviews.map(review => {
+            return (
+                <View style={styles.reviewContainer}>
+                    <View style={styles.ratingNum}>
+                        <HeadingText1 style={{ color: Colors.primary }}> {review.rating} </HeadingText1>
+                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24-aqua.png')} />
+                    </View>
+                    <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
+                    <HeadingText1>{review.title}</HeadingText1>
+                    <Text>{review.date}</Text>
+                    <Text>{review.review}</Text>
+                </View>)
+        })
 
         return (
             <View style={styles.container}>
@@ -47,11 +60,11 @@ class BusinessScreen extends React.Component {
                                     <Image source={{ uri: this.props.navigation.state.params.item.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.resultDescription}>
-                                    <View style={styles.rating}>
+                                    <View style={styles.ratingNum}>
                                         <HeadingText1 style={{ color: Colors.primary }}> {this.props.navigation.state.params.item.rating} </HeadingText1>
                                         <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24-aqua.png')} />
                                     </View>
-                                    <View style={styles.review}>
+                                    <View style={styles.reviewNum}>
                                         <HeadingText1 style={{ color: Colors.primary }}> {this.props.navigation.state.params.item.reviews.length} </HeadingText1>
                                         <Image style={styles.reviewIcon} source={require('../assets/icons/icons8-chat-24-aqua.png')} />
                                     </View>
@@ -66,8 +79,9 @@ class BusinessScreen extends React.Component {
                                         {tags}
                                     </View>
                                 </View>
-                                <View style={styles.reviewContainer}>
-
+                                <View style={styles.reviews}>
+                                    <HeadingText1>REVIEWS</HeadingText1>
+                                    {reviews}
                                 </View>
                             </View>
                         </ScrollView>
@@ -90,8 +104,8 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: "absolute",
-        top:20,
-        left:10,
+        top: 20,
+        left: 10,
         margin: 10,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
@@ -100,20 +114,21 @@ const styles = StyleSheet.create({
     },
     profileContainer: {
         width: width,
-        height: height,
+        height: height - 50,
         padding: 0,
         zIndex: 1
     },
     profileCard: {
-        marginTop: height/4,
+        marginTop: height / 4,
         marginHorizontal: 10,
+        marginBottom: 20,
         borderRadius: 10,
         zIndex: 5,
         backgroundColor: Colors.white,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 10,
-        shadowOpacity: 0.5,
+        shadowOpacity: 0.25,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -129,7 +144,7 @@ const styles = StyleSheet.create({
         marginBottom: 4,
         fontSize: 20
     },
-    rating: {
+    ratingNum: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
@@ -141,7 +156,7 @@ const styles = StyleSheet.create({
         margin: 10,
         zIndex: 1
     },
-    review: {
+    reviewNum: {
         flex: 1,
         flexDirection: "row",
         color: Colors.primary,
@@ -191,9 +206,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    reviewContainer : {
+    reviews: {
         flex: 1,
-        flexDirection: "column"
+        flexDirection: "column",
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    reviewContainer: {
+        width: width - 40,
+        marginHorizontal: 10,
+        marginVertical: 10,
+        padding: 10,
+        backgroundColor: Colors.white,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.1,
+    },
+    review: {
+        flex: 1,
+        flexDirection: 'row'
+    },
+    reviewImage: {
+        width: "100%",
+        height: height/6,
+        borderRadius: 5
     },
     shadow: {
         shadowColor: Colors.black,
