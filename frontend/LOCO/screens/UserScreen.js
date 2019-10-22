@@ -1,250 +1,280 @@
-import React from 'react'; import {
-    Image,
-    ImageBackground,
+import React from 'react';
+import {
+    Dimensions,
     Platform,
+    StatusBar,
     ScrollView,
     StyleSheet,
+    Image,
     Text,
-    Dimensions,
-    StatusBar,
     View,
-    Button
+    ImageBackground,
+    TouchableOpacity,
+    Button,
+    Modal
 } from 'react-native';
 
-import { Images, Colors } from "../constants";
-import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
-const { width, height } = Dimensions.get("screen");
-const thumbMeasure = (width - 48 - 32) / 3;
+const { height, width } = Dimensions.get('screen');
+import { Colors, user, Images } from '../constants';
+import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
+
 
 class UserScreen extends React.Component {
     render() {
+        const reviews = user.reviews.map(review => {
+            return (
+                <View style={styles.reviewContainer}>
+                    <View style={styles.rating}>
+                        <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
+                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
+                    </View>
+                    <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
+                    <View style={{ margin: 15 }}>
+                        <View style={styles.review}>
+                            <HeadingText1>{review.title}</HeadingText1>
+                            <Text style={{ color: Colors.placeholder }}>{review.date}</Text>
+                        </View>
+                        <Text>{review.review}</Text>
+                    </View>
+                </View>)
+        })
+
+        const services = user.services.map(service => {
+            return (
+                <View style={styles.reviewContainer}>
+                    <View style={styles.rating}>
+                        <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
+                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
+                    </View>
+                    <Image source={{ uri: service.image }} style={styles.reviewImage}></Image>
+                    <View style={{ margin: 15 }}>
+                        <View style={styles.review}>
+                            <HeadingText1>{service.title}</HeadingText1>
+                        </View>
+                    </View>
+                </View>
+            )
+        })
+
         return (
-            <View style={styles.profile}>
-                <ImageBackground
-                    source={Images.ProfileBackground}
-                    style={styles.profileContainer}
-                    imageStyle={styles.profileBackground}>
-                    <ScrollView
-                        showsVerticalScrollIndicator={true}
-                        contentContainerStyle={{ paddingBottom: 120, marginTop: "10%" }}>
-                        <View style={styles.profileCard}>
-                            <View style={styles.profilePicContainer}>
-                                <View>
-                                    <Text
-                                        style={{
-                                            fontSize: 30,
-                                            textShadowColor: "#2a95a3",
-                                            color: "#ffffff",
-                                            shadowOpacity: 0.1,
-                                            textShadowRadius: 5,
-                                            marginBottom: 10,
-                                            fontWeight: "400",
-                                            textAlign: "center"
-                                        }}>
-                                        UserName123
-                                    </Text>
-                                    <Image source={{ uri: Images.ProfilePicture }} style={styles.profilePic} />
-
+            <View style={styles.container}>
+                <View style={{ flex: 1 }}>
+                    <ImageBackground
+                        source={Images.ProfileBackground}
+                        style={styles.profileContainer}
+                        imageStyle={styles.profileBackground}>
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}>
+                            <View style={styles.profileCard}>
+                                <View style={styles.profilePicContainer}>
+                                    <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
                                 </View>
-
-                                <View style={styles.profileButtons}>
-                                    <Button
-                                        title="Edit Profile"
-                                        color="#2a95a3">
-                                    </Button>
+                                <View style={styles.resultDescription}>
+                                    <View style={styles.following}>
+                                        <HeadingText1 style={{ color: Colors.primary }}> {user.following} </HeadingText1>
+                                        <HeadingText1 style={{ color: Colors.primary }}> Following </HeadingText1>
+                                    </View>
+                                    <View style={styles.reviewNum}>
+                                        <HeadingText1 style={{ color: Colors.primary }}> {user.reviews.length} </HeadingText1>
+                                        <HeadingText1 style={{ color: Colors.primary }}> Reviews </HeadingText1>
+                                    </View>
                                 </View>
-                            </View>
-                        </View>
-                        <View style={styles.userStatOuter}>
-                            <View style={styles.userStatInner}>
-                                <Text style={styles.userStatsNum}>2000</Text>
-                                <Text style={styles.userStats}>Followers</Text>
-                            </View>
-                            <View style={styles.userStatInner}>
-                                <Text style={styles.userStatsNum}>10</Text>
-                                <Text style={styles.userStats}>Reviews</Text>
-                            </View>
-                            <View style={styles.userStatInner}>
-                                <Text style={styles.userStatsNum}>6</Text>
-                                <Text style={styles.userStats}>Photos</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.info}>
-                            <View style={{ marginTop: 20 }}>
-                                <Text style={styles.title}>Your Bio: </Text>
-                                <Text style={styles.text}>This is where the user writes their bio. Interests, hobbies, skills, etc. They can also write about their experiences and different certificates or other form of validations for the skills they have.</Text>
-                            </View>
-                            <View style={{ borderBottomColor: "#77aebf", borderBottomWidth: 1.3, marginTop: 10, }} />
-                            <View style={styles.nameAge}>
-                                <Text>
-                                    <Text style={styles.title}>Full Name: </Text>
-                                    <Text style={styles.text}>FirstName LastName</Text>
-                                </Text>
-                            </View>
-                            <View style={{ flexDirection: "column", marginTop: 10 }}>
-                                <Text style={styles.title}>Address: </Text>
-                                <Text style={styles.text}>8888 Address Street</Text>
-                                <Text style={styles.text}>Vancouver, BC</Text>
-                                <Text style={styles.text}>A8A 8A8</Text>
-                            </View>
-                            <View style={styles.nameAge}>
-                                <Text>
-                                    <Text style={styles.title}>Age: </Text>
-                                    <Text style={styles.text}>20</Text>
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.info}>
-                            <View style={{ borderBottomColor: "#77aebf", borderBottomWidth: 1.3, marginTop: 10, }} />
-                            <Text style={{ marginTop: 10, color: "#2a95a3", fontWeight: "400", fontSize: 22, }}>Your Businesses</Text>
-                            <View style={styles.business}>
-                                <View style={styles.businessName}>
-                                    <Text style={styles.title}>Eyelash Extensions</Text>
+                                <View style={styles.info}>
+                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  I N F O R M A T I O N</HeadingText1>
+                                    <View style={styles.innerInfo}>
+                                        <HeadingText1>Username:  </HeadingText1>
+                                        <HeadingText2 style={{ color: Colors.primary }}>{user.username}</HeadingText2>
+                                    </View>
+                                    <View style={styles.innerInfo}>
+                                        <HeadingText1>Full Name:  </HeadingText1>
+                                        <HeadingText2 style={{ color: Colors.primary }}>{user.fullName}</HeadingText2>
+                                    </View>
+                                    <View style={styles.innerInfo}>
+                                        <View>
+                                            <HeadingText1>Address:  </HeadingText1>
+                                            <View style={{ flexDirection: "column", marginLeft: 20, marginTop: 5 }}>
+                                                <HeadingText2 style={{ color: Colors.primary }}>{user.address[0]}</HeadingText2>
+                                                <HeadingText2 style={{ color: Colors.primary }}>{user.address[1]}</HeadingText2>
+                                                <HeadingText2 style={{ color: Colors.primary }}>{user.address[2]}</HeadingText2>
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={styles.innerInfo}>
+                                        <HeadingText1>Birthday:  </HeadingText1>
+                                        <HeadingText2 style={{ color: Colors.primary }}>{user.birthday}</HeadingText2>
+                                    </View>
                                 </View>
-                                <View style={styles.rating}>
-                                    <Text style={styles.text}>Rating: </Text>
-                                    <Text style={styles.text}>9/10</Text>
+                                <View style={styles.reviews}>
+                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  R E V I E W S</HeadingText1>
+                                    {reviews}
                                 </View>
-                                <View style={styles.gallery}>
-                                    <Image source={{ uri: Images.pic1 }} style={styles.imageGallery} />
-                                    <Image source={{ uri: Images.pic2 }} style={styles.imageGallery} />
-                                    <Image source={{ uri: Images.pic3 }} style={styles.imageGallery} />
-                                    <Image source={{ uri: Images.pic4 }} style={styles.imageGallery} />
-                                    <Image source={{ uri: Images.pic5 }} style={styles.imageGallery} />
-                                    <Image source={{ uri: Images.pic6 }} style={styles.imageGallery} />
+                                <View style={styles.services}>
+                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  S E R V I C E S</HeadingText1>
+                                    {services}
                                 </View>
                             </View>
-                        </View>
-                    </ScrollView>
-                </ImageBackground>
-            </View>
+                        </ScrollView>
+                    </ImageBackground>
+                </View>
+            </View >
         );
     }
 }
 
+
 const styles = StyleSheet.create({
-    profile: {
-        paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0,
+    container: {
         flex: 1,
-        backgroundColor: '#ffffff',
+        backgroundColor: 'rgba(0,0,0,0)'
+    },
+    profileBackground: {
+        height: height / 2,
+        width: width
     },
     profileContainer: {
         width: width,
-        height: height,
+        height: height - 50,
         padding: 0,
-        zIndex: 1,
+        zIndex: 1
     },
-    profileBackground: {
-        width: width,
-        height: height
+    profileCard: {
+        marginTop: height / 4,
+        marginHorizontal: 10,
+        marginBottom: 20,
+        paddingBottom: 10,
+        borderRadius: 10,
+        zIndex: 5,
+        backgroundColor: Colors.white,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.25,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    resultDescription: {
+        flex: 1,
+        padding: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    following: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        color: Colors.primary,
+        position: 'absolute',
+        left: -170,
+        top: -50,
+        margin: 10,
+        zIndex: 1
+    },
+    reviewNum: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        color: Colors.primary,
+        position: 'absolute',
+        right: -170,
+        top: -50,
+        margin: 10,
+        zIndex: 1
     },
     profilePicContainer: {
         position: "relative",
-        marginTop: -80
-    },
-    profileCard: {
-        padding: 18,
-        marginHorizontal: 18,
-        marginTop: 65,
-        borderTopLeftRadius: 6,
-        borderTopRightRadius: 6,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 8,
-        shadowOpacity: 0.2,
-        zIndex: 2
+        marginTop: -70,
+        padding: 2,
+        zIndex: 5
     },
     profilePic: {
-        width: 124,
-        height: 124,
-        borderRadius: 62,
-        borderWidth: 0,
-        alignSelf: "center"
+        width: 140,
+        height: 140,
+        borderRadius: 70,
+        borderWidth: 10,
+        borderColor: Colors.white
     },
-    profileButtons: {
-        marginTop: 1,
-        paddingBottom: 5,
-        alignSelf: "center",
-        flexDirection: 'row',
+    ratingIcon: {
+        width: 14,
+        height: 14,
+        marginTop: -1
     },
-    userStatOuter: {
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: 'row',
-        paddingVertical: 5,
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    },
-    userStatInner: {
-        flexDirection: "column",
-        paddingHorizontal: 25,
-    },
-    userStats: {
-        textAlign: "center",
-        fontSize: 17,
-        color: "#2a95a3",
-        fontWeight: '300',
-    },
-    userStatsNum: {
-        textAlign: "center",
-        fontSize: 20,
-        color: "#2a95a3",
-        fontWeight: '300',
-        marginRight: 5,
-    },
-    thumb: {
-        borderRadius: 4,
-        marginVertical: 4,
-        alignSelf: "center",
-        width: thumbMeasure,
-        height: thumbMeasure
-    },
-    nameAge: {
-        flexDirection: "row",
-        alignItems: 'center',
-        marginTop: 10,
+    reviewIcon: {
+        width: 15,
+        height: 15,
+        marginTop: 2
     },
     info: {
+        flex: 1,
         flexDirection: "column",
-        marginHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20
     },
-    text: {
-        color: "#2a95a3",
-        fontWeight: "300",
-        fontSize: 17,
+    innerInfo: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5
     },
-    title: {
-        color: "#2a95a3",
-        fontWeight: "400",
-        fontSize: 20,
-    },
-    business: {
+    reviews: {
+        flex: 1,
         flexDirection: "column",
-        marginTop: 10,
-        padding: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+        marginBottom: 15
     },
-    businessName: {
-
+    services: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+        marginBottom: 10
+    },
+    reviewContainer: {
+        width: width - 60,
+        marginHorizontal: 30,
+        marginVertical: 15,
+        backgroundColor: Colors.white,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.1,
+    },
+    review: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     rating: {
-        paddingTop: 3,
+        flex: 1,
         flexDirection: "row",
-        alignItems: 'center',
-    },
-    gallery: {
         justifyContent: "center",
-        flexDirection: "row",
-        display: "flex",
-        flexWrap: "wrap",
+        alignItems: "center",
+        color: Colors.white,
+        position: 'absolute',
+        left: 0,
+        margin: 10,
+        zIndex: 1,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.5,
     },
-    imageGallery: {
-        marginTop: 5,
-        width: 116,
-        height: 116,
-        borderRadius: 1,
-        margin: 0.6,
+    reviewImage: {
+        width: "100%",
+        height: height / 6,
+    },
+    shadow: {
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 4,
+        shadowOpacity: 0.1,
+        elevation: 2,
     },
 });
 
