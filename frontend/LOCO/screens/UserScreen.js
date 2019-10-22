@@ -69,48 +69,51 @@ class UserScreen extends React.Component {
                                 <View style={styles.profilePicContainer}>
                                     <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
                                 </View>
+                                <View style={styles.editProfile}>
+                                    <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
+                                </View>
                                 <View style={styles.resultDescription}>
                                     <View style={styles.following}>
                                         <HeadingText1 style={{ color: Colors.primary }}> {user.following} </HeadingText1>
-                                        <HeadingText1 style={{ color: Colors.primary }}> Following </HeadingText1>
+                                        <HeadingText2 style={{ color: Colors.primary }}> Following </HeadingText2>
                                     </View>
                                     <View style={styles.reviewNum}>
                                         <HeadingText1 style={{ color: Colors.primary }}> {user.reviews.length} </HeadingText1>
-                                        <HeadingText1 style={{ color: Colors.primary }}> Reviews </HeadingText1>
+                                        <HeadingText2 style={{ color: Colors.primary }}> Reviews </HeadingText2>
                                     </View>
                                 </View>
                                 <View style={styles.info}>
                                     <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  I N F O R M A T I O N</HeadingText1>
                                     <View style={styles.innerInfo}>
                                         <HeadingText1>Username:  </HeadingText1>
-                                        <HeadingText2 style={{ color: Colors.primary }}>{user.username}</HeadingText2>
+                                        <HeadingText2>{user.username}</HeadingText2>
                                     </View>
                                     <View style={styles.innerInfo}>
                                         <HeadingText1>Full Name:  </HeadingText1>
-                                        <HeadingText2 style={{ color: Colors.primary }}>{user.fullName}</HeadingText2>
+                                        <HeadingText2>{user.fullName}</HeadingText2>
                                     </View>
                                     <View style={styles.innerInfo}>
                                         <View>
                                             <HeadingText1>Address:  </HeadingText1>
                                             <View style={{ flexDirection: "column", marginLeft: 20, marginTop: 5 }}>
-                                                <HeadingText2 style={{ color: Colors.primary }}>{user.address[0]}</HeadingText2>
-                                                <HeadingText2 style={{ color: Colors.primary }}>{user.address[1]}</HeadingText2>
-                                                <HeadingText2 style={{ color: Colors.primary }}>{user.address[2]}</HeadingText2>
+                                                <HeadingText2>{user.address[0]}</HeadingText2>
+                                                <HeadingText2>{user.address[1]}</HeadingText2>
+                                                <HeadingText2>{user.address[2]}</HeadingText2>
                                             </View>
                                         </View>
                                     </View>
                                     <View style={styles.innerInfo}>
                                         <HeadingText1>Birthday:  </HeadingText1>
-                                        <HeadingText2 style={{ color: Colors.primary }}>{user.birthday}</HeadingText2>
+                                        <HeadingText2>{user.birthday}</HeadingText2>
                                     </View>
-                                </View>
-                                <View style={styles.reviews}>
-                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  R E V I E W S</HeadingText1>
-                                    {reviews}
                                 </View>
                                 <View style={styles.services}>
                                     <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  S E R V I C E S</HeadingText1>
                                     {services}
+                                </View>
+                                <View style={styles.reviews}>
+                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  R E V I E W S</HeadingText1>
+                                    {reviews}
                                 </View>
                             </View>
                         </ScrollView>
@@ -276,6 +279,17 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         elevation: 2,
     },
+    editProfile: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        color: Colors.primary,
+        position: 'absolute',
+        top: 60,
+        margin: 10,
+        zIndex: 1
+    }
 });
 
 export default UserScreen;

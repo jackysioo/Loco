@@ -1,6 +1,6 @@
 export default
   {
-    username: "pengu123",
+    username: "tanya_cooper123",
     fullName: "Tanya Cooper",
     profilePic: 'https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=942&q=80',
     following: 100,
