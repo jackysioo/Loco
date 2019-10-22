@@ -8,7 +8,11 @@ Business Data Object:
   profilePic: Url,
   images: [Url],     /// max size = 6
   rating: Num,       /// 0 to 5
-  location: String,
+  region: String,
+  location: {
+    lat: Num,
+    long: Num
+  }                   /// coordinates
   price: String,
   tags: [String],
   reviews: [{
@@ -32,7 +36,11 @@ exmaple:
         "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
       ],
       rating: 4.15,
-      location: "Central Vancouver",
+      region: "Central Vancouver",
+      location: {
+        lat: 147.23,
+        long: -49.003
+      }
       price: "$15/set",
       reviews: [{
         title: "Great food!",
