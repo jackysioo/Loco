@@ -264,11 +264,11 @@ const styles = StyleSheet.create({
     },
 
     messageBubbleLeft: {
-        backgroundColor: '#e8e8e8',
+        backgroundColor: Colors.placeholder,
     },
 
     messageBubbleTextLeft: {
-        color: 'black'
+        color: Colors.black
     },
 
     messageBubbleRight: {
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     },
 
     messageBubbleTextRight: {
-        color: 'white'
+        color: Colors.white
     },
 })
 
