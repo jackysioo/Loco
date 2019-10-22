@@ -19,6 +19,7 @@ import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import AutogrowInput from 'react-native-autogrow-input';
+import PopUpUI from './PopUpUI';
 const { width, height } = Dimensions.get("screen");
 
 //used to make random-sized messages
