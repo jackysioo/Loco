@@ -2,6 +2,7 @@ const Business = require('../models/business');
 
 exports.getBusinessData = (req,res,next) => {  
     if(req.query.businessName){ 
+        console.log(req.query.businessName);
         Business.find({businessName: req.query.businessName}) 
         .then(business => { 
             res.status(200).json({Business: business})
