@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     },
 
     messageBubbleLeft: {
-        backgroundColor: Colors.placeholder,
+        backgroundColor: '#cccccc',
     },
 
     messageBubbleTextLeft: {
