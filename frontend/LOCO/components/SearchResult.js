@@ -23,7 +23,7 @@ class SearchResult extends React.Component {
 
         return (
             <View style={resultContainer}>
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Business', {item: item})}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Business', {item: item})}>
                     <View style={imgContainer}>
                         <View style={styles.rating}>
                             <HeadingText1 style={{ color: Colors.white }}> {item.rating} </HeadingText1>
@@ -36,7 +36,7 @@ class SearchResult extends React.Component {
                         <Image source={{ uri: item.images[0] }} style={styles.coverImage} />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Business', {item: item})}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Business', {item: item})}>
                     <View style={styles.resultDescription}>
                         <View style={styles.profilePicContainer}>
                             <Image source={{ uri: item.profilePic }} style={styles.profilePic} />

@@ -37,21 +37,6 @@ class HomeScreen extends React.Component {
         mapVisible: false
     };
 
-    // componentWillMount() {
-    //     InteractionManager.runAfterInteractions(() => {
-    //       this.props.navigation.setParams({
-    //         scrollToTop: this._scrollToTop,
-    //       })
-    //     })
-    //   }
-
-    //   _scrollToTop = () => {
-    //     if (!!this.refs.scrollView.wrappedInstance.getScrollResponder) {
-    //       const scrollResponder = this.refs.scrollView.wrappedInstance.getScrollResponder()
-    //       scrollResponder.scrollTo({x: 0, y: 0, animated: true})
-    //     }
-    //   }
-
     updateSearch = search => {
         this.setState({ search });
     };

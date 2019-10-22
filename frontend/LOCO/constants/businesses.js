@@ -2,6 +2,7 @@ export default [
     {
       title: "Homemade Fresh Pasta",
       user: "Alfonso",
+      about: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
       profilePic: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
       images: [
         'https://images.unsplash.com/photo-1473093226795-af9932fe5856?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80',
@@ -40,6 +41,7 @@ export default [
     {
       title: "3D Volume Lash Extensions",
       user: "Sasha",
+      about: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       profilePic: 'https://images.unsplash.com/photo-1532910404247-7ee9488d7292?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80',
       images: ['https://images.unsplash.com/photo-1493422884938-abd42cfa0f29?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80',
       "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
@@ -77,6 +79,7 @@ export default [
     {
       title: "Calculus I & II Tutor",
       user: "Carly",
+      about: "Arcu cursus euismod quis viverra nibh cras. Nulla pellentesque dignissim enim sit amet venenatis urna cursus eget. Scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt. Fermentum iaculis eu non diam phasellus.",
       profilePic: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
       images: ['https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80',
       "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
@@ -102,6 +105,7 @@ export default [
     {
       title: "Portrait Style Photos",
       user: "Will",
+      about: "Est ante in nibh mauris cursus mattis molestie a iaculis. In massa tempor nec feugiat nisl pretium. Magna etiam tempor orci eu lobortis. Volutpat consequat mauris nunc congue. Purus in mollis nunc sed id semper risus in. Cursus metus aliquam eleifend mi in nulla posuere.",
       profilePic: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1031&q=80',
       images: ['https://images.unsplash.com/photo-1493863641943-9b68992a8d07?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80',
       "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
@@ -133,6 +137,7 @@ export default [
     {
       title: "Korean & Japanese Lessons",
       user: "Jaehoon",
+      about: "Viverra adipiscing at in tellus. Et leo duis ut diam. Adipiscing commodo elit at imperdiet. Amet consectetur adipiscing elit ut. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis.",
       profilePic: 'https://images.unsplash.com/photo-1487309078313-fad80c3ec1e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80',
       images: ['https://images.unsplash.com/photo-1541454740624-5733e140260f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80',
       "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
