@@ -1,15 +1,49 @@
-const mongoose = require('mongoose'); 
-const Schema = mongoose.Schema; 
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const businessSchema = new Schema({ 
-    businessName: { 
-        type: String, 
-        required: true
+const businessSchema = new Schema({
+    title: {
+        type: String
     },
-    email: { 
-        type: String, 
-        required: true
-    }
-}); 
+    user: {
+        type: String
+    },
+    about: {
+        type: String
+    },
+    profilePic: {
+        type: String
+    },
+    images: [
+        { type: String }
+    ],
+    rating: {
+        type: Number
+    },
+    region: {
+        type: String
+    },
+    location: {
+        type: Object
+    },
+    price: {
+        type: String
+    },
+    tags: [
+        { type: String }
+    ],
+    reviews: [
+        {
+            title: String,
+            date: String,
+            review: String,
+            rating: Number,
+            image: String,
+            user: String
+        }
+    ]
 
-module.exports = mongoose.model('Business',businessSchema);
+
+});
+
+module.exports = mongoose.model('Business', businessSchema);

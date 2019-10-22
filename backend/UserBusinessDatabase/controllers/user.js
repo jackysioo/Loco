@@ -15,13 +15,18 @@ exports.getUserData = (req,res,next) => {
 }
 
 exports.postUserData = (req, res, next) => {
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const userName = req.body.userName;
+    // const firstName = req.body.firstName;
+    // const lastName = req.body.lastName;
+    // const userName = req.body.userName;
     const user = new User({
-        firstName: firstName,
-        lastName: lastName,
-        userName: userName
+        userName: req.body.userName,
+        fullName: req.body.fullName,
+        profilePic: req.body.profilePic,
+        following: req.body.following,
+        address: req.body.address,
+        birthday: req.body.birthday,
+        reviews: req.body.reviews,
+        services: req.body.services, 
     });
     
     user
@@ -91,9 +96,14 @@ exports.updateUserData = (req,res,next) => {
                 error.statusCode = 404; 
                 throw error;
             } 
-            user.userName = userName; 
-            user.firstName = firstName; 
-            user.lastName = lastName;
+            user.userName = req.body.userName;
+            user.fullName = req.body.fullName;
+            user.profilePic = req.body.profilePic;
+            user.following = req.body.following;
+            user.address = req.body.address;
+            user.birthday = req.body.birthday;
+            user.reviews = req.body.reviews;
+            user.services = req.body.services;
             return user.save();
         
         })  

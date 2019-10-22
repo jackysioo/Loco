@@ -31,8 +31,17 @@ exports.postBusinessData = (req, res, next) => {
     const email = req.body.email;
     const businessName = req.body.businessName;
     const business = new Business({
-        email: email,
-        businessName: businessName,
+        title:  req.body.title,
+        user:  req.body.user, 
+        about:  req.body.about, 
+        profilePic:  req.body.profilePic, 
+        images:  req.body.images, 
+        rating: req.body.rating, 
+        region:  req.body.region, 
+        location:  req.body.location, 
+        price:  req.body.price, 
+        tags:  req.body.tags, 
+        reviews:  req.body.reviews
     });
     
     business
@@ -121,8 +130,17 @@ exports.updateBusinessData = (req,res,next) => {
                 error.statusCode = 404; 
                 throw error;
             } 
-            business.businessName = businessName; 
-            business.email = email; 
+            business.title =  req.body.title;
+            business.user = req.body.user; 
+            business.about = req.body.about; 
+            business.profilePic=  req.body.profilePic; 
+            business.images =  req.body.images; 
+            business.rating = req.body.rating; 
+            business.region =  req.body.region; 
+            business.location =  req.body.location; 
+            business.price =  req.body.price; 
+            business.tags =  req.body.tags; 
+            business.reviews =  req.body.reviews;
             return business.save();
         
         })  
