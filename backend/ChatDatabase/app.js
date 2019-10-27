@@ -3,7 +3,7 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io');
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 1337;
 const index = require("./routes/index"); //change this
 const app = express();
 app.use(index);

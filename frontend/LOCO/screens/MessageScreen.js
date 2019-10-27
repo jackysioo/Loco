@@ -52,7 +52,7 @@ class MessageScreen extends React.Component {
         }
 
         this.state = {
-            endpoint: "http://127.0.0.1:4001",
+            endpoint: "loco.eastus.cloudapp.azure.com:1337",
             response: false,
             messages: messages,
             inputBarText: ''
