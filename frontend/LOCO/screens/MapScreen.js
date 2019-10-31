@@ -75,7 +75,8 @@ class MapScreen extends React.Component {
                                 longitudeDelta: 0.0421
                             }}
                             title={result.title}
-                            image={{ uri: require('../assets/icons/icons8-marker-64.png') }}>
+                            // image={{ uri: require('../assets/icons/icons8-marker-64.png') }}
+                            >
                         </MapView.Marker.Animated>
                     ))}
                 </MapView>

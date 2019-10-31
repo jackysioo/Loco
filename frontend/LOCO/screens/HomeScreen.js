@@ -74,8 +74,7 @@ class HomeScreen extends React.Component {
 
     search = () => {
         this.searchBar.blur();
-        //get search results from backend
-        fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=${encodeURIComponent(this.state.search)}")
+        fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + this.state.search)
             .then(response => response.json())
             .then((data) => {
                 this.setState({
@@ -84,6 +83,7 @@ class HomeScreen extends React.Component {
                     searchResults: data.Business
                 })
                 this.renderSearchResults();
+                console.log(data)
             })
             .catch(error => console.log(error))
 
