@@ -19,7 +19,6 @@ import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import AutogrowInput from 'react-native-autogrow-input';
-import socketIOClient from "socket.io-client";
 const { width, height } = Dimensions.get("screen");
 
 //used to make random-sized messages
@@ -52,8 +51,6 @@ class MessageScreen extends React.Component {
         }
 
         this.state = {
-            endpoint: "loco.eastus.cloudapp.azure.com:1337",
-            response: false,
             messages: messages,
             inputBarText: ''
         }
@@ -90,10 +87,6 @@ class MessageScreen extends React.Component {
         setTimeout(function () {
             this.scrollView.scrollToEnd();
         }.bind(this))
-        const { endpoint } = this.state;
-        const socket = socketIOClient(endpoint);
-        socket.on("message", data => this.setState({ response: data 
-        }));
     }
 
     //this is a bit sloppy: this is to make sure it scrolls to the bottom when a message is added, but 
@@ -131,12 +124,11 @@ class MessageScreen extends React.Component {
 
     render() {
 
-        const { response } = this.state;    //temp added 
         var messages = [];
 
         this.state.messages.forEach(function (message, index) {
             messages.push(
-                <MessageBubble key={index} direction={message.direction} /*text={message.text}*/ text={response} />
+                <MessageBubble key={index} direction={message.direction} text={message.text}/>
             );
         });
 
