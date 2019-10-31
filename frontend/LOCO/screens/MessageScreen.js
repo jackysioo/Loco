@@ -128,7 +128,7 @@ class MessageScreen extends React.Component {
 
         this.state.messages.forEach(function (message, index) {
             messages.push(
-                <MessageBubble key={index} direction={message.direction} text={message.text} />
+                <MessageBubble key={index} direction={message.direction} text={message.text}/>
             );
         });
 

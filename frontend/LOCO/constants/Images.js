@@ -1,4 +1,5 @@
 const Logo = require("../assets/imgs/logo.png");
+const LogoIcon = require("../assets/icon.png");
 const ProfileBackground = require("../assets/imgs/profile-screen-bg.jpg");
 const MealIcon = require("../assets/icons/icons8-meal-50.png");
 
@@ -34,4 +35,5 @@ export default {
     ProfileBackground,
     CategoryIcons,
     MealIcon,
+    LogoIcon,
 };
