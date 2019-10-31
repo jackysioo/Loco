@@ -8,6 +8,8 @@ import HomeScreen from '../screens/HomeScreen';
 import UserScreen from '../screens/UserScreen';
 import MessageScreen from '../screens/MessageScreen';
 import BusinessScreen from '../screens/BusinessScreen';
+import BioScreen from '../screens/BioScreen';
+import ReviewScreen from '../screens/ReviewScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -57,6 +59,8 @@ HomeStack.path = '';
 const UserStack = createStackNavigator(
   {
     User: UserScreen,
+    Bio: BioScreen,
+    Review: ReviewScreen
   }, {
   headerMode: 'none',
 },

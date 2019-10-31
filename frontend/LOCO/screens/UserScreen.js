@@ -1,4 +1,5 @@
 import React from 'react';
+import { withNavigationFocus } from 'react-navigation';
 import {
     Dimensions,
     Platform,
@@ -20,7 +21,9 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 
 
 class UserScreen extends React.Component {
+    
     render() {
+
         const reviews = user.reviews.map(review => {
             return (
                 <View style={styles.reviewContainer}>
@@ -56,6 +59,7 @@ class UserScreen extends React.Component {
             )
         })
 
+        const { navigation } = this.props;
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -70,7 +74,9 @@ class UserScreen extends React.Component {
                                     <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.editProfile}>
-                                    <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Bio')}>        
+                                        <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.resultDescription}>
                                     <View style={styles.following}>
@@ -292,4 +298,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default UserScreen;
+export default withNavigationFocus(UserScreen);
