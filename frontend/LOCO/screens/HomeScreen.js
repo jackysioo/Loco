@@ -74,18 +74,23 @@ class HomeScreen extends React.Component {
 
     search = () => {
         this.searchBar.blur();
-        fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + this.state.search)
-            .then(response => response.json())
-            .then((data) => {
-                this.setState({
-                    isSearchActive: false,
-                    loadSearchResults: true,
-                    searchResults: data.Business
-                })
-                this.renderSearchResults();
-                console.log(data)
-            })
-            .catch(error => console.log(error))
+        this.setState({
+            isSearchActive: false,
+            loadSearchResults: true,
+            searchResults: businesses    // TEST DATA
+        })
+        // fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + this.state.search)
+        //     .then(response => response.json())
+        //     .then((data) => {
+        //         this.setState({
+        //             isSearchActive: false,
+        //             loadSearchResults: true,
+        //             searchResults: data.Business    //REAL DATA
+        //         })
+        //         this.renderSearchResults();
+        //         console.log(data)
+        //     })
+        //     .catch(error => console.log(error))
 
     }
 
@@ -232,7 +237,7 @@ class HomeScreen extends React.Component {
     renderSearchResultsItems() {
         return this.state.searchResults.map(result => {
             return (
-                <View style={styles.recommendationContainer}>
+                <View key={result.title} style={styles.recommendationContainer}>
                     <SearchResult item={result} />
                 </View>
             )

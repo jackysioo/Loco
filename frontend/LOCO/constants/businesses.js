@@ -11,8 +11,8 @@ export default [
       rating: 4.15,
       region: "Central Vancouver",
       location: {
-        latitude: 49.2102,
-        longitude: -123.1172
+        lat: 49.2102,
+        long: -123.1172
       },
       price: "$15/set",
       reviews: [{
@@ -54,8 +54,8 @@ export default [
       price: "$80-$120",
       region: "Downtown Vancouver",
       location: {
-        latitude: 49.2820,
-        longitude: -123.1171
+        lat: 49.2820,
+        long: -123.1171
       },
       reviews: [{
         title: "Great food!",
@@ -96,8 +96,8 @@ export default [
       price: "$35/hr",
       region: "Kitsilano",
       location: {
-        latitude: 49.2684,
-        longitude: -123.1683
+        lat: 49.2684,
+        long: -123.1683
       },
       reviews: [{
         title: "Thorough explanations",
@@ -126,8 +126,8 @@ export default [
       price: "$50/hr",
       region: "Marpole",
       location: {
-        latitude: 49.2107,
-        longitude: -123.1302
+        lat: 49.2107,
+        long: -123.1302
       },
       reviews: [{
         title: "Beautiful photos",
@@ -162,8 +162,8 @@ export default [
       price: "$25/hr",
       region: "UBC",
       location: {
-        latitude: 49.2606,
-        longitude: -123.2460
+        lat: 49.2606,
+        long: -123.2460
       },
       reviews: [{
         title: "Loved chatting with them",
