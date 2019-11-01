@@ -16,12 +16,13 @@ import {
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
+import { Card } from '../components';
 import { Colors, user, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 
 
 class UserScreen extends React.Component {
-    
+
     render() {
 
         const reviews = user.reviews.map(review => {
@@ -44,7 +45,7 @@ class UserScreen extends React.Component {
 
         const services = user.services.map(service => {
             return (
-                <View style={styles.reviewContainer}>
+                <View style={styles.serviceContainer}>
                     <View style={styles.rating}>
                         <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
                         <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
@@ -74,7 +75,7 @@ class UserScreen extends React.Component {
                                     <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.editProfile}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Bio')}>        
+                                    <TouchableOpacity onPress={() => navigation.navigate('Bio')}>
                                         <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
@@ -115,11 +116,26 @@ class UserScreen extends React.Component {
                                 </View>
                                 <View style={styles.services}>
                                     <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  S E R V I C E S</HeadingText1>
-                                    {services}
+                                    <ScrollView horizontal={true}
+                                        decelerationRate={0}
+                                        snapToInterval={300}
+                                        snapToAlignment={"center"}
+                                        showsHorizontalScrollIndicator={false}
+                                        style={styles.itemContainer}>
+                                        {services}
+                                    </ScrollView>
                                 </View>
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  R E V I E W S</HeadingText1>
-                                    {reviews}
+                                    <ScrollView horizontal={true}
+                                        decelerationRate={0}
+                                        snapToInterval={300}
+                                        snapToAlignment={"center"}
+                                        showsHorizontalScrollIndicator={false}
+                                        style={styles.itemContainer}>
+                                        {reviews}
+                                    </ScrollView>
+                                    <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
                                 </View>
                             </View>
                         </ScrollView>
@@ -132,6 +148,12 @@ class UserScreen extends React.Component {
 
 
 const styles = StyleSheet.create({
+    itemContainer: {
+        flex: 1,
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        marginHorizontal: width / 40,
+    },
     container: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0)'
@@ -246,7 +268,17 @@ const styles = StyleSheet.create({
     },
     reviewContainer: {
         width: width - 60,
-        marginHorizontal: 30,
+        marginHorizontal: width / 60,
+        marginVertical: 15,
+        backgroundColor: Colors.white,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.1,
+    },
+    serviceContainer: {
+        width: width - 60,
+        marginHorizontal: width / 60,
         marginVertical: 15,
         backgroundColor: Colors.white,
         shadowColor: Colors.black,
@@ -295,6 +327,11 @@ const styles = StyleSheet.create({
         top: 60,
         margin: 10,
         zIndex: 1
+    },
+    viewAll: {
+        color: Colors.primary,
+        marginTop: -7,
+        marginLeft: width / 1.4,
     }
 });
 
