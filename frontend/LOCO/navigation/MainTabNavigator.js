@@ -11,6 +11,7 @@ import BusinessScreen from '../screens/BusinessScreen';
 import BioScreen from '../screens/BioScreen';
 import AllReviewsScreen from '../screens/AllReviewsScreen';
 import AllAppointmentsScreen from '../screens/AllAppointmentsScreen'
+import FollowingScreen from '../screens/FollowingScreen'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
