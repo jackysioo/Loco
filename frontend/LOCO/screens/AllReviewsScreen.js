@@ -20,7 +20,7 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText
 const { width, height } = Dimensions.get("screen");
 
 
-class AllReviewScreen extends React.Component {
+class AllReviewsScreen extends React.Component {
 
     render() {
         return (
@@ -31,4 +31,4 @@ class AllReviewScreen extends React.Component {
     }
 }
 
-export default withNavigation(AllReviewScreen);
+export default withNavigation(AllReviewsScreen);
