@@ -9,7 +9,8 @@ import UserScreen from '../screens/UserScreen';
 import MessageScreen from '../screens/MessageScreen';
 import BusinessScreen from '../screens/BusinessScreen';
 import BioScreen from '../screens/BioScreen';
-import ReviewScreen from '../screens/ReviewScreen';
+import AllReviewsScreen from '../screens/AllReviewsScreen';
+import AllAppointmentsScreen from '../screens/AllAppointmentsScreen'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -60,7 +61,9 @@ const UserStack = createStackNavigator(
   {
     User: UserScreen,
     Bio: BioScreen,
-    Review: ReviewScreen
+    Reviews: AllReviewsScreen,
+    Following: FollowingScreen,
+    Appointments: AllAppointmentsScreen
   }, {
   headerMode: 'none',
 },

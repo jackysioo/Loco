@@ -124,8 +124,10 @@ class UserScreen extends React.Component {
                                 </View>
                                 <View style={styles.resultDescription}>
                                     <View style={styles.following}>
-                                        <HeadingText1 style={{ color: Colors.primary }}> {user.following} </HeadingText1>
-                                        <HeadingText2 style={{ color: Colors.primary }}> Following </HeadingText2>
+                                        <TouchableOpacity onPress={() => navigation.navigate('Following')}>
+                                            <HeadingText1 style={{ color: Colors.primary }}> {user.following} </HeadingText1>
+                                            <HeadingText2 style={{ color: Colors.primary }}> Following </HeadingText2>
+                                        </TouchableOpacity>
                                     </View>
                                     <View style={styles.reviewNum}>
                                         <HeadingText1 style={{ color: Colors.primary }}> {user.reviews.length} </HeadingText1>
@@ -180,7 +182,9 @@ class UserScreen extends React.Component {
                                         style={styles.itemContainer}>
                                         {reviews}
                                     </ScrollView>
-                                    <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Reviews')}>
+                                        <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  A P P O I N T M E N T S</HeadingText1>
@@ -192,7 +196,9 @@ class UserScreen extends React.Component {
                                         style={styles.itemContainer}>
                                         {appointments}
                                     </ScrollView>
-                                    <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments')}>
+                                        <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </ScrollView>
