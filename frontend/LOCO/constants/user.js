@@ -1,3 +1,4 @@
+// In appointments, type: client is for appointments that other used booked the current user for, type: user is for appointments the current user booked to recieve 
 export default
   {
     username: "tanya_cooper123",
@@ -40,36 +41,40 @@ export default
       rating: 4,
       image: "https://images.unsplash.com/photo-1558622625-697f40efc834?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60"
     }],
-    businessAppointments: [{
+    appointments: [{
+      type: "client",
       username: "clarissa888",
       fullName: "Clarissa Morgan",
       date: "Nov 4, 2019",
       time: "4:00PM",
       service: "Gel Manicure",
-      userPicture: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
     }, {
+      type: "client",
       username: "bOb123",
       fullName: "Bobbette Park",
       date: "Nov 5, 2019",
       time: "2:00PM",
       service: "3D Volume Lash Extentions",
-      userPicture: "https://images.unsplash.com/photo-1504276048855-f3d60e69632f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      image: "https://images.unsplash.com/photo-1504276048855-f3d60e69632f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
     }, {
+      type: "client",
       username: "helloworld_!",
       fullName: "Jessica Thompson",
       date: "Nov 10, 2019",
       time: "10:00AM",
       service: "Gel Manicure",
-      userPicture: "https://images.unsplash.com/photo-1545912452-8aea7e25a3d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      image: "https://images.unsplash.com/photo-1545912452-8aea7e25a3d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
     }, {
+      type: "client",
       username: "waddles_pengu",
       fullName: "Lisa Chen",
       date: "Nov 19, 2019",
       time: "1:00PM",
       service: "3D Volume Lash Extentions",
-      userPicture: "https://images.unsplash.com/photo-1551415923-a2297c7fda79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80"
-    }],
-    clientAppointments: [{
+      image: "https://images.unsplash.com/photo-1551415923-a2297c7fda79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80"
+    }, {
+      type: "user",
       username: "wuyifan2000",
       fullName: "Kris Wu",
       date: "Nov 4, 2019",
@@ -77,6 +82,7 @@ export default
       service: "AP Calculus Tutoring",
       image: "https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
     }, {
+      type: "user",
       username: "once_twice",
       fullName: "Jihyo Park",
       date: "Nov 5, 2019",
@@ -84,6 +90,7 @@ export default
       service: "Homecooked Korean Cuisine",
       image: "https://images.unsplash.com/photo-1562571708-527276a391ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
     }, {
+      type: "user",
       username: "hennings123",
       fullName: "Kevin Hennings",
       date: "Nov 10, 2019",
@@ -91,6 +98,7 @@ export default
       service: "Professional Tattooing",
       image: "https://images.unsplash.com/photo-1550364387-2893ac373664?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
     }, {
+      type: "user",
       username: "adri_clinton",
       fullName: "Adriana Clinton",
       date: "Nov 19, 2019",

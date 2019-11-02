@@ -20,7 +20,7 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText
 const { width, height } = Dimensions.get("screen");
 
 
-class AllBusinessAppointmentsScreen extends React.Component {
+class AllAppointmentsScreen extends React.Component {
 
     render() {
         return (
@@ -31,4 +31,4 @@ class AllBusinessAppointmentsScreen extends React.Component {
     }
 }
 
-export default withNavigation(AllBusinessAppointmentsScreen);
+export default withNavigation(AllAppointmentsScreen);

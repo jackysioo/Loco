@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
-import { Card } from '../components';
 import { Colors, user, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 
@@ -60,50 +59,49 @@ class UserScreen extends React.Component {
             )
         })
 
-        const businessAppointments = user.businessAppointments.map(appointment => {
-            return (
-                <View style={styles.userContainer}>
-                    <Image source={{ uri: appointment.userPicture }} style={styles.reviewImage}></Image>
-                    <View style={{ margin: 15 }}>
-                        <View style={styles.review}>
-                            <HeadingText1>Client Name: </HeadingText1>
-                            <ParagraphText1>{appointment.fullName}</ParagraphText1>
-                        </View>
-                        <View style={styles.review}>
-                            <HeadingText1>Service: </HeadingText1>
-                            <ParagraphText1>{appointment.service}</ParagraphText1>
-                        </View>
-                        <View style={styles.review}>
-                            <HeadingText1>Date: </HeadingText1>
-                            <ParagraphText1>{appointment.date} ➔ {appointment.time}</ParagraphText1>
-                        </View>
-                    </View>
-                </View>
-            )
-        })
-
-        const clientAppointments = user.clientAppointments.map(appointment => {
-            return (
-                <View style={styles.userContainer}>
-                    <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
-                    <View style={{ margin: 15 }}>
-                        <View style={styles.review}>
-                            <HeadingText1>Business Owner Name: </HeadingText1>
-                            <ParagraphText1>{appointment.fullName}</ParagraphText1>
-                        </View>
-                        <View style={styles.review}>
-                            <HeadingText1>Service: </HeadingText1>
-                            <ParagraphText1>{appointment.service}</ParagraphText1>
-                        </View>
-                        <View style={styles.review}>
-                            <HeadingText1>Date: </HeadingText1>
-                            <ParagraphText1>{appointment.date} ➔ {appointment.time}</ParagraphText1>
+        const appointments = user.appointments.map(appointment => {
+            if (appointment.type === "client") {
+                return (
+                    <View style={styles.userContainer}>
+                        <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.review}>
+                                <HeadingText1 style={{ color: Colors.primary }}>{appointment.fullName} </HeadingText1>
+                                <ParagraphText2 style={{ color: Colors.placeholder }}>BOOKED YOU</ParagraphText2>
+                            </View>
+                            <View style={styles.review}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>SERVICE: </HeadingText2>
+                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.service}</ParagraphText2>
+                            </View>
+                            <View style={styles.review}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>DATE: </HeadingText2>
+                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.date} ➔ {appointment.time}</ParagraphText2>
+                            </View>
                         </View>
                     </View>
-                </View>
-            )
+                )
+            } else {
+                return (
+                    <View style={styles.userContainer}>
+                        <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.review}>
+                                <ParagraphText2 style={{ color: Colors.placeholder }}>YOU BOOKED </ParagraphText2>
+                                <HeadingText1 style={{ color: Colors.primary }}>{appointment.fullName}</HeadingText1>
+                            </View>
+                            <View style={styles.review}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>SERVICE: </HeadingText2>
+                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.service}</ParagraphText2>
+                            </View>
+                            <View style={styles.review}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>DATE: </HeadingText2>
+                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.date} ➔ {appointment.time}</ParagraphText2>
+                            </View>
+                        </View>
+                    </View>
+                )
+            }
         })
-
 
         const { navigation } = this.props;
         return (
@@ -185,26 +183,14 @@ class UserScreen extends React.Component {
                                     <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>A P P O I N T M E N T S  A S  B U S I N E S S</HeadingText1>
+                                    <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  A P P O I N T M E N T S</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
                                         snapToInterval={30}
                                         snapToAlignment={"center"}
                                         showsHorizontalScrollIndicator={false}
                                         style={styles.itemContainer}>
-                                        {businessAppointments}
-                                    </ScrollView>
-                                    <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
-                                </View>
-                                <View style={styles.reviews}>
-                                    <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>A P P O I N T M E N T S  A S  C L I E N T</HeadingText1>
-                                    <ScrollView horizontal={true}
-                                        decelerationRate={0}
-                                        snapToInterval={30}
-                                        snapToAlignment={"center"}
-                                        showsHorizontalScrollIndicator={false}
-                                        style={styles.itemContainer}>
-                                        {clientAppointments}
+                                        {appointments}
                                     </ScrollView>
                                     <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
                                 </View>
