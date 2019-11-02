@@ -27,7 +27,7 @@ class UserScreen extends React.Component {
 
         const reviews = user.reviews.map(review => {
             return (
-                <View style={styles.reviewContainer}>
+                <View style={styles.userContainer}>
                     <View style={styles.rating}>
                         <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
                         <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
@@ -36,16 +36,16 @@ class UserScreen extends React.Component {
                     <View style={{ margin: 15 }}>
                         <View style={styles.review}>
                             <HeadingText1>{review.title}</HeadingText1>
-                            <Text style={{ color: Colors.placeholder }}>{review.date}</Text>
+                            <ParagraphText1 style={{ color: Colors.placeholder }}>{review.date}</ParagraphText1>
                         </View>
-                        <Text>{review.review}</Text>
+                        <ParagraphText2>{review.review}</ParagraphText2>
                     </View>
                 </View>)
         })
 
         const services = user.services.map(service => {
             return (
-                <View style={styles.serviceContainer}>
+                <View style={styles.userContainer}>
                     <View style={styles.rating}>
                         <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
                         <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
@@ -59,6 +59,51 @@ class UserScreen extends React.Component {
                 </View>
             )
         })
+
+        const businessAppointments = user.businessAppointments.map(appointment => {
+            return (
+                <View style={styles.userContainer}>
+                    <Image source={{ uri: appointment.userPicture }} style={styles.reviewImage}></Image>
+                    <View style={{ margin: 15 }}>
+                        <View style={styles.review}>
+                            <HeadingText1>Client Name: </HeadingText1>
+                            <ParagraphText1>{appointment.fullName}</ParagraphText1>
+                        </View>
+                        <View style={styles.review}>
+                            <HeadingText1>Service: </HeadingText1>
+                            <ParagraphText1>{appointment.service}</ParagraphText1>
+                        </View>
+                        <View style={styles.review}>
+                            <HeadingText1>Date: </HeadingText1>
+                            <ParagraphText1>{appointment.date} ➔ {appointment.time}</ParagraphText1>
+                        </View>
+                    </View>
+                </View>
+            )
+        })
+
+        const clientAppointments = user.clientAppointments.map(appointment => {
+            return (
+                <View style={styles.userContainer}>
+                    <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
+                    <View style={{ margin: 15 }}>
+                        <View style={styles.review}>
+                            <HeadingText1>Business Owner Name: </HeadingText1>
+                            <ParagraphText1>{appointment.fullName}</ParagraphText1>
+                        </View>
+                        <View style={styles.review}>
+                            <HeadingText1>Service: </HeadingText1>
+                            <ParagraphText1>{appointment.service}</ParagraphText1>
+                        </View>
+                        <View style={styles.review}>
+                            <HeadingText1>Date: </HeadingText1>
+                            <ParagraphText1>{appointment.date} ➔ {appointment.time}</ParagraphText1>
+                        </View>
+                    </View>
+                </View>
+            )
+        })
+
 
         const { navigation } = this.props;
         return (
@@ -90,35 +135,37 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.info}>
-                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  I N F O R M A T I O N</HeadingText1>
-                                    <View style={styles.innerInfo}>
-                                        <HeadingText1>Username:  </HeadingText1>
-                                        <HeadingText2>{user.username}</HeadingText2>
-                                    </View>
-                                    <View style={styles.innerInfo}>
-                                        <HeadingText1>Full Name:  </HeadingText1>
-                                        <HeadingText2>{user.fullName}</HeadingText2>
-                                    </View>
-                                    <View style={styles.innerInfo}>
-                                        <View>
-                                            <HeadingText1>Address:  </HeadingText1>
-                                            <View style={{ flexDirection: "column", marginLeft: 20, marginTop: 5 }}>
-                                                <HeadingText2>{user.address[0]}</HeadingText2>
-                                                <HeadingText2>{user.address[1]}</HeadingText2>
-                                                <HeadingText2>{user.address[2]}</HeadingText2>
+                                    <HeadingText1 style={{ alignSelf: 'center', marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  I N F O R M A T I O N</HeadingText1>
+                                    <View style={{ justifyContent: 'space-between' }}>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ paddingRight: 140 }}>Username:</HeadingText1>
+                                            <HeadingText2>{user.username}</HeadingText2>
+                                        </View>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ paddingRight: 140 }}>Full Name:</HeadingText1>
+                                            <HeadingText2>{user.fullName}</HeadingText2>
+                                        </View>
+                                        <View style={styles.innerInfo}>
+                                            <View style={{ flexDirection: "column" }}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <HeadingText1 style={{ paddingRight: 140 }}>Address:</HeadingText1>
+                                                    <HeadingText2>{user.address[0]}</HeadingText2>
+                                                </View>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end' }}>{user.address[1]}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end' }}>{user.address[2]}</HeadingText2>
                                             </View>
                                         </View>
-                                    </View>
-                                    <View style={styles.innerInfo}>
-                                        <HeadingText1>Birthday:  </HeadingText1>
-                                        <HeadingText2>{user.birthday}</HeadingText2>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ paddingRight: 140 }}>Birthday:</HeadingText1>
+                                            <HeadingText2>{user.birthday}</HeadingText2>
+                                        </View>
                                     </View>
                                 </View>
-                                <View style={styles.services}>
-                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  S E R V I C E S</HeadingText1>
+                                <View style={styles.reviews}>
+                                    <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  S E R V I C E S</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
-                                        snapToInterval={300}
+                                        snapToInterval={30}
                                         snapToAlignment={"center"}
                                         showsHorizontalScrollIndicator={false}
                                         style={styles.itemContainer}>
@@ -126,14 +173,38 @@ class UserScreen extends React.Component {
                                     </ScrollView>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>Y O U R  R E V I E W S</HeadingText1>
+                                    <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  R E V I E W S</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
-                                        snapToInterval={300}
+                                        snapToInterval={30}
                                         snapToAlignment={"center"}
                                         showsHorizontalScrollIndicator={false}
                                         style={styles.itemContainer}>
                                         {reviews}
+                                    </ScrollView>
+                                    <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
+                                </View>
+                                <View style={styles.reviews}>
+                                    <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>A P P O I N T M E N T S  A S  B U S I N E S S</HeadingText1>
+                                    <ScrollView horizontal={true}
+                                        decelerationRate={0}
+                                        snapToInterval={30}
+                                        snapToAlignment={"center"}
+                                        showsHorizontalScrollIndicator={false}
+                                        style={styles.itemContainer}>
+                                        {businessAppointments}
+                                    </ScrollView>
+                                    <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
+                                </View>
+                                <View style={styles.reviews}>
+                                    <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>A P P O I N T M E N T S  A S  C L I E N T</HeadingText1>
+                                    <ScrollView horizontal={true}
+                                        decelerationRate={0}
+                                        snapToInterval={30}
+                                        snapToAlignment={"center"}
+                                        showsHorizontalScrollIndicator={false}
+                                        style={styles.itemContainer}>
+                                        {clientAppointments}
                                     </ScrollView>
                                     <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
                                 </View>
@@ -239,15 +310,12 @@ const styles = StyleSheet.create({
     info: {
         flex: 1,
         flexDirection: "column",
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 20
+        marginBottom: 40
     },
     innerInfo: {
         flex: 1,
         flexDirection: "row",
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'space-between',
         marginVertical: 5
     },
     reviews: {
@@ -256,27 +324,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 5,
-        marginBottom: 15
+        marginBottom: 10,
     },
-    services: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 5,
-        marginBottom: 10
-    },
-    reviewContainer: {
-        width: width - 60,
-        marginHorizontal: width / 60,
-        marginVertical: 15,
-        backgroundColor: Colors.white,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.1,
-    },
-    serviceContainer: {
+    userContainer: {
         width: width - 60,
         marginHorizontal: width / 60,
         marginVertical: 15,
@@ -332,6 +382,7 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         marginTop: -7,
         marginLeft: width / 1.4,
+        paddingBottom: 5,
     }
 });
 
