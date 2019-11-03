@@ -75,6 +75,27 @@ class BioScreen extends React.Component {
         const { addressPostalCodeInput } = this.state;
         const { birthdayInput } = this.state;
 
+        const services = user.services.map(service => {
+            return (
+                <View style={styles.userContainer}>
+                    <View style={styles.rating}>
+                        <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
+                        <Image style={styles.icon} source={require('../assets/icons/icons8-star-24.png')} />
+                    </View>
+                    <TouchableOpacity style={styles.edit}>
+                        <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
+                        <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
+                    </TouchableOpacity>
+                    <Image source={{ uri: service.image }} style={styles.reviewImage}></Image>
+                    <View style={{ margin: 15 }}>
+                        <View style={styles.review}>
+                            <HeadingText1>{service.title}</HeadingText1>
+                        </View>
+                    </View>
+                </View>
+            )
+        })
+
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -209,29 +230,13 @@ class BioScreen extends React.Component {
                                         marginTop: 10, marginBottom: 3,
                                         color: Colors.placeholder
                                     }}>Y O U R  S E R V I C E S</HeadingText1>
-                                    <ScrollView horizontal={true}
-                                        decelerationRate={0}
-                                        snapToInterval={10}
-                                        snapToAlignment={"center"}
-                                        showsHorizontalScrollIndicator={false}
-                                        style={styles.itemContainer}>
-                                        {this.props.navigation.state.params.services}
-                                    </ScrollView>
+                                    {services}
                                 </View>
-                                <View style={styles.reviews}>
-                                    <HeadingText1 style={{
-                                        marginTop: 10, marginBottom: 3,
-                                        color: Colors.placeholder
-                                    }}>Y O U R  R E V I E W S</HeadingText1>
-                                    <ScrollView horizontal={true}
-                                        decelerationRate={0}
-                                        snapToInterval={10}
-                                        snapToAlignment={"center"}
-                                        showsHorizontalScrollIndicator={false}
-                                        style={styles.itemContainer}>
-                                        {this.props.navigation.state.params.reviews}
-                                    </ScrollView>
-                                </View>
+                                <TouchableOpacity style={styles.addService}>
+                                    <HeadingText2 style={{ color: Colors.primary }}> Add Service </HeadingText2>
+                                    <Image style={styles.icon} source={
+                                        require('../assets/icons/icons8-add-new-24-aqua.png')} />
+                                </TouchableOpacity>
                             </View>
                         </ScrollView>
                     </ImageBackground>
@@ -319,7 +324,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 5,
-        marginBottom: 10,
+        marginBottom: 20,
     },
     userContainer: {
         width: width - 60,
@@ -403,6 +408,37 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 10,
         shadowOpacity: 0.7,
+    },
+    edit: {
+        flex: 1,
+        flexDirection: "row",
+        color: Colors.white,
+        position: 'absolute',
+        right: 10,
+        marginTop: 10,
+        zIndex: 1
+    },
+    rating: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        color: Colors.white,
+        position: 'absolute',
+        left: 10,
+        marginTop: 10,
+        zIndex: 1
+    },
+    addService: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: Colors.primary,
+        position: 'absolute',
+        right: 20,
+        bottom: 15,
+        zIndex: 1
     }
 });
 

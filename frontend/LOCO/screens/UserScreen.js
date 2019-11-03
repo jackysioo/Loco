@@ -140,8 +140,7 @@ class UserScreen extends React.Component {
                                     <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.editProfile}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Bio',
-                                        { reviews: reviews, appointments: appointments, services: services })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Bio')}>
                                         <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
