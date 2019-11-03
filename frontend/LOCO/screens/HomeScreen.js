@@ -126,7 +126,7 @@ class HomeScreen extends React.Component {
     }
 
     renderCategories() {
-        return Images.CategoryIcons.map(categoryIcon => {
+        return Images.CategoryIcons.map((categoryIcon) => {
             return (
                 <TouchableOpacity
                     key={categoryIcon.name}
@@ -263,7 +263,7 @@ class HomeScreen extends React.Component {
     }
 
     renderSearchResultsItems() {
-        return this.state.searchResults.map(result => {
+        return this.state.searchResults.map((result) => {
             return (
                 <View key={result.title} style={styles.recommendationContainer}>
                     <SearchResult item={result} />
@@ -295,10 +295,10 @@ class HomeScreen extends React.Component {
                     <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
-                    <TouchableOpacity style={styles.filter} onPress={()=>{this.setState({ isFilterScreenVisible: true})}}>
+                    <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isFilterScreenVisible: true})}}>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Filters</HeadingText2>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.filter} onPress={()=>{this.setState({ isSortVisible: true})}}>
+                    <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isSortVisible: true})}}>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Sort By</HeadingText2>
                     </TouchableOpacity>
                 </View>

@@ -44,7 +44,7 @@ class SortByScreen extends React.Component {
                 </TouchableOpacity>
                     <View style={{ flex: 1, marginVertical: 30, marginHorizontal: 30 }}>
                         <HeadingText1 style={{ fontSize: 22, marginVertical: 30, justifyContent: "center", alignSelf: "center"}}>Sort By</HeadingText1>
-                        {Object.values(SortBy).map(sort => {
+                        {Object.values(SortBy).map((sort) => {
                                 return (
                                     <View key={sort} style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margingVertical: 15 }}>
                                         <HeadingText2 style={{ fontSize: 14, letterSpacing: 2, color: Colors.placeholder, textTransform: 'uppercase' }}>{sort}</HeadingText2>

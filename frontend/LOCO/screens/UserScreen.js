@@ -24,7 +24,7 @@ class UserScreen extends React.Component {
 
     render() {
 
-        const reviews = user.reviews.map(review => {
+        const reviews = user.reviews.map((review) => {
             return (
                 <View style={styles.userContainer}>
                     <View style={styles.rating}>
@@ -42,7 +42,7 @@ class UserScreen extends React.Component {
                 </View>)
         })
 
-        const services = user.services.map(service => {
+        const services = user.services.map((service) => {
             return (
                 <View style={styles.userContainer}>
                     <View style={styles.rating}>
@@ -59,6 +59,63 @@ class UserScreen extends React.Component {
             )
         })
 
+<<<<<<< HEAD
+=======
+        const appointments = user.appointments.map((appointment) => {
+            if (appointment.type === "client") {
+                return (
+                    <View style={styles.userContainer}>
+                        <TouchableOpacity style={styles.rating}>
+                            <HeadingText2 style={styles.cancel}> Cancel </HeadingText2>
+                            <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-cancel-64.png')} />
+                        </TouchableOpacity>
+                        <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.review}>
+                                <HeadingText1 style={{ color: Colors.primary }}>{appointment.fullName} </HeadingText1>
+                                <ParagraphText2 style={{ color: Colors.placeholder }}>BOOKED YOU</ParagraphText2>
+                            </View>
+                            <View style={styles.review}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>SERVICE: </HeadingText2>
+                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.service}</ParagraphText2>
+                            </View>
+                            <View style={styles.review}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>DATE: </HeadingText2>
+                                <ParagraphText2
+                                    style={{ color: Colors.primary }}>{appointment.date} ➔ {appointment.time}</ParagraphText2>
+                            </View>
+                        </View>
+                    </View>
+                )
+            } else {
+                return (
+                    <View style={styles.userContainer}>
+                        <TouchableOpacity style={styles.rating}>
+                            <HeadingText2 style={styles.cancel}> Cancel </HeadingText2>
+                            <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-cancel-64.png')} />
+                        </TouchableOpacity>
+                        <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.review}>
+                                <ParagraphText2 style={{ color: Colors.placeholder }}>YOU BOOKED </ParagraphText2>
+                                <HeadingText1 style={{ color: Colors.primary }}>{appointment.fullName}</HeadingText1>
+                            </View>
+                            <View style={styles.review}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>SERVICE: </HeadingText2>
+                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.service}</ParagraphText2>
+                            </View>
+                            <View style={styles.review}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>DATE: </HeadingText2>
+                                <ParagraphText2
+                                    style={{ color: Colors.primary }}>{appointment.date} ➔ {appointment.time}</ParagraphText2>
+                            </View>
+                        </View>
+                    </View>
+                )
+            }
+        })
+
+>>>>>>> 51a8ad1c3142b63e2d4a3a22de97e938f5cdc9c4
         const { navigation } = this.props;
 
         // only display 6 or less reviews/appointments on userScreen

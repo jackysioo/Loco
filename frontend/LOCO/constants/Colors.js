@@ -9,8 +9,6 @@ export default {
     warning: '#FB6340',
     input: '#dcdcdc',
     placeholder: '#9FA5AA',
-    switch_on: '#51bfbb',
-    switch_off: '#D4D9DD',
     black: '#000000',
     white: '#ffffff',
     tabIconDefault: '#ccc',
