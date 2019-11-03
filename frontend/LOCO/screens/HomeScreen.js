@@ -25,6 +25,8 @@ import MapScreen from "./MapScreen";
 import FilterScreen from "./FilterScreen";
 import SortByScreen from "./SortByScreen";
 import SearchResult from "../components/SearchResult";
+import SearchScreen from "./SearchResultScreen";
+import MapButton from "../components/MapButton";
 
 const { width, height } = Dimensions.get('screen');
 const carouselWidth = width / 5;
@@ -40,7 +42,7 @@ class HomeScreen extends React.Component {
         filters: {},
         sort: SortBy.recommended,
         searchResults: [],
-        isFilterScreenVisible: false,
+        isFilterVisible: false,
         isSortVisible: false,
         isSearchActive: false,
         loadSearchResults: false,
@@ -75,7 +77,7 @@ class HomeScreen extends React.Component {
             filters: {},
             sort: SortBy.recommended,
             searchResults: [],
-            isFilterScreenVisible: false,
+            isFilterVisible: false,
             isSortVisible: false,
             isSearchActive: false,
             loadSearchResults: false,
@@ -100,7 +102,6 @@ class HomeScreen extends React.Component {
         //             loadSearchResults: true,
         //             searchResults: data.Business    //REAL DATA
         //         })
-        //         this.renderSearchResults();
         //     })
         //     .catch(error => console.log(error))
 
@@ -119,7 +120,6 @@ class HomeScreen extends React.Component {
         //             loadSearchResults: true,
         //             searchResults: data.Business    //REAL DATA
         //         })
-        //         this.renderSearchResults();
         //     })
         //     .catch(error => console.log(error))
 
@@ -143,61 +143,6 @@ class HomeScreen extends React.Component {
         });
     }
 
-    renderRecommendations() {
-        return (
-            <ScrollView ref="scrollView"
-                showsVerticalScrollIndicator={false}
-                style={styles.ScrollContainer}
-                contentContainerStyle={styles.contentContainer}>
-                <View style={styles.categoryContainer}>
-                    {this.renderCategories()}
-                </View>
-                <View style={styles.recommendationContainer}>
-                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                        Discover Near You
-                                </HeadingText1>
-                    <ScrollView horizontal={true}
-                        decelerationRate={0}
-                        snapToInterval={300}
-                        snapToAlignment={"center"}
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.itemContainer}>
-                        <Card item={businesses[0]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[2]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[4]} />
-                    </ScrollView>
-                </View>
-                <View style={styles.recommendationContainer}>
-                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                        We Think You Will Like
-                                </HeadingText1>
-                    <ScrollView horizontal={true}
-                        decelerationRate={0}
-                        snapToInterval={300}
-                        snapToAlignment={"center"}
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.itemContainer}>
-                        <Card item={businesses[3]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[4]} />
-                    </ScrollView>
-                </View>
-                <View style={styles.recommendationContainer}>
-                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                        Popular on LOCO
-                                </HeadingText1>
-                    <ScrollView horizontal={true}
-                        decelerationRate={0}
-                        snapToInterval={300}
-                        snapToAlignment={"center"}
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.itemContainer}>
-                        <Card item={businesses[1]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[0]} />
-                    </ScrollView>
-                </View>
-            </ScrollView>
-        )
-    }
 
     renderSearchCancel() {
         return (
@@ -246,32 +191,6 @@ class HomeScreen extends React.Component {
         )
     }
 
-
-    renderSearchResults() {
-        return (
-            <ScrollView ref="scrollView"
-                showsVerticalScrollIndicator={false}
-                style={styles.ScrollContainer}
-                contentContainerStyle={styles.contentContainer}>
-                {this.renderFilters()}
-                <HeadingText1 style={{ marginHorizontal: 20, fontSize: 24 }}>
-                    Search Results
-                    </HeadingText1>
-                {this.renderSearchResultsItems()}
-            </ScrollView>
-        )
-    }
-
-    renderSearchResultsItems() {
-        return this.state.searchResults.map((result) => {
-            return (
-                <View key={result.title} style={styles.recommendationContainer}>
-                    <SearchResult item={result} />
-                </View>
-            )
-        });
-    }
-
     updateFilters = (filters) => {
         this.setState({ filters: filters});
     };
@@ -280,11 +199,11 @@ class HomeScreen extends React.Component {
         this.setState({ sort: sort});
     };
 
-    isFilterScreenVisible = () => {
-        this.setState({ isFilterScreenVisible: false });
+    closeFilter = () => {
+        this.setState({ isFilterVisible: false });
     }
 
-    isSortVisible = () => {
+    closeSort = () => {
         this.setState({ isSortVisible: false });
     }
 
@@ -295,7 +214,7 @@ class HomeScreen extends React.Component {
                     <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
-                    <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isFilterScreenVisible: true})}}>
+                    <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isFilterVisible: true})}}>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Filters</HeadingText2>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isSortVisible: true})}}>
@@ -303,8 +222,8 @@ class HomeScreen extends React.Component {
                     </TouchableOpacity>
                 </View>
 
-                {this.state.isFilterScreenVisible && <FilterScreen visible={this.isFilterScreenVisible} filters={this.state.filters} updateFilters={this.updateFilters}/>}
-                {this.state.isSortVisible && <SortByScreen visible={this.isSortVisible} sort={this.state.sort} updateSort={this.updateSort} />}
+                <FilterScreen visible={this.state.isFilterVisible} close={this.closeFilter} filters={this.state.filters} updateFilters={this.updateFilters}/>}
+                <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />}
 
             </View>
         )
@@ -312,24 +231,9 @@ class HomeScreen extends React.Component {
 
 
 
-    setMapVisible(visible) {
+    setMapVisible = (visible) => {
         this.setState({ mapVisible: visible });
     }
-
-    renderMapButton() {
-        return (
-            <TouchableOpacity
-                style={styles.openMapButtonContainer}
-                onPress={() => {
-                    this.setMapVisible(true);
-                }}>
-                <Image
-                    style={styles.mapButton}
-                    source={require('../assets/icons/icons8-map-64.png')} />
-            </TouchableOpacity>
-        )
-    }
-
 
     mapItem = (item) => {
         const { navigation } = this.props
@@ -386,11 +290,13 @@ class HomeScreen extends React.Component {
                             onFocus={this.triggerSearch}
                             onSubmitEditing={this.search} />
                     </View>
-                    {this.state.isSearchActive && this.renderSearchActive()}
-                    {!this.state.loadSearchResults && this.renderRecommendations()}
-                    {this.state.loadSearchResults && this.renderSearchResults()}
+
+                    <SearchResultScreen loadSearchResults={this.state.loadSearchResults} searchResults={this.state.searchResults}/>
+                    <MapButton visible={this.state.loadSearchResults} setMapVisible={this.setMapVisible}/>
+
                     {this.state.loadSearchResults && this.renderMapButton()}
-                    {this.state.mapVisible && this.renderMapView()}
+                    {this.state.isSearchActive && this.renderSearchActive()}
+                    {this.renderMapView()}
 
                 </View>
             </SafeAreaView>
@@ -404,9 +310,6 @@ const styles = StyleSheet.create({
         width: width,
         backgroundColor: '#fff',
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
-    },
-    contentContainer: {
-        paddingVertical: 10,
     },
     searchContainer: {
         paddingLeft: 10,
@@ -466,16 +369,6 @@ const styles = StyleSheet.create({
         margin: 8,
         width: 35,
         height: 35
-    },
-    recommendationContainer: {
-        flex: 1,
-        margin: 10
-    },
-    itemContainer: {
-        flex: 1,
-        backgroundColor: '#fff',
-        paddingLeft: 10,
-        flexDirection: 'row',
     },
     resultsContainer: {
         height: height - 100

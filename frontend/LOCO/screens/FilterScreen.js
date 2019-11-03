@@ -18,14 +18,14 @@ const { width, height } = Dimensions.get("screen");
 
 class FilterScreen extends React.Component {
     state = {
-        modalVisible: true,
+        modalVisible: this.props.visible,
         filters: this.props.filters
     }
 
     closeModal = () => {
         this.props.updateFilters(this.state.filters)
         this.setState({modalVisible: false})
-        this.props.visible(false)
+        this.props.closeFilter
     }
 
     render() {

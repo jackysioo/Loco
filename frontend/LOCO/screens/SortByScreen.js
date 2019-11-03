@@ -18,14 +18,14 @@ const { width, height } = Dimensions.get("screen");
 
 class SortByScreen extends React.Component {
     state = {
-        modalVisible: true,
+        modalVisible: this.props.visible,
         criteria: this.props.sort
     }
 
     closeModal = () => {
         this.props.updateSort(this.state.criteria)
         this.setState({ modalVisible: false })
-        this.props.visible(false)
+        this.props.closeSort
     }
 
 
