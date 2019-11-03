@@ -89,7 +89,7 @@ export default
       date: "Nov 4, 2019",
       time: "4:00PM",
       service: "Gel Manicure",
-      image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      image: "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
     }, {
       type: "client",
       username: "bOb123",
@@ -97,7 +97,7 @@ export default
       date: "Nov 5, 2019",
       time: "2:00PM",
       service: "3D Volume Lash Extentions",
-      image: "https://images.unsplash.com/photo-1504276048855-f3d60e69632f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      image: "https://images.unsplash.com/photo-1558622625-697f40efc834?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60"
     }, {
       type: "client",
       username: "helloworld_!",
@@ -105,7 +105,7 @@ export default
       date: "Nov 10, 2019",
       time: "10:00AM",
       service: "Gel Manicure",
-      image: "https://images.unsplash.com/photo-1545912452-8aea7e25a3d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      image: "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
     }, {
       type: "client",
       username: "waddles_pengu",
