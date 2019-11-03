@@ -42,11 +42,10 @@ class MessageScreen extends React.Component {
 
             var direction = getRandomInt(1, 2) === 1 ? 'right' : 'left';
 
-            message = textMessage.substring(0, messageLength);
+            var message = textMessage.substring(0, messageLength);
 
             messages.push({
-                direction: direction,
-                text: message
+                direction: direction
             })
         }
 

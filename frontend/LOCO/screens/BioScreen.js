@@ -418,17 +418,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         zIndex: 1
     },
-    rating: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        color: Colors.white,
-        position: 'absolute',
-        left: 10,
-        marginTop: 10,
-        zIndex: 1
-    },
     addService: {
         flex: 1,
         flexDirection: "row",
