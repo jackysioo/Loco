@@ -4,7 +4,6 @@ export default
     username: "tanya_cooper123",
     fullName: "Tanya Cooper",
     profilePic: 'https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=942&q=80',
-    following: 100,
     address: ["8888 Address Street", "Vancouver, BC", "A8A 8A8"],
     birthday: "Feb 14, 1996",
     reviews: [{
@@ -147,5 +146,60 @@ export default
       time: "1:00PM",
       service: "Dogsitting",
       image: "https://images.unsplash.com/photo-1552343204-09c57040d686?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80"
-    }]
+    }],
+    following: [
+      {
+        username: "username1",
+        fullName: "User 1",
+        profilePic: 'https://images.unsplash.com/photo-1530103043960-ef38714abb15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3150&q=80',
+      }, {
+        username: "username2",
+        fullName: "User 2",
+        profilePic: "https://images.unsplash.com/photo-1461696114087-397271a7aedc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+      }, {
+        username: "username3",
+        fullName: "User 3",
+        profilePic: "https://images.unsplash.com/photo-1548192746-dd526f154ed9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+      }, {
+        username: "username4",
+        fullName: "User 4",
+        profilePic: "https://images.unsplash.com/photo-1526116977494-90748acc0cad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+      }, {
+        username: "username5",
+        fullName: "User 5",
+        profilePic: "https://images.unsplash.com/photo-1546471180-335a013cb87b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      }, {
+        username: "username6",
+        fullName: "User 6",
+        profilePic: "https://images.unsplash.com/photo-1558865869-c93f6f8482af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1401&q=80"
+      }, {
+        username: "username7",
+        fullName: "User 7",
+        profilePic: "https://images.unsplash.com/photo-1535837487710-a191373a20ae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80"
+      }, {
+        username: "username8",
+        fullName: "User 8",
+        profilePic: "https://images.unsplash.com/photo-1504083898675-c896ecdae86e?ixlib=rb-1.2.1&auto=format&fit=crop&w=582&q=80"
+      }, {
+        username: "username9",
+        fullName: "User 9",
+        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+      }, {
+        username: "username10",
+        fullName: "User 10",
+        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+      }, {
+        username: "username11",
+        fullName: "User 11",
+        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+      }, {
+        username: "username12",
+        fullName: "User 12",
+        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+      }, {
+        username: "username13",
+        fullName: "User 13",
+        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+      }
+    ],
   };
