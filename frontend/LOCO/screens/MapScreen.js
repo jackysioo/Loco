@@ -23,7 +23,7 @@ class MapScreen extends React.Component {
     }
 
     renderMarkers(results) {
-        return results.map(result => {
+        return results.map((result) => {
             return (
                 <Marker
                     key={result.title}
@@ -39,7 +39,7 @@ class MapScreen extends React.Component {
                         source={require('../assets/icons/icons8-marker-64.png')}
                         style={styles.dropPinIcon} />
                     <Callout
-                        onPress={()=>{this.triggerCallback(result)}}
+                        onPress={() => {this.triggerCallback(result)}}
                         tooltip={false}>
                             <View style={styles.searchItemContainer}>
                                 <Image source={{ uri: result.profilePic }} style={styles.profilePic} />

@@ -43,14 +43,14 @@ class BusinessScreen extends React.Component {
         const { subject } = this.state;
         const { message } = this.state;
 
-        const tags = this.props.navigation.state.params.item.tags.map(tag => {
+        const tags = this.props.navigation.state.params.item.tags.map((tag) => {
             return (
                 <View key={tag} style={styles.tag}>
                     <Text style={{ fontSize: 10, color: Colors.primary }}> #{tag} </Text>
                 </View>
             )
         })
-        const reviews = this.props.navigation.state.params.item.reviews.map(review => {
+        const reviews = this.props.navigation.state.params.item.reviews.map((review) => {
             return (
                 <View key={review.title} style={styles.reviewContainer}>
                     <View style={styles.rating}>

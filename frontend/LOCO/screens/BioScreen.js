@@ -75,7 +75,7 @@ class BioScreen extends React.Component {
         const { addressPostalCodeInput } = this.state;
         const { birthdayInput } = this.state;
 
-        const services = user.services.map(service => {
+        const services = user.services.map((service) => {
             return (
                 <View style={styles.userContainer}>
                     <View style={styles.rating}>

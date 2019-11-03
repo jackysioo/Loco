@@ -24,7 +24,7 @@ class UserScreen extends React.Component {
 
     render() {
 
-        const reviews = user.reviews.map(review => {
+        const reviews = user.reviews.map((review) => {
             return (
                 <View style={styles.userContainer}>
                     <View style={styles.rating}>
@@ -42,7 +42,7 @@ class UserScreen extends React.Component {
                 </View>)
         })
 
-        const services = user.services.map(service => {
+        const services = user.services.map((service) => {
             return (
                 <View style={styles.userContainer}>
                     <View style={styles.rating}>
@@ -59,7 +59,7 @@ class UserScreen extends React.Component {
             )
         })
 
-        const appointments = user.appointments.map(appointment => {
+        const appointments = user.appointments.map((appointment) => {
             if (appointment.type === "client") {
                 return (
                     <View style={styles.userContainer}>

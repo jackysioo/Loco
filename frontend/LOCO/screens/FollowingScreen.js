@@ -23,7 +23,7 @@ const { width, height } = Dimensions.get("screen");
 class FollowingScreen extends React.Component {
 
     render() {
-        const following = user.following.map(follower => {
+        const following = user.following.map((follower) => {
             return (
                 <View style={styles.followerContainer}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
