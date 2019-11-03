@@ -132,7 +132,8 @@ class UserScreen extends React.Component {
                                     <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.editProfile}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Bio')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Bio',
+                                        { reviews: reviews , appointments: appointments , services: services})}>
                                         <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
@@ -159,16 +160,16 @@ class UserScreen extends React.Component {
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 140 }}>Full Name:</HeadingText1>
-                                            <HeadingText2>{user.fullName}</HeadingText2>
+                                            <HeadingText2>{user.firstName} {user.lastName}</HeadingText2>
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <View style={{ flexDirection: "column" }}>
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <HeadingText1 style={{ paddingRight: 140 }}>Address:</HeadingText1>
-                                                    <HeadingText2>{user.address[0]}</HeadingText2>
+                                                    <HeadingText2>{user.addressLine}</HeadingText2>
                                                 </View>
-                                                <HeadingText2 style={{ alignSelf: 'flex-end' }}>{user.address[1]}</HeadingText2>
-                                                <HeadingText2 style={{ alignSelf: 'flex-end' }}>{user.address[2]}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end' }}>{user.addressCity}, {user.addressProvince}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end' }}>{user.addressPostalCode}</HeadingText2>
                                             </View>
                                         </View>
                                         <View style={styles.innerInfo}>
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     profileCard: {
-        marginTop: height / 4,
+        marginTop: height / 4.5,
         marginHorizontal: 10,
         marginBottom: 20,
         paddingBottom: 10,

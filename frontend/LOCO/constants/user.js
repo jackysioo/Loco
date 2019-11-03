@@ -2,9 +2,13 @@
 export default
   {
     username: "tanya_cooper123",
-    fullName: "Tanya Cooper",
+    firstName: "Tanya",
+    lastName: "Cooper",
     profilePic: 'https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=942&q=80',
-    address: ["8888 Address Street", "Vancouver, BC", "A8A 8A8"],
+    addressLine: "8888 Address Street",
+    addressCity: "Vancouver",
+    addressProvince: "BC",
+    addressPostalCode: "A8A 8A8",
     birthday: "Feb 14, 1996",
     reviews: [{
       title: "Great food!",

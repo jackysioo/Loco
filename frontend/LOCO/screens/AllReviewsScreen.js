@@ -34,6 +34,9 @@ class AllReviewsScreen extends React.Component {
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
                                 style={styles.itemContainer}>
+                                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
+                                    <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
+                                </TouchableOpacity>
                                 <View style={styles.innerContainer}>
                                     <View style={styles.list}>
                                         <HeadingText1 style={{
@@ -63,6 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0)',
     },
     background: {
+        marginTop: -20,
         height: height / 2,
         width: width
     },
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     innerContainer: {
-        marginTop: 10,
+        marginTop: 40,
         marginHorizontal: 10,
         marginBottom: 40,
         paddingBottom: 10,
@@ -93,6 +97,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    back: {
+        position: "absolute",
+        left: 12,
+        top: 10,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.7,
+    }
 });
 
 export default withNavigation(AllReviewsScreen);
