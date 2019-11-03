@@ -4,51 +4,71 @@ import { withNavigation } from 'react-navigation';
 import {
     Image,
     Platform,
-    ScrollView,
+    TouchableOpacity,
     StyleSheet,
     Text,
     Dimensions,
     StatusBar,
-    View,
-    Button
+    View
 } from 'react-native';
-import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
+import MapView, { Callout, Marker } from 'react-native-maps';
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 const { width, height } = Dimensions.get("screen");
 
 class MapScreen extends React.Component {
 
-    getInitialState() {
-        return {
-            coordinate: new AnimatedRegion({
-                latitude: location.latitude,
-                longitude: location.longitude,
-            }),
-        };
+    triggerCallback(result) {
+        this.props.item(result)
     }
-    componentWillReceiveProps(nextProps) {
-        const duration = 500
 
-        if (this.props.results.location !== nextProps.results.location) {
-            if (Platform.OS === 'android') {
-                if (this.marker) {
-                    this.marker._component.animateMarkerToCoordinate(
-                        nextProps.results.location,
-                        duration
-                    );
-                }
-            } else {
-                this.state.results.location.timing({
-                    ...nextProps.results.location,
-                    duration
-                }).start();
-            }
-        }
+    renderMarkers(results) {
+        return results.map(result => {
+            return (
+                <Marker
+                    key={result.title}
+                    identifier={result.title}
+                    ref={marker => { this.marker = marker }}
+                    coordinate={{
+                        latitude: result.location.lat,
+                        longitude: result.location.long,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421
+                    }}>
+                    <Image
+                        source={require('../assets/icons/icons8-marker-64.png')}
+                        style={styles.dropPinIcon} />
+                    <Callout
+                        onPress={()=>{this.triggerCallback(result)}}
+                        tooltip={false}>
+                            <View style={styles.searchItemContainer}>
+                                <Image source={{ uri: result.profilePic }} style={styles.profilePic} />
+                                <View style={styles.resultContainer}>
+                                    <Text style={styles.resultTitle}>
+                                        {result.title}
+                                    </Text>
+                                    <View style={styles.resultDescriptions}>
+                                        <Text style={{ fontSize: 12, color: Colors.primary, marginRight: 5 }}> {result.user} </Text>
+                                        <Text style={{ fontSize: 12, color: Colors.primary }}> {result.rating} </Text>
+                                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24-aqua.png')} />
+                                        <Text style={{ fontSize: 12, color: Colors.primary }}> {result.reviews.length} </Text>
+                                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-chat-24-aqua.png')} />
+                                    </View>
+                                    <View style={styles.resultDescriptions}>
+                                        <Text style={{ fontSize: 10, color: Colors.placeholder }}> {result.price}</Text>
+                                        <Text style={{ fontSize: 4, color: Colors.placeholder }}> {'  \u2B24'} </Text>
+                                        <Text style={{ fontSize: 10, color: Colors.placeholder }}> {result.region}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                    </Callout>
+                </Marker>
+            )
+        })
     }
 
     render() {
-        const { navigation, location, results } = this.props;
+        const { location, results } = this.props;
 
         return (
             <View style={styles.container}>
@@ -56,6 +76,7 @@ class MapScreen extends React.Component {
                     moveOnMarkerPress
                     style={styles.mapStyle}
                     customMapStyle={mapStyle}
+                    ref={ref => { this.map = ref; }}
                     initialRegion={{
                         latitude: location.lat,
                         longitude: location.long,
@@ -64,20 +85,7 @@ class MapScreen extends React.Component {
                     }}
                     provider='google'
                     showsCompass={false}>
-                    {results.map(result => (
-                        <MapView.Marker.Animated
-                            key={result.title}
-                            ref={marker => { this.marker = marker }}
-                            coordinate={{
-                                latitude: result.location.lat,
-                                longitude: result.location.long,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421
-                            }}
-                            title={result.title}
-                            image={{ uri: require('../assets/icons/icons8-marker-64.png') }}>
-                        </MapView.Marker.Animated>
-                    ))}
+                    {this.renderMarkers(results)}
                 </MapView>
             </View>
         )
@@ -85,7 +93,7 @@ class MapScreen extends React.Component {
 }
 
 MapScreen.propTypes = {
-    results: PropTypes.object
+    results: PropTypes.array
 }
 
 const mapStyle = [
@@ -171,6 +179,53 @@ const styles = StyleSheet.create({
     mapStyle: {
         width: width,
         height: height
+    },
+    dropPinIcon: {
+        width: 30,
+        height: 40
+    },
+    searchItemContainer: {
+        width: 250,
+        flex: 1,
+        padding: 10,
+        backgroundColor: Colors.white,
+        borderRadius: 4,
+        flexDirection: "row",
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    resultContainer: {
+        padding: 10,
+        width: 160,
+    },
+    resultTitle: {
+        fontSize: 14,
+        fontWeight: "700",
+        marginLeft: 2,
+        flexWrap: "wrap",
+    },
+    resultDescriptions: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexWrap: "wrap",
+    },
+    profilePic: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderColor: Colors.white,
+        marginLeft: 10
+    },
+    ratingIcon: {
+        width: 12,
+        height: 12,
+    },
+    reviewIcon: {
+        width: 15,
+        height: 15,
+        marginTop: 3
     },
 });
 

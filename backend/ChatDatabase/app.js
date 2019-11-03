@@ -21,6 +21,8 @@ const server = http.createServer(app);
 const io = socketIo(server); // < Interesting!
 
 
+console.log("hi there homie");
+
 io.on("connection", socket => {
     console.log("New client connected");
     socket.emit("message", "hi my name is jeff");
@@ -30,7 +32,7 @@ io.on("connection", socket => {
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
 
-
+console.log("yo whatsup man end");
 
 
 // //database connection

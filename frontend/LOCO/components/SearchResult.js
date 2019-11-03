@@ -15,7 +15,7 @@ class SearchResult extends React.Component {
         const imgContainer = [styles.imageContainer, styles.shadow];
         const tags = item.tags.map(tag => {
             return (
-                <View style={styles.tag}>
+                <View key={tag} style={styles.tag}>
                     <Text style={{ fontSize: 10, color: Colors.primary }}> #{tag} </Text>
                 </View>
             )
