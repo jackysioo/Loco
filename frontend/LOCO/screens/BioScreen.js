@@ -232,20 +232,6 @@ class BioScreen extends React.Component {
                                         {this.props.navigation.state.params.reviews}
                                     </ScrollView>
                                 </View>
-                                <View style={styles.reviews}>
-                                    <HeadingText1 style={{
-                                        marginTop: 10, marginBottom: 3,
-                                        color: Colors.placeholder
-                                    }}>Y O U R  A P P O I N T M E N T S</HeadingText1>
-                                    <ScrollView horizontal={true}
-                                        decelerationRate={0}
-                                        snapToInterval={10}
-                                        snapToAlignment={"center"}
-                                        showsHorizontalScrollIndicator={false}
-                                        style={styles.itemContainer}>
-                                        {this.props.navigation.state.params.appointments}
-                                    </ScrollView>
-                                </View>
                             </View>
                         </ScrollView>
                     </ImageBackground>

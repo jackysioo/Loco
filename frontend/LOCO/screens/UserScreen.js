@@ -63,6 +63,10 @@ class UserScreen extends React.Component {
             if (appointment.type === "client") {
                 return (
                     <View style={styles.userContainer}>
+                        <TouchableOpacity style={styles.rating}>
+                            <HeadingText2 style={styles.cancel}> Cancel </HeadingText2>
+                            <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-cancel-64.png')} />
+                        </TouchableOpacity>
                         <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
                         <View style={{ margin: 15 }}>
                             <View style={styles.review}>
@@ -84,6 +88,10 @@ class UserScreen extends React.Component {
             } else {
                 return (
                     <View style={styles.userContainer}>
+                        <TouchableOpacity style={styles.rating}>
+                            <HeadingText2 style={styles.cancel}> Cancel </HeadingText2>
+                            <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-cancel-64.png')} />
+                        </TouchableOpacity>
                         <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
                         <View style={{ margin: 15 }}>
                             <View style={styles.review}>
@@ -133,7 +141,7 @@ class UserScreen extends React.Component {
                                 </View>
                                 <View style={styles.editProfile}>
                                     <TouchableOpacity onPress={() => navigation.navigate('Bio',
-                                        { reviews: reviews , appointments: appointments , services: services})}>
+                                        { reviews: reviews, appointments: appointments, services: services })}>
                                         <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
@@ -402,6 +410,13 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         marginTop: -7,
         paddingBottom: 5,
+    },
+    cancel: {
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 0.7,
+        color: '#ffc4c4'
     }
 });
 
