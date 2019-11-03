@@ -1,4 +1,4 @@
-// In appointments, type: client is for appointments that other used booked the current user for, type: user is for appointments the current user booked to recieve 
+// In appointments, 'type: client' is for appointments that other used booked the current user for, 'type: user' is for appointments the current user booked 
 export default
   {
     username: "tanya_cooper123",
@@ -31,6 +31,48 @@ export default
       review: "The price is slightly pricey, but worth it for the experience",
       rating: 3.5,
       image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+    }, {
+      title: "Great food!",
+      date: "Jan 23, 2019",
+      review: "This experience was incredible! They were so friendly and welcoming.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+    }, {
+      title: "Great food!",
+      date: "Jan 23, 2019",
+      review: "This experience was incredible! They were so friendly and welcoming.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+    }, {
+      title: "Great food!",
+      date: "Jan 23, 2019",
+      review: "This experience was incredible! They were so friendly and welcoming.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+    }, {
+      title: "Great food!",
+      date: "Jan 23, 2019",
+      review: "This experience was incredible! They were so friendly and welcoming.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+    }, {
+      title: "Great food!",
+      date: "Jan 23, 2019",
+      review: "This experience was incredible! They were so friendly and welcoming.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+    }, {
+      title: "Great food!",
+      date: "Jan 23, 2019",
+      review: "This experience was incredible! They were so friendly and welcoming.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+    }, {
+      title: "Great food!",
+      date: "Jan 23, 2019",
+      review: "This experience was incredible! They were so friendly and welcoming.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
     }],
     services: [{
       title: "Hard Gel Manicure",

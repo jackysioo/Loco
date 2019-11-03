@@ -104,6 +104,17 @@ class UserScreen extends React.Component {
         })
 
         const { navigation } = this.props;
+
+        // only display 6 or less reviews/appointments on userScreen
+        var displayReviews = reviews;
+        var displayAppointments = appointments;
+        if (reviews.length > 6) {
+            displayReviews = displayReviews.slice(0, 6);
+        }
+        if (appointments.length > 6) {
+            displayAppointments = displayAppointments.slice(0, 6);
+        }
+
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -112,7 +123,8 @@ class UserScreen extends React.Component {
                         style={styles.profileContainer}
                         imageStyle={styles.profileBackground}>
                         <ScrollView
-                            showsVerticalScrollIndicator={false}>
+                            showsVerticalScrollIndicator={false}
+                            style={{ marginTop: '5%' }}>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
                                     <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
@@ -123,12 +135,10 @@ class UserScreen extends React.Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.resultDescription}>
-                                    <View style={styles.following}>
-                                        <TouchableOpacity onPress={() => navigation.navigate('Following')}>
-                                            <HeadingText1 style={{ color: Colors.primary }}> {user.following} </HeadingText1>
-                                            <HeadingText2 style={{ color: Colors.primary }}> Following </HeadingText2>
-                                        </TouchableOpacity>
-                                    </View>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Following')} style={styles.following}>
+                                        <HeadingText1 style={{ color: Colors.primary }}> {user.following} </HeadingText1>
+                                        <HeadingText2 style={{ color: Colors.primary }}> Following </HeadingText2>
+                                    </TouchableOpacity>
                                     <View style={styles.reviewNum}>
                                         <HeadingText1 style={{ color: Colors.primary }}> {user.reviews.length} </HeadingText1>
                                         <HeadingText2 style={{ color: Colors.primary }}> Reviews </HeadingText2>
@@ -165,7 +175,7 @@ class UserScreen extends React.Component {
                                     <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  S E R V I C E S</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
-                                        snapToInterval={30}
+                                        snapToInterval={10}
                                         snapToAlignment={"center"}
                                         showsHorizontalScrollIndicator={false}
                                         style={styles.itemContainer}>
@@ -176,28 +186,28 @@ class UserScreen extends React.Component {
                                     <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  R E V I E W S</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
-                                        snapToInterval={30}
+                                        snapToInterval={10}
                                         snapToAlignment={"center"}
                                         showsHorizontalScrollIndicator={false}
                                         style={styles.itemContainer}>
-                                        {reviews}
+                                        {displayReviews}
                                     </ScrollView>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Reviews')}>
-                                        <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Reviews', {reviews: reviews})} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
+                                        <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{ marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  A P P O I N T M E N T S</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
-                                        snapToInterval={30}
+                                        snapToInterval={10}
                                         snapToAlignment={"center"}
                                         showsHorizontalScrollIndicator={false}
                                         style={styles.itemContainer}>
-                                        {appointments}
+                                        {displayAppointments}
                                     </ScrollView>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments')}>
-                                        <ParagraphText1 style={styles.viewAll}> View All </ParagraphText1>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', {appointments: appointments})} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
+                                        <ParagraphText1 style={styles.viewAll}> View All ({appointments.length}) </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -219,7 +229,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0)'
+        backgroundColor: 'rgba(0,0,0,0)',
     },
     profileBackground: {
         height: height / 2,
@@ -373,7 +383,6 @@ const styles = StyleSheet.create({
     viewAll: {
         color: Colors.primary,
         marginTop: -7,
-        marginLeft: width / 1.4,
         paddingBottom: 5,
     }
 });
