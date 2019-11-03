@@ -45,14 +45,14 @@ class BusinessScreen extends React.Component {
 
         const tags = this.props.navigation.state.params.item.tags.map(tag => {
             return (
-                <View style={styles.tag}>
+                <View key={tag} style={styles.tag}>
                     <Text style={{ fontSize: 10, color: Colors.primary }}> #{tag} </Text>
                 </View>
             )
         })
         const reviews = this.props.navigation.state.params.item.reviews.map(review => {
             return (
-                <View style={styles.reviewContainer}>
+                <View key={review.title} style={styles.reviewContainer}>
                     <View style={styles.rating}>
                         <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
                         <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
