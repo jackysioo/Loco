@@ -50,7 +50,7 @@ class HomeScreen extends React.Component {
     };
 
     cancelSearch = () => {
-        this.setState({  });
+        this.setState({});
         this.searchBar.clear();
         this.searchBar.blur();
     }
@@ -60,7 +60,7 @@ class HomeScreen extends React.Component {
     }
 
     resetSearch = () => {
-        this.setState({ 
+        this.setState({
             search: '',
             location: '',
             searchResults: [],
@@ -88,27 +88,44 @@ class HomeScreen extends React.Component {
         //             searchResults: data.Business    //REAL DATA
         //         })
         //         this.renderSearchResults();
-        //         console.log(data)
         //     })
         //     .catch(error => console.log(error))
 
     }
 
-    setMapVisible(visible) {
-        this.setState({ mapVisible: visible });
+    searchCategory(category) {
+        this.setState({
+            loadSearchResults: true,
+            searchResults: businesses    // TEST DATA
+        })
+        // fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + this.state.category)
+        //     .then(response => response.json())
+        //     .then((data) => {
+        //         this.setState({
+        //             isSearchActive: false,
+        //             loadSearchResults: true,
+        //             searchResults: data.Business    //REAL DATA
+        //         })
+        //         this.renderSearchResults();
+        //     })
+        //     .catch(error => console.log(error))
+
     }
 
     renderCategories() {
         return Images.CategoryIcons.map(categoryIcon => {
             return (
-                <View key={categoryIcon.name} style={styles.categoryItemView}>
+                <TouchableOpacity
+                    key={categoryIcon.name}
+                    style={styles.categoryItemView}
+                    onPress={() => { this.searchCategory(categoryIcon.name) }}>
                     <Image
                         source={categoryIcon.uri}
                         style={styles.categoryItem} />
                     <Text style={{ fontSize: 12 }}>
                         {categoryIcon.name}
                     </Text>
-                </View>
+                </TouchableOpacity>
             )
         });
     }
@@ -244,6 +261,11 @@ class HomeScreen extends React.Component {
         });
     }
 
+
+    setMapVisible(visible) {
+        this.setState({ mapVisible: visible });
+    }
+
     renderMapButton() {
         return (
             <TouchableOpacity
@@ -257,6 +279,14 @@ class HomeScreen extends React.Component {
             </TouchableOpacity>
         )
     }
+
+
+    mapItem = (item) => {
+        const { navigation } = this.props
+        this.setMapVisible(false);
+        navigation.navigate('Business', { item: item })
+    }
+
 
     renderMapView() {
         return (
@@ -275,7 +305,7 @@ class HomeScreen extends React.Component {
                             source={require('../assets/icons/icons8-cancel-64.png')}
                         />
                     </TouchableOpacity>
-                    <MapScreen location={this.state.searchLocation} results={this.state.searchResults} />
+                    <MapScreen item={this.mapItem} location={this.state.searchLocation} results={this.state.searchResults} />
                 </View>
             </Modal>
         )

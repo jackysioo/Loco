@@ -4,7 +4,7 @@ import { withNavigation } from 'react-navigation';
 import {
     Image,
     Platform,
-    TouchableWithoutFeedback,
+    TouchableOpacity,
     StyleSheet,
     Text,
     Dimensions,
@@ -18,6 +18,9 @@ const { width, height } = Dimensions.get("screen");
 
 class MapScreen extends React.Component {
 
+    triggerCallback(result) {
+        this.props.item(result)
+    }
 
     renderMarkers(results) {
         return results.map(result => {
@@ -26,7 +29,6 @@ class MapScreen extends React.Component {
                     key={result.title}
                     identifier={result.title}
                     ref={marker => { this.marker = marker }}
-                    onCalloutPress={() => {}}
                     coordinate={{
                         latitude: result.location.lat,
                         longitude: result.location.long,
@@ -37,27 +39,28 @@ class MapScreen extends React.Component {
                         source={require('../assets/icons/icons8-marker-64.png')}
                         style={styles.dropPinIcon} />
                     <Callout
-                        tooltip={true}>
-                        <View style={styles.searchItemContainer}>
-                            <Image source={{ uri: result.profilePic }} style={styles.profilePic} />
-                            <View style={styles.resultContainer}>
-                                <Text style={styles.resultTitle}>
-                                    {result.title}
-                                </Text>
-                                <View style={styles.resultDescriptions}>
-                                    <Text style={{ fontSize: 12, color: Colors.primary, marginRight: 5 }}> {result.user} </Text>
-                                    <Text style={{ fontSize: 12, color: Colors.primary }}> {result.rating} </Text>
-                                    <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24-aqua.png')} />
-                                    <Text style={{ fontSize: 12, color: Colors.primary }}> {result.reviews.length} </Text>
-                                    <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-chat-24-aqua.png')} />
-                                </View>
-                                <View style={styles.resultDescriptions}>
-                                    <Text style={{ fontSize: 10, color: Colors.placeholder }}> {result.price}</Text>
-                                    <Text style={{ fontSize: 4, color: Colors.placeholder }}> {'  \u2B24'} </Text>
-                                    <Text style={{ fontSize: 10, color: Colors.placeholder }}> {result.region}</Text>
+                        onPress={()=>{this.triggerCallback(result)}}
+                        tooltip={false}>
+                            <View style={styles.searchItemContainer}>
+                                <Image source={{ uri: result.profilePic }} style={styles.profilePic} />
+                                <View style={styles.resultContainer}>
+                                    <Text style={styles.resultTitle}>
+                                        {result.title}
+                                    </Text>
+                                    <View style={styles.resultDescriptions}>
+                                        <Text style={{ fontSize: 12, color: Colors.primary, marginRight: 5 }}> {result.user} </Text>
+                                        <Text style={{ fontSize: 12, color: Colors.primary }}> {result.rating} </Text>
+                                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24-aqua.png')} />
+                                        <Text style={{ fontSize: 12, color: Colors.primary }}> {result.reviews.length} </Text>
+                                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-chat-24-aqua.png')} />
+                                    </View>
+                                    <View style={styles.resultDescriptions}>
+                                        <Text style={{ fontSize: 10, color: Colors.placeholder }}> {result.price}</Text>
+                                        <Text style={{ fontSize: 4, color: Colors.placeholder }}> {'  \u2B24'} </Text>
+                                        <Text style={{ fontSize: 10, color: Colors.placeholder }}> {result.region}</Text>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
                     </Callout>
                 </Marker>
             )
@@ -84,14 +87,13 @@ class MapScreen extends React.Component {
                     showsCompass={false}>
                     {this.renderMarkers(results)}
                 </MapView>
-
             </View>
         )
     }
 }
 
 MapScreen.propTypes = {
-    results: PropTypes.object
+    results: PropTypes.array
 }
 
 const mapStyle = [
