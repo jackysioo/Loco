@@ -22,7 +22,8 @@ const userSchema = new Schema({
     title: String,
     rating: Number,
     image: String
-  }]
+  }], 
+  searchId: String
 }); 
 
 module.exports = mongoose.model('User',userSchema);
