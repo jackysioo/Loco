@@ -19,13 +19,12 @@ import {
 } from 'react-native';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { Card } from '../components';
-import { Images, Colors } from "../constants";
+import { Images, Colors, SortBy } from "../constants";
 import businesses from '../constants/businesses';
 import MapScreen from "./MapScreen";
 import FilterScreen from "./FilterScreen";
 import SortByScreen from "./SortByScreen";
 import SearchResult from "../components/SearchResult";
-import SortBy from "../constants/SortBy";
 
 const { width, height } = Dimensions.get('screen');
 const carouselWidth = width / 5;
@@ -74,7 +73,7 @@ class HomeScreen extends React.Component {
             location: '',
             searchLocation: {},
             filters: {},
-            sort: '',
+            sort: SortBy.recommended,
             searchResults: [],
             isFilterScreenVisible: false,
             isSortVisible: false,
@@ -273,12 +272,12 @@ class HomeScreen extends React.Component {
         });
     }
 
-    updateFilters = filters => {
+    updateFilters = (filters) => {
         this.setState({ filters: filters});
     };
 
-    updateSort = sort => {
-        this.setState({ sort: sort, isSortVisible: false });
+    updateSort = (sort) => {
+        this.setState({ sort: sort});
     };
 
     isFilterScreenVisible = () => {
@@ -304,8 +303,8 @@ class HomeScreen extends React.Component {
                     </TouchableOpacity>
                 </View>
 
-                {this.state.isFilterScreenVisible && <FilterScreen visible={this.isFilterScreenVisible} filters={this.updateFilters} />}
-                {this.state.isSortVisible && <SortByScreen visible={this.isSortVisible} sort={this.updateSort} />}
+                {this.state.isFilterScreenVisible && <FilterScreen visible={this.isFilterScreenVisible} filters={this.state.filters} updateFilters={this.updateFilters}/>}
+                {this.state.isSortVisible && <SortByScreen visible={this.isSortVisible} sort={this.state.sort} updateSort={this.updateSort} />}
 
             </View>
         )
