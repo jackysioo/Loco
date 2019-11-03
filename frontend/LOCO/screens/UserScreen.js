@@ -59,70 +59,12 @@ class UserScreen extends React.Component {
             )
         })
 
-        const appointments = user.appointments.map(appointment => {
-            if (appointment.type === "client") {
-                return (
-                    <View style={styles.userContainer}>
-                        <TouchableOpacity style={styles.rating}>
-                            <HeadingText2 style={styles.cancel}> Cancel </HeadingText2>
-                            <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-cancel-64.png')} />
-                        </TouchableOpacity>
-                        <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
-                        <View style={{ margin: 15 }}>
-                            <View style={styles.review}>
-                                <HeadingText1 style={{ color: Colors.primary }}>{appointment.fullName} </HeadingText1>
-                                <ParagraphText2 style={{ color: Colors.placeholder }}>BOOKED YOU</ParagraphText2>
-                            </View>
-                            <View style={styles.review}>
-                                <HeadingText2 style={{ color: Colors.placeholder }}>SERVICE: </HeadingText2>
-                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.service}</ParagraphText2>
-                            </View>
-                            <View style={styles.review}>
-                                <HeadingText2 style={{ color: Colors.placeholder }}>DATE: </HeadingText2>
-                                <ParagraphText2
-                                    style={{ color: Colors.primary }}>{appointment.date} ➔ {appointment.time}</ParagraphText2>
-                            </View>
-                        </View>
-                    </View>
-                )
-            } else {
-                return (
-                    <View style={styles.userContainer}>
-                        <TouchableOpacity style={styles.rating}>
-                            <HeadingText2 style={styles.cancel}> Cancel </HeadingText2>
-                            <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-cancel-64.png')} />
-                        </TouchableOpacity>
-                        <Image source={{ uri: appointment.image }} style={styles.reviewImage}></Image>
-                        <View style={{ margin: 15 }}>
-                            <View style={styles.review}>
-                                <ParagraphText2 style={{ color: Colors.placeholder }}>YOU BOOKED </ParagraphText2>
-                                <HeadingText1 style={{ color: Colors.primary }}>{appointment.fullName}</HeadingText1>
-                            </View>
-                            <View style={styles.review}>
-                                <HeadingText2 style={{ color: Colors.placeholder }}>SERVICE: </HeadingText2>
-                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.service}</ParagraphText2>
-                            </View>
-                            <View style={styles.review}>
-                                <HeadingText2 style={{ color: Colors.placeholder }}>DATE: </HeadingText2>
-                                <ParagraphText2
-                                    style={{ color: Colors.primary }}>{appointment.date} ➔ {appointment.time}</ParagraphText2>
-                            </View>
-                        </View>
-                    </View>
-                )
-            }
-        })
-
         const { navigation } = this.props;
 
         // only display 6 or less reviews/appointments on userScreen
         var displayReviews = reviews;
-        var displayAppointments = appointments;
         if (reviews.length > 6) {
             displayReviews = displayReviews.slice(0, 6);
-        }
-        if (appointments.length > 6) {
-            displayAppointments = displayAppointments.slice(0, 6);
         }
 
         return (
@@ -215,24 +157,6 @@ class UserScreen extends React.Component {
                                     <TouchableOpacity onPress={() => navigation.navigate('Reviews',
                                         { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
                                         <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={styles.reviews}>
-                                    <HeadingText1 style={{
-                                        marginTop: 10, marginBottom: 3,
-                                        color: Colors.placeholder
-                                    }}>Y O U R  A P P O I N T M E N T S</HeadingText1>
-                                    <ScrollView horizontal={true}
-                                        decelerationRate={0}
-                                        snapToInterval={10}
-                                        snapToAlignment={"center"}
-                                        showsHorizontalScrollIndicator={false}
-                                        style={styles.itemContainer}>
-                                        {displayAppointments}
-                                    </ScrollView>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments',
-                                        { appointments: appointments })} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
-                                        <ParagraphText1 style={styles.viewAll}> View All ({appointments.length}) </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -416,7 +340,7 @@ const styles = StyleSheet.create({
         shadowRadius: 1,
         shadowOpacity: 0.7,
         color: '#ffc4c4'
-    }
+    },
 });
 
 export default withNavigationFocus(UserScreen);
