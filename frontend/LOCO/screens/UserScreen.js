@@ -145,7 +145,10 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.info}>
-                                    <HeadingText1 style={{ alignSelf: 'center', marginTop: 10, marginBottom: 3, color: Colors.placeholder }}>Y O U R  I N F O R M A T I O N</HeadingText1>
+                                    <HeadingText1 style={{
+                                        alignSelf: 'center', marginTop: 10,
+                                        marginBottom: 8, color: Colors.placeholder
+                                    }}>Y O U R  I N F O R M A T I O N</HeadingText1>
                                     <View style={{ justifyContent: 'space-between' }}>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 140 }}>Username:</HeadingText1>
@@ -192,7 +195,7 @@ class UserScreen extends React.Component {
                                         style={styles.itemContainer}>
                                         {displayReviews}
                                     </ScrollView>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Reviews', {reviews: reviews})} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Reviews', { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
                                         <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
@@ -206,7 +209,7 @@ class UserScreen extends React.Component {
                                         style={styles.itemContainer}>
                                         {displayAppointments}
                                     </ScrollView>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', {appointments: appointments})} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', { appointments: appointments })} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
                                         <ParagraphText1 style={styles.viewAll}> View All ({appointments.length}) </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>

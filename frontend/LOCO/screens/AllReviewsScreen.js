@@ -63,8 +63,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0)',
     },
     background: {
-        marginTop: -30,
-        height: height,
+        height: height / 2,
         width: width
     },
     reviewContainer: {
