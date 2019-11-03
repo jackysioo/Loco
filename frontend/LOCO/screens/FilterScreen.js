@@ -19,11 +19,11 @@ const { width, height } = Dimensions.get("screen");
 class FilterScreen extends React.Component {
     state = {
         modalVisible: true,
-        filters: {}
+        filters: this.props.filters
     }
 
     closeModal = () => {
-        this.props.filters(this.state.filters)
+        this.props.updateFilters(this.state.filters)
         this.setState({modalVisible: false})
         this.props.visible(false)
     }
@@ -37,13 +37,11 @@ class FilterScreen extends React.Component {
                 visible={this.state.modalVisible}>
                 <View 
                 style={styles.modal}>
-                    <TouchableOpacity
-                        style={styles.closeMapButtonContainer}
-                        onPress={this.closeModal}>
-                        <Image
-                            style={styles.mapButton}
-                            source={require('../assets/icons/icons8-cancel-64.png')} />
-                    </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={this.closeModal}
+                    style={{position: "absolute", top:0, left:0,padding: 20}}>
+                    <Text style={{fontSize: 18,color: Colors.placeholder}}>X</Text>
+                </TouchableOpacity>
                 </View>
             </Modal>
         );
@@ -64,11 +62,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 300,
     },
-    mapButton: {
-        margin: 10,
-        width: 35,
-        height: 35
-    }
+    close: {
+    },
 })
 
 export default withNavigation(FilterScreen);
