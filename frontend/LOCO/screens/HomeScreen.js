@@ -18,16 +18,14 @@ import {
     Modal
 } from 'react-native';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
-import { Card } from '../components';
 import { Images, Colors, SortBy } from "../constants";
 import businesses from '../constants/businesses';
 import MapScreen from "./MapScreen";
-import FilterScreen from "./FilterScreen";
-import SortByScreen from "./SortByScreen";
-import SearchResult from "../components/SearchResult";
+import SearchResultScreen from "./SearchResultScreen";
+import { Card } from '../components';
+import MapButton from "../components/MapButton";
 
 const { width, height } = Dimensions.get('screen');
-const carouselWidth = width / 5;
 
 class HomeScreen extends React.Component {
     state = {
@@ -40,18 +38,16 @@ class HomeScreen extends React.Component {
         filters: {},
         sort: SortBy.recommended,
         searchResults: [],
-        isFilterScreenVisible: false,
-        isSortVisible: false,
         isSearchActive: false,
         loadSearchResults: false,
         mapVisible: false
     };
 
-    updateSearch = search => {
+    updateSearch = (search) => {
         this.setState({ search });
     };
 
-    updateLocation = location => {
+    updateLocation = (location) => {
         this.setState({ location });
     };
 
@@ -65,24 +61,6 @@ class HomeScreen extends React.Component {
 
     triggerSearch = () => {
         this.setState({ isSearchActive: true });
-    }
-
-    resetSearch = () => {
-        this.setState({
-            search: '',
-            location: '',
-            searchLocation: {},
-            filters: {},
-            sort: SortBy.recommended,
-            searchResults: [],
-            isFilterScreenVisible: false,
-            isSortVisible: false,
-            isSearchActive: false,
-            loadSearchResults: false,
-            mapVisible: false,
-        });
-        this.searchBar.clear();
-        this.searchBar.blur();
     }
 
     search = () => {
@@ -100,7 +78,6 @@ class HomeScreen extends React.Component {
         //             loadSearchResults: true,
         //             searchResults: data.Business    //REAL DATA
         //         })
-        //         this.renderSearchResults();
         //     })
         //     .catch(error => console.log(error))
 
@@ -108,6 +85,7 @@ class HomeScreen extends React.Component {
 
     searchCategory(category) {
         this.setState({
+            isSearchActive: false,
             loadSearchResults: true,
             searchResults: businesses    // TEST DATA
         })
@@ -119,10 +97,27 @@ class HomeScreen extends React.Component {
         //             loadSearchResults: true,
         //             searchResults: data.Business    //REAL DATA
         //         })
-        //         this.renderSearchResults();
         //     })
         //     .catch(error => console.log(error))
 
+    }
+
+
+
+    resetSearch = () => {
+        this.setState({
+            search: '',
+            location: '',
+            searchLocation: {},
+            filters: {},
+            sort: SortBy.recommended,
+            searchResults: [],
+            isSearchActive: false,
+            loadSearchResults: false,
+            mapVisible: false,
+        });
+        this.searchBar.clear();
+        this.searchBar.blur();
     }
 
     renderCategories() {
@@ -142,6 +137,7 @@ class HomeScreen extends React.Component {
             )
         });
     }
+
 
     renderRecommendations() {
         return (
@@ -247,117 +243,14 @@ class HomeScreen extends React.Component {
     }
 
 
-    renderSearchResults() {
-        return (
-            <ScrollView ref="scrollView"
-                showsVerticalScrollIndicator={false}
-                style={styles.ScrollContainer}
-                contentContainerStyle={styles.contentContainer}>
-                {this.renderFilters()}
-                <HeadingText1 style={{ marginHorizontal: 20, fontSize: 24 }}>
-                    Search Results
-                    </HeadingText1>
-                {this.renderSearchResultsItems()}
-            </ScrollView>
-        )
-    }
-
-    renderSearchResultsItems() {
-        return this.state.searchResults.map((result) => {
-            return (
-                <View key={result.title} style={styles.recommendationContainer}>
-                    <SearchResult item={result} />
-                </View>
-            )
-        });
-    }
-
-    updateFilters = (filters) => {
-        this.setState({ filters: filters});
-    };
-
-    updateSort = (sort) => {
-        this.setState({ sort: sort});
-    };
-
-    isFilterScreenVisible = () => {
-        this.setState({ isFilterScreenVisible: false });
-    }
-
-    isSortVisible = () => {
-        this.setState({ isSortVisible: false });
-    }
-
-    renderFilters() {
-        return (
-            <View style={styles.filterContainer}>
-                <TouchableOpacity style={{ paddingVertical: 5 }} onPress={this.resetSearch}>
-                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
-                </TouchableOpacity>
-                <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
-                    <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isFilterScreenVisible: true})}}>
-                        <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Filters</HeadingText2>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isSortVisible: true})}}>
-                        <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Sort By</HeadingText2>
-                    </TouchableOpacity>
-                </View>
-
-                {this.state.isFilterScreenVisible && <FilterScreen visible={this.isFilterScreenVisible} filters={this.state.filters} updateFilters={this.updateFilters}/>}
-                {this.state.isSortVisible && <SortByScreen visible={this.isSortVisible} sort={this.state.sort} updateSort={this.updateSort} />}
-
-            </View>
-        )
-    }
-
-
-
-    setMapVisible(visible) {
+    setMapVisible = (visible) => {
         this.setState({ mapVisible: visible });
     }
-
-    renderMapButton() {
-        return (
-            <TouchableOpacity
-                style={styles.openMapButtonContainer}
-                onPress={() => {
-                    this.setMapVisible(true);
-                }}>
-                <Image
-                    style={styles.mapButton}
-                    source={require('../assets/icons/icons8-map-64.png')} />
-            </TouchableOpacity>
-        )
-    }
-
 
     mapItem = (item) => {
         const { navigation } = this.props
         this.setMapVisible(false);
         navigation.navigate('Business', { item: item })
-    }
-
-    renderMapView() {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.mapVisible}>
-                <View>
-                    <TouchableOpacity
-                        style={styles.closeMapButtonContainer}
-                        onPress={() => {
-                            this.setMapVisible(!this.state.mapVisible);
-                        }}>
-                        <Image
-                            style={styles.mapButton}
-                            source={require('../assets/icons/icons8-cancel-64.png')}
-                        />
-                    </TouchableOpacity>
-                    <MapScreen item={this.mapItem} location={this.state.searchLocation} results={this.state.searchResults} />
-                </View>
-            </Modal>
-        )
     }
 
     render() {
@@ -386,11 +279,31 @@ class HomeScreen extends React.Component {
                             onFocus={this.triggerSearch}
                             onSubmitEditing={this.search} />
                     </View>
+
                     {this.state.isSearchActive && this.renderSearchActive()}
+
+                    <MapButton visible={this.state.loadSearchResults} setMapVisible={this.setMapVisible} />
                     {!this.state.loadSearchResults && this.renderRecommendations()}
-                    {this.state.loadSearchResults && this.renderSearchResults()}
-                    {this.state.loadSearchResults && this.renderMapButton()}
-                    {this.state.mapVisible && this.renderMapView()}
+                    <SearchResultScreen resetSearch={this.resetSearch} loadSearchResults={this.state.loadSearchResults} searchResults={this.state.searchResults}  />
+                
+                
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={this.state.mapVisible}>
+                        <View>
+                            <TouchableOpacity
+                                style={styles.closeMapButtonContainer}
+                                onPress={() => {
+                                    this.setMapVisible(!this.state.mapVisible);
+                                }}>
+                                <Image
+                                    style={styles.mapButton}
+                                    source={require('../assets/icons/icons8-cancel-64.png')}/>
+                            </TouchableOpacity>
+                            <MapScreen item={this.mapItem} location={this.state.searchLocation} results={this.state.searchResults} />
+                        </View>
+                    </Modal>
 
                 </View>
             </SafeAreaView>
@@ -404,9 +317,6 @@ const styles = StyleSheet.create({
         width: width,
         backgroundColor: '#fff',
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
-    },
-    contentContainer: {
-        paddingVertical: 10,
     },
     searchContainer: {
         paddingLeft: 10,
@@ -447,23 +357,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         zIndex: 0
     },
-    categoryContainer: {
-        flex: 1,
-        padding: 5,
-        marginBottom: 10,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    categoryItemView: {
-        width: carouselWidth,
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    categoryItem: {
-        margin: 8,
+    mapButton: {
         width: 35,
         height: 35
     },
@@ -477,10 +371,23 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         flexDirection: 'row',
     },
-    resultsContainer: {
-        height: height - 100
+    categoryContainer: {
+        flex: 1,
+        padding: 5,
+        marginBottom: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    mapButton: {
+    categoryItemView: {
+        width: width/5,
+        margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    categoryItem: {
+        margin: 8,
         width: 35,
         height: 35
     },
@@ -497,35 +404,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.6,
         shadowRadius: 10,
-    },
-    openMapButtonContainer: {
-        position: "absolute",
-        bottom: 0,
-        right: 0,
-        margin: 20,
-        padding: 10,
-        borderRadius: 40,
-        zIndex: 10,
-        backgroundColor: Colors.white,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.5,
-        shadowRadius: 10,
-    },
-    filterContainer: {
-        flex: 1,
-        marginHorizontal: 20,
-        marginBottom: 15,
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
-    filter: {
-        paddingHorizontal: 15,
-        paddingVertical: 5,
-        marginHorizontal: 5,
-        borderColor: Colors.primary,
-        borderWidth: 1,
-        borderRadius: 20,
     },
     tabBarInfoContainer: {
         position: 'absolute',
