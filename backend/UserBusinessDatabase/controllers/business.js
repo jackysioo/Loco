@@ -5,10 +5,9 @@ const geolib = require('geolib');
 exports.getBusinessData = (req, res, next) => {
     if (req.query.title) {
         const userSearchDataSearch = Search.findById(req.query.userId);
-        escapeRegex(req.query.title);
-        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        const regex = new RegExp(''+escapeRegex(req.query.title), 'gi');
         Business.find({ title: regex })
-            .then(businesses => { 
+            .then((businesses) => { 
                 if (!businesses) {
                     const error = new Error('Could not find any Businesses');
                     error.statusCode = 404;
@@ -25,7 +24,7 @@ exports.getBusinessData = (req, res, next) => {
                     return businessScores;
                 });
                 businessScores.sort((a, b) => Number(b.score) - Number(a.score));
-                const result = businessScores.map(businessScore => {
+                const result = businessScores.map((businessScore) => {
                     return businessScore.business;
                 });
                 res.status(200).json({ Business: result })
@@ -76,7 +75,6 @@ exports.postBusinessData = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
             next(err);
         });
 }
