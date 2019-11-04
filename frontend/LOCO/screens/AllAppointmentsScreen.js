@@ -94,7 +94,7 @@ class AllAppointmentsScreen extends React.Component {
                                             marginTop: 30,
                                             marginBottom: 10,
                                             color: Colors.placeholder,
-                                        }}>A L L  Y O U R  A P P O I N T M E N T S</HeadingText1>
+                                        }}>Y O U R  A P P O I N T M E N T S</HeadingText1>
                                         {appointments}
                                     </View>
                                 </View>

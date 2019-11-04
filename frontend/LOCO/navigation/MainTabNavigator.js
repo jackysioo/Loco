@@ -6,7 +6,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UserScreen from '../screens/UserScreen';
-import MessageScreen from '../screens/MessageScreen';
 import BusinessScreen from '../screens/BusinessScreen';
 import BioScreen from '../screens/BioScreen';
 import AllReviewsScreen from '../screens/AllReviewsScreen';
@@ -80,28 +79,28 @@ UserStack.navigationOptions = {
 
 UserStack.path = '';
 
-const MessageStack = createStackNavigator(
+const AppointmentsStack = createStackNavigator(
   {
-    Message: MessageScreen,
+    Appointments: AllAppointmentsScreen,
   }, {
   headerMode: 'none',
 },
   config
 );
 
-MessageStack.navigationOptions = {
-  tabBarLabel: 'Message',
+AppointmentsStack.navigationOptions = {
+  tabBarLabel: 'Appointments',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
   ),
 };
 
-MessageStack.path = '';
+AppointmentsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
-  MessageStack,
+  AppointmentsStack,
 });
 
 tabNavigator.path = '';
