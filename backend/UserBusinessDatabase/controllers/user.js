@@ -156,7 +156,3 @@ exports.updateService = async (req, res, next) => {
 }
 
 
-<<<<<<< HEAD
-=======
-}
->>>>>>> bb9578efb7da821af396ab4e8a2d0329f316fd28
