@@ -141,6 +141,17 @@ class UserScreen extends React.Component {
                                 </View>
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{
+                                        marginTop: 15, marginBottom: 15,
+                                        color: Colors.placeholder
+                                    }}>A B O U T  M E</HeadingText1>
+                                    <View style={styles.bio}>
+                                        <ParagraphText1 style={{ margin: 20 }}>
+                                            {user.bio}
+                                        </ParagraphText1>
+                                    </View>
+                                </View>
+                                <View style={styles.reviews}>
+                                    <HeadingText1 style={{
                                         marginTop: 10, marginBottom: 3,
                                         color: Colors.placeholder
                                     }}>Y O U R  S E R V I C E S</HeadingText1>
@@ -353,6 +364,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.7,
         color: '#ffc4c4'
     },
+    bio: {
+        flex: 1,
+        width: width - 60,
+        borderWidth: 1,
+        borderColor: Colors.placeholder,
+        borderRadius: 20,
+        zIndex: 1,
+    }
 });
 
 export default withNavigationFocus(UserScreen);

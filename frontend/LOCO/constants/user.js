@@ -208,4 +208,5 @@ export default
         profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
       }
     ],
+    bio: "ღ✿ Tanya Cooper ✿ღ\n✨ Licensed Nail Tech ✨\n✨ Licensed Eyelash Extention Tech ✨\n📍 Vancouver\n\nAvailabilities for this week:\n  ~ Monday:\n    1:00pm - 3:00pm\n    4:00pm - 6:00pm\n  ~ Wednesday:\n    4:00pm - 6:00pm",
   };
