@@ -13,7 +13,7 @@ exports.getBusinessData = (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 }
-                const businessScores = businesses.map(business => {
+                const businessScores = businesses.map((business) => {
                     const score = Math.abs(userSearchDataSearch.distance -
                         geolib.getDistance({ latitude: req.query.lat, longitude: req.query.long }, { latitude: business.lat, longitude: business.long }))
                         + Math.abs(userSearchDataSearch.rating - business.rating)
@@ -124,7 +124,7 @@ exports.updateBusinessData = (req, res, next) => {
     const businessId = req.params.businessId;
 
     Business.findById(businessId)
-        .then(business => {
+        .then((business) => {
             if (!business) {
                 const error = new Error('Could not find Business');
                 error.statusCode = 404;
