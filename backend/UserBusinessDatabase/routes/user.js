@@ -6,7 +6,8 @@ router.get('/get', userController.getUserData);
 router.post('/post',userController.postUserData);
 router.get('/get/:userId',userController.getUserDataById); 
 router.put('/put/:userId',userController.updateUserData);  
-router.put('/putReviewService/:userId',userController.updateReviewService);
+router.put('/putReview/:userId',userController.updateReview); 
+router.put('/putService/:userId',userController.updateService); 
 router.delete('/delete/:userId',userController.deleteUser); 
 
 module.exports = router;
