@@ -28,7 +28,7 @@ class PopUpUI extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <NotificationPopup ref={ref => this.popup = ref} />
+                <NotificationPopup ref={(ref) => this.popup = ref} />
             </View>
         );
     }

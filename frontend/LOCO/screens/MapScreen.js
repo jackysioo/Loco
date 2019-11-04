@@ -28,7 +28,7 @@ class MapScreen extends React.Component {
                 <Marker
                     key={result.title}
                     identifier={result.title}
-                    ref={marker => { this.marker = marker }}
+                    ref={(marker) => { this.marker = marker }}
                     coordinate={{
                         latitude: result.location.lat,
                         longitude: result.location.long,
