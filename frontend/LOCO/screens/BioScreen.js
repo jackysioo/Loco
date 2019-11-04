@@ -33,6 +33,11 @@ class BioScreen extends React.Component {
         birthdayInput: user.birthday,
         phoneInput: user.phoneNumber,
         emailInput: user.email,
+        bioInput: user.bio,
+    };
+
+    updateBio = (bioInput) => {
+        this.setState({ bioInput });
     };
 
     updatePhone = (phoneInput) => {
@@ -86,6 +91,7 @@ class BioScreen extends React.Component {
         const { birthdayInput } = this.state;
         const { phoneInput } = this.state;
         const { emailInput } = this.state;
+        const { bioInput } = this.state;
 
         const services = user.services.map((service) => {
             return (
@@ -259,12 +265,38 @@ class BioScreen extends React.Component {
                                                 placeholder={user.email}
                                                 placeholderTextColor={Colors.placeholder} />
                                         </View>
+                                        <HeadingText1 style={{
+                                            alignSelf: 'center', marginBottom: 8, color: Colors.placeholder, marginTop: 30
+                                        }}>A B O U T  M E</HeadingText1>
+                                        <View style={styles.innerInfo}>
+                                            <TextInput
+                                                multiline={true}
+                                                style={{
+                                                    flex: 1,
+                                                    paddingHorizontal: 20,
+                                                    paddingTop: 20,
+                                                    paddingBottom: 20,
+                                                    textAlignVertical: 'top',
+                                                    width: width - 65,
+                                                    height: 400,
+                                                    borderWidth: 1,
+                                                    borderColor: Colors.placeholder,
+                                                    borderRadius: 20,
+                                                    zIndex: 1,
+                                                }}
+                                                onChangeText={this.updateBio}
+                                                inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                containerStyle={{ backgroundColor: '#ffffff' }}
+                                                inputStyle={{ fontSize: 13 }}
+                                                value={bioInput}
+                                                placeholder={user.bio}
+                                                placeholderTextColor={Colors.placeholder} />
+                                        </View>
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{
-                                        marginTop: 10, marginBottom: 3,
-                                        color: Colors.placeholder
+                                        marginBottom: 3, color: Colors.placeholder
                                     }}>Y O U R  S E R V I C E S</HeadingText1>
                                     {services}
                                 </View>
