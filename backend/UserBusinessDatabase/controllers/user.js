@@ -4,10 +4,10 @@ const Search = require('../models/search');
 
 exports.getUserData = (req, res, next) => {
     User.find()
-        .then(users => {
+        .then((users) => {
             res.status(200).json({ users: users })
         })
-        .catch(err => {
+        .catch((err) => {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
@@ -49,7 +49,7 @@ exports.postUserData = async (req, res, next) => {
 exports.getUserDataById = (req, res, next) => {
     const userId = req.params.userId;
     User.findById(userId)
-        .then(user => {
+        .then((user) => {
             if (!user) {
                 const error = new Error('Could not find user');
                 error.statusCode = 404;
@@ -57,7 +57,7 @@ exports.getUserDataById = (req, res, next) => {
             }
             res.status(200).json({ user: user })
         })
-        .catch(err => {
+        .catch((err) => {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
@@ -68,7 +68,7 @@ exports.getUserDataById = (req, res, next) => {
 exports.deleteUser = (req, res, next) => {
     const userId = req.params.userId;
     User.findById(userId)
-        .then(user => {
+        .then((user) => {
             if (!user) {
                 const error = new Error('Could not find user');
                 error.statusCode = 404;
@@ -76,10 +76,10 @@ exports.deleteUser = (req, res, next) => {
             }
             return User.findByIdAndDelete(userId);
         })
-        .then(result => {
+        .then((result) => {
             res.status(200).json({ message: 'deleted', user: result });
         })
-        .catch(err => {
+        .catch((err) => {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
@@ -156,3 +156,7 @@ exports.updateService = async (req, res, next) => {
 }
 
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> bb9578efb7da821af396ab4e8a2d0329f316fd28

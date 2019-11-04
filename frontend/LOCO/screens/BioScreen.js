@@ -23,14 +23,29 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 
 class BioScreen extends React.Component {
     state = {
-        usernameInput: '',
-        firstNameInput: '',
-        lastNameInput: '',
-        addressLineInput: '',
-        addressCityInput: '',
-        addressProvinceInput: '',
-        addressPostalCodeInput: '',
-        birthdayInput: '',
+        usernameInput: user.username,
+        firstNameInput: user.firstName,
+        lastNameInput: user.lastName,
+        addressLineInput: user.addressLine,
+        addressCityInput: user.addressCity,
+        addressProvinceInput: user.addressProvince,
+        addressPostalCodeInput: user.addressPostalCode,
+        birthdayInput: user.birthday,
+        phoneInput: user.phoneNumber,
+        emailInput: user.email,
+        bioInput: user.bio,
+    };
+
+    updateBio = (bioInput) => {
+        this.setState({ bioInput });
+    };
+
+    updatePhone = (phoneInput) => {
+        this.setState({ phoneInput });
+    };
+
+    updateEmail = (emailInput) => {
+        this.setState({ emailInput });
     };
 
     updateUsername = (usernameInput) => {
@@ -74,6 +89,9 @@ class BioScreen extends React.Component {
         const { addressProvinceInput } = this.state;
         const { addressPostalCodeInput } = this.state;
         const { birthdayInput } = this.state;
+        const { phoneInput } = this.state;
+        const { emailInput } = this.state;
+        const { bioInput } = this.state;
 
         const services = user.services.map((service) => {
             return (
@@ -109,7 +127,7 @@ class BioScreen extends React.Component {
                             <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
                                 <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.save}>
+                            <TouchableOpacity style={styles.save} onPress={() => this.props.navigation.goBack()}>
                                 <HeadingText1 style={{ color: Colors.white }}> Save Changes </HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
@@ -223,12 +241,61 @@ class BioScreen extends React.Component {
                                                 placeholder={user.birthday}
                                                 placeholderTextColor={Colors.placeholder} />
                                         </View>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ paddingRight: 20 }}>Phone:</HeadingText1>
+                                            <TextInput
+                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
+                                                onChangeText={this.updatePhone}
+                                                inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                containerStyle={{ backgroundColor: '#ffffff' }}
+                                                inputStyle={{ fontSize: 13 }}
+                                                value={phoneInput}
+                                                placeholder={user.phoneNumber}
+                                                placeholderTextColor={Colors.placeholder} />
+                                        </View>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ paddingRight: 20 }}>E-mail:</HeadingText1>
+                                            <TextInput
+                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
+                                                onChangeText={this.updateEmail}
+                                                inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                containerStyle={{ backgroundColor: '#ffffff' }}
+                                                inputStyle={{ fontSize: 13 }}
+                                                value={emailInput}
+                                                placeholder={user.email}
+                                                placeholderTextColor={Colors.placeholder} />
+                                        </View>
+                                        <HeadingText1 style={{
+                                            alignSelf: 'center', marginBottom: 8, color: Colors.placeholder, marginTop: 30
+                                        }}>A B O U T  M E</HeadingText1>
+                                        <View style={styles.innerInfo}>
+                                            <TextInput
+                                                multiline={true}
+                                                style={{
+                                                    flex: 1,
+                                                    paddingHorizontal: 20,
+                                                    paddingTop: 20,
+                                                    paddingBottom: 20,
+                                                    textAlignVertical: 'top',
+                                                    width: width - 65,
+                                                    borderWidth: 1,
+                                                    borderColor: Colors.placeholder,
+                                                    borderRadius: 20,
+                                                    zIndex: 1,
+                                                }}
+                                                onChangeText={this.updateBio}
+                                                inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                containerStyle={{ backgroundColor: '#ffffff' }}
+                                                inputStyle={{ fontSize: 13 }}
+                                                value={bioInput}
+                                                placeholder={user.bio}
+                                                placeholderTextColor={Colors.placeholder} />
+                                        </View>
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{
-                                        marginTop: 10, marginBottom: 3,
-                                        color: Colors.placeholder
+                                        marginBottom: 3, color: Colors.placeholder
                                     }}>Y O U R  S E R V I C E S</HeadingText1>
                                     {services}
                                 </View>

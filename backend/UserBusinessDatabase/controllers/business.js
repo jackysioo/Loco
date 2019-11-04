@@ -13,7 +13,7 @@ exports.getBusinessData = (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 }
-                const businessScores = businesses.map(business => {
+                const businessScores = businesses.map((business) => {
                     const score = Math.abs(userSearchDataSearch.distance -
                         geolib.getDistance({ latitude: req.query.lat, longitude: req.query.long }, { latitude: business.lat, longitude: business.long }))
                         + Math.abs(userSearchDataSearch.rating - business.rating)
@@ -29,7 +29,7 @@ exports.getBusinessData = (req, res, next) => {
                 });
                 res.status(200).json({ Business: result })
             })
-            .catch(err => {
+            .catch((err) => {
                 if (!err.statusCode) {
                     err.statusCode = 500;
                 }
@@ -38,10 +38,10 @@ exports.getBusinessData = (req, res, next) => {
     }
     else {
         Business.find()
-            .then(business => {
+            .then((business) => {
                 res.status(200).json({ Business: business })
             })
-            .catch(err => {
+            .catch((err) => {
                 if (!err.statusCode) {
                     err.statusCode = 500;
                 }
@@ -68,13 +68,13 @@ exports.postBusinessData = (req, res, next) => {
 
     business
         .save()
-        .then(result => {
+        .then((result) => {
             res.status(201).json({
                 message: 'add Business success',
                 Business: result
             });
         })
-        .catch(err => {
+        .catch((err) => {
             next(err);
         });
 }
@@ -90,7 +90,7 @@ exports.getBusinessDataById = (req, res, next) => {
             }
             res.status(200).json({ Business: business })
         })
-        .catch(err => {
+        .catch((err) => {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
@@ -101,7 +101,7 @@ exports.getBusinessDataById = (req, res, next) => {
 exports.deleteBusiness = (req, res, next) => {
     const businessId = req.params.businessId;
     Business.findById(businessId)
-        .then(business => {
+        .then((business) => {
             if (!business) {
                 const error = new Error('Could not find Business');
                 error.statusCode = 404;
@@ -109,10 +109,10 @@ exports.deleteBusiness = (req, res, next) => {
             }
             return Business.findByIdAndDelete(businessId);
         })
-        .then(result => {
+        .then((result) => {
             res.status(200).json({ message: 'deleted', Business: result });
         })
-        .catch(err => {
+        .catch((err) => {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
@@ -124,7 +124,7 @@ exports.updateBusinessData = (req, res, next) => {
     const businessId = req.params.businessId;
 
     Business.findById(businessId)
-        .then(business => {
+        .then((business) => {
             if (!business) {
                 const error = new Error('Could not find Business');
                 error.statusCode = 404;
@@ -144,10 +144,10 @@ exports.updateBusinessData = (req, res, next) => {
             return business.save();
 
         })
-        .then(result => {
+        .then((result) => {
             res.status(200).json({ message: 'updated', Business: result });
         })
-        .catch(err => {
+        .catch((err) => {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
