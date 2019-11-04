@@ -116,9 +116,9 @@ exports.updateReview = async (req, res, next) => {
         await review.set(req.body);
 
         const result = await user.save();
-        const review = result.reviews.find((review) => { return review._id === req.body._id });
+        
 
-        res.status(200).json({ message: 'updated', review: review });
+        res.status(200).json({ message: 'updated', review: result.reviews.find((review) => { return review._id === req.body._id })});
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -157,7 +157,7 @@ exports.updateService = async (req, res, next) => {
         await service.set(req.body);
 
         const result = await user.save();
-        const service = result.services.find((service) => { return service._id === req.body._id });
+        result.services.find((service) => { return service._id === req.body._id });
 
         res.status(200).json({ message: 'updated', service: service });
     } catch (err) {

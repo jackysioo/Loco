@@ -4,7 +4,8 @@ const geolib = require('geolib');
 
 exports.getBusinessData = (req, res, next) => {
     if (req.query.title) {
-        const userSearchDataSearch = Search.findById(req.query.userId);
+        const userSearchDataSearch = Search.findById(req.query.userId); 
+        
         const regex = new RegExp(RegExp.escape(req.query.title), 'gi');
         Business.find({ title: regex })
             .then((businesses) => { 

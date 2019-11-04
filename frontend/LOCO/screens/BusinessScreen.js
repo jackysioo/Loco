@@ -78,7 +78,7 @@ class BusinessScreen extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}>
                             <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
-                                <HeadingText1 style={{ fontSize: 14, color: Colors.white }}>Back</HeadingText1>
+                                <HeadingText1 style={styles.heading1}>Back</HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
@@ -359,7 +359,11 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         shadowOpacity: 0.1,
         elevation: 2,
-    },
+    }, 
+    heading1: { 
+        fontSize: 14, 
+        color: Colors.primary 
+    }
 });
 
 export default withNavigation(BusinessScreen);
