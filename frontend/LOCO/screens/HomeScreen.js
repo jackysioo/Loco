@@ -263,7 +263,7 @@ class HomeScreen extends React.Component {
 
                     <View style={styles.searchContainer}>
                         <SearchBar
-                            ref={input => this.searchBar = input}
+                            ref={(input) => this.searchBar = input}
                             round
                             lightTheme
                             containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}

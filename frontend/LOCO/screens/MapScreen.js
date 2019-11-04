@@ -76,7 +76,7 @@ class MapScreen extends React.Component {
                     moveOnMarkerPress
                     style={styles.mapStyle}
                     customMapStyle={mapStyle}
-                    ref={ref => { this.map = ref; }}
+                    ref={(ref) => { this.map = ref; }}
                     initialRegion={{
                         latitude: location.lat,
                         longitude: location.long,
