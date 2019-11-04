@@ -26,7 +26,9 @@ class UserScreen extends React.Component {
 
         const reviews = user.reviews.map((review) => {
             return (
-                <View style={styles.userContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('UserReview',
+                    { rating: review.rating }, { image: review.image }, { title: review.title },
+                    { date: review.date }, { review: review.review })} style={styles.userContainer}>
                     <View style={styles.rating}>
                         <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
                         <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
@@ -39,7 +41,8 @@ class UserScreen extends React.Component {
                         </View>
                         <ParagraphText2>{review.review}</ParagraphText2>
                     </View>
-                </View>)
+                </TouchableOpacity>
+            )
         })
 
         const services = user.services.map((service) => {

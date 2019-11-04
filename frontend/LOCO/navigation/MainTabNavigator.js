@@ -9,8 +9,9 @@ import UserScreen from '../screens/UserScreen';
 import BusinessScreen from '../screens/BusinessScreen';
 import BioScreen from '../screens/BioScreen';
 import AllReviewsScreen from '../screens/AllReviewsScreen';
-import AllAppointmentsScreen from '../screens/AllAppointmentsScreen'
-import FollowingScreen from '../screens/FollowingScreen'
+import AllAppointmentsScreen from '../screens/AllAppointmentsScreen';
+import FollowingScreen from '../screens/FollowingScreen';
+import ReviewScreen from '../screens/ReviewScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -63,7 +64,8 @@ const UserStack = createStackNavigator(
     Bio: BioScreen,
     Reviews: AllReviewsScreen,
     Following: FollowingScreen,
-    Appointments: AllAppointmentsScreen
+    Appointments: AllAppointmentsScreen,
+    UserReview: ReviewScreen,
   }, {
   headerMode: 'none',
 },
