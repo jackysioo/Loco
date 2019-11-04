@@ -1,12 +1,12 @@
 const express = require('express'); 
-const router = express.Router();  
+const Router = express.Router();  
 const businessController = require('../controllers/business');
 
-router.get('/get', businessController.getBusinessData); 
-router.post('/post',businessController.postBusinessData);
-router.get('/get/:businessId',businessController.getBusinessDataById); 
-router.put('/put/:businessId',businessController.updateBusinessData); 
-router.delete('/delete/:businessId',businessController.deleteBusiness);  
+Router.get('/get', businessController.getBusinessData); 
+Router.post('/post',businessController.postBusinessData);
+Router.get('/get/:businessId',businessController.getBusinessDataById); 
+Router.put('/put/:businessId',businessController.updateBusinessData); 
+Router.delete('/delete/:businessId',businessController.deleteBusiness);  
 
 
-module.exports = router;
+module.exports = Router;
