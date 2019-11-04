@@ -111,17 +111,14 @@ exports.updateReview = async (req, res, next) => {
     try {
         const userId = req.params.userId;
         const user = await User.findById(userId);
-        if (req.body._id) {
-            const review = await user.reviews.id(req.body._id);
-            await review.set(req.body);
-        }
-        else {
-            await user.reviews.push(req.body);
-        }
-       const result = await user.save(); 
-       const review = req.body._id ? result.reviews.find((review) => {return review._id === req.body._id}): result.reviews[result.reviews.length-1];
 
-        res.status(200).json({ message: 'updated', review: review});
+        const review = await user.reviews.id(req.body._id);
+        await review.set(req.body);
+
+        const result = await user.save();
+        const review = result.reviews.find((review) => { return review._id === req.body._id });
+
+        res.status(200).json({ message: 'updated', review: review });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -131,21 +128,57 @@ exports.updateReview = async (req, res, next) => {
 
 }
 
+exports.addReview = async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        const user = await User.findById(userId);
+        await user.reviews.push(req.body);
+        const result = await user.save();
+        const review = result.reviews[result.reviews.length - 1];
+
+        res.status(200).json({ message: 'added', review: review });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+
+}
+
+
+
 exports.updateService = async (req, res, next) => {
     try {
         const userId = req.params.userId;
         const user = await User.findById(userId);
-        if (req.body._id) {
-            const service = await user.services.id(req.body._id);
-            await service.set(req.body);
-        }
-        else {
-            await user.services.push(req.body);
-        }
-       const result = await user.save(); 
-        const service = req.body._id ? result.services.find((service) => {return service._id === req.body._id}): result.services[result.services.length-1];
 
-        res.status(200).json({ message: 'updated', service: service});
+        const service = await user.services.id(req.body._id);
+        await service.set(req.body);
+
+        const result = await user.save();
+        const service = result.services.find((service) => { return service._id === req.body._id });
+
+        res.status(200).json({ message: 'updated', service: service });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}
+
+exports.addService = async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        const user = await User.findById(userId);
+
+        await user.services.push(req.body);
+
+        const result = await user.save();
+        const service = result.services[result.services.length - 1];
+
+        res.status(200).json({ message: 'updated', service: service });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

@@ -8,6 +8,8 @@ Router.get('/get/:userId',userController.getUserDataById);
 Router.put('/put/:userId',userController.updateUserData);  
 Router.put('/putReview/:userId',userController.updateReview); 
 Router.put('/putService/:userId',userController.updateService); 
+Router.put('/postReview/:userId',userController.addReview); 
+Router.put('/postService/:userId',userController.addService); 
 Router.delete('/delete/:userId',userController.deleteUser); 
 
 module.exports = Router;
