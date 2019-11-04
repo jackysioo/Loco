@@ -33,35 +33,35 @@ class BioScreen extends React.Component {
         birthdayInput: '',
     };
 
-    updateUsername = usernameInput => {
+    updateUsername = (usernameInput) => {
         this.setState({ usernameInput });
     };
 
-    updateFirstNameInput = firstNameInput => {
+    updateFirstNameInput = (firstNameInput) => {
         this.setState({ firstNameInput });
     };
 
-    updateLastNameInput = lastNameInput => {
+    updateLastNameInput = (lastNameInput) => {
         this.setState({ lastNameInput });
     };
 
-    updateAddressLineInput = addressLineInput => {
+    updateAddressLineInput = (addressLineInput) => {
         this.setState({ addressLineInput });
     };
 
-    updateAddressCityInput = addressCityInput => {
+    updateAddressCityInput = (addressCityInput) => {
         this.setState({ addressCityInput });
     };
 
-    updateAddressProvinceInput = addressProvinceInput => {
+    updateAddressProvinceInput = (addressProvinceInput) => {
         this.setState({ addressProvinceInput });
     };
 
-    updateAddressPostalCodeInput = addressPostalCodeInput => {
+    updateAddressPostalCodeInput = (addressPostalCodeInput) => {
         this.setState({ addressPostalCodeInput });
     };
 
-    updateBirthdayInput = birthdayInput => {
+    updateBirthdayInput = (birthdayInput) => {
         this.setState({ birthdayInput });
     };
 

@@ -23,7 +23,7 @@ const { width, height } = Dimensions.get("screen");
 class AllAppointmentsScreen extends React.Component {
 
     render() {
-        const appointments = user.appointments.map(appointment => {
+        const appointments = user.appointments.map((appointment) => {
             if (appointment.type === "client") {
                 return (
                     <View style={styles.userContainer}>
