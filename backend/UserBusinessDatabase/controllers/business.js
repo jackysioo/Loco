@@ -82,7 +82,7 @@ exports.postBusinessData = (req, res, next) => {
 exports.getBusinessDataById = (req, res, next) => {
     const businessId = req.params.businessId;
     Business.findById(businessId)
-        .then(business => {
+        .then((business) => {
             if (!business) {
                 const error = new Error('Could not find Business');
                 error.statusCode = 404;
