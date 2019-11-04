@@ -10,6 +10,8 @@ export default
     addressProvince: "BC",
     addressPostalCode: "A8A 8A8",
     birthday: "Feb 14, 1996",
+    phoneNumber: "604-888-8888",
+    email: "tanya_cooper@gmail.com",
     reviews: [{
       title: "Great food!",
       date: "Jan 23, 2019",

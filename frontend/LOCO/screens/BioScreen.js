@@ -23,14 +23,24 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 
 class BioScreen extends React.Component {
     state = {
-        usernameInput: '',
-        firstNameInput: '',
-        lastNameInput: '',
-        addressLineInput: '',
-        addressCityInput: '',
-        addressProvinceInput: '',
-        addressPostalCodeInput: '',
-        birthdayInput: '',
+        usernameInput: user.username,
+        firstNameInput: user.firstName,
+        lastNameInput: user.lastName,
+        addressLineInput: user.addressLine,
+        addressCityInput: user.addressCity,
+        addressProvinceInput: user.addressProvince,
+        addressPostalCodeInput: user.addressPostalCode,
+        birthdayInput: user.birthday,
+        phoneInput: user.phoneNumber,
+        emailInput: user.email,
+    };
+
+    updatePhone = (phoneInput) => {
+        this.setState({ phoneInput });
+    };
+
+    updateEmail = (emailInput) => {
+        this.setState({ emailInput });
     };
 
     updateUsername = (usernameInput) => {
@@ -74,6 +84,8 @@ class BioScreen extends React.Component {
         const { addressProvinceInput } = this.state;
         const { addressPostalCodeInput } = this.state;
         const { birthdayInput } = this.state;
+        const { phoneInput } = this.state;
+        const { emailInput } = this.state;
 
         const services = user.services.map((service) => {
             return (
@@ -221,6 +233,30 @@ class BioScreen extends React.Component {
                                                 inputStyle={{ fontSize: 13 }}
                                                 value={birthdayInput}
                                                 placeholder={user.birthday}
+                                                placeholderTextColor={Colors.placeholder} />
+                                        </View>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ paddingRight: 20 }}>Phone:</HeadingText1>
+                                            <TextInput
+                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
+                                                onChangeText={this.updatePhone}
+                                                inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                containerStyle={{ backgroundColor: '#ffffff' }}
+                                                inputStyle={{ fontSize: 13 }}
+                                                value={phoneInput}
+                                                placeholder={user.phoneNumber}
+                                                placeholderTextColor={Colors.placeholder} />
+                                        </View>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ paddingRight: 20 }}>E-mail:</HeadingText1>
+                                            <TextInput
+                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
+                                                onChangeText={this.updateEmail}
+                                                inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                containerStyle={{ backgroundColor: '#ffffff' }}
+                                                inputStyle={{ fontSize: 13 }}
+                                                value={emailInput}
+                                                placeholder={user.email}
                                                 placeholderTextColor={Colors.placeholder} />
                                         </View>
                                     </View>

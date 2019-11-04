@@ -26,9 +26,10 @@ class UserScreen extends React.Component {
 
         const reviews = user.reviews.map((review) => {
             return (
-                <TouchableOpacity onPress={() => navigation.navigate('UserReview',
-                    { rating: review.rating }, { image: review.image }, { title: review.title },
-                    { date: review.date }, { review: review.review })} style={styles.userContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('UserReview', {
+                    rating: review.rating, image: review.image, title: review.title,
+                    date: review.date, review: review.review
+                })} style={styles.userContainer}>
                     <View style={styles.rating}>
                         <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
                         <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
@@ -107,26 +108,34 @@ class UserScreen extends React.Component {
                                     }}>Y O U R  I N F O R M A T I O N</HeadingText1>
                                     <View style={{ justifyContent: 'space-between' }}>
                                         <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 140 }}>Username:</HeadingText1>
-                                            <HeadingText2>{user.username}</HeadingText2>
+                                            <HeadingText1 style={{ left: -55 }}>Username:</HeadingText1>
+                                            <HeadingText2 style={{ right: -55 }}>{user.username}</HeadingText2>
                                         </View>
                                         <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 140 }}>Full Name:</HeadingText1>
-                                            <HeadingText2>{user.firstName} {user.lastName}</HeadingText2>
+                                            <HeadingText1 style={{ left: -55 }}>Full Name:</HeadingText1>
+                                            <HeadingText2 style={{ right: -55 }}>{user.firstName} {user.lastName}</HeadingText2>
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <View style={{ flexDirection: "column" }}>
                                                 <View style={{ flexDirection: 'row' }}>
-                                                    <HeadingText1 style={{ paddingRight: 140 }}>Address:</HeadingText1>
-                                                    <HeadingText2>{user.addressLine}</HeadingText2>
+                                                    <HeadingText1 style={{ left: -55 }}>Address:</HeadingText1>
+                                                    <HeadingText2 style={{ right: -83 }}>{user.addressLine}</HeadingText2>
                                                 </View>
-                                                <HeadingText2 style={{ alignSelf: 'flex-end' }}>{user.addressCity}, {user.addressProvince}</HeadingText2>
-                                                <HeadingText2 style={{ alignSelf: 'flex-end' }}>{user.addressPostalCode}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -83 }}>{user.addressCity}, {user.addressProvince}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -83 }}>{user.addressPostalCode}</HeadingText2>
                                             </View>
                                         </View>
                                         <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 140 }}>Birthday:</HeadingText1>
-                                            <HeadingText2>{user.birthday}</HeadingText2>
+                                            <HeadingText1 style={{ left: -55 }}>Birthday:</HeadingText1>
+                                            <HeadingText2 style={{ right: -55 }}>{user.birthday}</HeadingText2>
+                                        </View>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ left: -55 }}>Phone:</HeadingText1>
+                                            <HeadingText2 style={{ right: -55 }}>{user.phoneNumber}</HeadingText2>
+                                        </View>
+                                        <View style={styles.innerInfo}>
+                                            <HeadingText1 style={{ left: -55 }}>E-mail:</HeadingText1>
+                                            <HeadingText2 style={{ right: -55 }}>{user.email}</HeadingText2>
                                         </View>
                                     </View>
                                 </View>
