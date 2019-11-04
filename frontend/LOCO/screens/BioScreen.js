@@ -127,7 +127,7 @@ class BioScreen extends React.Component {
                             <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
                                 <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.save}>
+                            <TouchableOpacity style={styles.save} onPress={() => this.props.navigation.goBack()}>
                                 <HeadingText1 style={{ color: Colors.white }}> Save Changes </HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
@@ -278,7 +278,6 @@ class BioScreen extends React.Component {
                                                     paddingBottom: 20,
                                                     textAlignVertical: 'top',
                                                     width: width - 65,
-                                                    height: 400,
                                                     borderWidth: 1,
                                                     borderColor: Colors.placeholder,
                                                     borderRadius: 20,
