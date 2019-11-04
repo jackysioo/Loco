@@ -41,7 +41,6 @@ exports.postUserData = async (req, res, next) => {
 
 
     } catch (err) {
-        console.log(err);
         next(err);
     };
 }
@@ -120,7 +119,7 @@ exports.updateReview = async (req, res, next) => {
             await user.reviews.push(req.body);
         }
        const result = await user.save(); 
-       const review = req.body._id ? result.reviews.find((review) => {return review._id == req.body._id}): result.reviews[result.reviews.length-1];
+       const review = req.body._id ? result.reviews.find((review) => {return review._id === req.body._id}): result.reviews[result.reviews.length-1];
 
         res.status(200).json({ message: 'updated', review: review});
     } catch (err) {
@@ -144,7 +143,7 @@ exports.updateService = async (req, res, next) => {
             await user.services.push(req.body);
         }
        const result = await user.save(); 
-        const service = req.body._id ? result.services.find((service) => {return service._id == req.body._id}): result.services[result.services.length-1];
+        const service = req.body._id ? result.services.find((service) => {return service._id === req.body._id}): result.services[result.services.length-1];
 
         res.status(200).json({ message: 'updated', service: service});
     } catch (err) {
