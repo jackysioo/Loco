@@ -6,12 +6,12 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UserScreen from '../screens/UserScreen';
-import MessageScreen from '../screens/MessageScreen';
 import BusinessScreen from '../screens/BusinessScreen';
 import BioScreen from '../screens/BioScreen';
 import AllReviewsScreen from '../screens/AllReviewsScreen';
-import AllAppointmentsScreen from '../screens/AllAppointmentsScreen'
-import FollowingScreen from '../screens/FollowingScreen'
+import AllAppointmentsScreen from '../screens/AllAppointmentsScreen';
+import FollowingScreen from '../screens/FollowingScreen';
+import ReviewScreen from '../screens/ReviewScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -64,7 +64,8 @@ const UserStack = createStackNavigator(
     Bio: BioScreen,
     Reviews: AllReviewsScreen,
     Following: FollowingScreen,
-    Appointments: AllAppointmentsScreen
+    Appointments: AllAppointmentsScreen,
+    UserReview: ReviewScreen,
   }, {
   headerMode: 'none',
 },
@@ -80,28 +81,28 @@ UserStack.navigationOptions = {
 
 UserStack.path = '';
 
-const MessageStack = createStackNavigator(
+const AppointmentsStack = createStackNavigator(
   {
-    Message: MessageScreen,
+    Appointments: AllAppointmentsScreen,
   }, {
   headerMode: 'none',
 },
   config
 );
 
-MessageStack.navigationOptions = {
-  tabBarLabel: 'Message',
+AppointmentsStack.navigationOptions = {
+  tabBarLabel: 'Appointments',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
   ),
 };
 
-MessageStack.path = '';
+AppointmentsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
-  MessageStack,
+  AppointmentsStack,
 });
 
 tabNavigator.path = '';

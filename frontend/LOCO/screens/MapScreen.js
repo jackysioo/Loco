@@ -23,12 +23,12 @@ class MapScreen extends React.Component {
     }
 
     renderMarkers(results) {
-        return results.map(result => {
+        return results.map((result) => {
             return (
                 <Marker
                     key={result.title}
                     identifier={result.title}
-                    ref={marker => { this.marker = marker }}
+                    ref={(marker) => { this.marker = marker }}
                     coordinate={{
                         latitude: result.location.lat,
                         longitude: result.location.long,
@@ -39,7 +39,7 @@ class MapScreen extends React.Component {
                         source={require('../assets/icons/icons8-marker-64.png')}
                         style={styles.dropPinIcon} />
                     <Callout
-                        onPress={()=>{this.triggerCallback(result)}}
+                        onPress={() => {this.triggerCallback(result)}}
                         tooltip={false}>
                             <View style={styles.searchItemContainer}>
                                 <Image source={{ uri: result.profilePic }} style={styles.profilePic} />
@@ -76,7 +76,7 @@ class MapScreen extends React.Component {
                     moveOnMarkerPress
                     style={styles.mapStyle}
                     customMapStyle={mapStyle}
-                    ref={ref => { this.map = ref; }}
+                    ref={(ref) => { this.map = ref; }}
                     initialRegion={{
                         latitude: location.lat,
                         longitude: location.long,
@@ -191,7 +191,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         borderRadius: 4,
         flexDirection: "row",
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },

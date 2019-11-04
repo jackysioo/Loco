@@ -18,43 +18,42 @@ const { width, height } = Dimensions.get("screen");
 
 class SortByScreen extends React.Component {
     state = {
-        modalVisible: true,
+        modalVisible: this.props.visible,
         criteria: this.props.sort
     }
 
     closeModal = () => {
         this.props.updateSort(this.state.criteria)
         this.setState({ modalVisible: false })
-        this.props.visible(false)
+        this.props.closeSort
     }
 
 
     render() {
-        console.log("currently sorted by: " + this.state.criteria)
         return (
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={this.state.modalVisible}>
                 <View style={styles.modal}>
-                <TouchableOpacity
-                    onPress={this.closeModal}
-                    style={{position: "absolute", top:0, left:0,padding: 20}}>
-                    <Text style={{fontSize: 18, color: Colors.placeholder}}>X</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.closeModal}
+                        style={{ position: "absolute", top: 0, left: 0, padding: 20 }}>
+                        <Text style={{ fontSize: 18, color: Colors.placeholder }}>X</Text>
+                    </TouchableOpacity>
                     <View style={{ flex: 1, marginVertical: 30, marginHorizontal: 30 }}>
-                        <HeadingText1 style={{ fontSize: 22, marginVertical: 30, justifyContent: "center", alignSelf: "center"}}>Sort By</HeadingText1>
-                        {Object.values(SortBy).map(sort => {
-                                return (
-                                    <View key={sort} style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margingVertical: 15 }}>
-                                        <HeadingText2 style={{ fontSize: 14, letterSpacing: 2, color: Colors.placeholder, textTransform: 'uppercase' }}>{sort}</HeadingText2>
-                                        <TouchableOpacity style={styles.circle}
-                                            onPress={() => this.setState({ criteria: sort })}>
-                                            {this.state.criteria === sort && <View style={styles.checkedCircle} />}
-                                        </TouchableOpacity>
-                                    </View>
-                                )
-                            })}
+                        <HeadingText1 style={{ fontSize: 22, marginVertical: 30, justifyContent: "center", alignSelf: "center" }}>Sort By</HeadingText1>
+                        {Object.values(SortBy).map((sort) => {
+                            return (
+                                <View key={sort} style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margingVertical: 15 }}>
+                                    <HeadingText2 style={{ fontSize: 14, letterSpacing: 2, color: Colors.placeholder, textTransform: 'uppercase' }}>{sort}</HeadingText2>
+                                    <TouchableOpacity style={styles.circle}
+                                        onPress={() => this.setState({ criteria: sort })}>
+                                        {this.state.criteria === sort && <View style={styles.checkedCircle} />}
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                        })}
                     </View>
 
                 </View>
@@ -67,15 +66,15 @@ class SortByScreen extends React.Component {
 const styles = StyleSheet.create({
     modal: {
         backgroundColor: Colors.white,
-        minHeight: height*0.4,
-        marginTop: height*0.25,
+        minHeight: height * 0.4,
+        marginTop: height * 0.25,
         marginHorizontal: 10,
         borderRadius: 20,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 1,
         shadowRadius: 200,
-        paddingVertical: 5 
+        paddingVertical: 5
     },
     circle: {
         height: 18,

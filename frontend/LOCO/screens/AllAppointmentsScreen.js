@@ -15,7 +15,7 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import { Images, Colors } from "../constants";
+import { Images, user, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 const { width, height } = Dimensions.get("screen");
 
@@ -23,6 +23,60 @@ const { width, height } = Dimensions.get("screen");
 class AllAppointmentsScreen extends React.Component {
 
     render() {
+        const appointments = user.appointments.map((appointment) => {
+            if (appointment.type === "client") {
+                return (
+                    <View style={styles.userContainer}>
+                        <TouchableOpacity style={styles.cancelButton}>
+                            <HeadingText2 style={styles.cancel}> Cancel </HeadingText2>
+                            <Image style={styles.cancelIcon} source={require('../assets/icons/icons8-cancel-64.png')} />
+                        </TouchableOpacity>
+                        <Image source={{ uri: appointment.image }} style={styles.appointmentImg}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.info}>
+                                <HeadingText1 style={{ color: Colors.primary }}>{appointment.fullName} </HeadingText1>
+                                <ParagraphText2 style={{ color: Colors.placeholder }}>BOOKED YOU</ParagraphText2>
+                            </View>
+                            <View style={styles.info}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>SERVICE: </HeadingText2>
+                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.service}</ParagraphText2>
+                            </View>
+                            <View style={styles.info}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>DATE: </HeadingText2>
+                                <ParagraphText2
+                                    style={{ color: Colors.primary }}>{appointment.date} ➔ {appointment.time}</ParagraphText2>
+                            </View>
+                        </View>
+                    </View>
+                )
+            } else {
+                return (
+                    <View style={styles.userContainer}>
+                        <TouchableOpacity style={styles.cancelButton}>
+                            <HeadingText2 style={styles.cancel}> Cancel </HeadingText2>
+                            <Image style={styles.cancelIcon} source={require('../assets/icons/icons8-cancel-64.png')} />
+                        </TouchableOpacity>
+                        <Image source={{ uri: appointment.image }} style={styles.appointmentImg}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.info}>
+                                <ParagraphText2 style={{ color: Colors.placeholder }}>YOU BOOKED </ParagraphText2>
+                                <HeadingText1 style={{ color: Colors.primary }}>{appointment.fullName}</HeadingText1>
+                            </View>
+                            <View style={styles.info}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>SERVICE: </HeadingText2>
+                                <ParagraphText2 style={{ color: Colors.primary }}>{appointment.service}</ParagraphText2>
+                            </View>
+                            <View style={styles.info}>
+                                <HeadingText2 style={{ color: Colors.placeholder }}>DATE: </HeadingText2>
+                                <ParagraphText2
+                                    style={{ color: Colors.primary }}>{appointment.date} ➔ {appointment.time}</ParagraphText2>
+                            </View>
+                        </View>
+                    </View>
+                )
+            }
+        })
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.container}>
@@ -34,17 +88,14 @@ class AllAppointmentsScreen extends React.Component {
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
                                 style={styles.itemContainer}>
-                                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
-                                    <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
-                                </TouchableOpacity>
                                 <View style={styles.innerContainer}>
                                     <View style={styles.list}>
                                         <HeadingText1 style={{
                                             marginTop: 30,
                                             marginBottom: 10,
                                             color: Colors.placeholder,
-                                        }}>A L L  Y O U R  A P P O I N T M E N T S</HeadingText1>
-                                        {this.props.navigation.state.params.appointments}
+                                        }}>Y O U R  A P P O I N T M E N T S</HeadingText1>
+                                        {appointments}
                                     </View>
                                 </View>
                             </ScrollView>
@@ -77,7 +128,7 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     innerContainer: {
-        marginTop: 40,
+        marginTop: 10,
         marginHorizontal: 10,
         marginBottom: 40,
         paddingBottom: 10,
@@ -97,15 +148,52 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    back: {
-        position: "absolute",
-        left: 12,
-        top: 10,
+    userContainer: {
+        width: width - 60,
+        marginHorizontal: width / 60,
+        marginVertical: 15,
+        backgroundColor: Colors.white,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 10,
+        shadowOpacity: 0.1,
+    },
+    cancelButton: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        color: Colors.white,
+        position: 'absolute',
+        left: 0,
+        margin: 10,
+        zIndex: 1,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.5,
+    },
+    cancel: {
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
         shadowOpacity: 0.7,
-    }
+        color: '#ffc4c4'
+    },
+    cancelIcon: {
+        width: 14,
+        height: 14,
+        marginTop: -1
+    },
+    appointmentImg: {
+        width: "100%",
+        height: height / 6,
+    },
+    info: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
 });
 
 export default withNavigation(AllAppointmentsScreen);

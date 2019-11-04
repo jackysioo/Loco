@@ -13,7 +13,7 @@ class SearchResult extends React.Component {
         const { navigation, item } = this.props;
         const resultContainer = [styles.result, styles.shadow];
         const imgContainer = [styles.imageContainer, styles.shadow];
-        const tags = item.tags.map(tag => {
+        const tags = item.tags.map((tag) => {
             return (
                 <View key={tag} style={styles.tag}>
                     <Text style={{ fontSize: 10, color: Colors.primary }}> #{tag} </Text>
