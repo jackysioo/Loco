@@ -6,95 +6,57 @@ import {
     Image,
     Text,
     View,
-    ImageBackground,
+    ScrollView,
     TouchableOpacity,
     PropTypes,
     Modal
 } from 'react-native';
-import { Images, Colors } from "../constants";
+import { SortBy, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
-
+import SearchResult from "../components/SearchResult";
 const { width, height } = Dimensions.get("screen");
+import FilterScreen from "./FilterScreen";
+import SortByScreen from "./SortByScreen";
 
-class SearchScreen extends React.Component {
+class SearchResultScreen extends React.Component {
     state = {
         loadSearchResults: this.props.loadSearchResults,
-        searchResults: this.props.searchResults
+        searchResults: this.props.searchResults,
+        isFilterVisible: false,
+        isSortVisible: false,
+        filters: {},
+        sort: SortBy.recommended,
     }
 
-
-    renderRecommendations() {
-        return (
-            <ScrollView ref="scrollView"
-                showsVerticalScrollIndicator={false}
-                style={styles.ScrollContainer}
-                contentContainerStyle={styles.contentContainer}>
-                <View style={styles.categoryContainer}>
-                    {this.renderCategories()}
-                </View>
-                <View style={styles.recommendationContainer}>
-                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                        Discover Near You
-                                </HeadingText1>
-                    <ScrollView horizontal={true}
-                        decelerationRate={0}
-                        snapToInterval={300}
-                        snapToAlignment={"center"}
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.itemContainer}>
-                        <Card item={businesses[0]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[2]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[4]} />
-                    </ScrollView>
-                </View>
-                <View style={styles.recommendationContainer}>
-                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                        We Think You Will Like
-                                </HeadingText1>
-                    <ScrollView horizontal={true}
-                        decelerationRate={0}
-                        snapToInterval={300}
-                        snapToAlignment={"center"}
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.itemContainer}>
-                        <Card item={businesses[3]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[4]} />
-                    </ScrollView>
-                </View>
-                <View style={styles.recommendationContainer}>
-                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                        Popular on LOCO
-                                </HeadingText1>
-                    <ScrollView horizontal={true}
-                        decelerationRate={0}
-                        snapToInterval={300}
-                        snapToAlignment={"center"}
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.itemContainer}>
-                        <Card item={businesses[1]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[0]} />
-                    </ScrollView>
-                </View>
-            </ScrollView>
-        )
+    componentDidUpdate(prevProps) {
+        if (this.props.loadSearchResults !== prevProps.loadSearchResults) {
+            this.setState({ loadSearchResults: this.props.loadSearchResults });
+        }
+        if (this.props.searchResults !== prevProps.searchResults) {
+            this.setState({ searchResults: this.props.searchResults });
+        }
     }
 
-
-
-    renderSearchResults() {
-        return (
-            <ScrollView ref="scrollView"
-                showsVerticalScrollIndicator={false}
-                style={styles.ScrollContainer}
-                contentContainerStyle={styles.contentContainer}>
-                {this.renderFilters()}
-                <HeadingText1 style={{ marginHorizontal: 20, fontSize: 24 }}>
-                    Search Results
-                    </HeadingText1>
-                {this.renderSearchResultsItems()}
-            </ScrollView>
-        )
+    resetSearch = () => {
+        this.props.resetSearch()
     }
+
+    updateFilters = (filters) => {
+        this.setState({ filters: filters });
+    };
+
+    updateSort = (sort) => {
+        this.setState({ sort: sort });
+    };
+
+    closeFilter = () => {
+        this.setState({ isFilterVisible: false });
+    }
+
+    closeSort = () => {
+        this.setState({ isSortVisible: false });
+    }
+
 
     renderSearchResultsItems() {
         return this.state.searchResults.map((result) => {
@@ -106,12 +68,51 @@ class SearchScreen extends React.Component {
         });
     }
 
+
+    renderFilters() {
+        return (
+            <View style={styles.filterContainer}>
+                <TouchableOpacity style={{ paddingVertical: 5 }} onPress={this.resetSearch}>
+                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
+                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isFilterVisible: true }) }}>
+                        <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Filters</HeadingText2>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isSortVisible: true }) }}>
+                        <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Sort By</HeadingText2>
+                    </TouchableOpacity>
+                </View>
+
+                {/* <FilterScreen visible={this.state.isFilterVisible} close={this.closeFilter} filters={this.state.filters} updateFilters={this.updateFilters} />} */}
+                {/* <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />} */}
+
+            </View>
+        )
+    }
+
+    renderSearchResults() {
+        return (
+            <ScrollView ref="scrollView"
+                showsVerticalScrollIndicator={false}
+                style={styles.ScrollContainer}
+                contentContainerStyle={styles.contentContainer}>
+                
+                {this.renderFilters()}
+
+                <HeadingText1 style={{ marginHorizontal: 20, fontSize: 24 }}>
+                    Search Results
+                </HeadingText1>
+
+                {this.renderSearchResultsItems()}
+            </ScrollView>
+        )
+    }
+
     render() {
         return (
-            <View>
-
+            <View style={{ flex: 1, zIndex: 1 }}>
                 {this.state.loadSearchResults && this.renderSearchResults()}
-                {!this.state.loadSearchResults && this.renderRecommendations()}
             </View>
         );
     }
@@ -133,6 +134,44 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         flexDirection: 'row',
     },
+    categoryContainer: {
+        flex: 1,
+        padding: 5,
+        marginBottom: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    categoryItemView: {
+        width: width / 5,
+        margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    categoryItem: {
+        margin: 8,
+        width: 35,
+        height: 35
+    },
+    resultsContainer: {
+        height: height - 100
+    },
+    filterContainer: {
+        flex: 1,
+        marginHorizontal: 20,
+        marginBottom: 15,
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    filter: {
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        marginHorizontal: 5,
+        borderColor: Colors.primary,
+        borderWidth: 1,
+        borderRadius: 20,
+    },
 })
 
-export default withNavigation(SearchScreen);
+export default withNavigation(SearchResultScreen);

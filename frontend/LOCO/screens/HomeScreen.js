@@ -18,18 +18,14 @@ import {
     Modal
 } from 'react-native';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
-import { Card } from '../components';
 import { Images, Colors, SortBy } from "../constants";
 import businesses from '../constants/businesses';
 import MapScreen from "./MapScreen";
-import FilterScreen from "./FilterScreen";
-import SortByScreen from "./SortByScreen";
-import SearchResult from "../components/SearchResult";
-import SearchScreen from "./SearchResultScreen";
+import SearchResultScreen from "./SearchResultScreen";
+import { Card } from '../components';
 import MapButton from "../components/MapButton";
 
 const { width, height } = Dimensions.get('screen');
-const carouselWidth = width / 5;
 
 class HomeScreen extends React.Component {
     state = {
@@ -42,18 +38,16 @@ class HomeScreen extends React.Component {
         filters: {},
         sort: SortBy.recommended,
         searchResults: [],
-        isFilterVisible: false,
-        isSortVisible: false,
         isSearchActive: false,
         loadSearchResults: false,
         mapVisible: false
     };
 
-    updateSearch = search => {
+    updateSearch = (search) => {
         this.setState({ search });
     };
 
-    updateLocation = location => {
+    updateLocation = (location) => {
         this.setState({ location });
     };
 
@@ -67,24 +61,6 @@ class HomeScreen extends React.Component {
 
     triggerSearch = () => {
         this.setState({ isSearchActive: true });
-    }
-
-    resetSearch = () => {
-        this.setState({
-            search: '',
-            location: '',
-            searchLocation: {},
-            filters: {},
-            sort: SortBy.recommended,
-            searchResults: [],
-            isFilterVisible: false,
-            isSortVisible: false,
-            isSearchActive: false,
-            loadSearchResults: false,
-            mapVisible: false,
-        });
-        this.searchBar.clear();
-        this.searchBar.blur();
     }
 
     search = () => {
@@ -109,6 +85,7 @@ class HomeScreen extends React.Component {
 
     searchCategory(category) {
         this.setState({
+            isSearchActive: false,
             loadSearchResults: true,
             searchResults: businesses    // TEST DATA
         })
@@ -123,6 +100,24 @@ class HomeScreen extends React.Component {
         //     })
         //     .catch(error => console.log(error))
 
+    }
+
+
+
+    resetSearch = () => {
+        this.setState({
+            search: '',
+            location: '',
+            searchLocation: {},
+            filters: {},
+            sort: SortBy.recommended,
+            searchResults: [],
+            isSearchActive: false,
+            loadSearchResults: false,
+            mapVisible: false,
+        });
+        this.searchBar.clear();
+        this.searchBar.blur();
     }
 
     renderCategories() {
@@ -143,6 +138,62 @@ class HomeScreen extends React.Component {
         });
     }
 
+
+    renderRecommendations() {
+        return (
+            <ScrollView ref="scrollView"
+                showsVerticalScrollIndicator={false}
+                style={styles.ScrollContainer}
+                contentContainerStyle={styles.contentContainer}>
+                <View style={styles.categoryContainer}>
+                    {this.renderCategories()}
+                </View>
+                <View style={styles.recommendationContainer}>
+                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
+                        Discover Near You
+                                </HeadingText1>
+                    <ScrollView horizontal={true}
+                        decelerationRate={0}
+                        snapToInterval={300}
+                        snapToAlignment={"center"}
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.itemContainer}>
+                        <Card item={businesses[0]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[2]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[4]} />
+                    </ScrollView>
+                </View>
+                <View style={styles.recommendationContainer}>
+                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
+                        We Think You Will Like
+                                </HeadingText1>
+                    <ScrollView horizontal={true}
+                        decelerationRate={0}
+                        snapToInterval={300}
+                        snapToAlignment={"center"}
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.itemContainer}>
+                        <Card item={businesses[3]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[4]} />
+                    </ScrollView>
+                </View>
+                <View style={styles.recommendationContainer}>
+                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
+                        Popular on LOCO
+                                </HeadingText1>
+                    <ScrollView horizontal={true}
+                        decelerationRate={0}
+                        snapToInterval={300}
+                        snapToAlignment={"center"}
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.itemContainer}>
+                        <Card item={businesses[1]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[0]} />
+                    </ScrollView>
+                </View>
+            </ScrollView>
+        )
+    }
 
     renderSearchCancel() {
         return (
@@ -191,45 +242,6 @@ class HomeScreen extends React.Component {
         )
     }
 
-    updateFilters = (filters) => {
-        this.setState({ filters: filters});
-    };
-
-    updateSort = (sort) => {
-        this.setState({ sort: sort});
-    };
-
-    closeFilter = () => {
-        this.setState({ isFilterVisible: false });
-    }
-
-    closeSort = () => {
-        this.setState({ isSortVisible: false });
-    }
-
-    renderFilters() {
-        return (
-            <View style={styles.filterContainer}>
-                <TouchableOpacity style={{ paddingVertical: 5 }} onPress={this.resetSearch}>
-                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
-                </TouchableOpacity>
-                <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
-                    <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isFilterVisible: true})}}>
-                        <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Filters</HeadingText2>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.filter} onPress={() => {this.setState({ isSortVisible: true})}}>
-                        <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Sort By</HeadingText2>
-                    </TouchableOpacity>
-                </View>
-
-                <FilterScreen visible={this.state.isFilterVisible} close={this.closeFilter} filters={this.state.filters} updateFilters={this.updateFilters}/>}
-                <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />}
-
-            </View>
-        )
-    }
-
-
 
     setMapVisible = (visible) => {
         this.setState({ mapVisible: visible });
@@ -239,29 +251,6 @@ class HomeScreen extends React.Component {
         const { navigation } = this.props
         this.setMapVisible(false);
         navigation.navigate('Business', { item: item })
-    }
-
-    renderMapView() {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.mapVisible}>
-                <View>
-                    <TouchableOpacity
-                        style={styles.closeMapButtonContainer}
-                        onPress={() => {
-                            this.setMapVisible(!this.state.mapVisible);
-                        }}>
-                        <Image
-                            style={styles.mapButton}
-                            source={require('../assets/icons/icons8-cancel-64.png')}
-                        />
-                    </TouchableOpacity>
-                    <MapScreen item={this.mapItem} location={this.state.searchLocation} results={this.state.searchResults} />
-                </View>
-            </Modal>
-        )
     }
 
     render() {
@@ -291,12 +280,30 @@ class HomeScreen extends React.Component {
                             onSubmitEditing={this.search} />
                     </View>
 
-                    <SearchResultScreen loadSearchResults={this.state.loadSearchResults} searchResults={this.state.searchResults}/>
-                    <MapButton visible={this.state.loadSearchResults} setMapVisible={this.setMapVisible}/>
-
-                    {this.state.loadSearchResults && this.renderMapButton()}
                     {this.state.isSearchActive && this.renderSearchActive()}
-                    {this.renderMapView()}
+
+                    <MapButton visible={this.state.loadSearchResults} setMapVisible={this.setMapVisible} />
+                    {!this.state.loadSearchResults && this.renderRecommendations()}
+                    <SearchResultScreen resetSearch={this.resetSearch} loadSearchResults={this.state.loadSearchResults} searchResults={this.state.searchResults}  />
+                
+                
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={this.state.mapVisible}>
+                        <View>
+                            <TouchableOpacity
+                                style={styles.closeMapButtonContainer}
+                                onPress={() => {
+                                    this.setMapVisible(!this.state.mapVisible);
+                                }}>
+                                <Image
+                                    style={styles.mapButton}
+                                    source={require('../assets/icons/icons8-cancel-64.png')}/>
+                            </TouchableOpacity>
+                            <MapScreen item={this.mapItem} location={this.state.searchLocation} results={this.state.searchResults} />
+                        </View>
+                    </Modal>
 
                 </View>
             </SafeAreaView>
@@ -350,6 +357,20 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         zIndex: 0
     },
+    mapButton: {
+        width: 35,
+        height: 35
+    },
+    recommendationContainer: {
+        flex: 1,
+        margin: 10
+    },
+    itemContainer: {
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingLeft: 10,
+        flexDirection: 'row',
+    },
     categoryContainer: {
         flex: 1,
         padding: 5,
@@ -360,20 +381,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     categoryItemView: {
-        width: carouselWidth,
+        width: width/5,
         margin: 5,
         alignItems: 'center',
         justifyContent: 'center'
     },
     categoryItem: {
         margin: 8,
-        width: 35,
-        height: 35
-    },
-    resultsContainer: {
-        height: height - 100
-    },
-    mapButton: {
         width: 35,
         height: 35
     },
@@ -390,35 +404,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.6,
         shadowRadius: 10,
-    },
-    openMapButtonContainer: {
-        position: "absolute",
-        bottom: 0,
-        right: 0,
-        margin: 20,
-        padding: 10,
-        borderRadius: 40,
-        zIndex: 10,
-        backgroundColor: Colors.white,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.5,
-        shadowRadius: 10,
-    },
-    filterContainer: {
-        flex: 1,
-        marginHorizontal: 20,
-        marginBottom: 15,
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
-    filter: {
-        paddingHorizontal: 15,
-        paddingVertical: 5,
-        marginHorizontal: 5,
-        borderColor: Colors.primary,
-        borderWidth: 1,
-        borderRadius: 20,
     },
     tabBarInfoContainer: {
         position: 'absolute',

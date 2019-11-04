@@ -31,11 +31,11 @@ class BusinessScreen extends React.Component {
         //send user message
     }
 
-    updateSubject = subject => {
+    updateSubject = (subject) => {
         this.setState({ subject });
     };
 
-    updateMessage = message => {
+    updateMessage = (message) => {
         this.setState({ message });
     };
 
