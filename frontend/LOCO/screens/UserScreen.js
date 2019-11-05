@@ -11,6 +11,7 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Button,
     Modal
 } from 'react-native';
@@ -26,23 +27,25 @@ class UserScreen extends React.Component {
 
         const reviews = user.reviews.map((review) => {
             return (
-                <TouchableOpacity onPress={() => navigation.navigate('UserReview', {
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('UserReview', {
                     rating: review.rating, image: review.image, title: review.title,
                     date: review.date, review: review.review
-                })} style={styles.userContainer}>
-                    <View style={styles.rating}>
-                        <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
-                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
-                    </View>
-                    <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
-                    <View style={{ margin: 15 }}>
-                        <View style={styles.review}>
-                            <HeadingText1>{review.title}</HeadingText1>
-                            <ParagraphText1 style={{ color: Colors.placeholder }}>{review.date}</ParagraphText1>
+                })}>
+                    <View style={styles.userContainer}>
+                        <View style={styles.rating}>
+                            <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
+                            <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
                         </View>
-                        <ParagraphText2>{review.review}</ParagraphText2>
+                        <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.review}>
+                                <HeadingText1>{review.title}</HeadingText1>
+                                <ParagraphText1 style={{ color: Colors.placeholder }}>{review.date}</ParagraphText1>
+                            </View>
+                            <ParagraphText2>{review.review}</ParagraphText2>
+                        </View>
                     </View>
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
             )
         })
 

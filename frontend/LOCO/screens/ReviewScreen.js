@@ -41,18 +41,23 @@ class ReviewScreen extends React.Component {
                                     <View style={styles.list}>
                                         <View style={styles.reviewContainer}>
                                             <View style={styles.rating}>
-                                                <HeadingText1 style={{ color: Colors.white }}> {this.props.navigation.state.params.rating} </HeadingText1>
+                                                <HeadingText1 style={{ color: Colors.white }}>
+                                                    {this.props.navigation.state.params.rating}
+                                                </HeadingText1>
                                                 <Image style={styles.icon} source={require('../assets/icons/icons8-star-24.png')} />
                                             </View>
                                             <TouchableOpacity style={styles.edit}>
                                                 <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
                                                 <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
                                             </TouchableOpacity>
-                                            <Image source={{ uri: this.props.navigation.state.params.image }} style={styles.reviewImage}></Image>
+                                            <Image source={{ uri: this.props.navigation.state.params.image }}
+                                                style={styles.reviewImage}></Image>
                                             <View style={{ margin: 15 }}>
                                                 <View style={styles.review}>
                                                     <HeadingText1>{this.props.navigation.state.params.title}</HeadingText1>
-                                                    <ParagraphText1 style={{ color: Colors.placeholder }}>{this.props.navigation.state.params.date}</ParagraphText1>
+                                                    <ParagraphText1 style={{ color: Colors.placeholder }}>
+                                                        {this.props.navigation.state.params.date}
+                                                    </ParagraphText1>
                                                 </View>
                                                 <ParagraphText2>{this.props.navigation.state.params.review}</ParagraphText2>
                                             </View>

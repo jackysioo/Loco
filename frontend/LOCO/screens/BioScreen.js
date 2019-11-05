@@ -153,9 +153,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={usernameInput}
-                                                placeholder={user.username}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={usernameInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>First Name:</HeadingText1>
@@ -165,9 +163,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={firstNameInput}
-                                                placeholder={user.firstName}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={firstNameInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Last Name:</HeadingText1>
@@ -177,9 +173,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={lastNameInput}
-                                                placeholder={user.lastName}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={lastNameInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Address Line:</HeadingText1>
@@ -189,9 +183,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={addressLineInput}
-                                                placeholder={user.addressLine}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={addressLineInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>City:</HeadingText1>
@@ -201,9 +193,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={addressCityInput}
-                                                placeholder={user.addressCity}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={addressCityInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Province:</HeadingText1>
@@ -213,9 +203,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={addressProvinceInput}
-                                                placeholder={user.addressProvince}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={addressProvinceInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Postal Code:</HeadingText1>
@@ -225,9 +213,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={addressPostalCodeInput}
-                                                placeholder={user.addressPostalCode}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={addressPostalCodeInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Birthday:</HeadingText1>
@@ -237,9 +223,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={birthdayInput}
-                                                placeholder={user.birthday}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={birthdayInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Phone:</HeadingText1>
@@ -249,9 +233,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={phoneInput}
-                                                placeholder={user.phoneNumber}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={phoneInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>E-mail:</HeadingText1>
@@ -261,9 +243,7 @@ class BioScreen extends React.Component {
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
-                                                value={emailInput}
-                                                placeholder={user.email}
-                                                placeholderTextColor={Colors.placeholder} />
+                                                value={emailInput} />
                                         </View>
                                         <HeadingText1 style={{
                                             alignSelf: 'center', marginBottom: 8, color: Colors.placeholder, marginTop: 30
@@ -288,7 +268,7 @@ class BioScreen extends React.Component {
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
                                                 value={bioInput}
-                                                placeholder={user.bio}
+                                                placeholder={"Write something about yourself!"}
                                                 placeholderTextColor={Colors.placeholder} />
                                         </View>
                                     </View>
