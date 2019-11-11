@@ -34,12 +34,8 @@ const businessSchema = new Schema({
     ],
     reviews: [
         {
-            title: String,
-            date: String,
-            review: String,
-            rating: Number,
-            image: String,
-            user: String
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Review'
         }
     ]
 

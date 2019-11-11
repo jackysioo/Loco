@@ -11,12 +11,8 @@ const userSchema = new Schema({
     ],
   birthday: String,
   reviews: [{
-    title: String,
-    date: String,
-    review: String,
-    rating: Number,
-    image: String,
-    user: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Review'
   }],
   services: [{
     title: String,

@@ -4,8 +4,6 @@ const geolib = require('geolib');
 
 exports.getBusinessData = (req, res, next) => {
     if (req.query.title) {
-        const userSearchDataSearch = Search.findById(req.query.userId); 
-        
         const regex = new RegExp(RegExp.escape(req.query.title), 'gi');
         Business.find({ title: regex })
             .then((businesses) => { 
@@ -13,7 +11,13 @@ exports.getBusinessData = (req, res, next) => {
                     const error = new Error('Could not find any Businesses');
                     error.statusCode = 404;
                     throw error;
-                }
+                } 
+                const userSearchDataSearch = Search.findById(req.query.userId); 
+                if (!userSearchDataSearch) {
+                          const error = new Error('Could not find any search data for user');
+                          error.statusCode = 404;
+                          throw error;
+                      }
                 const businessScores = businesses.map((business) => {
                     const score = Math.abs(userSearchDataSearch.distance -
                         geolib.getDistance({ latitude: req.query.lat, longitude: req.query.long }, { latitude: business.lat, longitude: business.long }))

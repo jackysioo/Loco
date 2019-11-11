@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Business = require('../models/business');
-const Search = require('../models/search');
+const Search = require('../models/search'); 
+const Review = require('../models/review');
 
 exports.getUserData = (req, res, next) => {
     User.find()
@@ -19,18 +20,9 @@ exports.postUserData = async (req, res, next) => {
     try {
         const searchData = new Search({
         });
-        const searchId = await searchData.save();
-        const user = new User({
-            userName: req.body.userName,
-            fullName: req.body.fullName,
-            profilePic: req.body.profilePic,
-            following: req.body.following,
-            address: req.body.address,
-            birthday: req.body.birthday,
-            reviews: req.body.reviews,
-            services: req.body.services,
-            searchId: searchId._id
-        });
+        const searchId = await searchData.save(); 
+        const userObj = {...req.body.user, searchId: searchId._id};
+        const user = new User(userObj);
 
         const result = await user.save();
 
@@ -107,44 +99,7 @@ exports.updateUserData = async (req, res, next) => {
 
 }
 
-exports.updateReview = async (req, res, next) => {
-    try {
-        const userId = req.params.userId;
-        const user = await User.findById(userId);
 
-        const review = await user.reviews.id(req.body._id);
-        await review.set(req.body);
-
-        const result = await user.save();
-        
-
-        res.status(200).json({ message: 'updated', review: result.reviews.find((review) => { return review._id === req.body._id })});
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-
-}
-
-exports.addReview = async (req, res, next) => {
-    try {
-        const userId = req.params.userId;
-        const user = await User.findById(userId);
-        await user.reviews.push(req.body);
-        const result = await user.save();
-        const review = result.reviews[result.reviews.length - 1];
-
-        res.status(200).json({ message: 'added', review: review });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-
-}
 
 
 
