@@ -43,45 +43,36 @@ exports.getBusinessData = (req, res, next) => {
     }
     else {
         Business.find()
-            .then((business) => {
-                res.status(200).json({ Business: business })
-            })
-            .catch((err) => {
-                if (!err.statusCode) {
-                    err.statusCode = 500;
-                }
-                next(err);
-            })
+        .populate('reviews')
+        .exec()
+        .then(business => { 
+        res.status(200).json({ businesses: business }) 
+        }).catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
     }
 }
 
-exports.postBusinessData = (req, res, next) => {
+exports.postBusinessData = async (req, res, next) => {
 
-    const business = new Business({
-        title: req.body.title,
-        user: req.body.user,
-        about: req.body.about,
-        profilePic: req.body.profilePic,
-        images: req.body.images,
-        rating: req.body.rating,
-        region: req.body.region,
-        location: req.body.location,
-        price: req.body.price,
-        tags: req.body.tags,
-        reviews: req.body.reviews
-    });
+    try {
+        const business = new Business(req.body.business);
 
-    business
-        .save()
-        .then((result) => {
-            res.status(201).json({
-                message: 'add Business success',
-                Business: result
-            });
-        })
-        .catch((err) => {
-            next(err);
+        await business.save(); 
+        const result = await business.populate('reviews').execPopulate();
+        
+        res.status(201).json({
+            message: 'add user success',
+            business: result
         });
+
+
+    } catch (err) {
+        next(err);
+    };
 }
 
 exports.getBusinessDataById = (req, res, next) => {
@@ -125,39 +116,25 @@ exports.deleteBusiness = (req, res, next) => {
         })
 }
 
-exports.updateBusinessData = (req, res, next) => {
-    const businessId = req.params.businessId;
+exports.updateBusinessData = async (req, res, next) => {
+    try {
+        const businessId = req.params.businessId;
+        const update = await User.findOneAndUpdate({ _id: businessId }, req.body.business, { new: true })
 
-    Business.findById(businessId)
-        .then((business) => {
-            if (!business) {
-                const error = new Error('Could not find Business');
-                error.statusCode = 404;
-                throw error;
-            }
-            business.title = req.body.title;
-            business.user = req.body.user;
-            business.about = req.body.about;
-            business.profilePic = req.body.profilePic;
-            business.images = req.body.images;
-            business.rating = req.body.rating;
-            business.region = req.body.region;
-            business.location = req.body.location;
-            business.price = req.body.price;
-            business.tags = req.body.tags;
-            business.reviews = req.body.reviews;
-            return business.save();
-
-        })
-        .then((result) => {
-            res.status(200).json({ message: 'updated', Business: result });
-        })
-        .catch((err) => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        })
+        if (!update) {
+            const error = new Error('Could not find business');
+            error.statusCode = 404;
+            throw error;
+        }
+        const user = await User.findById(userId);  
+        const result = await user.populate('reviews').execPopulate();
+        res.status(200).json({ message: 'updated', business: result });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
 
 }
 
