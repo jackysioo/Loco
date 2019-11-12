@@ -6,29 +6,32 @@ exports.getBusinessData = (req, res, next) => {
     if (req.query.title) {
         const regex = new RegExp(RegExp.escape(req.query.title), 'gi');
         Business.find({ title: regex })
-            .then((businesses) => { 
+            .then(async (businesses) => { 
                 if (!businesses) {
                     const error = new Error('Could not find any Businesses');
                     error.statusCode = 404;
                     throw error;
                 } 
-                const userSearchDataSearch = Search.findById(req.query.userId); 
+                const userSearchDataSearch = await Search.findById(req.query.userId); 
                 if (!userSearchDataSearch) {
                           const error = new Error('Could not find any search data for user');
                           error.statusCode = 404;
                           throw error;
                       }
+
                 const businessScores = businesses.map((business) => {
                     const score = Math.abs(userSearchDataSearch.distance -
-                        geolib.getDistance({ latitude: req.query.lat, longitude: req.query.long }, { latitude: business.lat, longitude: business.long }))
+                        geolib.getDistance({ latitude: req.query.lat, longitude: req.query.long }, { latitude: business.location.lat, longitude: business.location.long }))
                         + Math.abs(userSearchDataSearch.rating - business.rating)
                         + Math.abs(userSearchDataSearch.price - business.price);
 
-                    businessScores.business = business;
-                    businessScores.score = score;
-                    return businessScores;
+                    const businessScore ={business:business,score: score};
+                    
+                    return businessScore;
                 });
-                businessScores.sort((a, b) => Number(b.score) - Number(a.score));
+                
+                businessScores.sort((a, b) => Number(a.score) - Number(b.score)); 
+                console.log(businessScores);
                 const result = businessScores.map((businessScore) => {
                     return businessScore.business;
                 });
