@@ -24,12 +24,18 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 class UserScreen extends React.Component {
 
     render() {
-
         const reviews = user.reviews.map((review) => {
+
+            // only display up to 46 characters of review outside of a review
+            var displayReview = review.review;
+            if (review.review.length > 84) {
+                displayReview = displayReview.slice(0, 84) + " . . .";
+            }
+
             return (
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('UserReview', {
                     rating: review.rating, image: review.image, title: review.title,
-                    date: review.date, review: review.review
+                    date: review.date, review: review.review, user: review.user, business: review.business
                 })}>
                     <View style={styles.userContainer}>
                         <View style={styles.rating}>
@@ -42,7 +48,7 @@ class UserScreen extends React.Component {
                                 <HeadingText1>{review.title}</HeadingText1>
                                 <ParagraphText1 style={{ color: Colors.placeholder }}>{review.date}</ParagraphText1>
                             </View>
-                            <ParagraphText2>{review.review}</ParagraphText2>
+                            <ParagraphText2>{displayReview}</ParagraphText2>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -105,11 +111,8 @@ class UserScreen extends React.Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.info}>
-                                    <HeadingText1 style={{
-                                        alignSelf: 'center', marginTop: 10,
-                                        marginBottom: 8, color: Colors.placeholder
-                                    }}>Y O U R  I N F O R M A T I O N</HeadingText1>
-                                    <View style={{ justifyContent: 'space-between' }}>
+                                    <HeadingText1 style={styles.header}>Y O U R  I N F O R M A T I O N</HeadingText1>
+                                    <View style={{ justifyContent: 'space-between', marginTop: 5 }}>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ left: -55 }}>Username:</HeadingText1>
                                             <HeadingText2 style={{ right: -55 }}>{user.username}</HeadingText2>
@@ -143,10 +146,7 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={{
-                                        marginTop: 15, marginBottom: 15,
-                                        color: Colors.placeholder
-                                    }}>A B O U T  M E</HeadingText1>
+                                    <HeadingText1 style={styles.header}>A B O U T  M E</HeadingText1>
                                     <View style={styles.bio}>
                                         <ParagraphText1 style={{ margin: 20 }}>
                                             {user.bio}
@@ -154,10 +154,7 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={{
-                                        marginTop: 10, marginBottom: 3,
-                                        color: Colors.placeholder
-                                    }}>Y O U R  S E R V I C E S</HeadingText1>
+                                    <HeadingText1 style={styles.header}>Y O U R  S E R V I C E S</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
                                         snapToInterval={10}
@@ -168,10 +165,7 @@ class UserScreen extends React.Component {
                                     </ScrollView>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={{
-                                        marginTop: 10, marginBottom: 3,
-                                        color: Colors.placeholder
-                                    }}>Y O U R  R E V I E W S</HeadingText1>
+                                    <HeadingText1 style={styles.header}>Y O U R  R E V I E W S</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
                                         snapToInterval={10}
@@ -196,6 +190,16 @@ class UserScreen extends React.Component {
 
 
 const styles = StyleSheet.create({
+    header: {
+        marginTop: 10,
+        marginBottom: 3,
+        color: Colors.primary,
+        alignSelf: 'center',
+        /*shadowColor: Colors.placeholder,
+        shadowOffset: { width: -2, height: 2 },
+        shadowRadius: 0,
+        shadowOpacity: 1,*/
+    },
     itemContainer: {
         flex: 1,
         backgroundColor: '#fff',
@@ -368,10 +372,11 @@ const styles = StyleSheet.create({
         color: '#ffc4c4'
     },
     bio: {
+        marginTop: 13,
         flex: 1,
         width: width - 60,
         borderWidth: 1,
-        borderColor: Colors.placeholder,
+        borderColor: Colors.highlight,
         borderRadius: 20,
         zIndex: 1,
     }

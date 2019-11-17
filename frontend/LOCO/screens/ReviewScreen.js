@@ -37,29 +37,40 @@ class ReviewScreen extends React.Component {
                                 <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
                                     <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                                 </TouchableOpacity>
+                                <TouchableOpacity style={styles.edit}>
+                                    <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
+                                    <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
+                                </TouchableOpacity>
                                 <View style={styles.innerContainer}>
                                     <View style={styles.list}>
-                                        <View style={styles.reviewContainer}>
-                                            <View style={styles.rating}>
-                                                <HeadingText1 style={{ color: Colors.white }}>
-                                                    {this.props.navigation.state.params.rating}
-                                                </HeadingText1>
-                                                <Image style={styles.icon} source={require('../assets/icons/icons8-star-24.png')} />
-                                            </View>
-                                            <TouchableOpacity style={styles.edit}>
-                                                <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
-                                                <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
-                                            </TouchableOpacity>
-                                            <Image source={{ uri: this.props.navigation.state.params.image }}
-                                                style={styles.reviewImage}></Image>
-                                            <View style={{ margin: 15 }}>
-                                                <View style={styles.review}>
-                                                    <HeadingText1>{this.props.navigation.state.params.title}</HeadingText1>
-                                                    <ParagraphText1 style={{ color: Colors.placeholder }}>
-                                                        {this.props.navigation.state.params.date}
-                                                    </ParagraphText1>
+                                        <Image source={{ uri: this.props.navigation.state.params.image }}
+                                            style={styles.reviewImage}>
+                                        </Image>
+                                        <View style={styles.review}>
+                                            <HeadingText1>❝  {this.props.navigation.state.params.title}</HeadingText1>
+                                            <HeadingText2 style={{ marginTop: 4 }}>{this.props.navigation.state.params.review}  ❞</HeadingText2>
+                                        </View>
+                                        <View style={{ marginTop: 20, flexDirection: 'row' }}>
+                                            <HeadingText1 style={styles.headerLeft}>R e v i e w   b y</HeadingText1>
+                                            <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.user} </HeadingText2>
+                                        </View>
+                                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                            <HeadingText1 style={styles.headerLeft}>S e r v i c e   b y</HeadingText1>
+                                            <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.business} </HeadingText2>
+                                        </View>
+                                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                            <HeadingText1 style={styles.headerLeft}>D a t e</HeadingText1>
+                                            <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.date} </HeadingText2>
+                                        </View>
+                                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                            <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
+                                            <View style={{ justifyContent: 'flex-end' }}>
+                                                <View style={styles.rating}>
+                                                    <HeadingText2 style={{ color: Colors.placeholder, marginRight: 3 }}>
+                                                        {this.props.navigation.state.params.rating}
+                                                    </HeadingText2>
+                                                    <Image style={styles.icon} source={require('../assets/icons/icons8-star-24-grey.png')} />
                                                 </View>
-                                                <ParagraphText2>{this.props.navigation.state.params.review}</ParagraphText2>
                                             </View>
                                         </View>
                                     </View>
@@ -74,6 +85,18 @@ class ReviewScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    headerLeft: {
+        color: Colors.primary,
+        flex: 1,
+        justifyContent: 'flex-start',
+        zIndex: 1,
+    },
+    headerRight: {
+        color: Colors.placeholder,
+        flex: 1,
+        textAlign: 'right',
+        zIndex: 1,
+    },
     edit: {
         flex: 1,
         flexDirection: "row",
@@ -94,6 +117,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: 'center',
         alignItems: 'center',
+        margin: 20,
     },
     innerContainer: {
         marginTop: 40,
@@ -139,13 +163,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0)',
     },
     review: {
+        width: width - 70,
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        flexDirection: 'column',
+        marginVertical: 5,
     },
     reviewImage: {
-        width: "100%",
-        height: height / 6,
+        width: width - 55,
+        height: width - 55,
+        marginHorizontal: width / 60,
+        marginBottom: 15,
     },
     icon: {
         width: 15,
@@ -156,25 +183,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        color: Colors.white,
-        position: 'absolute',
-        left: 0,
-        margin: 10,
+        color: Colors.placeholder,
         zIndex: 1,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.5,
-    },
-    reviewContainer: {
-        width: width - 60,
-        marginHorizontal: width / 60,
-        marginVertical: 15,
-        backgroundColor: Colors.white,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.1,
     },
 });
 export default withNavigation(ReviewScreen);

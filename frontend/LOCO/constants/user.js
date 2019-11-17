@@ -13,66 +13,80 @@ export default
     phoneNumber: "604-888-8888",
     email: "tanya_cooper@gmail.com",
     reviews: [{
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Great food!",
       date: "Jan 23, 2019",
       review: "This experience was incredible! They were so friendly and welcoming.",
       rating: 5,
       image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
     }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Authentic experience",
       date: "Jan 23, 2019",
-      review: "Would definitely come back!",
+      review: "Would definitely come back! The owner was super nice and gave us extra side dishes for free. Also, there's free wifi which is a plus.",
       rating: 4,
       image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
     }, {
-      title: "Loved chatting with them",
-      date: "Jan 23, 2019",
-      review: "The price is slightly pricey, but worth it for the experience",
-      rating: 3.5,
-      image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
-    }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Loved chatting with them",
       date: "Jan 23, 2019",
       review: "The price is slightly pricey, but worth it for the experience",
       rating: 3.5,
       image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
     }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Great food!",
       date: "Jan 23, 2019",
       review: "This experience was incredible! They were so friendly and welcoming.",
       rating: 5,
       image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
     }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Great food!",
       date: "Jan 23, 2019",
       review: "This experience was incredible! They were so friendly and welcoming.",
       rating: 5,
       image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
     }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Great food!",
       date: "Jan 23, 2019",
       review: "This experience was incredible! They were so friendly and welcoming.",
       rating: 5,
       image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
     }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Great food!",
       date: "Jan 23, 2019",
       review: "This experience was incredible! They were so friendly and welcoming.",
       rating: 5,
       image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
     }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Great food!",
       date: "Jan 23, 2019",
       review: "This experience was incredible! They were so friendly and welcoming.",
       rating: 5,
       image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
     }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Great food!",
       date: "Jan 23, 2019",
       review: "This experience was incredible! They were so friendly and welcoming.",
       rating: 5,
       image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
     }, {
+      user: "tanya_cooper123",
+      business: "business_name",
       title: "Great food!",
       date: "Jan 23, 2019",
       review: "This experience was incredible! They were so friendly and welcoming.",

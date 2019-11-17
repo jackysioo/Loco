@@ -142,7 +142,7 @@ class BioScreen extends React.Component {
                                 </View>
                                 <View style={styles.info}>
                                     <HeadingText1 style={{
-                                        alignSelf: 'center', marginBottom: 8, color: Colors.placeholder
+                                        alignSelf: 'center', marginBottom: 8, color: Colors.primary
                                     }}>Y O U R  I N F O R M A T I O N</HeadingText1>
                                     <View style={{ justifyContent: 'space-between' }}>
                                         <View style={styles.innerInfo}>
@@ -246,7 +246,7 @@ class BioScreen extends React.Component {
                                                 value={emailInput} />
                                         </View>
                                         <HeadingText1 style={{
-                                            alignSelf: 'center', marginBottom: 8, color: Colors.placeholder, marginTop: 30
+                                            alignSelf: 'center', marginBottom: 8, color: Colors.primary, marginTop: 30
                                         }}>A B O U T  M E</HeadingText1>
                                         <View style={styles.innerInfo}>
                                             <TextInput
@@ -259,7 +259,7 @@ class BioScreen extends React.Component {
                                                     textAlignVertical: 'top',
                                                     width: width - 65,
                                                     borderWidth: 1,
-                                                    borderColor: Colors.placeholder,
+                                                    borderColor: Colors.highlight,
                                                     borderRadius: 20,
                                                     zIndex: 1,
                                                 }}
@@ -275,7 +275,7 @@ class BioScreen extends React.Component {
                                 </View>
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{
-                                        marginBottom: 3, color: Colors.placeholder
+                                        marginBottom: 3, color: Colors.primary
                                     }}>Y O U R  S E R V I C E S</HeadingText1>
                                     {services}
                                 </View>
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     messageInput: {
         borderRadius: 10,
         paddingHorizontal: 10,
-        borderColor: Colors.placeholder,
+        borderColor: Colors.highlight,
         borderWidth: 1
     },
     save: {
