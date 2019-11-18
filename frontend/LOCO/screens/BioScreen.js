@@ -19,7 +19,7 @@ import {
 const { height, width } = Dimensions.get('screen');
 import { Colors, user, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
-
+import { hook } from 'cavy';
 
 class BioScreen extends React.Component {
     state = {
@@ -124,10 +124,12 @@ class BioScreen extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             style={{ marginTop: '5%' }}>
-                            <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
+                            <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
+                                ref={this.props.generateTestHook('BioBack.Button')}>
                                 <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.save} onPress={() => this.props.navigation.goBack()}>
+                            <TouchableOpacity style={styles.save} onPress={() => this.props.navigation.goBack()}
+                                ref={this.props.generateTestHook('SaveChanges.Button')}>
                                 <HeadingText1 style={{ color: Colors.white }}> Save Changes </HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
@@ -148,6 +150,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Username:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('Username.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateUsername}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -158,6 +161,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>First Name:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('FirstName.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateFirstNameInput}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -168,6 +172,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Last Name:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('LastName.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateLastNameInput}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -178,6 +183,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Address Line:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('AddressLine.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateAddressLineInput}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -188,6 +194,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>City:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('City.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateAddressCityInput}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -198,6 +205,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Province:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('Province.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateAddressProvinceInput}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -208,6 +216,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Postal Code:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('PostalCode.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateAddressPostalCodeInput}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -218,6 +227,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Birthday:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('Birthday.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateBirthdayInput}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -228,6 +238,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Phone:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('Phone.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updatePhone}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -238,6 +249,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>E-mail:</HeadingText1>
                                             <TextInput
+                                                ref={this.props.generateTestHook('Email.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updateEmail}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -250,6 +262,7 @@ class BioScreen extends React.Component {
                                         }}>A B O U T  M E</HeadingText1>
                                         <View style={styles.innerInfo}>
                                             <TextInput
+                                                ref={this.props.generateTestHook('AboutMe.TextInput')}
                                                 multiline={true}
                                                 style={{
                                                     flex: 1,
@@ -478,4 +491,6 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withNavigationFocus(BioScreen);
+//export default withNavigationFocus(BioScreen);
+const BioScreenSpec = hook(BioScreen);
+export default (BioScreenSpec);

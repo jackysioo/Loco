@@ -4,29 +4,38 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { hook } from 'cavy';
 
 import AppNavigator from './navigation/AppNavigator';
 import PopUpUI from './screens/PopUpUI';
 
-export default function App(props) {
+import { Tester, TestHookStore } from 'cavy';
+import UserScreenSpec from './specs/UserScreenSpec';
 
+const testHookStore = new TestHookStore();
+
+export default function App(props) {
 
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
+      //<Tester specs={[UserScreenSpec]} store={testHookStore}>
+        <AppLoading
+          startAsync={loadResourcesAsync}
+          onError={handleLoadingError}
+          onFinish={() => handleFinishLoading(setLoadingComplete)}
+        />
+      //</Tester>
     );
   } else {
     return (
-      <View style={styles.container}>
-        <AppNavigator />
-        {/* <PopUpUI/> */}
-      </View>
+      //<Tester specs={[UserScreenSpec]} store={testHookStore}>
+        <View style={styles.container}>
+          <AppNavigator />
+          {/* <PopUpUI/> */}
+        </View>
+      //</Tester>
     );
   }
 }

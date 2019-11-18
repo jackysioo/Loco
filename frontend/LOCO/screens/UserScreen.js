@@ -19,24 +19,26 @@ import {
 const { height, width } = Dimensions.get('screen');
 import { Colors, user, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
-
+import { hook } from 'cavy';
 
 class UserScreen extends React.Component {
 
     render() {
+        var count = 0;  // for testing purposes 
         const reviews = user.reviews.map((review) => {
-
             // only display up to 46 characters of review outside of a review
             var displayReview = review.review;
             if (review.review.length > 84) {
                 displayReview = displayReview.slice(0, 84) + " . . .";
             }
 
+            count++;
+
             return (
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('UserReview', {
                     rating: review.rating, image: review.image, title: review.title,
                     date: review.date, review: review.review, user: review.user, business: review.business
-                })}>
+                })} ref={this.props.generateTestHook('Review' + count)}>
                     <View style={styles.userContainer}>
                         <View style={styles.rating}>
                             <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
@@ -53,6 +55,7 @@ class UserScreen extends React.Component {
                     </View>
                 </TouchableWithoutFeedback>
             )
+
         })
 
         const services = user.services.map((service) => {
@@ -95,17 +98,20 @@ class UserScreen extends React.Component {
                                     <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.editProfile}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Bio')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Bio')}
+                                        ref={this.props.generateTestHook('EditProfile.Button')}>
                                         <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.resultDescription}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Following')} style={styles.following}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Following')} style={styles.following}
+                                        ref={this.props.generateTestHook('Following.Button')}>
                                         <HeadingText1 style={{ color: Colors.primary }}> {user.following.length} </HeadingText1>
                                         <HeadingText2 style={{ color: Colors.primary }}> Following </HeadingText2>
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => navigation.navigate('Reviews',
-                                        { reviews: reviews })} style={styles.reviewNum}>
+                                        { reviews: reviews })} style={styles.reviewNum}
+                                        ref={this.props.generateTestHook('AllReviews.Button')}>
                                         <HeadingText1 style={{ color: Colors.primary }}> {user.reviews.length} </HeadingText1>
                                         <HeadingText2 style={{ color: Colors.primary }}> Reviews </HeadingText2>
                                     </TouchableOpacity>
@@ -175,7 +181,8 @@ class UserScreen extends React.Component {
                                         {displayReviews}
                                     </ScrollView>
                                     <TouchableOpacity onPress={() => navigation.navigate('Reviews',
-                                        { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}>
+                                        { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}
+                                        ref={this.props.generateTestHook('ViewAllReviews.Button')}>
                                         <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
                                     </TouchableOpacity>
                                 </View>
@@ -382,4 +389,6 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withNavigationFocus(UserScreen);
+//export default withNavigationFocus(UserScreen);
+const UserScreenSpec = hook(UserScreen);
+export default (UserScreenSpec);

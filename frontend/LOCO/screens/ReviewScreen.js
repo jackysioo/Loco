@@ -19,6 +19,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 const { width, height } = Dimensions.get("screen");
+import { hook } from 'cavy';
 
 
 class ReviewScreen extends React.Component {
@@ -57,10 +58,12 @@ class ReviewScreen extends React.Component {
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
                                 style={styles.itemContainer}>
-                                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
+                                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
+                                    ref={this.props.generateTestHook('ReviewBack.Button')}>
                                     <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.edit} onPress={() => { this.setState({ messageFormVisible: true }) }}>
+                                <TouchableOpacity style={styles.edit} onPress={() => { this.setState({ messageFormVisible: true }) }}
+                                    ref={this.props.generateTestHook('EditReview.Button')}>
                                     <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
                                     <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
                                 </TouchableOpacity>
@@ -116,10 +119,12 @@ class ReviewScreen extends React.Component {
                                         style={styles.modalItemContainer}>
                                         <TouchableOpacity
                                             style={styles.back}
-                                            onPress={() => { this.setState({ messageFormVisible: false }) }}>
+                                            onPress={() => { this.setState({ messageFormVisible: false }) }}
+                                            ref={this.props.generateTestHook('CancelEditReview.Button')}>
                                             <HeadingText1 style={{ color: Colors.white }}> Cancel </HeadingText1>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.save} onPress={() => { this.setState({ messageFormVisible: false }) }}>
+                                        <TouchableOpacity style={styles.save} onPress={() => { this.setState({ messageFormVisible: false }) }}
+                                            ref={this.props.generateTestHook('SaveEditReview.Button')}>
                                             <HeadingText1 style={{ color: Colors.white }}> Save Changes </HeadingText1>
                                         </TouchableOpacity>
                                         <View style={styles.innerContainer}>
@@ -133,6 +138,7 @@ class ReviewScreen extends React.Component {
                                                     </TouchableOpacity>
                                                 </ImageBackground>
                                                 <TextInput
+                                                    ref={this.props.generateTestHook('ReviewTitle.TextInput')}
                                                     style={styles.reviewTitleInput}
                                                     onChangeText={this.updateReviewTitle}
                                                     inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -142,6 +148,7 @@ class ReviewScreen extends React.Component {
                                                     placeholder={"Give your review a title!"}
                                                     placeholderTextColor={Colors.placeholder} />
                                                 <TextInput
+                                                    ref={this.props.generateTestHook('Review.TextInput')}
                                                     multiline={true}
                                                     style={styles.reviewInput}
                                                     onChangeText={this.updateReview}
@@ -154,6 +161,7 @@ class ReviewScreen extends React.Component {
                                                 <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
                                                     <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
                                                     <TextInput
+                                                        ref={this.props.generateTestHook('Rating.TextInput')}
                                                         style={styles.ratingInput}
                                                         onChangeText={this.updateRating}
                                                         inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -357,4 +365,7 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
 });
-export default withNavigation(ReviewScreen);
+
+//export default withNavigation(ReviewScreen);
+const ReviewScreenSpec = hook(ReviewScreen);
+export default (ReviewScreenSpec);

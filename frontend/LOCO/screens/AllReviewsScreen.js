@@ -18,6 +18,7 @@ import {
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 const { width, height } = Dimensions.get("screen");
+import { hook } from 'cavy';
 
 
 class AllReviewsScreen extends React.Component {
@@ -34,7 +35,8 @@ class AllReviewsScreen extends React.Component {
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
                                 style={styles.itemContainer}>
-                                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
+                                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
+                                ref={this.props.generateTestHook('AllReviewsBack.Button')}>
                                     <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                                 </TouchableOpacity>
                                 <View style={styles.innerContainer}>
@@ -108,4 +110,6 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withNavigation(AllReviewsScreen);
+//export default withNavigation(AllReviewsScreen);
+const AllReviewsScreenSpec = hook(AllReviewsScreen);
+export default (AllReviewsScreenSpec);
