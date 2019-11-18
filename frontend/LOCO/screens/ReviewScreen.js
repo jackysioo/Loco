@@ -13,8 +13,9 @@ import {
     ImageBackground,
     TouchableOpacity,
     TextInput,
-    Modal
+    Modal,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 const { width, height } = Dimensions.get("screen");
@@ -104,7 +105,7 @@ class ReviewScreen extends React.Component {
                         animationType="slide"
                         transparent={false}
                         visible={this.state.messageFormVisible}>
-                        <View style={styles.container}>
+                        <KeyboardAwareScrollView style={styles.container}>
                             <View style={{ flex: 1 }}>
                                 <ImageBackground
                                     source={Images.ProfileBackground}
@@ -118,19 +119,33 @@ class ReviewScreen extends React.Component {
                                             onPress={() => { this.setState({ messageFormVisible: false }) }}>
                                             <HeadingText1 style={{ color: Colors.white }}> Cancel </HeadingText1>
                                         </TouchableOpacity>
+                                        <TouchableOpacity style={styles.save} onPress={() => { this.setState({ messageFormVisible: false }) }}>
+                                            <HeadingText1 style={{ color: Colors.white }}> Save Changes </HeadingText1>
+                                        </TouchableOpacity>
                                         <View style={styles.innerContainer}>
                                             <View style={styles.list}>
                                                 <Image source={{ uri: this.props.navigation.state.params.image }}
                                                     style={styles.reviewImage}>
                                                 </Image>
                                                 <TextInput
-                                                    style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                    onChangeText={this.reviewTitleInput}
+                                                    style={styles.reviewTitleInput}
+                                                    onChangeText={this.updateReviewTitle}
                                                     inputContainerStyle={{ backgroundColor: Colors.white }}
                                                     containerStyle={{ backgroundColor: '#ffffff' }}
                                                     inputStyle={{ fontSize: 13 }}
-                                                    value={reviewTitleInput} />
-
+                                                    value={reviewTitleInput}
+                                                    placeholder={"Give your review a title!"}
+                                                    placeholderTextColor={Colors.placeholder} />
+                                                <TextInput
+                                                    multiline={true}
+                                                    style={styles.reviewInput}
+                                                    onChangeText={this.updateReview}
+                                                    inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                    containerStyle={{ backgroundColor: '#ffffff' }}
+                                                    inputStyle={{ fontSize: 13 }}
+                                                    value={reviewInput}
+                                                    placeholder={"Write about your experience!"}
+                                                    placeholderTextColor={Colors.placeholder} />
                                                 <View style={{ marginTop: 20, flexDirection: 'row' }}>
                                                     <HeadingText1 style={styles.headerLeft}>R e v i e w   b y</HeadingText1>
                                                     <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.user} </HeadingText2>
@@ -159,7 +174,7 @@ class ReviewScreen extends React.Component {
                                     </ScrollView>
                                 </ImageBackground>
                             </View>
-                        </View>
+                        </KeyboardAwareScrollView>
                     </Modal>
                 </View>
             </SafeAreaView>
@@ -168,11 +183,28 @@ class ReviewScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    messageInput: {
+    reviewTitleInput: {
+        flex: 1,
+        width: width - 60,
+        paddingTop: 10,
+        paddingBottom: 10,
         borderRadius: 10,
         paddingHorizontal: 10,
         borderColor: Colors.highlight,
-        borderWidth: 1
+        borderWidth: 1,
+        marginBottom: 10,
+    },
+    reviewInput: {
+        flex: 1,
+        paddingHorizontal: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
+        textAlignVertical: 'top',
+        width: width - 60,
+        borderWidth: 1,
+        borderColor: Colors.highlight,
+        borderRadius: 10,
+        zIndex: 1,
     },
     innerInfo: {
         flex: 1,
@@ -233,6 +265,15 @@ const styles = StyleSheet.create({
     back: {
         position: "absolute",
         left: 12,
+        top: 10,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.7,
+    },
+    save: {
+        position: "absolute",
+        right: 12,
         top: 10,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
