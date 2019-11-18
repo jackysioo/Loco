@@ -26,7 +26,7 @@ class ReviewScreen extends React.Component {
         messageFormVisible: false,
         reviewTitleInput: this.props.navigation.state.params.title,
         reviewInput: this.props.navigation.state.params.review,
-        ratingInput: this.props.navigation.state.params.rating,
+        ratingInput: this.props.navigation.state.params.rating.toString(),
     };
 
     updateReviewTitle = (reviewTitleInput) => {
@@ -124,9 +124,14 @@ class ReviewScreen extends React.Component {
                                         </TouchableOpacity>
                                         <View style={styles.innerContainer}>
                                             <View style={styles.list}>
-                                                <Image source={{ uri: this.props.navigation.state.params.image }}
+                                                <ImageBackground source={{ uri: this.props.navigation.state.params.image }}
                                                     style={styles.reviewImage}>
-                                                </Image>
+                                                    <TouchableOpacity style={styles.UpdatePic}>
+                                                        <HeadingText2 style={{ color: Colors.white }}>Update </HeadingText2>
+                                                        <Image style={styles.icon} source={
+                                                            require('../assets/icons/icons8-camera-icon-with-face-24.png')} />
+                                                    </TouchableOpacity>
+                                                </ImageBackground>
                                                 <TextInput
                                                     style={styles.reviewTitleInput}
                                                     onChangeText={this.updateReviewTitle}
@@ -146,28 +151,27 @@ class ReviewScreen extends React.Component {
                                                     value={reviewInput}
                                                     placeholder={"Write about your experience!"}
                                                     placeholderTextColor={Colors.placeholder} />
-                                                <View style={{ marginTop: 20, flexDirection: 'row' }}>
-                                                    <HeadingText1 style={styles.headerLeft}>R e v i e w   b y</HeadingText1>
-                                                    <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.user} </HeadingText2>
+                                                <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
+                                                    <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
+                                                    <TextInput
+                                                        style={styles.ratingInput}
+                                                        onChangeText={this.updateRating}
+                                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                                        inputStyle={{ fontSize: 13 }}
+                                                        value={ratingInput}
+                                                        placeholder={"0"}
+                                                        placeholderTextColor={Colors.placeholder}
+                                                        keyboardType={'numeric'} />
+                                                    <Image style={styles.icon} source={require('../assets/icons/icons8-star-24-grey.png')} />
                                                 </View>
-                                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                                <View style={{ marginTop: 10, flexDirection: 'row' }}>
                                                     <HeadingText1 style={styles.headerLeft}>S e r v i c e   b y</HeadingText1>
                                                     <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.business} </HeadingText2>
                                                 </View>
                                                 <View style={{ marginTop: 15, flexDirection: 'row' }}>
                                                     <HeadingText1 style={styles.headerLeft}>D a t e</HeadingText1>
                                                     <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.date} </HeadingText2>
-                                                </View>
-                                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                                    <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
-                                                    <View style={{ justifyContent: 'flex-end' }}>
-                                                        <View style={styles.rating}>
-                                                            <HeadingText2 style={{ color: Colors.placeholder, marginRight: 3 }}>
-                                                                {this.props.navigation.state.params.rating}
-                                                            </HeadingText2>
-                                                            <Image style={styles.icon} source={require('../assets/icons/icons8-star-24-grey.png')} />
-                                                        </View>
-                                                    </View>
                                                 </View>
                                             </View>
                                         </View>
@@ -183,6 +187,30 @@ class ReviewScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    UpdatePic: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: 'center',
+        position: 'absolute',
+        padding: 10,
+        height: 40,
+        width: 100,
+        zIndex: 1,
+        backgroundColor: 'rgba(99, 99, 99, 0.6)',
+    },
+    ratingInput: {
+        textAlign: 'center',
+        width: 30,
+        paddingHorizontal: 6,
+        paddingTop: 5,
+        paddingBottom: 5,
+        borderRadius: 10,
+        borderColor: Colors.highlight,
+        borderWidth: 1,
+        marginRight: 3,
+        zIndex: 1,
+    },
     reviewTitleInput: {
         flex: 1,
         width: width - 60,
@@ -193,6 +221,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.highlight,
         borderWidth: 1,
         marginBottom: 10,
+        zIndex: 1,
     },
     reviewInput: {
         flex: 1,
