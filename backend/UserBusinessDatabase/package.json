@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --runInBand",
     "start": "node app.js",
     "start-server": "npm app.js"
   },
@@ -19,7 +19,10 @@
   },
   "homepage": "https://github.com/jackysioo/Loco#readme",
   "devDependencies": {
-    "nodemon": "^1.19.3"
+    "@shelf/jest-mongodb": "^1.1.3",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.3",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -28,5 +31,12 @@
     "geolib": "^3.0.4",
     "mongodb": "^3.3.2",
     "mongoose": "^5.7.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ], 
+    "preset": "@shelf/jest-mongodb"
   }
 }

@@ -25,3 +25,5 @@ var port = process.env.PORT || 1337;
 mongoose.connect('mongodb+srv://teamdwtf:teamdwtf@cluster0-pzxbk.mongodb.net/db?retryWrites=true&w=majority')
     .then((result) => { app.listen(port) })
     .catch((err) => console.log(err)); 
+
+
