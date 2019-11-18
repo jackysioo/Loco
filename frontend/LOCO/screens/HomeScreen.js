@@ -24,6 +24,7 @@ import MapScreen from "./MapScreen";
 import SearchResultScreen from "./SearchResultScreen";
 import { Card } from '../components';
 import MapButton from "../components/MapButton";
+import { hook } from 'cavy'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -126,7 +127,8 @@ class HomeScreen extends React.Component {
                 <TouchableOpacity
                     key={categoryIcon.name}
                     style={styles.categoryItemView}
-                    onPress={() => { this.searchCategory(categoryIcon.name) }}>
+                    onPress={() => { this.searchCategory(categoryIcon.name) }}
+                    ref={this.props.generateTestHook('Categories.Button')}>
                     <Image
                         source={categoryIcon.uri}
                         style={styles.categoryItem} />
@@ -202,12 +204,14 @@ class HomeScreen extends React.Component {
                 <Button
                     title="Cancel"
                     color="#51bfbb"
-                    onPress={this.cancelSearch}>
+                    onPress={this.cancelSearch}
+                    ref={this.props.generateTestHook('SearchBarCancel.Button')}>
                 </Button>
                 <Button
                     title="Search"
                     color="#51bfbb"
-                    onPress={this.search}>
+                    onPress={this.search}
+                    ref={this.props.generateTestHook('SearchBar.Button')}>
                 </Button>
             </View>
         )
@@ -232,7 +236,8 @@ class HomeScreen extends React.Component {
 
                         onChangeText={this.updateLocation}
                         value={location}
-                        onSubmitEditing={this.search} />
+                        onSubmitEditing={this.search} 
+                        ref={this.props.generateTestHook('Location.TextInput')}/>
                 </View>
                 <View style={styles.searchActiveResultsContainer}>
                     <View style={styles.searchActiveResultsContainer}>
@@ -263,7 +268,7 @@ class HomeScreen extends React.Component {
 
                     <View style={styles.searchContainer}>
                         <SearchBar
-                            ref={(input) => this.searchBar = input}
+                            ref={(input) => this.searchBar = input, this.props.generateTestHook('Search.TextInput')}
                             round
                             lightTheme
                             containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
@@ -296,7 +301,8 @@ class HomeScreen extends React.Component {
                                 style={styles.closeMapButtonContainer}
                                 onPress={() => {
                                     this.setMapVisible(!this.state.mapVisible);
-                                }}>
+                                }}
+                                ref={this.props.generateTestHook('MapClose.Button')}>
                                 <Image
                                     style={styles.mapButton}
                                     source={require('../assets/icons/icons8-cancel-64.png')}/>

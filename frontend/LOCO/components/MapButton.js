@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
+import {hook} from 'cavy'
 
 const { width, height } = Dimensions.get("screen");
 
@@ -36,7 +37,8 @@ class MapButton extends React.Component {
         return (
             <TouchableOpacity
                 style={styles.mapButton}
-                onPress={this.triggerMap}>
+                onPress={this.triggerMap}
+                ref={this.props.generateTestHook('MapOpen.Button')}>
                 <Image
                     style={styles.mapButtonImg}
                     source={require('../assets/icons/icons8-map-64.png')} />

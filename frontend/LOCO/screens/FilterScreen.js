@@ -39,7 +39,8 @@ class FilterScreen extends React.Component {
                 style={styles.modal}>
                 <TouchableOpacity
                     onPress={this.closeModal}
-                    style={{position: "absolute", top:0, left:0,padding: 20}}>
+                    style={{position: "absolute", top:0, left:0,padding: 20}}
+                    ref={this.props.generateTestHook('CloseFilters.Button')}>
                     <Text style={{fontSize: 18,color: Colors.placeholder}}>X</Text>
                 </TouchableOpacity>
                 </View>

@@ -18,6 +18,7 @@ import {
 const { height, width } = Dimensions.get('screen');
 import { Colors } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
+import {hook} from 'cavy'
 
 
 class BusinessScreen extends React.Component {
@@ -77,7 +78,8 @@ class BusinessScreen extends React.Component {
                         imageStyle={styles.profileBackground}>
                         <ScrollView
                             showsVerticalScrollIndicator={false}>
-                            <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
+                            <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}
+                            ref={this.props.generateTestHook('BusinessBack.Button')}>
                                 <HeadingText1 style={styles.heading1}>Back</HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>

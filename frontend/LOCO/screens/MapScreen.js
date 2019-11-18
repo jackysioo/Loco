@@ -14,7 +14,9 @@ import {
 import MapView, { Callout, Marker } from 'react-native-maps';
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
+import { hook } from 'cavy'
 const { width, height } = Dimensions.get("screen");
+
 
 class MapScreen extends React.Component {
 
@@ -40,7 +42,8 @@ class MapScreen extends React.Component {
                         style={styles.dropPinIcon} />
                     <Callout
                         onPress={() => {this.triggerCallback(result)}}
-                        tooltip={false}>
+                        tooltip={false}
+                        ref={this.props.generateTestHook('Callout.Button')}>
                             <View style={styles.searchItemContainer}>
                                 <Image source={{ uri: result.profilePic }} style={styles.profilePic} />
                                 <View style={styles.resultContainer}>

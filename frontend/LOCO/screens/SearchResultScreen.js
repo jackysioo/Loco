@@ -17,6 +17,7 @@ import SearchResult from "../components/SearchResult";
 const { width, height } = Dimensions.get("screen");
 import FilterScreen from "./FilterScreen";
 import SortByScreen from "./SortByScreen";
+import { hook } from 'cavy'
 
 class SearchResultScreen extends React.Component {
     state = {
@@ -62,7 +63,7 @@ class SearchResultScreen extends React.Component {
         return this.state.searchResults.map((result) => {
             return (
                 <View key={result.title} style={styles.recommendationContainer}>
-                    <SearchResult item={result} />
+                    <SearchResult item={result} ref={this.props.generateTestHook('SearchResult.Button')}/>
                 </View>
             )
         });
@@ -72,20 +73,22 @@ class SearchResultScreen extends React.Component {
     renderFilters() {
         return (
             <View style={styles.filterContainer}>
-                <TouchableOpacity style={{ paddingVertical: 5 }} onPress={this.resetSearch}>
+                <TouchableOpacity style={{ paddingVertical: 5 }} onPress={this.resetSearch} ref={this.props.generateTestHook('Back.Button')}>
                     <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
-                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isFilterVisible: true }) }}>
+                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isFilterVisible: true }) }}
+                    ref={this.props.generateTestHook('Filters.Button')}>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Filters</HeadingText2>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isSortVisible: true }) }}>
+                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isSortVisible: true }) }}
+                    ref={this.props.generateTestHook('Sort.Button')}>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Sort By</HeadingText2>
                     </TouchableOpacity>
                 </View>
 
-                {/* <FilterScreen visible={this.state.isFilterVisible} close={this.closeFilter} filters={this.state.filters} updateFilters={this.updateFilters} />} */}
-                {/* <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />} */}
+                <FilterScreen visible={this.state.isFilterVisible} close={this.closeFilter} filters={this.state.filters} updateFilters={this.updateFilters} />}
+                <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />}
 
             </View>
         )
