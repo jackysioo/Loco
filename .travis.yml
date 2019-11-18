@@ -6,3 +6,4 @@ before_install:
   - cd ./backend/UserBusinessDatabase
 script:
   - npm test
+  - npm run coveralls
