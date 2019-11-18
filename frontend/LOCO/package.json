@@ -29,7 +29,8 @@
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^7.1.0"
+    "babel-preset-expo": "^7.1.0",
+    "cavy": "^3.1.0"
   },
   "private": true
 }
