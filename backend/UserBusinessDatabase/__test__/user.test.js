@@ -19,9 +19,17 @@ const userData = [
         addressPostalCode: "A8A 8A8",
         birthday: "Feb 14, 1996",
         phoneNumber: "604-888-8888",
-        email: "tanya_cooper@gmail.com",
+        email: "tanya_cooper@gmail.com", 
     },
   ]; 
+
+  const serviceData = {
+    title: "Hard Gel Manicure",
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+  } 
+
+
 
   beforeAll(async () => {await dbHandler.connect(); });
 
@@ -82,11 +90,40 @@ describe('User Integration Tests', () => {
         expect(response.body.user.username).toBe('changed name');
         
         done();
-      });  
+      });   
+
+      it('Can add a service', async done => { 
+
+        const user = await request.post('/user/post').send({user : userData[0]}); 
+        const id = user.body.user._id;  
+
+        const service = await request.post('/user/postService/' + id).send({service : serviceData}); 
+        
+
+        expect(service.status).toBe(200);
+        expect(service.body.service.title).toBe(serviceData.title);
+        
+        done();
+      });    
+
+      it('Can update a service', async done => { 
+
+        const user = await request.post('/user/post').send({user : userData[0]}); 
+        const id = user.body.user._id;  
+
+        const service = await request.post('/user/postService/' + id).send({service : serviceData}); 
+        const updated = await request.put('/user/putService/' + id).send({service : service.body.service}); 
+        
+
+        expect(updated.status).toBe(200);
+        expect(updated.body.service.title).toBe(serviceData.title);
+        
+        done();
+      });   
 
 }); 
 
-describe('Business Unit Tests', () => { 
+describe('User Unit Tests', () => { 
 
   const mockRequest = (sessionData, body,params) => ({
     session: { data: sessionData },

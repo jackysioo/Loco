@@ -89,6 +89,19 @@ describe('Business Integration Tests', () => {
         done();
       });  
 
+      it('Can search for correct options', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const id = business.body.business._id; 
+
+        const response = await request.put('/business/put/'+id).send({business : {title: 'changed title'}}); 
+
+        expect(response.status).toBe(200);
+        expect(response.body.business.title).toBe('changed title');
+        
+        done();
+      });  
+
 }); 
 
 describe('Business Unit Tests', () => { 
