@@ -85,7 +85,7 @@ exports.deleteUser = (req, res, next) => {
 exports.updateUserData = async (req, res, next) => {
     try {
         const userId = req.params.userId;
-        const update = await User.findOneAndUpdate({ _id: userId }, req.body, { new: true })
+        const update = await User.findOneAndUpdate({ _id: userId }, req.body.user, { new: true })
 
         if (!update) {
             const error = new Error('Could not find user');

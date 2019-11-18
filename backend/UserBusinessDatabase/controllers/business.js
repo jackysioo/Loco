@@ -87,7 +87,7 @@ exports.getBusinessDataById = (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
             }
-            res.status(200).json({ Business: business })
+            res.status(200).json({ business: business })
         })
         .catch((err) => {
             if (!err.statusCode) {
@@ -109,7 +109,7 @@ exports.deleteBusiness = (req, res, next) => {
             return Business.findByIdAndDelete(businessId);
         })
         .then((result) => {
-            res.status(200).json({ message: 'deleted', Business: result });
+            res.status(200).json({ message: 'deleted', business: result });
         })
         .catch((err) => {
             if (!err.statusCode) {
@@ -122,15 +122,15 @@ exports.deleteBusiness = (req, res, next) => {
 exports.updateBusinessData = async (req, res, next) => {
     try {
         const businessId = req.params.businessId;
-        const update = await User.findOneAndUpdate({ _id: businessId }, req.body.business, { new: true })
+        const update = await Business.findOneAndUpdate({ _id: businessId }, req.body.business, { new: true })
 
         if (!update) {
             const error = new Error('Could not find business');
             error.statusCode = 404;
             throw error;
         }
-        const user = await User.findById(userId);  
-        const result = await user.populate('reviews').execPopulate();
+        const business = await Business.findById(businessId);  
+        const result = await business.populate('reviews').execPopulate();
         res.status(200).json({ message: 'updated', business: result });
     } catch (err) {
         if (!err.statusCode) {

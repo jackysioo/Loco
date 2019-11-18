@@ -50,25 +50,53 @@ describe('Business Integration Tests', () => {
         done();
       });   
 
-      it('Can make a post request', async done => {
-        const response = await request.post('/business/post').send({business : businessData[0]});
-        expect(response.status).toBe(201);
+      it('Can make a get request getting a user by id', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const id = business.body.business._id; 
+
+        const response = await request.get('/business/get/'+id); 
+
+        expect(response.status).toBe(200);
         expect(response.body.business.title).toBe(businessData[0].title);
+        
+        done();
+      });   
+
+      it('Can make a delete request', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const id = business.body.business._id; 
+
+        const response = await request.delete('/business/delete/'+id); 
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe('deleted');
         
         done();
       });  
 
-    
+      it('Can make a put request and update business', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const id = business.body.business._id; 
 
-    
+        const response = await request.put('/business/put/'+id).send({business : {title: 'changed title'}}); 
+
+        expect(response.status).toBe(200);
+        expect(response.body.business.title).toBe('changed title');
+        
+        done();
+      });  
 
 }); 
 
 describe('Business Unit Tests', () => { 
 
-  const mockRequest = (sessionData, body) => ({
+  const mockRequest = (sessionData, body,params) => ({
     session: { data: sessionData },
-    body,
+    body, 
+    params
   });
   
   const mockResponse = () => {
@@ -85,16 +113,36 @@ describe('Business Unit Tests', () => {
   it('can successfully add data to DB', async done => { 
     const req = mockRequest(
       {},
-      { business : businessData[0] }
+      { business : businessData[0] }, 
+      {}
     ); 
     const res = mockResponse(); 
     const next = mockNext;
-      await businessController.postBusinessData(req, res,next);
+    const result =  await businessController.postBusinessData(req, res,next);
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith(expect.anything());
       
       done();
-    }); 
+    });  
+
+    it('can successfully update data in DB', async done => {  
+      const business = new businessModel(businessData[0]);
+
+     const id = await business.save();  
+
+      const req = mockRequest(
+        {},
+        {business : {title : 'new title'}}, 
+        { businessId : id.id}
+      ); 
+      const res = mockResponse(); 
+      const next = mockNext;
+      const result =  await businessController.updateBusinessData(req, res,next);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.anything());
+        
+        done();
+      }); 
 
   
 

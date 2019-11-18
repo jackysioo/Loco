@@ -73,7 +73,7 @@ exports.deleteReview = async (req, res, next) => {
 
         const result = await Review.findByIdAndDelete(reviewId); 
 
-        res.status(200).json({ message: 'added', review: result});
+        res.status(200).json({ message: 'deleted', review: result});
 
     } catch (err) {
         if (!err.statusCode) {

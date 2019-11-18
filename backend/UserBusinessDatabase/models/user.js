@@ -2,13 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema; 
 
 const userSchema = new Schema({ 
-  userName: String,
-  fullName: String,
+  username: String,
+  firstName: String, 
+  lastName: String,
   profilePic: String,
-  following: Number,
-  address: [
-        { type: String }
-    ],
+  following: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  addressLine: String, 
+  addressCity: String, 
+  addressProvince: String, 
+  addressPostalCode: String, 
+  phoneNumber: String, 
+  bio: String,
   birthday: String,
   reviews: [{
     type: mongoose.Schema.Types.ObjectId,
