@@ -11,6 +11,7 @@ import PopUpUI from './screens/PopUpUI';
 
 import { Tester, TestHookStore } from 'cavy';
 import UserScreenSpec from './specs/UserScreenSpec';
+import HomeScreenSpec from './specs/HomeScreenSpec';
 
 const testHookStore = new TestHookStore();
 
@@ -20,22 +21,22 @@ export default function App(props) {
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
-      //<Tester specs={[UserScreenSpec]} store={testHookStore}>
+      <Tester specs={[/*HomeScreenSpec,*/UserScreenSpec]} store={testHookStore}>
         <AppLoading
           startAsync={loadResourcesAsync}
           onError={handleLoadingError}
           onFinish={() => handleFinishLoading(setLoadingComplete)}
         />
-      //</Tester>
+      </Tester>
     );
   } else {
     return (
-      //<Tester specs={[UserScreenSpec]} store={testHookStore}>
+      <Tester specs={[/*HomeScreenSpec,*/UserScreenSpec]} store={testHookStore}>
         <View style={styles.container}>
           <AppNavigator />
           {/* <PopUpUI/> */}
         </View>
-      //</Tester>
+      </Tester>
     );
   }
 }

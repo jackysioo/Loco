@@ -43,7 +43,7 @@ class MapScreen extends React.Component {
                     <Callout
                         onPress={() => {this.triggerCallback(result)}}
                         tooltip={false}
-                        ref={this.props.generateTestHook('Callout.Button')}>
+                        /*ref={this.props.generateTestHook('Callout.Button')}*/>
                             <View style={styles.searchItemContainer}>
                                 <Image source={{ uri: result.profilePic }} style={styles.profilePic} />
                                 <View style={styles.resultContainer}>
@@ -231,4 +231,6 @@ const styles = StyleSheet.create({
     },
 });
 
-export default withNavigation(MapScreen);
+//export default withNavigation(MapScreen);
+const MapScreenSpec = hook(MapScreen);
+export default (MapScreenSpec);
