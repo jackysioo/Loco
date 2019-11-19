@@ -72,7 +72,7 @@ const reviewData = [
 
   describe('Review Integration Tests', () => {
 
-    it('Can make a post request', async done => { 
+      it('Can make a post request', async done => { 
         const business = await request.post('/business/post').send({business : businessData[0]}); 
         const bid = business.body.business._id; 
 
@@ -119,6 +119,73 @@ const reviewData = [
 
         expect(response.status).toBe(200);
         expect(response.body.message).toBe('deleted');
+        
+        done();
+      });   
+
+      it('it can handle invalid put requests', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const bid = business.body.business._id; 
+
+        const user = await request.post('/user/post').send({user : userData[0]}); 
+        const uid = user.body.user._id; 
+
+        const review = await request.post('/review/post/'+uid + '/' + bid).send({review : reviewData[0]}); 
+        const rid = review.body.review._id;  
+
+        const response = await request.put('/review/put/'+ -1).send({review : {title: 'changed title'}});  
+
+        expect(response.status).toBe(500);
+        
+        done();
+      });   
+
+      it('it can handle not finding reviews', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const bid = business.body.business._id; 
+
+        const user = await request.post('/user/post').send({user : userData[0]}); 
+        const uid = user.body.user._id; 
+
+        const review = await request.post('/review/post/'+uid + '/' + bid).send({review : reviewData[0]}); 
+        const rid = review.body.review._id;  
+
+        const response = await request.put('/review/put/').send({review : {title: 'changed title'}});  
+
+        expect(response.status).toBe(404);
+        
+        done();
+      });
+
+      it('it can handle invalid post requests', async done => { 
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const bid = business.body.business._id; 
+
+        const user = await request.post('/user/post').send({user : userData[0]}); 
+        const uid = user.body.user._id; 
+
+        const response = await request.post('/review/post/'+-1 + '/' + -1).send({review : reviewData[0]});
+        expect(response.status).toBe(500);
+        
+        done();
+      });
+      
+      it('it can handle invalid delete requests', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const bid = business.body.business._id; 
+
+        const user = await request.post('/user/post').send({user : userData[0]}); 
+        const uid = user.body.user._id; 
+
+        const review = await request.post('/review/post/'+uid + '/' + bid).send({review : reviewData[0]}); 
+        const rid = review.body.review._id;  
+
+        const response = await request.delete('/review/delete/'+ -1 + '/' + -1 + '/' + -1); 
+
+        expect(response.status).toBe(500);
         
         done();
       });   
