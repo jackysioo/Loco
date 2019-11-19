@@ -174,14 +174,18 @@ describe('Business Integration Tests', () => {
 
       it('Can search for correct options', async done => { 
         
-        const business = await request.post('/business/post').send({business : businessData[0]}); 
-        const id = business.body.business._id; 
+        await request.post('/business/post').send({business : businessData[0]});  
+        await request.post('/business/post').send({business : businessData[1]});  
+        await request.post('/business/post').send({business : businessData[2]});  
+        await request.post('/business/post').send({business : businessData[3]});   
 
-        const response = await request.put('/business/put/'+id).send({business : {title: 'changed title'}}); 
+        const user = await request.post('/user/post').send({user : userData[0]}); 
+        const id = user.body.user._id; 
+
+        const response = await request.get('/business/get?title=home&lat=50&long=20&userId='+id); 
 
         expect(response.status).toBe(200);
-        expect(response.body.business.title).toBe('changed title');
-        
+
         done();
       });  
 
