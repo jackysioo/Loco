@@ -28,7 +28,7 @@ exports.getBusinessData = (req, res, next) => {
                 const result = businessScores.map((businessScore) => {
                     return businessScore.business;
                 });
-                res.status(200).json({ Business: result })
+                res.status(200).json({ businesses: result })
             })
             .catch((err) => {
                 if (!err.statusCode) {
