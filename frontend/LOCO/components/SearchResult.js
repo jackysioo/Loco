@@ -7,7 +7,6 @@ const { height, width } = Dimensions.get('screen');
 import { Colors } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from './Texts';
 
-
 class SearchResult extends React.Component {
     render() {
         const { navigation, item } = this.props;

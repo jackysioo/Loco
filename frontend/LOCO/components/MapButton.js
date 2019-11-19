@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
-import {hook} from 'cavy'
+import {hook} from 'cavy';
 
 const { width, height } = Dimensions.get("screen");
 
@@ -80,4 +80,6 @@ const styles = StyleSheet.create({
     }
 })
 
-export default withNavigation(MapButton)
+//export default withNavigation(MapButton)
+const MapButtonSpec = hook(MapButton);
+export default (MapButtonSpec);
