@@ -63,7 +63,7 @@ class SearchResultScreen extends React.Component {
         return this.state.searchResults.map((result) => {
             return (
                 <View key={result.title} style={styles.recommendationContainer}>
-                    <SearchResult item={result} /*ref={this.props.generateTestHook('SearchResult.Button')}*//>
+                    <SearchResult item={result} ref={this.props.generateTestHook('SearchResult.Button')}/>
                 </View>
             )
         });
@@ -73,7 +73,7 @@ class SearchResultScreen extends React.Component {
     renderFilters() {
         return (
             <View style={styles.filterContainer}>
-                <TouchableOpacity style={{ paddingVertical: 5 }} onPress={this.resetSearch} /*ref={this.props.generateTestHook('Back.Button')}*/>
+                <TouchableOpacity style={{ paddingVertical: 5 }} onPress={this.resetSearch} ref={this.props.generateTestHook('Back.Button')}>
                     <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
@@ -87,8 +87,8 @@ class SearchResultScreen extends React.Component {
                     </TouchableOpacity>
                 </View>
 
-                <FilterScreen visible={this.state.isFilterVisible} close={this.closeFilter} filters={this.state.filters} updateFilters={this.updateFilters} />}
-                <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />}
+                {/* <FilterScreen visible={this.state.isFilterVisible} close={this.closeFilter} filters={this.state.filters} updateFilters={this.updateFilters} />} */}
+                {/* <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />} */}
 
             </View>
         )

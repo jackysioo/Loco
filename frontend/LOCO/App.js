@@ -21,7 +21,7 @@ export default function App(props) {
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
-      <Tester specs={[/*HomeScreenSpec,*/UserScreenSpec]} store={testHookStore}>
+      <Tester specs={[HomeScreenSpec,UserScreenSpec]} store={testHookStore}>
         <AppLoading
           startAsync={loadResourcesAsync}
           onError={handleLoadingError}
@@ -31,7 +31,7 @@ export default function App(props) {
     );
   } else {
     return (
-      <Tester specs={[/*HomeScreenSpec,*/UserScreenSpec]} store={testHookStore}>
+      <Tester specs={[HomeScreenSpec,UserScreenSpec]} store={testHookStore}>
         <View style={styles.container}>
           <AppNavigator />
           {/* <PopUpUI/> */}

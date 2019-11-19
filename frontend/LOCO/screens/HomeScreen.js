@@ -131,7 +131,7 @@ class HomeScreen extends React.Component {
                     key={categoryIcon.name}
                     style={styles.categoryItemView}
                     onPress={() => { this.searchCategory(categoryIcon.name) }}
-                    /*ref={this.props.generateTestHook('Categories.Button' + count)}*/>
+                    ref={this.props.generateTestHook('Categories.Button' + count)}>
                     <Image
                         source={categoryIcon.uri}
                         style={styles.categoryItem} />
@@ -208,13 +208,13 @@ class HomeScreen extends React.Component {
                     title="Cancel"
                     color="#51bfbb"
                     onPress={this.cancelSearch}
-                    /*ref={this.props.generateTestHook('SearchBarCancel.Button')}*/>
+                    ref={this.props.generateTestHook('SearchBarCancel.Button')}>
                 </Button>
                 <Button
                     title="Search"
                     color="#51bfbb"
                     onPress={this.search}
-                    /*ref={this.props.generateTestHook('SearchBar.Button')}*/>
+                    ref={this.props.generateTestHook('SearchBar.Button')}>
                 </Button>
             </View>
         )
@@ -240,7 +240,7 @@ class HomeScreen extends React.Component {
                         onChangeText={this.updateLocation}
                         value={location}
                         onSubmitEditing={this.search}
-                        /*ref={this.props.generateTestHook('Location.TextInput')}*/ />
+                        ref={this.props.generateTestHook('Location.TextInput')} />
                 </View>
                 <View style={styles.searchActiveResultsContainer}>
                     <View style={styles.searchActiveResultsContainer}>
@@ -271,7 +271,7 @@ class HomeScreen extends React.Component {
 
                     <View style={styles.searchContainer}>
                         <SearchBar
-                            ref={(input) => this.searchBar = input/*, this.props.generateTestHook('Search.TextInput')*/}
+                            ref={(input) => this.searchBar = input }
                             round
                             lightTheme
                             containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
@@ -305,7 +305,7 @@ class HomeScreen extends React.Component {
                                 onPress={() => {
                                     this.setMapVisible(!this.state.mapVisible);
                                 }}
-                                /*ref={this.props.generateTestHook('MapClose.Button')}*/>
+                                ref={this.props.generateTestHook('MapClose.Button')}>
                                 <Image
                                     style={styles.mapButton}
                                     source={require('../assets/icons/icons8-cancel-64.png')} />

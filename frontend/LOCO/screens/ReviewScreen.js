@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     },
     ratingInput: {
         textAlign: 'center',
-        width: 30,
+        width: 45,
         paddingHorizontal: 6,
         paddingTop: 5,
         paddingBottom: 5,
