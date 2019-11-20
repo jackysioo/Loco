@@ -12,26 +12,12 @@ import AllReviewsScreen from '../screens/AllReviewsScreen';
 import AllAppointmentsScreen from '../screens/AllAppointmentsScreen';
 import FollowingScreen from '../screens/FollowingScreen';
 import ReviewScreen from '../screens/ReviewScreen';
+import ChatScreen from '../screens/ChatScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
-
-// const tabBarOnPress = ({ navigation, defaultHandler }) => {
-//   const { isFocused, state, goBack } = navigation;
-//   if (isFocused()) {
-//       if (state.routes.length > 1) {
-//           for (let i = 0; i < state.routes.length - 1; i += 1) {
-//               goBack();
-//           }
-//       } else {
-//           // @TODO SCROLL TO TOP OF EACH TAB IF SCROLLABLE, $CALLBACK().
-//       }
-//   } else {
-//       defaultHandler();
-//   }
-// };
 
 const HomeStack = createStackNavigator(
   {
@@ -99,10 +85,30 @@ AppointmentsStack.navigationOptions = {
 
 AppointmentsStack.path = '';
 
+//TESTING CHAT
+const ChatStack = createStackNavigator(
+  {
+    Chat: ChatScreen,
+  }, {
+  headerMode: 'none',
+},
+  config
+);
+
+ChatStack.navigationOptions = {
+  tabBarLabel: 'Chat',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
+  ),
+};
+
+ChatStack.path = '';
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
   AppointmentsStack,
+  ChatStack
 });
 
 tabNavigator.path = '';
