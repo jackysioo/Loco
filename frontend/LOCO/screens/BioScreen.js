@@ -36,6 +36,36 @@ class BioScreen extends React.Component {
         bioInput: user.bio,
     };
 
+    submitChanges() {
+        fetch("link here", {
+            method: 'PUT', //POST, GET, PUT ..etc,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: this.state.usernameInput,
+                firstName: this.state.firstNameInput,
+                lastName: this.state.lastNameInput,
+                addressLine: this.state.addressLineInput,
+                addressCity: this.state.addressCityInput,
+                addressProvince: this.state.addressProvinceInput,
+                addressPostalCode: this.state.addressPostalCodeInput,
+                phoneNumber: this.state.phoneInput,
+                bio: this.state.birthdayInput,
+                birthday: this.state.bioInput
+            })
+        })
+            .then(response => {
+                if (response.json().ok) {
+                    console.log("sucessfully updated database")
+                }
+            })
+            .then((data) => {
+                console.log(data)
+            })
+    }
+
     updateBio = (bioInput) => {
         this.setState({ bioInput });
     };
@@ -128,7 +158,7 @@ class BioScreen extends React.Component {
                                 ref={this.props.generateTestHook('BioBack.Button')}>
                                 <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.save} onPress={() => this.props.navigation.goBack()}
+                            <TouchableOpacity style={styles.save} onPress={() => this.submitChanges()}
                                 ref={this.props.generateTestHook('SaveChanges.Button')}>
                                 <HeadingText1 style={{ color: Colors.white }}> Save Changes </HeadingText1>
                             </TouchableOpacity>

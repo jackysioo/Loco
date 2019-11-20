@@ -233,4 +233,6 @@ const styles = StyleSheet.create({
     },
 });
 
-export default withNavigation(MapScreen);
+//export default withNavigation(MapScreen);
+const MapScreenSpec = hook(MapScreen);
+export default (MapScreenSpec);

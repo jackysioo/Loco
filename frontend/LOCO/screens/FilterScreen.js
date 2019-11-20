@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
+import { hook } from 'cavy'
 
 const { width, height } = Dimensions.get("screen");
 
@@ -40,8 +41,7 @@ class FilterScreen extends React.Component {
                 <TouchableOpacity
                     onPress={this.closeModal}
                     style={{position: "absolute", top:0, left:0,padding: 20}}
-                    // ref={this.props.generateTestHook('CloseFilters.Button')}
-                    >
+                    /*ref={this.props.generateTestHook('CloseFilters.Button')}*/>
                     <Text style={{fontSize: 18,color: Colors.placeholder}}>X</Text>
                 </TouchableOpacity>
                 </View>
@@ -68,4 +68,6 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withNavigation(FilterScreen);
+//export default withNavigation(FilterScreen);
+const FilterScreenSpec = hook(FilterScreen);
+export default (FilterScreenSpec);

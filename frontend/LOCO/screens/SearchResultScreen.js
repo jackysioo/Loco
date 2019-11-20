@@ -17,7 +17,7 @@ import SearchResult from "../components/SearchResult";
 const { width, height } = Dimensions.get("screen");
 import FilterScreen from "./FilterScreen";
 import SortByScreen from "./SortByScreen";
-import { hook } from 'cavy'
+import { hook } from 'cavy';
 
 class SearchResultScreen extends React.Component {
     state = {
@@ -91,16 +91,12 @@ class SearchResultScreen extends React.Component {
                     <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
-                    <TouchableOpacity style={styles.filter}
-                        onPress={() => { this.setState({ isFilterVisible: true }) }}
-                    // ref={this.props.generateTestHook('Filters.Button')}
-                    >
+                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isFilterVisible: true }) }}
+                    /*ref={this.props.generateTestHook('Filters.Button')}*/>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Filters</HeadingText2>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.filter}
-                        onPress={() => { this.setState({ isSortVisible: true }) }}
-                    // ref={this.props.generateTestHook('Sort.Button')}
-                    >
+                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isSortVisible: true }) }}
+                   /* ref={this.props.generateTestHook('Sort.Button')}*/>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Sort By</HeadingText2>
                     </TouchableOpacity>
                 </View>
@@ -195,4 +191,6 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withNavigation(SearchResultScreen);
+//export default withNavigation(SearchResultScreen);
+const SearchResultScreenSpec = hook(SearchResultScreen);
+export default (SearchResultScreenSpec);

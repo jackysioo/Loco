@@ -34,7 +34,7 @@ export default
       title: "Loved chatting with them",
       date: "Jan 23, 2019",
       review: "The price is slightly pricey, but worth it for the experience",
-      rating: 3.5,
+      rating: 3.51,
       image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
     }, {
       user: "tanya_cooper123",

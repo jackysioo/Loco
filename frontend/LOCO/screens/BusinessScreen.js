@@ -369,4 +369,6 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withNavigation(BusinessScreen);
+//export default withNavigation(BusinessScreen);
+const BusinessScreenSpec = hook(BusinessScreen);
+export default (BusinessScreenSpec);

@@ -12,18 +12,11 @@ exports.getBusinessData = (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 } 
-                const userSearchDataSearch = await Search.findById(req.query.userId); 
-                if (!userSearchDataSearch) {
-                          const error = new Error('Could not find any search data for user');
-                          error.statusCode = 404;
-                          throw error;
-                      }
+            
 
                 const businessScores = businesses.map((business) => {
-                    const score = Math.abs(userSearchDataSearch.distance -
-                        geolib.getDistance({ latitude: req.query.lat, longitude: req.query.long }, { latitude: business.location.lat, longitude: business.location.long }))
-                        + Math.abs(userSearchDataSearch.rating - business.rating)
-                        + Math.abs(userSearchDataSearch.price - business.price);
+                    const score = geolib.getDistance({ latitude: req.query.lat, longitude: req.query.long }, { latitude: business.location.lat, longitude: business.location.long });
+
 
                     const businessScore ={business:business,score: score};
                     
@@ -35,7 +28,7 @@ exports.getBusinessData = (req, res, next) => {
                 const result = businessScores.map((businessScore) => {
                     return businessScore.business;
                 });
-                res.status(200).json({ Business: result })
+                res.status(200).json({ businesses: result })
             })
             .catch((err) => {
                 if (!err.statusCode) {

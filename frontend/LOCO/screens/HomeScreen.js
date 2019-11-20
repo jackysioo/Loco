@@ -28,6 +28,7 @@ import { hook } from 'cavy'
 
 const { width, height } = Dimensions.get('screen');
 
+
 class HomeScreen extends React.Component {
     state = {
         search: '',
@@ -145,14 +146,15 @@ class HomeScreen extends React.Component {
     }
 
     renderCategories() {
+        var count = 0; // for testing purposes
         return Images.CategoryIcons.map((categoryIcon) => {
+            count++;
             return (
                 <TouchableOpacity
                     key={categoryIcon.name}
                     style={styles.categoryItemView}
                     onPress={() => { this.searchCategory(categoryIcon.name) }}
-                    ref={this.props.generateTestHook('Categories.Button')}
-                    >
+                    ref={this.props.generateTestHook('Categories.Button' + count)}>
                     <Image
                         source={categoryIcon.uri}
                         style={styles.categoryItem} />
@@ -262,9 +264,8 @@ class HomeScreen extends React.Component {
 
                         onChangeText={this.updateLocation}
                         value={location}
-                        onSubmitEditing={this.search} 
-                        // ref={this.props.generateTestHook('Location.TextInput')}
-                        />
+                        onSubmitEditing={this.search}
+                        ref={this.props.generateTestHook('Location.TextInput')} />
                 </View>
                 <View style={styles.searchActiveResultsContainer}>
                     <View style={styles.searchActiveResultsContainer}>
@@ -295,7 +296,7 @@ class HomeScreen extends React.Component {
 
                     <View style={styles.searchContainer}>
                         <SearchBar
-                            ref={(input) => this.searchBar = input}
+                            ref={(input) => this.searchBar = input }
                             round
                             lightTheme
                             containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
@@ -339,7 +340,7 @@ class HomeScreen extends React.Component {
                                 >
                                 <Image
                                     style={styles.mapButton}
-                                    source={require('../assets/icons/icons8-cancel-64.png')}/>
+                                    source={require('../assets/icons/icons8-cancel-64.png')} />
                             </TouchableOpacity>
                             <MapScreen item={this.mapItem} location={this.state.searchLocation} results={this.state.searchResults} />
                         </View>
@@ -421,7 +422,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     categoryItemView: {
-        width: width/5,
+        width: width / 5,
         margin: 5,
         alignItems: 'center',
         justifyContent: 'center'
@@ -474,5 +475,7 @@ const styles = StyleSheet.create({
 
 
 
+
+//export default withNavigationFocus(HomeScreen);
 const HomeScreenSpec = hook(HomeScreen);
-export default withNavigationFocus(HomeScreen);
+export default (HomeScreenSpec);
