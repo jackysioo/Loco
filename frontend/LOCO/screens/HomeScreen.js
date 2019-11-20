@@ -112,9 +112,7 @@ class HomeScreen extends React.Component {
         this.setState({
             isSearchActive: false,
             loadSearchResults: true,
-            preCallMin: new Date().getMinutes(), // Current Minutes
-            preCallSec: new Date().getSeconds(), //Current Seconds
-            searchResults: businesses    // TEST DATA
+            // searchResults: businesses    // TEST DATA
         })
         fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + this.state.category + "&lat=49.2827&long=-123.1207")
             .then(response => response.json())
@@ -153,7 +151,7 @@ class HomeScreen extends React.Component {
                     key={categoryIcon.name}
                     style={styles.categoryItemView}
                     onPress={() => { this.searchCategory(categoryIcon.name) }}
-                    // ref={this.props.generateTestHook('Categories.Button')}
+                    ref={this.props.generateTestHook('Categories.Button')}
                     >
                     <Image
                         source={categoryIcon.uri}
@@ -231,14 +229,14 @@ class HomeScreen extends React.Component {
                     title="Cancel"
                     color="#51bfbb"
                     onPress={this.cancelSearch}
-                    // ref={this.props.generateTestHook('SearchBarCancel.Button')}
+                    ref={this.props.generateTestHook('SearchBarCancel.Button')}
                     >
                 </Button>
                 <Button
                     title="Search"
                     color="#51bfbb"
                     onPress={this.search}
-                    // ref={this.props.generateTestHook('SearchBar.Button')}
+                    ref={this.props.generateTestHook('SearchBar.Button')}
                     >
                 </Button>
             </View>
