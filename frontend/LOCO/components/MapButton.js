@@ -38,7 +38,8 @@ class MapButton extends React.Component {
             <TouchableOpacity
                 style={styles.mapButton}
                 onPress={this.triggerMap}
-                ref={this.props.generateTestHook('MapOpen.Button')}>
+                // ref={this.props.generateTestHook('MapOpen.Button')}
+                >
                 <Image
                     style={styles.mapButtonImg}
                     source={require('../assets/icons/icons8-map-64.png')} />

@@ -79,7 +79,8 @@ class BusinessScreen extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}>
                             <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}
-                            ref={this.props.generateTestHook('BusinessBack.Button')}>
+                            // ref={this.props.generateTestHook('BusinessBack.Button')}
+                            >
                                 <HeadingText1 style={styles.heading1}>Back</HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
