@@ -17,13 +17,6 @@ export default class ChatScreen extends React.Component {
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-        <Header text={"hello"}>
-            <TouchableOpacity>
-              <View style={styles.leave_button}>
-                <Text style={styles.leave_button_text}>Leave</Text>
-              </View>
-            </TouchableOpacity>
-        </Header>
 
         <View style={styles.body}>
           <ScrollView
@@ -93,15 +86,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 10,
     alignSelf: 'stretch',
-  },
-  leave_button: {
-    marginRight: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#FFF',
-  },
-  leave_button_text: {
-    color: '#FFF',
-    fontSize: 16,
   },
   body: {
     flex: 9,
