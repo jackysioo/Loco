@@ -13,7 +13,25 @@ import {
 
 
 export default class ChatScreen extends React.Component {
+    state = {
+        roomID: this.props.roomID,
+        nextLoadMessageID: null,
+        message: '',
+        messages: [],
+    };
+
+    componentDidMount(){
+        this.controller.loadChat(this.props.roomID)
+    }
+
+    loadMessage = (messages) => {
+        this.setState({
+            messages: [...messages]
+        })
+    }
+
   render() {
+    const { controller } = this.props;
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -24,7 +42,7 @@ export default class ChatScreen extends React.Component {
             contentContainerStyle={styles.scroll_container}
             >
             <FlatList 
-            // data={this.props.messages} 
+             data={this.state.messages} 
             renderItem={this.renderItem} />
           </ScrollView>
 
@@ -41,7 +59,7 @@ export default class ChatScreen extends React.Component {
               style={styles.text_field}
               multiline={true}
             //   onChangeText={this.props.updateMessage}
-            //   value={this.props.message}
+              value={this.props.message}
               placeholder="Type your message..."
             />
 

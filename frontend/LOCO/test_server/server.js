@@ -21,33 +21,49 @@ app.get("/", (req, res) => {
 });
 
 
-//retrieve all private chats user is a part
-//returns list of users the current user has chatted with
-app.get("/allrooms", (req, res) => {
+//GET list of chatrooms the current user has chatted with
+app.get("/allchats", (req, res) => {
   const { userID } = req.body;
-  var roomIDList = []
-  
+
   chatkit.getUserRooms({
     userId: userID,
   })
     .then((res) => {
-      console.log("All user's rooms:")
+      console.log("All user's chatrooms:")
       console.log(res)
-      for (let room of res) {
-          roomIDList.push(room.id)
-      }
-      res.status(200).json({ 
-        roomIDList: roomIDList
+      res.json({
+        roooms: res
       })
     })
     .catch(err => console.error(err))
-
 });
 
 
-//retrieve messages from roomID
+//GET list of all the userIDs of users the current user has chated with
+app.get("/allusers", (req, res) => {
+  const { userID } = req.body;
+  var userIDs = []
+
+  chatkit.getUserRooms({
+    userId: userID,
+  })
+    .then((rooms) => {
+      for (let room of rooms) {
+        for (let userID of room.member_user_ids) {
+          userIDs.push(userID)
+        }
+      }
+      res.json({
+        userIDs: userIDs
+      })
+    })
+    .catch(err => console.error(err))
+});
+
+
+
+//GET array of messages of current chatroom history and the messageID of the next message to be loaded
 //if it's the first time retrieving messages, get messages from chatkit without initial meessage ID
-//returns Array of messages for that chat
 app.get("/messages", (req, res) => {
   const { roomID, initialID } = req.body;
 
@@ -56,8 +72,8 @@ app.get("/messages", (req, res) => {
       roomId: roomID,
       initialId: initialID
     })
-      .then(messages => {
-        res.status(200).json({ 
+      .then((messages) => {
+        res.json({
           messages: messages,
           nextMessageID: res[messages.length - 1].id,
         })
@@ -67,18 +83,67 @@ app.get("/messages", (req, res) => {
     chatkit.fetchMultipartMessages({
       roomId: roomID,
     })
-      .then(messages => {
-        res.status(200).json({ 
+      .then((messages) => {
+        res.json({
           messages: messages,
           nextMessageID: res[messages.length - 1].id,
         })
       })
       .catch(err => console.error(err))
   }
-
-  
 });
 
+
+//POST create new room with current userID and other userID
+app.post("/room", (req, res) => {
+  const { userID, otherUserID } = req.body;
+
+  chatkit.createRoom({
+    id: `room-${userID}-${otherUserID}`,
+    creatorId: userID,
+    name: 'Chat',
+    isPrivate: true,
+    userIds: [otherUserID],
+  })
+    .then(() => {
+      res.json({
+        roomID: `room-${userID}-${otherUserID}`
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+});
+
+
+//POST send new message to chatroom
+app.post("/message", (req, res) => {
+  const { userID, roomID, message } = req.body
+
+  chatkit.sendSimpleMessage({
+    userId: userID,
+    roomId: roomID,
+    text: message,
+  })
+    .then((res) => console.log('Sent message with ID: ', res.id))
+    .catch((err) => console.error(err))
+
+})
+
+
+
+//DELETE room
+app.delete("/room", (req, res) => {
+  const { roomID } = req.body
+
+  chatkit.asyncDeleteRoom({
+    roomId: roomID
+  })
+    .then(() => console.log("Deleted chatroom"))
+    .catch(err => console.error(err))
+
+})
 
 
 

@@ -4,7 +4,7 @@ import { ChatManager, TokenProvider } from "chatkit-client";
 
 
 const instanceLocatorId = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
-const presenceRoomId = "74cfa57c-7c9c-492a-a7e4-0d7acfb23ad6"; 
+const presenceRoomId = "74cfa57c-7c9c-492a-a7e4-0d7acfb23ad6";
 const chatServer = "http://192.168.51.209:3000";
 
 const tokenProvider = new TokenProvider({
@@ -15,52 +15,51 @@ export default class ChatController extends React.Component {
     state = {
         userID: this.props.userID,
         currentRoomId: null,
-        chatWithUser: null,
-        chatWithUserIsTyping: false,
-        refreshing: false,
-        inChatRoom: false,
         nextLoadMessageID: null,
+        chats: [],
         visible: this.props.visible,
     };
 
     constructor(props) {
         super(props);
         this.currentUser = null;
-        this.roomId = null;
+    }
+
+    componentDidMount() {
+        this._getChats
     }
 
 
-    getMessages(messages) {
-        this.props.messages(messages)
-    }
-
-    getUsers() {
-        fetch(chatServer + "/allrooms", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userId: this.state.userID,
-            })
-        })
-        .then(res => {
-            this.getMessages(res.messages)
-            this.setState({
-                nextLoadMessageID: res.nextMessageID
-            })
-        })
-        .catch(error => {
-            console.log(error);
-        });
-        
-        this.props.users(users)
+    //return chats to messages screen
+    getChats = () => {
+        this.props.chats(this.state.chats)
     }
 
 
-    //load one-on-one chatroom of roomID
-    enterChat = (roomID) => {
-        this.setState({visible: true});
+    //check if a chatroom already exists between the current user and the other user
+    //if chatroom does not exist, create a chatroom between current user and other user
+    //if chatroom exists, load the chatroom between current user and other user
+    chat = (otherUserID) => {
+        var chatExists = false
+
+        for (let chat of this.state.chats) {
+            for (let userID of chat.userIDs) {
+                if (otherUserID == userID) {
+                    this.loadChat(chat.roomID)
+                    chatExists = true
+                }
+            }
+        }
+
+        if (!chatExists) {
+            this._createChat(otherUserID)
+        }
+    }
+
+
+    //retrieves all the messages of a chatroom
+    loadChat = (roomID) => {
+        this.setState({ visible: true });
 
         //GET messages in room of roomID
         fetch(chatServer + "/messages", {
@@ -73,8 +72,9 @@ export default class ChatController extends React.Component {
                 initialID: nextLoadMessageID
             })
         })
-            .then(res => {
-                this.getMessages(res.messages)
+            .then((res) => {
+                //trigger callback of loaded messages
+                this.props.messages(res.messages)
                 this.setState({
                     nextLoadMessageID: res.nextMessageID
                 })
@@ -86,7 +86,7 @@ export default class ChatController extends React.Component {
                 });
                 this.chatManager
                     .connect()
-                    .then(currentUser => {
+                    .then((currentUser) => {
                         currentUser
                             .subscribeToRoom({
                                 roomId: roomID,
@@ -105,33 +105,81 @@ export default class ChatController extends React.Component {
     };
 
 
-    updateMessage = message => {
-        this.setState({
-            message
+    //sends a message in the chatroom with roomID
+    sendMessage(roomID, message) {
+        fetch(chatServer + "/message", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userID: this.state.userID,
+                roomID: roomID,
+                message: message
+            })
+        })
+        .then((res) => {
+            if (res.ok) {
+                console.log("successfully sent message in controller")
+            }
+        })
+        .catch((err) => {
+            console.log(err);
         });
-        this.currentUser.isTypingIn({ roomId: this.state.currentRoomId });
-    };
 
-    sendMessage = () => {
-        if (this.state.message) {
-            this.currentUser
-                .sendMessage({
-                    text: this.state.message,
-                    roomId: this.state.currentRoomId
-                })
-                .then(messageId => {
-                    this.setState({
-                        message: ""
-                    });
-                })
-                .catch(err => {
-                    console.log(`error adding message to room: ${err}`);
-                });
-        }
-    };
+    }
+
+
+    _createChat(otherUserID) {
+        fetch(chatServer + "/room", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userID: this.state.userID,
+                otherUserID: otherUserID
+            })
+        })
+            .then((res) => {
+                if (res.ok) {
+                    console.log("successfully created new room in controller")
+                    this.props.newRoomID(res.roomID)
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    
+
+    //GET all of user's previous chatrooms
+    _getChats = () => {
+        fetch(chatServer + "/allchats", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userID: this.state.userID,
+            })
+        })
+            .then((rooms) => {
+                for (let room of rooms) {
+                    this.state.chats.push({
+                        roomID: room.id,
+                        userIDs: room.member_user_ids
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 
     render() {
-        return <Spinner visible={this.state.visible} itemProp='size:100'/>
+        return <Spinner visible={this.state.visible} itemProp='size:100' />
     }
 
 }

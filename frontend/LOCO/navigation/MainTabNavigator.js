@@ -13,6 +13,7 @@ import AllAppointmentsScreen from '../screens/AllAppointmentsScreen';
 import FollowingScreen from '../screens/FollowingScreen';
 import ReviewScreen from '../screens/ReviewScreen';
 import ChatScreen from '../screens/ChatScreen';
+import MessagesScreen from '../screens/MessagesScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -88,6 +89,7 @@ AppointmentsStack.path = '';
 //TESTING CHAT
 const ChatStack = createStackNavigator(
   {
+    Messages: MessagesScreen,
     Chat: ChatScreen,
   }, {
   headerMode: 'none',
