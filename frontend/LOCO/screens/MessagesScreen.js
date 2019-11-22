@@ -15,9 +15,9 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import { Images, user, Colors } from "../constants";
+import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
-import ChatController from '../controllers/ChatController';
+import  ChatController from '../controllers/ChatController';
 const { width, height } = Dimensions.get("screen");
 
 
@@ -33,19 +33,23 @@ class MessagesScreen extends React.Component {
     }
 
     enterChat = (roomID) => {
-        navigation.navigate('Chat', { controller: this.chatController, roomID: roomID})
+        navigation.navigate('Chat', { controller: this.chatController, roomID: roomID })
+    }
+
+    newRoomID = (roomID) =>{
+
     }
 
     renderChats() {
-        const { navigation } = this.props
-
         return this.state.allChats.map((chat) => {
             return (
                 <View style={styles.chatItemContainer} key={chat.roomID}>
                     <TouchableOpacity
                         style={styles.chatItem}
                         onPress={this.enterChat(roomID)}>
-                            <Image style={styles.avatar} source={{ uri: Images.Logo }}/>
+                        <Image 
+                            style={styles.avatar} 
+                            source={{ uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' }} />
                     </TouchableOpacity>
                 </View>
             )
@@ -54,20 +58,21 @@ class MessagesScreen extends React.Component {
 
     render() {
         const { userID } = this.props;
-
-        <SafeAreaView style={{ flex: 1 }}>
-            <ScrollView style={styles.container}>
-                {this.renderChats()}
-            </ScrollView>
-            <ChatController
-                ref={(input) => this.chatController = input}
-                visible={false}
-                userID={userID}
-                chats={this.loadChats}
-                messages={this.loadMessages}
-                newRoomID={this.newRoomID}
-            />
-        </SafeAreaView>
+        return (
+            <SafeAreaView style={{ flex: 1 }}>
+                <ScrollView style={styles.container}>
+                    {this.renderChats()}
+                </ScrollView>
+                <ChatController
+                    ref={(input) => this.chatController = input}
+                    visible={false}
+                    userID={"Cynthia"}
+                    chats={this.loadChats}
+                    messages={this.loadMessages}
+                    newRoomID={this.newRoomID}
+                />
+            </SafeAreaView>
+        )
     }
 }
 
@@ -78,15 +83,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
     },
-    chatItemContainer : {
+    chatItemContainer: {
         width: width,
         height: 150,
         borderColor: Colors.placeholder,
         borderWidth: 1,
+        backgroundColor: Colors.primary
     },
-    chatItem : {
+    chatItem: {
         margin: 10
-    }, 
+    },
     avatar: {
         width: 50,
         height: 50,

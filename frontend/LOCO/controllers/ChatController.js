@@ -1,20 +1,23 @@
 import React from "react";
-import { StyleSheet, Text, View, Spinner } from "react-native";
-import { ChatManager, TokenProvider } from "chatkit-client";
-
+import {
+    StyleSheet,
+    Image,
+    View,
+} from 'react-native';
+import { ChatManager, TokenProvider } from "@pusher/chatkit-client";
+import { withNavigation } from "react-navigation";
+import { Images } from "../constants";
 
 const instanceLocatorId = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
-const presenceRoomId = "74cfa57c-7c9c-492a-a7e4-0d7acfb23ad6";
 const chatServer = "http://192.168.51.209:3000";
-
 const tokenProvider = new TokenProvider({
     url: `https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0d19d6c4-7553-472b-8f65-3af90e0c9407/token`
 });
 
-export default class ChatController extends React.Component {
+
+class ChatController extends React.Component {
     state = {
         userID: this.props.userID,
-        currentRoomId: null,
         nextLoadMessageID: null,
         chats: [],
         visible: this.props.visible,
@@ -26,7 +29,7 @@ export default class ChatController extends React.Component {
     }
 
     componentDidMount() {
-        this._getChats
+        this._getChats()
     }
 
 
@@ -62,15 +65,11 @@ export default class ChatController extends React.Component {
         this.setState({ visible: true });
 
         //GET messages in room of roomID
-        fetch(chatServer + "/messages", {
+        fetch(chatServer + "/messages?roomId=" + roomID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                roomID: roomID,
-                initialID: nextLoadMessageID
-            })
+            }
         })
             .then((res) => {
                 //trigger callback of loaded messages
@@ -118,14 +117,14 @@ export default class ChatController extends React.Component {
                 message: message
             })
         })
-        .then((res) => {
-            if (res.ok) {
-                console.log("successfully sent message in controller")
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then((res) => {
+                if (res.ok) {
+                    console.log("successfully sent message in controller")
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
     }
 
@@ -152,20 +151,19 @@ export default class ChatController extends React.Component {
             });
     }
 
-    
+
 
     //GET all of user's previous chatrooms
-    _getChats = () => {
-        fetch(chatServer + "/allchats", {
+    _getChats() {
+
+        fetch(chatServer + "/chats?id=" + this.state.userID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userID: this.state.userID,
-            })
+            }
         })
             .then((rooms) => {
+                console.log("fetched data: " + room)
                 for (let room of rooms) {
                     this.state.chats.push({
                         roomID: room.id,
@@ -178,8 +176,17 @@ export default class ChatController extends React.Component {
             });
     }
 
+
+
+    //return loading animation when posting data
     render() {
-        return <Spinner visible={this.state.visible} itemProp='size:100' />
+        return (
+            <View>
+                { this.state.visible && <Image style={{width: 50, height: 50}} source={{ uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' }} />}
+            </View>
+        )
     }
 
 }
+
+export default withNavigation(ChatController)
