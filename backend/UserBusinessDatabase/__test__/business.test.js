@@ -144,6 +144,29 @@ describe('Business Integration Tests', () => {
         expect(response.body.business.title).toBe(businessData[0].title);
         
         done();
+      }); 
+
+      it('Can make a get request getting a business by id and throw', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const id = business.body.business._id; 
+
+        expect(await request.get('/business/get/'+(id+1)).toThrow());
+        
+        done();
+      });
+
+      it('Can make a get request getting a business by id', async done => { 
+        
+        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const id = business.body.business._id; 
+
+        const response = await request.get('/business/get/'+id); 
+
+        expect(response.status).toBe(200);
+        expect(response.body.business.title).toBe(businessData[0].title);
+        
+        done();
       });
       
       it('Can make a get request getting a business', async done => { 

@@ -1,7 +1,56 @@
 const User = require('../models/user');
 const Business = require('../models/business');
 const Search = require('../models/search');
-const Review = require('../models/review');
+const Review = require('../models/review'); 
+const JWT = require('jsonwebtoken');  
+const {JWT_SECRET} = require('../configuration/index');
+
+createToken = user => { 
+   return JWT.sign({ 
+        iss: 'LOCO', 
+        sub: user._id, 
+        iat: new Date().getTime(),
+        exp: new Date().setDate(new Date().getDate() + 1)
+    }, JWT_SECRET);
+} 
+
+exports.signIn = async (req,res,next) => { 
+    const token = createToken(req.user); 
+    res.status(200).json({token});
+
+}
+
+exports.signUp = async (req, res, next) => {
+    try {
+        const searchData = new Search({
+        });
+        const searchId = await searchData.save(); 
+
+        const foundUser = await User.findOne({username : req.body.user.username}); 
+        if(foundUser){ 
+            return res.status(403).json({
+                error: 'userame already in use',
+            });
+        }
+
+        const userObj = { ...req.body.user, searchId: searchId._id };
+        const user = new User(userObj);
+
+        await user.save(); 
+
+        const token = createToken(user);
+        
+        res.status(201).json({
+            message: 'add user success',
+            user: user, 
+            token: token
+        });
+
+
+    } catch (err) {
+        next(err);
+    };
+}
 
 exports.getUserData = (req, res, next) => {
     User.find()
@@ -17,27 +66,6 @@ exports.getUserData = (req, res, next) => {
         });
 }
 
-exports.postUserData = async (req, res, next) => {
-    try {
-        const searchData = new Search({
-        });
-        const searchId = await searchData.save();
-        const userObj = { ...req.body.user, searchId: searchId._id };
-        const user = new User(userObj);
-
-        await user.save(); 
-        const result = await user.populate('reviews').execPopulate();
-        
-        res.status(201).json({
-            message: 'add user success',
-            user: result
-        });
-
-
-    } catch (err) {
-        next(err);
-    };
-}
 
 exports.getUserDataById = (req, res, next) => {
     const userId = req.params.userId;
