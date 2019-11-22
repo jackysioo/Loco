@@ -12,6 +12,8 @@ import AllReviewsScreen from '../screens/AllReviewsScreen';
 import AllAppointmentsScreen from '../screens/AllAppointmentsScreen';
 import FollowingScreen from '../screens/FollowingScreen';
 import ReviewScreen from '../screens/ReviewScreen';
+import LoginScreen from '../screens/LoginScreen';
+import SignupScreen from '../screens/SignupScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -99,10 +101,30 @@ AppointmentsStack.navigationOptions = {
 
 AppointmentsStack.path = '';
 
+const LoginStack = createStackNavigator(
+  {
+    Login: LoginScreen,
+    Signup: SignupScreen,
+  }, {
+  headerMode: 'none',
+},
+  config
+);
+
+LoginStack.navigationOptions = {
+  tabBarLabel: 'Login',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
+  ),
+};
+
+LoginStack.path = '';
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
   AppointmentsStack,
+  LoginStack
 });
 
 tabNavigator.path = '';

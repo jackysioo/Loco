@@ -2,6 +2,7 @@ const Logo = require("../assets/imgs/logo.png");
 const LogoIcon = require("../assets/icon.png");
 const ProfileBackground = require("../assets/imgs/profile-screen-bg.jpg");
 const MealIcon = require("../assets/icons/icons8-meal-50.png");
+const BlankProfilePic = require("../assets/imgs/blankprofile.png");
 
 const CategoryIcons = [
     {   name: 'Tutor',
@@ -36,4 +37,5 @@ export default {
     CategoryIcons,
     MealIcon,
     LogoIcon,
+    BlankProfilePic,
 };

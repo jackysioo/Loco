@@ -223,4 +223,5 @@ export default
       }
     ],
     bio: "ღ✿ Tanya Cooper ✿ღ\n✨ Licensed Nail Tech ✨\n✨ Licensed Eyelash Extention Tech ✨\n📍 Vancouver\n\nAvailabilities for this week:\n  ~ Monday:\n    1:00pm - 3:00pm\n    4:00pm - 6:00pm\n  ~ Wednesday:\n    4:00pm - 6:00pm\n\n♡♥♡ Shoot me a text for pricing! ♡♥♡",
+    password: "1234567890"
   };

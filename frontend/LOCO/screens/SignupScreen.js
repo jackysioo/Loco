@@ -17,24 +17,25 @@ import {
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
-import { Colors, user, Images } from '../constants';
+import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy';
 
-class BioScreen extends React.Component {
+class SignupScreen extends React.Component {
     state = {
-        usernameInput: user.username,
-        firstNameInput: user.firstName,
-        lastNameInput: user.lastName,
-        addressLineInput: user.addressLine,
-        addressCityInput: user.addressCity,
-        addressProvinceInput: user.addressProvince,
-        addressPostalCodeInput: user.addressPostalCode,
-        birthdayInput: user.birthday,
-        phoneInput: user.phoneNumber,
-        emailInput: user.email,
-        bioInput: user.bio,
-        passwordInput: user.password,
+        usernameInput: '',
+        firstNameInput: '',
+        lastNameInput: '',
+        addressLineInput: '',
+        addressCityInput: '',
+        addressProvinceInput: '',
+        addressPostalCodeInput: '',
+        birthdayInput: '',
+        phoneInput: '',
+        emailInput: '',
+        bioInput: '',
+        passwordInput: '',
     };
 
     submitChanges() {
@@ -130,30 +131,9 @@ class BioScreen extends React.Component {
         const { bioInput } = this.state;
         const { passwordInput } = this.state;
 
-        const services = user.services.map((service) => {
-            return (
-                <View style={styles.userContainer}>
-                    <View style={styles.rating}>
-                        <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
-                        <Image style={styles.icon} source={require('../assets/icons/icons8-star-24.png')} />
-                    </View>
-                    <TouchableOpacity style={styles.edit}>
-                        <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
-                        <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
-                    </TouchableOpacity>
-                    <Image source={{ uri: service.image }} style={styles.reviewImage}></Image>
-                    <View style={{ margin: 15 }}>
-                        <View style={styles.review}>
-                            <HeadingText1>{service.title}</HeadingText1>
-                        </View>
-                    </View>
-                </View>
-            )
-        })
-
         return (
             <View style={styles.container}>
-                <View style={{ flex: 1 }}>
+                <KeyboardAwareScrollView style={{ flex: 1 }}>
                     <ImageBackground
                         source={Images.ProfileBackground}
                         style={styles.profileContainer}
@@ -167,11 +147,11 @@ class BioScreen extends React.Component {
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.save} onPress={() => this.submitChanges()}
                                 ref={this.props.generateTestHook('SaveChanges.Button')}>
-                                <HeadingText1 style={{ color: Colors.white }}> Save Changes </HeadingText1>
+                                <HeadingText1 style={{ color: Colors.white }}> Save </HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
-                                    <ImageBackground source={{ uri: user.profilePic }} style={styles.profilePic}>
+                                    <ImageBackground source={Images.BlankProfilePic} style={styles.profilePic}>
                                         <TouchableOpacity style={styles.UpdatePic}>
                                             <HeadingText2 style={{ color: Colors.white }}>Update </HeadingText2>
                                             <Image style={styles.icon} source={
@@ -334,21 +314,10 @@ class BioScreen extends React.Component {
                                         </View>
                                     </View>
                                 </View>
-                                <View style={styles.reviews}>
-                                    <HeadingText1 style={{
-                                        marginBottom: 3, color: Colors.primary
-                                    }}>Y O U R  S E R V I C E S</HeadingText1>
-                                    {services}
-                                </View>
-                                <TouchableOpacity style={styles.addService}>
-                                    <HeadingText2 style={{ color: Colors.primary }}> Add Service </HeadingText2>
-                                    <Image style={styles.icon} source={
-                                        require('../assets/icons/icons8-add-new-24-aqua.png')} />
-                                </TouchableOpacity>
                             </View>
                         </ScrollView>
                     </ImageBackground>
-                </View>
+                </KeyboardAwareScrollView>
             </View >
         );
     }
@@ -392,8 +361,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     profilePicContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
         position: "relative",
         marginTop: -70,
         padding: 2,
@@ -407,7 +374,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.white,
         justifyContent: 'center',
         alignItems: 'center',
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     icon: {
         width: 15,
@@ -540,5 +507,5 @@ const styles = StyleSheet.create({
 });
 
 //export default withNavigationFocus(BioScreen);
-const BioScreenSpec = hook(BioScreen);
-export default (BioScreenSpec);
+const SignupScreenSpec = hook(SignupScreen);
+export default (SignupScreenSpec);
