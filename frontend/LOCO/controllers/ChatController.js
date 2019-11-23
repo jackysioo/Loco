@@ -9,18 +9,20 @@ import { withNavigation } from "react-navigation";
 import { Images } from "../constants";
 
 const instanceLocatorId = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
-const chatServer = "http://dev.test:3000";
+const chatServer = "http://loco.eastus.cloudapp.azure.com:1337/chat";
 const tokenProvider = new TokenProvider({
     url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0d19d6c4-7553-472b-8f65-3af90e0c9407/token'
 });
 
 
 class ChatController extends React.Component {
+
     // state = {
     //     userID: this.props.userID,
     //     nextLoadMessageID: null,
     //     chats: [],
     // };
+
 
     //check if a chatroom already exists between the current user and the other user
     //if chatroom does not exist, create a chatroom between current user and other user
@@ -44,9 +46,9 @@ class ChatController extends React.Component {
 
 
     //GET all of user's previous chatrooms
-    getChats() {
-        console.log("fetching data of " + this.state.userID + " from: " + chatServer)
-        return fetch(chatServer + "/chats?id=" + this.state.userID, {
+    getChats(userID) {
+        console.log("fetching data of " + userID + " from: " + chatServer)
+        return fetch(chatServer + "/chats?id=" + userID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -67,7 +69,7 @@ class ChatController extends React.Component {
                 console.log(error);
             });
     }
-    
+
 
     //retrieves all the messages of a chatroom
     loadChat = (roomID) => {

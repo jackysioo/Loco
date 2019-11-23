@@ -19,17 +19,19 @@ import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 import  ChatController from '../controllers/ChatController';
 const { width, height } = Dimensions.get("screen");
-const chatController = new ChatController(userID)
+const chatController = new ChatController()
 
 
 class MessagesScreen extends React.Component {
     state = {
+        userID: "Cynthia",
         allChats: []
     }
 
     componentDidMount() {
-        chatController.getChats()
+        chatController.getChats(this.state.userID)
             .then((messages) => {
+                console.log(messages)
                 this.setState({
                     allChats: [...messages]
                 })
@@ -61,7 +63,6 @@ class MessagesScreen extends React.Component {
     }
 
     render() {
-        const { userID } = this.props;
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>
