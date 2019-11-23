@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
-import  ChatController from '../controllers/ChatController';
+import ChatController from '../controllers/ChatController';
 const { width, height } = Dimensions.get("screen");
 const chatController = new ChatController()
 
@@ -25,36 +25,43 @@ const chatController = new ChatController()
 class MessagesScreen extends React.Component {
     state = {
         userID: "Cynthia",
-        allChats: []
+        allChats: [],
+        loadChats: false
     }
 
     componentDidMount() {
         chatController.getChats(this.state.userID)
             .then((messages) => {
-                console.log(messages)
                 this.setState({
-                    allChats: [...messages]
+                    allChats: messages
+                }, () => {
+                    this.setState({
+                        loadChats: true
+                    })
                 })
             })
     }
 
+
     enterChat = (roomID) => {
-        navigation.navigate('Chat', { controller: chatController, roomID: roomID })
+        this.props.navigation.navigate('Chat', { controller: chatController, roomID: roomID })
     }
 
-    newRoomID = (roomID) =>{
+    newRoomID = (roomID) => {
 
     }
 
     renderChats() {
         return this.state.allChats.map((chat) => {
+            console.log(chat)
             return (
                 <View style={styles.chatItemContainer} key={chat.roomID}>
                     <TouchableOpacity
                         style={styles.chatItem}
-                        onPress={this.enterChat(roomID)}>
-                        <Image 
-                            style={styles.avatar} 
+                        // onPress={this.enterChat(chat.roomID)}
+                        >
+                        <Image
+                            style={styles.avatar}
                             source={{ uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' }} />
                     </TouchableOpacity>
                 </View>
@@ -66,7 +73,7 @@ class MessagesScreen extends React.Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>
-                    {this.renderChats()}
+                    {this.state.loadChats && this.renderChats()}
                 </ScrollView>
             </SafeAreaView>
         )
@@ -82,10 +89,10 @@ const styles = StyleSheet.create({
     },
     chatItemContainer: {
         width: width,
-        height: 150,
+        height: 100,
         borderColor: Colors.placeholder,
         borderWidth: 1,
-        backgroundColor: Colors.primary
+        // backgroundColor: Colors.primary
     },
     chatItem: {
         margin: 10

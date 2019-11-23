@@ -48,26 +48,28 @@ class ChatController extends React.Component {
     //GET all of user's previous chatrooms
     getChats(userID) {
         console.log("fetching data of " + userID + " from: " + chatServer)
+
         return fetch(chatServer + "/chats?id=" + userID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
         })
+            .then(response => response.json())
             .then((rooms) => {
-                console.log("fetched data: " + room)
-                var chats;
+                var chats = []
                 for (let room of rooms) {
                     chats.push({
                         roomID: room.id,
                         userIDs: room.member_user_ids
                     })
                 }
-                return(chats)
+                return (chats)
             })
             .catch(error => {
                 console.log(error);
             });
+
     }
 
 
@@ -107,7 +109,7 @@ class ChatController extends React.Component {
                     .catch(error => {
                         console.log("error with chat manager", error);
                     });
-                return(res.messages)
+                return (res.messages)
             })
             .catch(error => {
                 console.log("error in request: ");
@@ -154,7 +156,7 @@ class ChatController extends React.Component {
             .then((res) => {
                 if (res.ok) {
                     console.log("successfully created new room in controller")
-                    return(res.roomID)
+                    return (res.roomID)
                 }
             })
             .catch((err) => {
@@ -167,7 +169,7 @@ class ChatController extends React.Component {
     render() {
         return (
             <View>
-                { this.state.visible && <Image style={{width: 50, height: 50}} source={{ uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' }} />}
+                {this.state.visible && <Image style={{ width: 50, height: 50 }} source={{ uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' }} />}
             </View>
         )
     }
