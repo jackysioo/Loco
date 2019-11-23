@@ -14,26 +14,13 @@ import FollowingScreen from '../screens/FollowingScreen';
 import ReviewScreen from '../screens/ReviewScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
+import ChatScreen from '../screens/ChatScreen';
+import MessagesScreen from '../screens/MessagesScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
-
-// const tabBarOnPress = ({ navigation, defaultHandler }) => {
-//   const { isFocused, state, goBack } = navigation;
-//   if (isFocused()) {
-//       if (state.routes.length > 1) {
-//           for (let i = 0; i < state.routes.length - 1; i += 1) {
-//               goBack();
-//           }
-//       } else {
-//           // @TODO SCROLL TO TOP OF EACH TAB IF SCROLLABLE, $CALLBACK().
-//       }
-//   } else {
-//       defaultHandler();
-//   }
-// };
 
 const HomeStack = createStackNavigator(
   {
@@ -83,48 +70,69 @@ UserStack.navigationOptions = {
 
 UserStack.path = '';
 
-const AppointmentsStack = createStackNavigator(
-  {
-    Appointments: AllAppointmentsScreen,
-  }, {
-  headerMode: 'none',
-},
-  config
-);
+// const AppointmentsStack = createStackNavigator(
+//   {
+//     Appointments: AllAppointmentsScreen,
+//   }, {
+//   headerMode: 'none',
+// },
+//   config
+// );
 
-AppointmentsStack.navigationOptions = {
-  tabBarLabel: 'Appointments',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
-  ),
-};
+// AppointmentsStack.navigationOptions = {
+//   tabBarLabel: 'Appointments',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
+//   ),
+// };
 
-AppointmentsStack.path = '';
+// AppointmentsStack.path = '';
 
 const LoginStack = createStackNavigator(
   {
     Login: LoginScreen,
     Signup: SignupScreen,
   }, {
+    headerMode: 'none',
+  },
+    config
+  );
+
+
+LoginStack.navigationOptions = {
+  tabBarLabel: 'Login',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
+  )
+}
+    
+//TESTING CHAT
+const ChatStack = createStackNavigator(
+  {
+    Messages: MessagesScreen,
+    Chat: ChatScreen,
+  }, {
   headerMode: 'none',
 },
   config
 );
 
-LoginStack.navigationOptions = {
-  tabBarLabel: 'Login',
+ChatStack.navigationOptions = {
+  tabBarLabel: 'Messages',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
   ),
 };
 
 LoginStack.path = '';
+ChatStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
-  AppointmentsStack,
-  LoginStack
+  // AppointmentsStack,
+  LoginStack,
+  ChatStack
 });
 
 tabNavigator.path = '';
