@@ -48,23 +48,23 @@ class HomeScreen extends React.Component {
 
 
 
-    calculatePerformance() {
-        // Testing search performance
-        var postCallMin = new Date().getMinutes(); //Current Minutes
-        var postCallSec = new Date().getSeconds(); //Current Seconds
-        console.log("post: " + postCallMin + ":" + postCallSec)
-        console.log("pre: " + this.state.preCallMin + ":" + this.state.preCallSec)
-        //add 60 if any pre call time is larger than post call times
-        if (postCallMin < this.state.preCallMin) { postCallMin = postCallMin + 60 }
-        if (postCallSec < this.state.preCallSec) { postCallSec = postCallSec + 60 }
+    // calculatePerformance() {
+    //     // Testing search performance
+    //     var postCallMin = new Date().getMinutes(); //Current Minutes
+    //     var postCallSec = new Date().getSeconds(); //Current Seconds
+    //     console.log("post: " + postCallMin + ":" + postCallSec)
+    //     console.log("pre: " + this.state.preCallMin + ":" + this.state.preCallSec)
+    //     //add 60 if any pre call time is larger than post call times
+    //     if (postCallMin < this.state.preCallMin) { postCallMin = postCallMin + 60 }
+    //     if (postCallSec < this.state.preCallSec) { postCallSec = postCallSec + 60 }
 
-        var difference = (postCallMin - this.state.preCallMin) * 60 + (postCallSec - this.state.preCallSec)
-        if (difference < 0.1) {
-            console.log('Test PASSED: Search results shown in under 100ms')
-        } else {
-            console.log('Test FAILED: Search results shown in over 100ms')
-        }
-    }
+    //     var difference = (postCallMin - this.state.preCallMin) * 60 + (postCallSec - this.state.preCallSec)
+    //     if (difference < 0.1) {
+    //         console.log('Test PASSED: Search results shown in under 100ms')
+    //     } else {
+    //         console.log('Test FAILED: Search results shown in over 100ms')
+    //     }
+    // }
 
 
     updateSearch = (search) => {
@@ -178,8 +178,9 @@ class HomeScreen extends React.Component {
                 <TouchableOpacity
                     key={categoryIcon.name}
                     style={styles.categoryItemView}
-                    onPress={this.submitSearchCategory(categoryIcon.name)}
-                    ref={this.props.generateTestHook('Categories.Button' + count)}>
+                    onPress={() => this.submitSearchCategory(categoryIcon.name)}
+                    // ref={this.props.generateTestHook('Categories.Button' + count)}
+                    >
                     <Image
                         source={categoryIcon.uri}
                         style={styles.categoryItem} />

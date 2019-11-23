@@ -35,10 +35,13 @@ class UserScreen extends React.Component {
             count++;
 
             return (
-                <TouchableWithoutFeedback onPress={() => navigation.navigate('UserReview', {
-                    rating: review.rating, image: review.image, title: review.title,
-                    date: review.date, review: review.review, user: review.user, business: review.business
-                })} ref={this.props.generateTestHook('Review' + count)}>
+                <TouchableWithoutFeedback
+                    key={review.title}
+                    onPress={() => navigation.navigate('UserReview', {
+                        rating: review.rating, image: review.image, title: review.title,
+                        date: review.date, review: review.review, user: review.user, business: review.business
+                    })}
+                    ref={this.props.generateTestHook('Review' + count)}>
                     <View style={styles.userContainer}>
                         <View style={styles.rating}>
                             <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
@@ -60,7 +63,7 @@ class UserScreen extends React.Component {
 
         const services = user.services.map((service) => {
             return (
-                <View style={styles.userContainer}>
+                <View style={styles.userContainer} key={service.title}>
                     <View style={styles.rating}>
                         <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
                         <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />

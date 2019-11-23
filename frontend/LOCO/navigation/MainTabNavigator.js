@@ -105,6 +105,8 @@ LoginStack.navigationOptions = {
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
   )
 }
+
+LoginStack.path = '';
     
 //TESTING CHAT
 const ChatStack = createStackNavigator(
@@ -124,7 +126,6 @@ ChatStack.navigationOptions = {
   ),
 };
 
-LoginStack.path = '';
 ChatStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
