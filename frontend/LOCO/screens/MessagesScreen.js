@@ -19,6 +19,7 @@ import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 import  ChatController from '../controllers/ChatController';
 const { width, height } = Dimensions.get("screen");
+const chatController = new ChatController(userID)
 
 
 class MessagesScreen extends React.Component {
@@ -26,14 +27,17 @@ class MessagesScreen extends React.Component {
         allChats: []
     }
 
-    loadChats = (chats) => {
-        this.setState({
-            allChats: [...chats]
-        })
+    componentDidMount() {
+        chatController.getChats()
+            .then((messages) => {
+                this.setState({
+                    allChats: [...messages]
+                })
+            })
     }
 
     enterChat = (roomID) => {
-        navigation.navigate('Chat', { controller: this.chatController, roomID: roomID })
+        navigation.navigate('Chat', { controller: chatController, roomID: roomID })
     }
 
     newRoomID = (roomID) =>{
@@ -63,14 +67,6 @@ class MessagesScreen extends React.Component {
                 <ScrollView style={styles.container}>
                     {this.renderChats()}
                 </ScrollView>
-                <ChatController
-                    ref={(input) => this.chatController = input}
-                    visible={false}
-                    userID={"Cynthia"}
-                    chats={this.loadChats}
-                    messages={this.loadMessages}
-                    newRoomID={this.newRoomID}
-                />
             </SafeAreaView>
         )
     }

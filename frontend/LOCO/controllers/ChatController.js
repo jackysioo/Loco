@@ -9,35 +9,18 @@ import { withNavigation } from "react-navigation";
 import { Images } from "../constants";
 
 const instanceLocatorId = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
-const chatServer = "http://192.168.51.209:3000";
+const chatServer = "http://dev.test:3000";
 const tokenProvider = new TokenProvider({
-    url: `https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0d19d6c4-7553-472b-8f65-3af90e0c9407/token`
+    url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0d19d6c4-7553-472b-8f65-3af90e0c9407/token'
 });
 
 
 class ChatController extends React.Component {
-    state = {
-        userID: this.props.userID,
-        nextLoadMessageID: null,
-        chats: [],
-        visible: this.props.visible,
-    };
-
-    constructor(props) {
-        super(props);
-        this.currentUser = null;
-    }
-
-    componentDidMount() {
-        this._getChats()
-    }
-
-
-    //return chats to messages screen
-    getChats = () => {
-        this.props.chats(this.state.chats)
-    }
-
+    // state = {
+    //     userID: this.props.userID,
+    //     nextLoadMessageID: null,
+    //     chats: [],
+    // };
 
     //check if a chatroom already exists between the current user and the other user
     //if chatroom does not exist, create a chatroom between current user and other user
@@ -60,12 +43,38 @@ class ChatController extends React.Component {
     }
 
 
+    //GET all of user's previous chatrooms
+    getChats() {
+        console.log("fetching data of " + this.state.userID + " from: " + chatServer)
+        return fetch(chatServer + "/chats?id=" + this.state.userID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then((rooms) => {
+                console.log("fetched data: " + room)
+                var chats;
+                for (let room of rooms) {
+                    chats.push({
+                        roomID: room.id,
+                        userIDs: room.member_user_ids
+                    })
+                }
+                return(chats)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    
+
     //retrieves all the messages of a chatroom
     loadChat = (roomID) => {
         this.setState({ visible: true });
 
         //GET messages in room of roomID
-        fetch(chatServer + "/messages?roomId=" + roomID, {
+        return fetch(chatServer + "/messages?roomId=" + roomID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -73,7 +82,6 @@ class ChatController extends React.Component {
         })
             .then((res) => {
                 //trigger callback of loaded messages
-                this.props.messages(res.messages)
                 this.setState({
                     nextLoadMessageID: res.nextMessageID
                 })
@@ -97,6 +105,7 @@ class ChatController extends React.Component {
                     .catch(error => {
                         console.log("error with chat manager", error);
                     });
+                return(res.messages)
             })
             .catch(error => {
                 console.log("error in request: ");
@@ -130,7 +139,7 @@ class ChatController extends React.Component {
 
 
     _createChat(otherUserID) {
-        fetch(chatServer + "/room", {
+        return fetch(chatServer + "/room", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -143,39 +152,13 @@ class ChatController extends React.Component {
             .then((res) => {
                 if (res.ok) {
                     console.log("successfully created new room in controller")
-                    this.props.newRoomID(res.roomID)
+                    return(res.roomID)
                 }
             })
             .catch((err) => {
                 console.log(err);
             });
     }
-
-
-
-    //GET all of user's previous chatrooms
-    _getChats() {
-
-        fetch(chatServer + "/chats?id=" + this.state.userID, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then((rooms) => {
-                console.log("fetched data: " + room)
-                for (let room of rooms) {
-                    this.state.chats.push({
-                        roomID: room.id,
-                        userIDs: room.member_user_ids
-                    })
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
 
 
     //return loading animation when posting data
@@ -189,4 +172,4 @@ class ChatController extends React.Component {
 
 }
 
-export default withNavigation(ChatController)
+export default (ChatController)

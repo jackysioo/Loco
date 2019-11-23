@@ -21,7 +21,7 @@ export default class ChatScreen extends React.Component {
     };
 
     componentDidMount(){
-        this.controller.loadChat(this.props.roomID)
+        this.props.controller.loadChat(this.props.roomID)
     }
 
     loadMessage = (messages) => {

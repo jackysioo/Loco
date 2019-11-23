@@ -25,6 +25,7 @@ import SearchResultScreen from "./SearchResultScreen";
 import { Card } from '../components';
 import MapButton from "../components/MapButton";
 import { hook } from 'cavy'
+import mapController from "../controllers/MapController";
 
 const { width, height } = Dimensions.get('screen');
 
@@ -33,10 +34,7 @@ class HomeScreen extends React.Component {
     state = {
         search: '',
         location: '',
-        searchLocation: {
-            lat: 49.2827,
-            long: -123.1207
-        },
+        searchLocation: {},
         filters: {},
         sort: SortBy.recommended,
         searchResults: [],
@@ -67,6 +65,22 @@ class HomeScreen extends React.Component {
         this.setState({ isSearchActive: true });
     }
 
+    //get location of search in latitude and longitude
+    submitSearch = () => {
+        mapController.geocodeFromCity(this.state.location)
+            .then((geocode) => {
+                this.setState({
+                    searchLocation: {
+                        lat: geocode.lat,
+                        long: geocode.long
+                    }
+                })
+                //calls search api
+                this.search(this.state.search, geocode)
+            });
+
+    }
+
 
     calculatePerformance() {
         // Testing search performance
@@ -86,36 +100,32 @@ class HomeScreen extends React.Component {
         }
     }
 
-    search = () => {
+    search(searchInput, location) {
+        console.log(location)
         this.searchBar.blur();
         this.setState({
             isSearchActive: false,
-            preCallMin: new Date().getMinutes(), // Current Minutes
-            preCallSec: new Date().getSeconds(), //Current Seconds
             loadSearchResults: true,
-            // searchResults: businesses    // TEST DATA
         })
-        fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + this.state.search + "&lat=49.2827&long=-123.1207")
+        fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + searchInput + "&lat=" + location.lat + "&long=" + location.long)
             .then(response => response.json())
             .then((data) => {
                 this.setState({
                     isSearchActive: false,
                     loadSearchResults: true,
-                    searchResults: data.businesses   
+                    searchResults: data.businesses
                 })
             })
             .catch(error => console.log(error))
 
     }
 
-
     searchCategory(category) {
         this.setState({
             isSearchActive: false,
             loadSearchResults: true,
-            // searchResults: businesses    // TEST DATA
         })
-        fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + this.state.category + "&lat=49.2827&long=-123.1207")
+        fetch("http://loco.eastus.cloudapp.azure.com:1337/business/get?title=" + category + "&lat=49.2827&long=-123.1207")
             .then(response => response.json())
             .then((data) => {
                 this.setState({
@@ -144,6 +154,7 @@ class HomeScreen extends React.Component {
         this.searchBar.clear();
         this.searchBar.blur();
     }
+
 
     renderCategories() {
         var count = 0; // for testing purposes
@@ -232,14 +243,14 @@ class HomeScreen extends React.Component {
                     color="#51bfbb"
                     onPress={this.cancelSearch}
                     ref={this.props.generateTestHook('SearchBarCancel.Button')}
-                    >
+                >
                 </Button>
                 <Button
                     title="Search"
                     color="#51bfbb"
                     onPress={this.search}
                     ref={this.props.generateTestHook('SearchBar.Button')}
-                    >
+                >
                 </Button>
             </View>
         )
@@ -264,7 +275,7 @@ class HomeScreen extends React.Component {
 
                         onChangeText={this.updateLocation}
                         value={location}
-                        onSubmitEditing={this.search}
+                        onSubmitEditing={this.submitSearch}
                         ref={this.props.generateTestHook('Location.TextInput')} />
                 </View>
                 <View style={styles.searchActiveResultsContainer}>
@@ -296,7 +307,7 @@ class HomeScreen extends React.Component {
 
                     <View style={styles.searchContainer}>
                         <SearchBar
-                            ref={(input) => this.searchBar = input }
+                            ref={(input) => this.searchBar = input}
                             round
                             lightTheme
                             containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
@@ -317,15 +328,15 @@ class HomeScreen extends React.Component {
 
                     <MapButton visible={this.state.loadSearchResults} setMapVisible={this.setMapVisible} />
                     {!this.state.loadSearchResults && this.renderRecommendations()}
-                    <SearchResultScreen 
-                        resetSearch={this.resetSearch} 
-                        loadSearchResults={this.state.loadSearchResults} 
-                        searchResults={this.state.searchResults} 
-                        preCallMin={this.state.preCallMin} 
-                        preCallSec={this.state.preCallSec} 
-                        />
-                
-                
+                    <SearchResultScreen
+                        resetSearch={this.resetSearch}
+                        loadSearchResults={this.state.loadSearchResults}
+                        searchResults={this.state.searchResults}
+                        preCallMin={this.state.preCallMin}
+                        preCallSec={this.state.preCallSec}
+                    />
+
+
                     <Modal
                         animationType="slide"
                         transparent={false}
@@ -336,8 +347,8 @@ class HomeScreen extends React.Component {
                                 onPress={() => {
                                     this.setMapVisible(!this.state.mapVisible);
                                 }}
-                                // ref={this.props.generateTestHook('MapClose.Button')}
-                                >
+                            // ref={this.props.generateTestHook('MapClose.Button')}
+                            >
                                 <Image
                                     style={styles.mapButton}
                                     source={require('../assets/icons/icons8-cancel-64.png')} />
