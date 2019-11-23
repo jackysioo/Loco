@@ -122,7 +122,7 @@ const ChatStack = createStackNavigator(
 ChatStack.navigationOptions = {
   tabBarLabel: 'Messages',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} />
   ),
 };
 

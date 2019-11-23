@@ -23,11 +23,11 @@ const CategoryIcons = [
     {   name: 'Language',
         uri: require("../assets/icons/icons8-translation-50.png")
     },
-    {   name: 'Hair Stylist',
+    {   name: 'Hairstyle',
         uri: require("../assets/icons/icons8-hair-dryer-50.png")
     },
-    {   name: 'More',
-        uri: require("../assets/icons/icons8-more-50.png")
+    {   name: 'Computer',
+        uri: require("../assets/icons/icons8-working-with-a-laptop-50.png")
     }
   ];
 

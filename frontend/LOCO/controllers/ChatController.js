@@ -49,74 +49,72 @@ class ChatController extends React.Component {
 
 
     //GET all of user's previous chatrooms
-    getChats(userID) {
+    async getChats(userID) {
         console.log("fetching data of " + userID + " from: " + chatServer)
 
-        return fetch(chatServer + "/chats?id=" + userID, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(response => response.json())
-            .then((rooms) => {
-                var chats = []
-                for (let room of rooms) {
-                    chats.push({
-                        roomID: room.id,
-                        userIDs: room.member_user_ids
-                    })
+        try {
+            const response = await fetch(chatServer + "/chats?id=" + userID, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
                 }
-                return (chats)
-            })
-            .catch(error => {
-                console.log(error);
             });
+            const rooms = await response.json();
+            var chats = [];
+            for (let room of rooms) {
+                chats.push({
+                    roomID: room.id,
+                    userIDs: room.member_user_ids
+                });
+            }
+            return (chats);
+        }
+        catch (error) {
+            console.log(error);
+        }
 
     }
 
 
     //retrieves all the messages of a chatroom
-    loadChat(roomID) {
+    async loadChat(roomID) {
         this.setState({ visible: true });
 
         //GET messages in room of roomID
-        return fetch(chatServer + "/messages?roomId=" + roomID, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then((res) => {
-                //trigger callback of loaded messages
-                this.setState({
-                    nextLoadMessageID: res.nextMessageID
-                })
-
-                this.chatManager = new ChatManager({
-                    instanceLocator: instanceLocatorId,
-                    userId: this.state.userID,
-                    tokenProvider
-                });
-                this.chatManager
-                    .connect()
-                    .then((currentUser) => {
-                        currentUser
-                            .subscribeToRoom({
-                                roomId: roomID,
-                            })
-                            .catch(err => {
-                                console.log(`Error joining room ${err}`);
-                            });
-                    })
-                    .catch(error => {
-                        console.log("error with chat manager", error);
-                    });
-                return (res.messages)
-            })
-            .catch(error => {
-                console.log("error in request: ");
+        try {
+            const res = await fetch(chatServer + "/messages?roomId=" + roomID, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             });
+            //trigger callback of loaded messages
+            this.setState({
+                nextLoadMessageID: res.nextMessageID
+            });
+            this.chatManager = new ChatManager({
+                instanceLocator: instanceLocatorId,
+                userId: this.state.userID,
+                tokenProvider
+            });
+            this.chatManager
+                .connect()
+                .then((currentUser) => {
+                    currentUser.subscribeToRoom({
+                        roomId: roomID,
+                    })
+                        .catch(err => {
+                            console.log(`Error joining room ${err}`);
+                        });
+                })
+                .catch(error => {
+                    console.log("error with chat manager", error);
+                });
+            return (res.messages);
+        }
+        catch (error) {
+            console.log("error in request: ");
+        }
     };
 
 
@@ -145,26 +143,26 @@ class ChatController extends React.Component {
     }
 
 
-    _createChat(otherUserID) {
-        return fetch(chatServer + "/room", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userID: this.state.userID,
-                otherUserID: otherUserID
-            })
-        })
-            .then((res) => {
-                if (res.ok) {
-                    console.log("successfully created new room in controller")
-                    this.loadChat(res.roomID)
-                }
-            })
-            .catch((err) => {
-                console.log(err);
+    async _createChat(otherUserID) {
+        try {
+            const res = await fetch(chatServer + "/room", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userID: this.state.userID,
+                    otherUserID: otherUserID
+                })
             });
+            if (res.ok) {
+                console.log("successfully created new room in controller");
+                this.loadChat(res.roomID);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
 
