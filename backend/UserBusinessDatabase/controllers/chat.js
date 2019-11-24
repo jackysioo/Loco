@@ -39,7 +39,7 @@ exports.getUsers = (req, res) => {
     .then((rooms) => {
       for (let room of rooms) {
         for (let id of room.member_user_ids) {
-          if (id != req.query.id) {
+          if (id !== req.query.id) {
             userIDs.push(id)
           }
         }
@@ -63,7 +63,7 @@ exports.getMessages = (req, res) => {
       .then((messages) => {
         for (let m of messages) {
           for (let message of m.parts) {
-            if (message.type == "text/plain") {
+            if (message.type === "text/plain") {
               messageList.push({
                 userID: m.userId,
                 message: message.content
