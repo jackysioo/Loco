@@ -18,7 +18,7 @@ import {
 const { height, width } = Dimensions.get('screen');
 import { Colors } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
-import {hook} from 'cavy'
+import { hook } from 'cavy'
 
 
 class BusinessScreen extends React.Component {
@@ -96,12 +96,12 @@ class BusinessScreen extends React.Component {
                                         <HeadingText1 style={{ color: Colors.primary }}> {this.props.navigation.state.params.item.reviews.length} </HeadingText1>
                                         <Image style={styles.reviewIcon} source={require('../assets/icons/icons8-chat-24-aqua.png')} />
                                     </View>
-                                    <HeadingText1 style={styles.resultTitle}> {this.props.navigation.state.params.item.title}</HeadingText1>
-                                    <Text style={{ fontSize: 16 }}> {this.props.navigation.state.params.item.user}</Text>
+                                    <HeadingText1 style={styles.resultTitle}> {this.props.navigation.state.params.item.title} </HeadingText1>
+                                    <Text style={{ fontSize: 16 }}> {this.props.navigation.state.params.item.user} </Text>
                                     <View style={styles.tags}>
                                         <Text style={{ fontSize: 12, color: Colors.placeholder }}> {this.props.navigation.state.params.item.price} </Text>
                                         <Text style={{ fontSize: 4, color: Colors.placeholder }}> {'\u2B24'} </Text>
-                                        <Text style={{ fontSize: 12, color: Colors.placeholder }}> {this.props.navigation.state.params.item.region}</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.placeholder }}> {this.props.navigation.state.params.item.region} </Text>
                                     </View>
                                     <View style={styles.tags}>
                                         {tags}
@@ -144,7 +144,7 @@ class BusinessScreen extends React.Component {
                             style={[{ height: 40 }, styles.messageInput]}
                             onChangeText={this.updateSubject}
                             inputContainerStyle={{ backgroundColor: Colors.white }}
-                            containerStyle={{ backgroundColor: '#ffffff'}}
+                            containerStyle={{ backgroundColor: '#ffffff' }}
                             inputStyle={{ fontSize: 13 }}
                             value={subject}
                             placeholder="Subject"
@@ -156,7 +156,7 @@ class BusinessScreen extends React.Component {
                             style={[{ height: 200 }, styles.messageInput]}
                             onChangeText={this.updateMessage}
                             inputContainerStyle={{ backgroundColor: Colors.white }}
-                            containerStyle={{ backgroundColor: '#ffffff'}}
+                            containerStyle={{ backgroundColor: '#ffffff' }}
                             inputStyle={{ fontSize: 13 }}
                             value={message}
                             placeholder="Type your message here..."
@@ -362,10 +362,10 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         shadowOpacity: 0.1,
         elevation: 2,
-    }, 
-    heading1: { 
-        fontSize: 14, 
-        color: Colors.primary 
+    },
+    heading1: {
+        fontSize: 14,
+        color: Colors.primary
     }
 });
 

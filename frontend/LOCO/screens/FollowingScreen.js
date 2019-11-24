@@ -26,7 +26,7 @@ class FollowingScreen extends React.Component {
     render() {
         const following = user.following.map((follower) => {
             return (
-                <View style={styles.followerContainer}>
+                <View style={styles.followerContainer} key={follower.fullName}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={styles.profilePicContainer}>
                             <Image source={{ uri: follower.profilePic }} style={styles.profilePic} />
@@ -55,7 +55,7 @@ class FollowingScreen extends React.Component {
                                 showsVerticalScrollIndicator={false}
                                 style={styles.itemContainer}>
                                 <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
-                                ref={this.props.generateTestHook('FollowingBack.Button')}>
+                                    ref={this.props.generateTestHook('FollowingBack.Button')}>
                                     <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                                 </TouchableOpacity>
                                 <View style={styles.innerContainer}>

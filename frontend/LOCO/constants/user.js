@@ -12,161 +12,100 @@ export default
     birthday: "Feb 14, 1996",
     phoneNumber: "604-888-8888",
     email: "tanya_cooper@gmail.com",
-    reviews: [{
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Great food!",
-      date: "Jan 23, 2019",
-      review: "This experience was incredible! They were so friendly and welcoming.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Authentic experience",
-      date: "Jan 23, 2019",
-      review: "Would definitely come back! The owner was super nice and gave us extra side dishes for free. Also, there's free wifi which is a plus.",
-      rating: 4,
-      image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Loved chatting with them",
-      date: "Jan 23, 2019",
-      review: "The price is slightly pricey, but worth it for the experience",
-      rating: 3.51,
-      image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Great food!",
-      date: "Jan 23, 2019",
-      review: "This experience was incredible! They were so friendly and welcoming.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Great food!",
-      date: "Jan 23, 2019",
-      review: "This experience was incredible! They were so friendly and welcoming.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Great food!",
-      date: "Jan 23, 2019",
-      review: "This experience was incredible! They were so friendly and welcoming.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Great food!",
-      date: "Jan 23, 2019",
-      review: "This experience was incredible! They were so friendly and welcoming.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Great food!",
-      date: "Jan 23, 2019",
-      review: "This experience was incredible! They were so friendly and welcoming.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Great food!",
-      date: "Jan 23, 2019",
-      review: "This experience was incredible! They were so friendly and welcoming.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-    }, {
-      user: "tanya_cooper123",
-      business: "business_name",
-      title: "Great food!",
-      date: "Jan 23, 2019",
-      review: "This experience was incredible! They were so friendly and welcoming.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-    }],
-    services: [{
-      title: "Hard Gel Manicure",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
-    }, {
-      title: "3D Volume Lash Extensions",
-      rating: 4,
-      image: "https://images.unsplash.com/photo-1558622625-697f40efc834?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60"
-    }],
-    appointments: [{
-      type: "client",
-      username: "clarissa888",
-      fullName: "Clarissa Morgan",
-      date: "Nov 4, 2019",
-      time: "4:00PM",
-      service: "Gel Manicure",
-      image: "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
-    }, {
-      type: "client",
-      username: "bOb123",
-      fullName: "Bobbette Park",
-      date: "Nov 5, 2019",
-      time: "2:00PM",
-      service: "3D Volume Lash Extentions",
-      image: "https://images.unsplash.com/photo-1558622625-697f40efc834?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60"
-    }, {
-      type: "client",
-      username: "helloworld_!",
-      fullName: "Jessica Thompson",
-      date: "Nov 10, 2019",
-      time: "10:00AM",
-      service: "Gel Manicure",
-      image: "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
-    }, {
-      type: "client",
-      username: "waddles_pengu",
-      fullName: "Lisa Chen",
-      date: "Nov 19, 2019",
-      time: "1:00PM",
-      service: "3D Volume Lash Extentions",
-      image: "https://images.unsplash.com/photo-1551415923-a2297c7fda79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80"
-    }, {
-      type: "user",
-      username: "wuyifan2000",
-      fullName: "Kris Wu",
-      date: "Nov 4, 2019",
-      time: "4:00PM",
-      service: "AP Calculus Tutoring",
-      image: "https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
-    }, {
-      type: "user",
-      username: "once_twice",
-      fullName: "Jihyo Park",
-      date: "Nov 5, 2019",
-      time: "2:00PM",
-      service: "Homecooked Korean Cuisine",
-      image: "https://images.unsplash.com/photo-1562571708-527276a391ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
-    }, {
-      type: "user",
-      username: "hennings123",
-      fullName: "Kevin Hennings",
-      date: "Nov 10, 2019",
-      time: "10:00AM",
-      service: "Professional Tattooing",
-      image: "https://images.unsplash.com/photo-1550364387-2893ac373664?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
-    }, {
-      type: "user",
-      username: "adri_clinton",
-      fullName: "Adriana Clinton",
-      date: "Nov 19, 2019",
-      time: "1:00PM",
-      service: "Dogsitting",
-      image: "https://images.unsplash.com/photo-1552343204-09c57040d686?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80"
-    }],
+    reviews: [
+      {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Great food!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Authentic experience",
+        date: "Jan 23, 2019",
+        review: "Would definitely come back! The owner was super nice and gave us extra side dishes for free. Also, there's free wifi which is a plus.",
+        rating: 4,
+        image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Loved chatting with them",
+        date: "Jan 23, 2019",
+        review: "The price is slightly pricey, but worth it for the experience",
+        rating: 3.51,
+        image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Great!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Great Experience!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Love it!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "So Fun!!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Would love to come back again",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Excellent customer service!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+      }, {
+        user: "tanya_cooper123",
+        business: "business_name",
+        title: "Loved the food!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+      }
+    ],
+    services: [
+      {
+        title: "Hard Gel Manicure",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+      }, {
+        title: "3D Volume Lash Extensions",
+        rating: 4,
+        image: "https://images.unsplash.com/photo-1558622625-697f40efc834?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60"
+      }
+    ],
     following: [
       {
         username: "username1",

@@ -130,9 +130,11 @@ class BioScreen extends React.Component {
         const { bioInput } = this.state;
         const { passwordInput } = this.state;
 
+        const { navigation } = this.props;
+
         const services = user.services.map((service) => {
             return (
-                <View style={styles.userContainer}>
+                <View style={styles.userContainer} key={service.title}>
                     <View style={styles.rating}>
                         <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
                         <Image style={styles.icon} source={require('../assets/icons/icons8-star-24.png')} />
@@ -340,7 +342,7 @@ class BioScreen extends React.Component {
                                     }}>Y O U R  S E R V I C E S</HeadingText1>
                                     {services}
                                 </View>
-                                <TouchableOpacity style={styles.addService}>
+                                <TouchableOpacity style={styles.addService} onPress={() => navigation.navigate('AddBusiness')}>
                                     <HeadingText2 style={{ color: Colors.primary }}> Add Service </HeadingText2>
                                     <Image style={styles.icon} source={
                                         require('../assets/icons/icons8-add-new-24-aqua.png')} />

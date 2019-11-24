@@ -25,13 +25,13 @@ class UserScreen extends React.Component {
 
     render() {
         var count = 0;  // for testing purposes 
+
         const reviews = user.reviews.map((review) => {
             // only display up to 46 characters of review outside of a review
             var displayReview = review.review;
             if (review.review.length > 84) {
                 displayReview = displayReview.slice(0, 84) + " . . .";
             }
-
             count++;
 
             return (
@@ -63,18 +63,20 @@ class UserScreen extends React.Component {
 
         const services = user.services.map((service) => {
             return (
-                <View style={styles.userContainer} key={service.title}>
-                    <View style={styles.rating}>
-                        <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
-                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
-                    </View>
-                    <Image source={{ uri: service.image }} style={styles.reviewImage}></Image>
-                    <View style={{ margin: 15 }}>
-                        <View style={styles.review}>
-                            <HeadingText1>{service.title}</HeadingText1>
+                <TouchableWithoutFeedback key={service.title}>
+                    <View style={styles.userContainer}>
+                        <View style={styles.rating}>
+                            <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
+                            <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
+                        </View>
+                        <Image source={{ uri: service.image }} style={styles.reviewImage}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.review}>
+                                <HeadingText1>{service.title}</HeadingText1>
+                            </View>
                         </View>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             )
         })
 
