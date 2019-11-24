@@ -2,7 +2,8 @@ const Like = require('../models/like');
 const Dislike = require('../models/dislike'); 
 
 module.exports = class Rater {
-    constructor(type) {
+    constructor(engine,type) { 
+    this.engine = engine;
       this.type = type;
     }  
 
@@ -15,7 +16,9 @@ module.exports = class Rater {
         else{ 
             result = new Dislike(object); 
         } 
-        await result.save(); 
+        await result.save();  
+       await this.engine.similars.update(userId); 
+        await this.engine.suggestions.update(userId);
     } 
 
     async remove(userId,businessId){  
@@ -26,7 +29,8 @@ module.exports = class Rater {
         else{ 
             await Dislike.findOneAndRemove({ user: userId, business: businessId });
         } 
-
+       await this.engine.similars.update(userId); 
+        await this.engine.suggestions.update(userId);
     } 
 
     async itemsByUser(userId){  
@@ -44,6 +48,7 @@ module.exports = class Rater {
                 return {business: object.business};
              }); 
         }  
+
         return result;
     }  
 

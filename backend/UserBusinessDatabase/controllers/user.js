@@ -1,5 +1,6 @@
 const User = require('../models/user');
-const Business = require('../models/business');
+const Business = require('../models/business'); 
+const Suggestion = require('../models/suggestion');
 const Search = require('../models/search');
 const Review = require('../models/review'); 
 const JWT = require('jsonwebtoken');  
@@ -167,6 +168,20 @@ exports.addService = async (req, res, next) => {
         const service = result.services[result.services.length - 1];
 
         res.status(200).json({ message: 'updated', service: service });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+} 
+
+exports.getSuggestions = async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        const suggestions = await Suggestion.findOne({user: userId}).populate('suggestion.business').exec();
+
+        res.status(200).json({ message: 'updated', suggestions: suggestions.business });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
