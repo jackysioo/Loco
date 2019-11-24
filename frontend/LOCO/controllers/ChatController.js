@@ -31,7 +31,7 @@ class ChatController extends React.Component {
             .then((rooms) => {
                 for (let room of rooms) {
                     for (let id of room.member_user_ids) {
-                        if (otherUserID == id) {
+                        if (otherUserID === id) {
                             chatExists = true
                             this.loadChat(room.id)
                         }

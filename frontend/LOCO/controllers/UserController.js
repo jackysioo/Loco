@@ -12,11 +12,11 @@ class UserController extends React.Component {
     async createUser(user) {
         try {
             const res = await fetch(userServer + "/post", {
-                body: user
+                body: { user: user }
             })
             if (res.ok) {
                 console.log("user created")
-                return res.userID
+                return res.user._id
             }
         }
         catch (error) {
@@ -27,11 +27,10 @@ class UserController extends React.Component {
     async updateUser(user, userID) {
         try {
             const res = await fetch(userServer + "/put/" + userID, {
-                body: user
+                body: { user: user }
             })
             if (res.ok) {
                 console.log("user updated")
-                return res.userID
             }
         }
         catch (error) {
@@ -51,15 +50,16 @@ class UserController extends React.Component {
         }
     }
 
+
     //new business object EXCLUDE reviews
     async addBusiness(business, userID) {
         try {
             const res = await fetch(businessServer + "/post/" + userID, {
-                body: business
+                body: { business: business } 
             })
             if (res.ok) {
                 console.log("business added under " + userID)
-                return res.business_id
+                return res.business._id
             }
         }
         catch (error) {
@@ -67,11 +67,13 @@ class UserController extends React.Component {
         }
     }
 
+
     //include businessID in business object when updating
+    //CALL updateReviews to update reviews
     async updateBusiness(business, businessID) {
         try {
             const res = await fetch(businessServer + "/put/" + businessID, {
-                body: business
+                body: { business: business } 
             })
             if (res.ok) {
                 console.log("business updated under " + businessID)
@@ -100,11 +102,11 @@ class UserController extends React.Component {
     async addBusinessReview(review, userID, businessID) {
         try {
             const res = await fetch(reviewServer + "/post/" + userID + "/" + businessID, {
-                body: review
+                body: {review : review}
             })
             if (res.ok) {
                 console.log("review added under " + businessID)
-                return res.review_id
+                return res.review._id
             }
         }
         catch (error) {
@@ -116,7 +118,7 @@ class UserController extends React.Component {
     async updateBusinessReview(review, reviewID) {
         try {
             const res = await fetch(reviewServer + "/put/" + reviewID, {
-                body: review
+                body: { review : review }
             })
             if (res.ok) {
                 console.log("review updated under " + reviewID)
