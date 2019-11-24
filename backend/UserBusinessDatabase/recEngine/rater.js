@@ -33,10 +33,16 @@ module.exports = class Rater {
         var result;
         if(type === 'like'){  
         
-           result = await Like.find({ user: userId});
+           const temp = await Like.find({ user: userId});
+           result = temp.map(async (object) => { 
+            return {business: object.business};
+         }); 
         }  
         else{ 
-            result = await Dislike.find({ user: userId});
+            const temp = await Dislike.find({ user: userId}); 
+            result = temp.map(async (object) => { 
+                return {business: object.business};
+             }); 
         }  
         return result;
     }  
@@ -44,10 +50,17 @@ module.exports = class Rater {
     async usersByItem(businessId){ 
         var result;
         if(type === 'like'){ 
-           result = await Like.find({ business: businessId});
+           const temp = await Like.find({ business: businessId}); 
+           result = temp.map(async (object) => { 
+               return {user: object.user};
+           }); 
+        
         }  
         else{ 
-            result = await Dislike.find({ business: businessId});
+            const temp = await Dislike.find({ business: businessId}); 
+           result = temp.map(async (object) => { 
+               return {user: object.user};
+           }); 
         }  
         return result;
     }

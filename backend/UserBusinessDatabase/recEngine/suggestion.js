@@ -1,3 +1,5 @@
+_ = require('underscore'); 
+Suggestion = require('../models/suggestion');
 
 module.exports = class Suggestion {
     constructor(engine) {
@@ -20,13 +22,13 @@ module.exports = class Suggestion {
          
         const items = others.similarity.map((other) => { 
            return [engine.likes,engine.dislikes].map(rater => { 
-               return rater.itemsByUser(other);
+               return rater.itemsByUser(other.user);
             });
         }); 
 
         //find all the unique items the user has not rated yet
-        items= _.difference(_.unique(_.flatten(items)),userLikes,userDislikes); 
-        const suggestions = items.map( async (item) => { 
+        const uniqueItems= _.difference(_.unique(_.flatten(items)),userLikes,userDislikes); 
+        const suggestions = uniqueItems.map( async (item) => { 
 
             //find all the users that like and dislike this item
             const likers = await this.engine.likes.usersByItem(item); 
@@ -45,15 +47,14 @@ module.exports = class Suggestion {
 
                 // need to check if like or dislike
                 if(other != null){ 
-                    numerator += other.similarity;
+                    numerator += other.score;
                 }
 
             } 
             return {item: item, weight: numerator / _.union(likers,dislikers).length};
         }); 
  
-        const result = new Suggestion({user: userId, suggestions: suggestions}); 
-        result.save();
+        Suggestion.findOneAndUpdate({ user: userId }, {suggestions: suggestions}, { new: true });
 
     } 
 }
