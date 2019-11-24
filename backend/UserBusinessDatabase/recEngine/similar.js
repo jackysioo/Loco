@@ -30,6 +30,6 @@ module.exports = class Similar {
             return {user: other,score: similarScore};
         });  
 
-        SimilarDb.findOneAndUpdate({ user: userId }, {_id: user,user: userId, suggestions: suggestions}, { new: true });
+        SimilarDb.findOneAndUpdate({ user: userId }, {_id: user,user: userId, similarity: similarity}, { new: true });
     }
 }
