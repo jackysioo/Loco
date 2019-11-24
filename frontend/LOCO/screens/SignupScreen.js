@@ -41,7 +41,7 @@ class SignupScreen extends React.Component {
     };
 
     submitChanges() {
-        userController.createUser(
+        userController.signUp(
             JSON.stringify({
                 username: this.state.usernameInput,
                 firstName: this.state.firstNameInput,

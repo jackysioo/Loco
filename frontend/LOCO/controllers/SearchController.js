@@ -7,10 +7,10 @@ const searchServer = "http://loco.eastus.cloudapp.azure.com:1337/business"
 
 class SearchController extends React.Component {
 
-    async search(searchInput, location) {
+    async search(input, location, sort) {
         
         try {
-            const response = await fetch(searchServer + "/get?title=" + searchInput + "&lat=" + location.lat + "&long=" + location.long)
+            const response = await fetch(searchServer + "/get?title=" + input + "&lat=" + location.lat + "&long=" + location.long)
             const data = await response.json();
             return data.businesses;
         }

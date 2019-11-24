@@ -9,9 +9,9 @@ const reviewServer = "http://loco.eastus.cloudapp.azure.com:1337/review"
 
 class UserController extends React.Component {
 
-    async createUser(user) {
+    async signUp(user) {
         try {
-            const res = await fetch(userServer + "/post", {
+            const res = await fetch(userServer + "/signUp", {
                 body: { user: user }
             })
             if (res.ok) {
@@ -23,6 +23,22 @@ class UserController extends React.Component {
             return console.log(error);
         }
     }
+
+    async signIn(username, password) {
+        try {
+            const res = await fetch(userServer + "/signIn", {
+                body: { username: username, password: password }
+            })
+            if (res.ok) {
+                console.log("user created")
+                return res.user._id
+            }
+        }
+        catch (error) {
+            return console.log(error);
+        }
+    }
+
 
     async updateUser(user, userID) {
         try {
@@ -67,6 +83,16 @@ class UserController extends React.Component {
         }
     }
 
+    async getBusiness(businessID) {
+        try {
+            const res = await fetch(businessServer + "/get/" + businessID)
+            const business = await res.json();
+            return (business);
+        }
+        catch (error) {
+            return console.log(error);
+        }
+    }
 
     //include businessID in business object when updating
     //CALL updateReviews to update reviews
@@ -97,9 +123,8 @@ class UserController extends React.Component {
         }
     }
 
-
     //pass review object with reviewID
-    async addBusinessReview(review, userID, businessID) {
+    async addReview(review, userID, businessID) {
         try {
             const res = await fetch(reviewServer + "/post/" + userID + "/" + businessID, {
                 body: {review : review}
@@ -115,7 +140,7 @@ class UserController extends React.Component {
     }
 
     //pass review object with reviewID
-    async updateBusinessReview(review, reviewID) {
+    async updateReview(review, reviewID) {
         try {
             const res = await fetch(reviewServer + "/put/" + reviewID, {
                 body: { review : review }
@@ -129,7 +154,7 @@ class UserController extends React.Component {
         }
     }
 
-    async deleteBusinessReview(reviewID) {
+    async deleteReview(reviewID) {
         try {
             const res = await fetch(reviewServer + "/delete/" + reviewID)
             if (res.ok) {
