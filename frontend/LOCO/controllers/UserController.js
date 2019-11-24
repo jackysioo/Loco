@@ -150,5 +150,4 @@ class UserController extends React.Component {
 }
 
 
-const userController = new UserController()
-export default (userController)
+export default (UserController)
