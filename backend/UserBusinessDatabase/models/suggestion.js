@@ -7,7 +7,7 @@ const suggestionSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }, 
-    businesses: [{
+    suggestions: [{
        business :{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'business'
