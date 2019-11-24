@@ -18,7 +18,7 @@ class ChatController extends React.Component {
     //check if a chatroom already exists between the current user and the other user
     //if chatroom does not exist, create a chatroom between current user and other user
     //if chatroom exists, load the chatroom between current user and other user
-    chat(userID, otherUserID) {
+    sendMessageToUser(userID, otherUserID) {
         var chatExists = false
 
         fetch(chatServer + "/chats?id=" + userID, {
@@ -31,7 +31,7 @@ class ChatController extends React.Component {
             .then((rooms) => {
                 for (let room of rooms) {
                     for (let id of room.member_user_ids) {
-                        if (otherUserID == id) {
+                        if (otherUserID === id) {
                             chatExists = true
                             this.loadChat(room.id)
                         }
@@ -119,7 +119,7 @@ class ChatController extends React.Component {
 
 
     //sends a message in the chatroom with roomID
-    sendMessage(roomID, message) {
+    sendMessageToRoom(roomID, message) {
         fetch(chatServer + "/message", {
             method: "POST",
             headers: {

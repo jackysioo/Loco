@@ -9,14 +9,14 @@ const reviewServer = "http://loco.eastus.cloudapp.azure.com:1337/review"
 
 class UserController extends React.Component {
 
-    async createUser(user) {
+    async signUp(user) {
         try {
-            const res = await fetch(userServer + "/post", {
-                body: user
+            const res = await fetch(userServer + "/signUp", {
+                body: { user: user }
             })
             if (res.ok) {
                 console.log("user created")
-                return res.userID
+                return res.user._id
             }
         }
         catch (error) {
@@ -24,14 +24,29 @@ class UserController extends React.Component {
         }
     }
 
+    async signIn(username, password) {
+        try {
+            const res = await fetch(userServer + "/signIn", {
+                body: { username: username, password: password }
+            })
+            if (res.ok) {
+                console.log("user created")
+                return res.user._id
+            }
+        }
+        catch (error) {
+            return console.log(error);
+        }
+    }
+
+
     async updateUser(user, userID) {
         try {
             const res = await fetch(userServer + "/put/" + userID, {
-                body: user
+                body: { user: user }
             })
             if (res.ok) {
                 console.log("user updated")
-                return res.userID
             }
         }
         catch (error) {
@@ -51,15 +66,16 @@ class UserController extends React.Component {
         }
     }
 
+
     //new business object EXCLUDE reviews
     async addBusiness(business, userID) {
         try {
             const res = await fetch(businessServer + "/post/" + userID, {
-                body: business
+                body: { business: business } 
             })
             if (res.ok) {
                 console.log("business added under " + userID)
-                return res.business_id
+                return res.business._id
             }
         }
         catch (error) {
@@ -67,11 +83,23 @@ class UserController extends React.Component {
         }
     }
 
+    async getBusiness(businessID) {
+        try {
+            const res = await fetch(businessServer + "/get/" + businessID)
+            const business = await res.json();
+            return (business);
+        }
+        catch (error) {
+            return console.log(error);
+        }
+    }
+
     //include businessID in business object when updating
+    //CALL updateReviews to update reviews
     async updateBusiness(business, businessID) {
         try {
             const res = await fetch(businessServer + "/put/" + businessID, {
-                body: business
+                body: { business: business } 
             })
             if (res.ok) {
                 console.log("business updated under " + businessID)
@@ -95,16 +123,15 @@ class UserController extends React.Component {
         }
     }
 
-
     //pass review object with reviewID
-    async addBusinessReview(review, userID, businessID) {
+    async addReview(review, userID, businessID) {
         try {
             const res = await fetch(reviewServer + "/post/" + userID + "/" + businessID, {
-                body: review
+                body: {review : review}
             })
             if (res.ok) {
                 console.log("review added under " + businessID)
-                return res.review_id
+                return res.review._id
             }
         }
         catch (error) {
@@ -113,10 +140,10 @@ class UserController extends React.Component {
     }
 
     //pass review object with reviewID
-    async updateBusinessReview(review, reviewID) {
+    async updateReview(review, reviewID) {
         try {
             const res = await fetch(reviewServer + "/put/" + reviewID, {
-                body: review
+                body: { review : review }
             })
             if (res.ok) {
                 console.log("review updated under " + reviewID)
@@ -127,7 +154,7 @@ class UserController extends React.Component {
         }
     }
 
-    async deleteBusinessReview(reviewID) {
+    async deleteReview(reviewID) {
         try {
             const res = await fetch(reviewServer + "/delete/" + reviewID)
             if (res.ok) {
