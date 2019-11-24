@@ -1,4 +1,4 @@
-const Similar = require('../models/similar');
+const SimilarDb = require('../models/similar');
 const _ = require('underscore');
 
 module.exports = class Similar {
@@ -7,13 +7,13 @@ module.exports = class Similar {
     }
 
     async byUser(userId) {
-        return await Similar.findOne({ user: userId });
+        return await SimilarDb.findOne({ user: userId });
     }
 
     async update(userId) {
         const userLikes = await engine.likes.itemsByUser(userId);
         const userDislikes = await engine.dislikes.itemsByUser(userId);
-        const items = _.flatten([likes,dislikes]); 
+        const items = _.flatten([userLikes,userDislikes]); 
 
         const others = await items.map((item) => { 
            return [engine.likes,engine.dislikes].map(rater => { 
@@ -21,7 +21,7 @@ module.exports = class Similar {
             });
         });
         
-        others = _.without(_.unique(_.flatten(others)));
+        others = _.without(_.unique(_.flatten(others)),userId);
         const similarity = others.map(async (other) => { 
             const otherLikes = await engine.likes.itemsByUser(other); 
             const otherDislikes = await engine.dislikes.itemsByUser(other);  
@@ -30,7 +30,6 @@ module.exports = class Similar {
             return {user: other,score: similarScore};
         });  
 
-        const result = new Similar({_id: userId, user: userId, similarity: similarity }); 
-        await result.save();
+        SimilarDb.findOneAndUpdate({ user: userId }, {_id: user,user: userId, suggestions: suggestions}, { new: true });
     }
 }

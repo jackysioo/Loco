@@ -1,5 +1,5 @@
 _ = require('underscore'); 
-Suggestion = require('../models/suggestion');
+SuggestionDb = require('../models/suggestion');
 
 module.exports = class Suggestion {
     constructor(engine) {
@@ -7,7 +7,7 @@ module.exports = class Suggestion {
     }  
 
     async forUser(userId){  
-        return await Suggestion.findOne({ user: userId });
+        return await SuggestionDb.findOne({ user: userId });
     } 
 
     async update(userId){  
@@ -54,7 +54,7 @@ module.exports = class Suggestion {
             return {item: item, weight: numerator / _.union(likers,dislikers).length};
         }); 
  
-        Suggestion.findOneAndUpdate({ user: userId }, {suggestions: suggestions}, { new: true });
+        SuggestionDb.findOneAndUpdate({ user: userId }, {_id: userId, user: userId, suggestions: suggestions}, { new: true });
 
     } 
 }
