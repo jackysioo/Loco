@@ -30,41 +30,49 @@ module.exports = class Rater {
         } 
     } 
 
-    async itemsByUser(userId){  
+    async itemsByUser(userId){   
+        try{
         var result;
         if(this.type === 'likes'){  
         
            const temp = await Like.find({ user: userId});
-           result = temp.map(async (object) => { 
+           result = temp.map((object) => { 
             return object.business;
          }); 
         }  
         else{ 
             const temp = await Dislike.find({ user: userId}); 
-            result = temp.map(async (object) => { 
+            result = temp.map((object) => { 
                 return object.business;
              }); 
         }  
 
-        return result;
+        return result; 
+        }catch(error){ 
+            throw new Error(error);
+          }
     }  
 
     async usersByItem(businessId){ 
+       try{
         var result;
         if(this.type === 'likes'){ 
            const temp = await Like.find({ business: businessId}); 
-           result = temp.map(async (object) => { 
+           result = temp.map((object) => { 
                return object.user;
            }); 
         
         }  
         else{ 
             const temp = await Dislike.find({ business: businessId}); 
-           result = temp.map(async (object) => { 
+           result = temp.map((object) => { 
                return object.user;
            }); 
         }  
-        return result;
+        return result; 
+    }catch(error){ 
+            throw new Error(error);
+          }
     }
 
 

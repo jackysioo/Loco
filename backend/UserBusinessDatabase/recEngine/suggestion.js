@@ -21,15 +21,15 @@ module.exports = class Suggestion {
         //for each similar 
 
          
-        const items = others.similarity.map((other) => { 
-           return [this.engine.likes,this.engine.dislikes].map(rater => { 
-               return rater.itemsByUser(other.user);
-            });
-        }); 
+        const items =  await Promise.all(others.similarity.map(async (other) => { 
+           return await Promise.all([this.engine.likes,this.engine.dislikes].map(async rater => { 
+               return await rater.itemsByUser(other.user);
+            }));
+        })); 
 
         //find all the unique items the user has not rated yet
         const uniqueItems= _.difference(_.unique(_.flatten(items)),userLikes,userDislikes); 
-        const suggestions = uniqueItems.map( async (item) => { 
+        const suggestions =  await Promise.all(uniqueItems.map( async (item) => { 
 
             //find all the users that like and dislike this item
             const likers = await this.engine.likes.usersByItem(item); 
@@ -52,10 +52,10 @@ module.exports = class Suggestion {
                 }
 
             } 
-            return {item: item, weight: numerator / _.union(likers,dislikers).length};
-        }); 
+            return {business: item, weight: numerator / _.union(likers,dislikers).length};
+        })); 
  
-        SuggestionDb.findOneAndUpdate({ user: userId }, {_id: userId, user: userId, suggestions: suggestions}, { new: true,upsert: true });
+       await SuggestionDb.findOneAndUpdate({ user: userId }, {_id: userId, user: userId, suggestions: suggestions}, { new: true,upsert: true });
     }catch(error){ 
         throw new Error(error);
       }

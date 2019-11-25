@@ -186,7 +186,7 @@ exports.getSuggestions = async (req, res, next) => {
        await e.suggestions.update(userId); 
         const suggestions = await Suggestion.findOne({user: userId}).populate('suggestions.business').exec();
 
-        res.status(200).json({ message: 'updated', suggestions: suggestions.suggestions });
+        res.status(200).json({ message: 'suggestions', suggestions: suggestions.suggestions });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

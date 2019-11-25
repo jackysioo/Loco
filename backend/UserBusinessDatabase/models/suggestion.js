@@ -10,7 +10,7 @@ const suggestionSchema = new Schema({
     suggestions: [{
        business :{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'business'
+            ref: 'Business'
         }, 
         weight: Number
         
