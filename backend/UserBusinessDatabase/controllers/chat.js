@@ -63,7 +63,7 @@ exports.getUsers = (req, res) => {
 exports.postUser = (req, res) => {
   const { userID, name } = req.body;
 
-  chatkit.createRoom({
+  chatkit.createUser({
     id: userID,
     name: name,
   })
@@ -81,8 +81,6 @@ exports.postUser = (req, res) => {
 //if it's the first time retrieving messages, get messages from chatkit without initial meessage ID
 exports.getMessages = (req, res) => {
   console.log("fetching messages from room: " + req.query.roomId)
-  var messageList = []
-
     chatkit.fetchMultipartMessages({
       roomId: req.query.roomId,
     })
