@@ -4,18 +4,18 @@ const Search = require('../models/search');
 const Review = require('../models/review'); 
 const Engine = require('../recEngine/engine'); 
 
-const e = new Engine; 
+const e = new Engine(); 
 
-addData = async (rating,userid,businessId) => { 
+addData = async (rating,userId,businessId) => { 
     if(rating >= 3.0){ 
         await e.likes.add(userId,businessId);
     } 
     else{  
-      await  e.dislikes.add(userid,businessId);
+      await  e.dislikes.add(userId,businessId);
     }
 } 
 
-updateData = async (prevRating,newRating,userId,businessId) => { 
+updateData = async (prevRating,rating,userId,businessId) => { 
     if(rating >= 3.0 && prevRating < 3.0){ 
         await e.dislikes.remove(userId,businessId); 
         await e.likes.add(userId,businessId);
@@ -26,12 +26,12 @@ updateData = async (prevRating,newRating,userId,businessId) => {
     }
 } 
 
-deleteData = async (rating,userid,businessId) => { 
+deleteData = async (rating,userId,businessId) => { 
     if(rating >= 3.0){ 
         await e.likes.remove(userId,businessId);
     } 
     else{  
-      await  e.dislikes.remove(userid,businessId);
+      await  e.dislikes.remove(userId,businessId);
     }
 }
 
@@ -67,7 +67,7 @@ exports.updateReview = async (req, res, next) => {
 
 exports.addReview = async (req, res, next) => {
     try { 
-        const rating = req.body.rating;
+        const rating = req.body.review.rating;
         const review = new Review(req.body.review);  
         const reviewId = await review.save();  
 

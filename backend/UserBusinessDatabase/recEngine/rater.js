@@ -10,42 +10,39 @@ module.exports = class Rater {
     async add(userId,businessId){  
         const object = {user: userId, business: businessId}; 
         var result;
-        if(type === 'like'){ 
+        if(this.type === 'likes'){ 
             result = new Like(object);
         }  
         else{ 
             result = new Dislike(object); 
         } 
         await result.save();  
-       await this.engine.similars.update(userId); 
-        await this.engine.suggestions.update(userId);
+
     } 
 
     async remove(userId,businessId){  
 
-        if(type === 'like'){ 
+        if(this.type === 'likes'){ 
             await Like.findOneAndRemove({ user: userId, business: businessId });
         }  
         else{ 
             await Dislike.findOneAndRemove({ user: userId, business: businessId });
         } 
-       await this.engine.similars.update(userId); 
-        await this.engine.suggestions.update(userId);
     } 
 
     async itemsByUser(userId){  
         var result;
-        if(type === 'like'){  
+        if(this.type === 'likes'){  
         
            const temp = await Like.find({ user: userId});
            result = temp.map(async (object) => { 
-            return {business: object.business};
+            return object.business;
          }); 
         }  
         else{ 
             const temp = await Dislike.find({ user: userId}); 
             result = temp.map(async (object) => { 
-                return {business: object.business};
+                return object.business;
              }); 
         }  
 
@@ -54,17 +51,17 @@ module.exports = class Rater {
 
     async usersByItem(businessId){ 
         var result;
-        if(type === 'like'){ 
+        if(this.type === 'likes'){ 
            const temp = await Like.find({ business: businessId}); 
            result = temp.map(async (object) => { 
-               return {user: object.user};
+               return object.user;
            }); 
         
         }  
         else{ 
             const temp = await Dislike.find({ business: businessId}); 
            result = temp.map(async (object) => { 
-               return {user: object.user};
+               return object.user;
            }); 
         }  
         return result;

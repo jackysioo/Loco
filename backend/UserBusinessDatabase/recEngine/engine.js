@@ -1,6 +1,6 @@
 const Rater = require('./Rater'); 
 
-const Similars = require('./Similars'); 
+const Similars = require('./Similar'); 
 
 const Suggestion = require('./Suggestion'); 
 

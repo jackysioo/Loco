@@ -10,18 +10,19 @@ module.exports = class Suggestion {
         return await SuggestionDb.findOne({ user: userId });
     } 
 
-    async update(userId){  
+    async update(userId){   
+        try{
         //find one similar by User id 
-        const others = await engine.similar.byUser(userId); 
+        const others = await this.engine.similars.byUser(userId); 
         //find all items the User likes 
-        const userLikes = await engine.likes.itemsByUser(userId);
+        const userLikes = await this.engine.likes.itemsByUser(userId);
         //find all items the User dislikes
-        const userDislikes = await engine.dislikes.itemsByUser(userId);
+        const userDislikes = await this.engine.dislikes.itemsByUser(userId);
         //for each similar 
 
          
         const items = others.similarity.map((other) => { 
-           return [engine.likes,engine.dislikes].map(rater => { 
+           return [this.engine.likes,this.engine.dislikes].map(rater => { 
                return rater.itemsByUser(other.user);
             });
         }); 
@@ -54,7 +55,9 @@ module.exports = class Suggestion {
             return {item: item, weight: numerator / _.union(likers,dislikers).length};
         }); 
  
-        SuggestionDb.findOneAndUpdate({ user: userId }, {_id: userId, user: userId, suggestions: suggestions}, { new: true });
-
+        SuggestionDb.findOneAndUpdate({ user: userId }, {_id: userId, user: userId, suggestions: suggestions}, { new: true,upsert: true });
+    }catch(error){ 
+        throw new Error(error);
+      }
     } 
 }

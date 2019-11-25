@@ -10,26 +10,30 @@ module.exports = class Similar {
         return await SimilarDb.findOne({ user: userId });
     }
 
-    async update(userId) {
-        const userLikes = await engine.likes.itemsByUser(userId);
-        const userDislikes = await engine.dislikes.itemsByUser(userId);
+    async update(userId) { 
+        try{
+        const userLikes = await this.engine.likes.itemsByUser(userId);
+        const userDislikes = await this.engine.dislikes.itemsByUser(userId);
         const items = _.flatten([userLikes,userDislikes]); 
 
-        const others = await items.map((item) => { 
-           return [engine.likes,engine.dislikes].map(rater => { 
-               return rater.usersByItems(item);
+        const others = items.map(async (item) => { 
+           return [this.engine.likes,this.engine.dislikes].map(async (rater) => { 
+               return await rater.usersByItem(item);
             });
         });
         
-        others = _.without(_.unique(_.flatten(others)),userId);
-        const similarity = others.map(async (other) => { 
-            const otherLikes = await engine.likes.itemsByUser(other); 
-            const otherDislikes = await engine.dislikes.itemsByUser(other);  
+        const uniqueOthers =  _.without(_.unique(_.flatten(others)),userId);
+        const similarity =  uniqueOthers.map(async (other) => { 
+            const otherLikes = await this.engine.likes.itemsByUser(other); 
+            const otherDislikes = await this.engine.dislikes.itemsByUser(other);  
             const similarScore = (_.intersection(userLikes, otherLikes).length+_.intersection(userDislikes, otherDislikes).length-_.intersection(userLikes, otherDislikes).length-_.intersection(userDislikes, otherLikes).length) / _.union(userLikes, otherLikes, userDislikes, otherDislikes).length; 
 
             return {user: other,score: similarScore};
         });  
 
-        SimilarDb.findOneAndUpdate({ user: userId }, {_id: user,user: userId, similarity: similarity}, { new: true });
+        await SimilarDb.findOneAndUpdate({ user: userId }, {_id: userId,user: userId, similarity: similarity}, { new: true, upsert: true }); 
+        }catch(error){ 
+            throw new Error(error);
+          }
     }
 }
