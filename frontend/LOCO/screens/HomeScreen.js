@@ -156,7 +156,7 @@ class HomeScreen extends React.Component {
         })
 
         //calls search api (with default location in Vancouver)
-        searchController.search(category, {lat: 49.2827, long: -123.1207})
+        searchController.search(category, { lat: 49.2827, long: -123.1207 })
             .then((businesses) => {
                 this.setState({
                     searchResults: businesses
@@ -179,8 +179,8 @@ class HomeScreen extends React.Component {
                     key={categoryIcon.name}
                     style={styles.categoryItemView}
                     onPress={() => this.submitSearchCategory(categoryIcon.name)}
-                    // ref={this.props.generateTestHook('Categories.Button' + count)}
-                    >
+                // ref={this.props.generateTestHook('Categories.Button' + count)}
+                >
                     <Image
                         source={categoryIcon.uri}
                         style={styles.categoryItem} />

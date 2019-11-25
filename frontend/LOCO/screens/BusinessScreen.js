@@ -137,7 +137,7 @@ class BusinessScreen extends React.Component {
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>R E V I E W S</HeadingText1>
                                     <TouchableOpacity style={styles.addReview} onPress={() => { this.setState({ addReviewVisible: true }) }}>
-                                        <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.primary }}>a d d  r e v i e w</ParagraphText2>
+                                        <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.primary }}>w r i t e  r e v i e w</ParagraphText2>
                                         <Image source={require('../assets/icons/icons8-inspection-96.png')} style={{ height: 18, width: 18 }} />
                                     </TouchableOpacity>
                                     {reviews}

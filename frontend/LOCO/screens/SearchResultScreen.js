@@ -36,7 +36,7 @@ class SearchResultScreen extends React.Component {
             this.setState({
                 loadSearchResults: this.props.loadSearchResults,
             })
-            if(this.props.loadSearchResults) {
+            if (this.props.loadSearchResults) {
                 console.log('Test PASSED: Search results shown in under 100ms')
             }
         }
@@ -91,18 +91,13 @@ class SearchResultScreen extends React.Component {
                     <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
-                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isFilterVisible: true }) }}
-                    /*ref={this.props.generateTestHook('Filters.Button')}*/>
-                        <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Filters</HeadingText2>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isSortVisible: true }) }}
+                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isSortVisible: true })}}
                    /* ref={this.props.generateTestHook('Sort.Button')}*/>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Sort By</HeadingText2>
                     </TouchableOpacity>
                 </View>
 
-                {/* <FilterScreen visible={this.state.isFilterVisible} close={this.closeFilter} filters={this.state.filters} updateFilters={this.updateFilters} />} */}
-                {/* <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />} */}
+                <SortByScreen visible={this.state.isSortVisible} close={this.closeSort} sort={this.state.sort} updateSort={this.updateSort} />
 
             </View>
         )

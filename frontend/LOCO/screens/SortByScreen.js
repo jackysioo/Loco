@@ -23,10 +23,19 @@ class SortByScreen extends React.Component {
         criteria: this.props.sort
     }
 
+    componentDidUpdate(prevProps){
+        if (this.props.visible !== prevProps.visible){
+            this.setState({
+                modalVisible: this.props.visible,
+                criteria: this.props.sort
+            })
+        }
+    }
+
     closeModal = () => {
         this.props.updateSort(this.state.criteria)
-        this.setState({ modalVisible: false })
-        this.props.closeSort
+        this.props.close()
+        // this.setState({ modalVisible: !this.state.modalVisible })
     }
 
 
