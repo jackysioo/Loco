@@ -26,7 +26,7 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Business: BusinessScreen
+    Business: BusinessScreen,
   }, {
   headerMode: 'none',
 },

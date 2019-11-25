@@ -16,16 +16,22 @@ import {
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
-import { Colors } from '../constants';
+import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
-import { hook } from 'cavy'
+import { hook } from 'cavy';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import NumericInput from 'react-native-numeric-input'
 
 
 class BusinessScreen extends React.Component {
     state = {
         messageFormVisible: false,
+        addReviewVisible: false,
         subject: '',
-        message: ''
+        message: '',
+        reviewTitleInput: '',
+        reviewInput: '',
+        ratingInput: '',
     };
 
     sendMessage(user) {
@@ -40,9 +46,24 @@ class BusinessScreen extends React.Component {
         this.setState({ message });
     };
 
+    updateReviewTitle = (reviewTitleInput) => {
+        this.setState({ reviewTitleInput });
+    };
+
+    updateReview = (reviewInput) => {
+        this.setState({ reviewInput });
+    };
+
+    updateRating = (ratingInput) => {
+        this.setState({ ratingInput });
+    };
+
     render() {
         const { subject } = this.state;
         const { message } = this.state;
+        const { reviewTitleInput } = this.state;
+        const { reviewInput } = this.state;
+        const { ratingInput } = this.state;
 
         const tags = this.props.navigation.state.params.item.tags.map((tag) => {
             return (
@@ -115,12 +136,94 @@ class BusinessScreen extends React.Component {
                                 </View>
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{ margin: 10, color: Colors.placeholder }}>R E V I E W S</HeadingText1>
+                                    <TouchableOpacity style={styles.addReview} onPress={() => { this.setState({ addReviewVisible: true }) }}>
+                                        <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.primary }}>a d d  r e v i e w</ParagraphText2>
+                                        <Image source={require('../assets/icons/icons8-inspection-96.png')} style={{ height: 18, width: 18 }} />
+                                    </TouchableOpacity>
                                     {reviews}
                                 </View>
                             </View>
                         </ScrollView>
                     </ImageBackground>
                 </View>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.addReviewVisible}>
+                    <KeyboardAwareScrollView style={styles.container}>
+                        <View style={{ flex: 1 }}>
+                            <View>
+                                <ScrollView
+                                    showsVerticalScrollIndicator={false}
+                                    style={styles.modalItemContainer}>
+                                    <TouchableOpacity
+                                        style={styles.back}
+                                        onPress={() => { this.setState({ addReviewVisible: false }) }}
+                                    // ref={this.props.generateTestHook('CancelEditReview.Button')}
+                                    >
+                                        <HeadingText1 style={{ color: Colors.primary }}> Cancel </HeadingText1>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.save} onPress={() => { this.setState({ addReviewVisible: false }) }}
+                                    //ref={this.props.generateTestHook('SaveEditReview.Button')}
+                                    >
+                                        <HeadingText1 style={{ color: Colors.primary }}> Save </HeadingText1>
+                                    </TouchableOpacity>
+                                    <View style={styles.innerContainer}>
+                                        <View style={styles.list}>
+                                            <TouchableOpacity style={styles.upload}>
+                                                <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.highlight }}>u p l o a d</ParagraphText2>
+                                                <Image source={require('../assets/icons/icons8-add-image-96.png')} style={{ height: 18, width: 18 }} />
+                                            </TouchableOpacity>
+                                            <TextInput
+                                                //ref={this.props.generateTestHook('ReviewTitle.TextInput')}
+                                                style={styles.reviewTitleInput}
+                                                onChangeText={this.updateReviewTitle}
+                                                inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                containerStyle={{ backgroundColor: '#ffffff' }}
+                                                inputStyle={{ fontSize: 13 }}
+                                                value={reviewTitleInput}
+                                                placeholder={"Give your review a title!"}
+                                                placeholderTextColor={Colors.placeholder} />
+                                            <TextInput
+                                                //ref={this.props.generateTestHook('Review.TextInput')}
+                                                multiline={true}
+                                                style={styles.reviewInput}
+                                                onChangeText={this.updateReview}
+                                                inputContainerStyle={{ backgroundColor: Colors.white }}
+                                                containerStyle={{ backgroundColor: '#ffffff' }}
+                                                inputStyle={{ fontSize: 13 }}
+                                                value={reviewInput}
+                                                placeholder={"Write about your experience!"}
+                                                placeholderTextColor={Colors.placeholder} />
+                                            <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
+                                                <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
+                                                <NumericInput
+                                                    containerStyle={{ marginRight: 7 }}
+                                                    minValue={0}
+                                                    maxValue={5}
+                                                    initValue={0}
+                                                    onChange={this.updateRating}
+                                                    totalWidth={100}
+                                                    totalHeight={33}
+                                                    separatorWidth={0.5}
+                                                    step={1}
+                                                    valueType='real'
+                                                    rounded
+                                                    textColor={Colors.black}
+                                                    borderColor={Colors.highlight} />
+                                                <Image style={styles.icon} source={require('../assets/icons/icons8-star-24-grey.png')} />
+                                            </View>
+                                            <View style={{ marginTop: 10, flexDirection: 'row' }}>
+                                                <HeadingText1 style={styles.headerLeft}>S e r v i c e   b y</HeadingText1>
+                                                <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.item.user} </HeadingText2>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </ScrollView>
+                            </View>
+                        </View>
+                    </KeyboardAwareScrollView>
+                </Modal>
                 <Modal
                     animationType="slide"
                     transparent={false}
@@ -176,34 +279,142 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0)'
     },
+    outerContainer: {
+        width: width,
+        height: height,
+        padding: 0,
+        zIndex: 1
+    },
+    background: {
+        marginTop: -20,
+        height: height / 2,
+        width: width
+    },
+    modalItemContainer: {
+        marginTop: 20,
+        flex: 1,
+    },
+    icon: {
+        width: 15,
+        height: 15,
+    },
+    UpdatePic: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: 'center',
+        position: 'absolute',
+        padding: 10,
+        height: 40,
+        width: 100,
+        zIndex: 1,
+        backgroundColor: 'rgba(99, 99, 99, 0.6)',
+    },
+    ratingInput: {
+        textAlign: 'center',
+        width: 45,
+        paddingHorizontal: 6,
+        paddingTop: 5,
+        paddingBottom: 5,
+        borderRadius: 10,
+        borderColor: Colors.highlight,
+        borderWidth: 1,
+        marginRight: 3,
+        zIndex: 1,
+    },
+    reviewTitleInput: {
+        flex: 1,
+        width: width - 60,
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        borderColor: Colors.highlight,
+        borderWidth: 1,
+        marginBottom: 10,
+        zIndex: 1,
+    },
+    reviewInput: {
+        flex: 1,
+        paddingHorizontal: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
+        textAlignVertical: 'top',
+        width: width - 60,
+        borderWidth: 1,
+        borderColor: Colors.highlight,
+        borderRadius: 10,
+        zIndex: 1,
+    },
+    reviewImage: {
+        width: width - 55,
+        height: width - 55,
+        marginHorizontal: width / 60,
+        marginBottom: 15,
+    },
+    list: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 20,
+    },
     profileBackground: {
         height: height / 2,
         width: width
+    },
+    addReview: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 30,
+        borderColor: Colors.primary,
+        paddingVertical: 5,
+        paddingHorizontal: 30,
+        width: width - 65,
     },
     backButton: {
         position: "absolute",
         top: 20,
         left: 10,
         margin: 10,
+    },
+    back: {
+        position: "absolute",
+        left: 12,
+        top: 10,
+    },
+    save: {
+        position: "absolute",
+        right: 12,
+        top: 10,
+    },
+    innerContainer: {
+        marginTop: 40,
+        marginHorizontal: 10,
+        marginBottom: 40,
+        paddingBottom: 10,
+        borderRadius: 10,
+        zIndex: 5,
+        backgroundColor: Colors.white,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 10,
-        shadowOpacity: 0.7,
+        shadowOpacity: 0.25,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     sendButton: {
         position: "absolute",
         top: 20,
         right: 10,
         margin: 10,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.7,
     },
     actionButton: {
         paddingHorizontal: 20,
         paddingVertical: 10,
-        borderRadius: 5,
+        borderRadius: 10,
         backgroundColor: Colors.primary,
         justifyContent: 'center',
         alignItems: 'center'
@@ -311,7 +522,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         borderRadius: 5,
         padding: 10,
-        borderColor: Colors.placeholder,
+        borderColor: Colors.highlight,
         borderWidth: 1
     },
     reviews: {
@@ -365,8 +576,36 @@ const styles = StyleSheet.create({
     },
     heading1: {
         fontSize: 14,
-        color: Colors.primary
-    }
+        color: Colors.white,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 10,
+        shadowOpacity: 0.7,
+    },
+    upload: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 30,
+        borderColor: Colors.highlight,
+        paddingVertical: 5,
+        paddingHorizontal: 30,
+        width: width - 65,
+        marginBottom: 25,
+    },
+    headerLeft: {
+        color: Colors.primary,
+        flex: 1,
+        justifyContent: 'flex-start',
+        zIndex: 1,
+    },
+    headerRight: {
+        color: Colors.placeholder,
+        flex: 1,
+        textAlign: 'right',
+        zIndex: 1,
+    },
 });
 
 //export default withNavigation(BusinessScreen);
