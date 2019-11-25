@@ -43,8 +43,8 @@ class MessagesScreen extends React.Component {
     }
 
 
-    enterChat(roomID) {
-        this.props.navigation.navigate('Chat', { userID: this.state.userID, roomID: roomID })
+    enterChat(roomID, otherUserID) {
+        this.props.navigation.navigate('Chat', { userID: this.state.userID, roomID: roomID, otherUserID: otherUserID })
     }
 
     newRoomID = (roomID) => {
@@ -57,7 +57,7 @@ class MessagesScreen extends React.Component {
                 <View style={styles.chatItemContainer} key={chat.roomID}>
                     <TouchableOpacity
                         style={styles.chatItem}
-                        onPress={() => this.enterChat(chat.roomID)}>
+                        onPress={() => this.enterChat(chat.roomID, chat.otherUserID)}>
                             <Image
                             style={styles.avatar}
                             source={{ uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' }} />

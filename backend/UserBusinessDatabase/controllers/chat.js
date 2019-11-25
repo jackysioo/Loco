@@ -10,18 +10,6 @@ const chatkit = new Chatkit.default({
 });
 
 
-//GET user data
-exports.getUser = (req, res) => {
-  console.log("fetching user data from: " + req.query.id)
-  chatkit.getUser({
-    userId: req.query.id,
-  })
-    .then((user) => {
-      res.json(user)
-    })
-    .catch(err => console.error(err))
-};
-
 //GET list of chatrooms the current user has chatted with
 exports.getChats = (req, res) => {
   console.log("fetching data from: " + req.query.id)
@@ -31,6 +19,19 @@ exports.getChats = (req, res) => {
   })
     .then((chatrooms) => {
       res.json(chatrooms)
+    })
+    .catch(err => console.error(err))
+};
+
+
+//GET user data
+exports.getUser = (req, res) => {
+  console.log("fetching user data from: " + req.query.id)
+  chatkit.getUser({
+    userId: req.query.id,
+  })
+    .then((user) => {
+      res.json(user)
     })
     .catch(err => console.error(err))
 };

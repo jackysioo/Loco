@@ -21,27 +21,75 @@ export default class ChatScreen extends React.Component {
   state = {
     roomID: this.props.navigation.state.params.roomID,
     userID: this.props.navigation.state.params.userID,
+    otherUserID: this.props.navigation.state.params.otherUserID,
     loadMessages: false,
     message: '',
     messages: [],
+    chatWithUserIsTyping
   };
 
   componentDidMount() {
     chatController.loadChat(this.props.navigation.state.params.userID, this.props.navigation.state.params.roomID)
-            .then((messages) => {
-                this.setState({
-                  messages: messages
-                },() => {
-                  this.setState({
-                    loadMessages: true
-                  })
-                })
-            })
+      .then((messages) => {
+        this.setState({
+          messages: messages
+        }, () => {
+          this.setState({
+            loadMessages: true
+          })
+        })
+      })
   }
 
-  loadMessage = (messages) => {
+  onReceiveMessage = (message) => {
+    let isCurrentUser = this.state.userID == message.sender.id ? true : false;
+
+    let messages = [...this.state.messages];
+    messages.push({
+      key: message.id.toString(),
+      username: message.sender.name,
+      message: message.text,
+      datetime: message.createdAt,
+      isCurrentUser
+    });
+
+    this.setState({ messages }, () => {
+      this.scrollViewRef.scrollToEnd({ animated: true });
+    }
+    );
+  };
+
+
+  onUserTypes = (user) => {
     this.setState({
-      messages: messages
+      chatWithUserIsTyping: true
+    });
+  };
+
+  onUserNotTypes = user => {
+    this.setState({
+      chatWithUserIsTyping: false
+    });
+  };
+
+  sendMessage = () => {
+    if (this.state.message) {
+      chatController
+        .sendMessageToRoom(this.state.userID, this.state.roomID, this.state.message)
+        .then(() => {
+          this.setState({
+            message: ""
+          });
+        })
+        .catch(err => {
+          console.log(`error adding message to room: ${err}`);
+        });
+    }
+  };
+
+  updateMessage = (message) => {
+    this.setState({
+      message
     })
   }
 
@@ -52,6 +100,7 @@ export default class ChatScreen extends React.Component {
 
         <View style={styles.body}>
           <ScrollView
+            ref={(ref) => {this.scrollViewRef = ref}}
             style={styles.messages}
             contentContainerStyle={styles.scroll_container}
           >
@@ -60,10 +109,10 @@ export default class ChatScreen extends React.Component {
               renderItem={this.renderItem} />}
           </ScrollView>
 
-          {this.props.chatWithUserIsTyping && (
+          {this.chatWithUserIsTyping && (
             <View style={styles.typing_indicator}>
               <Text style={styles.typing_indicator_text}>
-                {this.props.chatWithUser} is typing...
+                {this.state.otherUserID} is typing...
               </Text>
             </View>
           )}
@@ -72,8 +121,8 @@ export default class ChatScreen extends React.Component {
             <TextInput
               style={styles.text_field}
               multiline={true}
-              onChangeText={this.props.updateMessage}
-              value={this.props.message}
+              onChangeText={this.updateMessage}
+              value={this.state.message}
               placeholder="Type your message..."
             />
 

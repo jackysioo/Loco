@@ -139,6 +139,11 @@ class ChatController extends React.Component {
                 .then((currentUser) => {
                     currentUser.subscribeToRoom({
                         roomId: roomID,
+                        hooks: {
+                          onMessage: this.onReceiveMessage,
+                          onUserStartedTyping: this.onUserTypes,
+                          onUserStoppedTyping: this.onUserNotTypes
+                        }
                     })
                         .catch(err => {
                             console.log(`Error joining room ${err}`);
@@ -170,14 +175,14 @@ class ChatController extends React.Component {
 
 
     //sends a message in the chatroom with roomID
-    sendMessageToRoom(roomID, message) {
+    sendMessageToRoom(userID, roomID, message) {
         fetch(chatServer + "/message", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                userID: this.state.userID,
+                userID: userID,
                 roomID: roomID,
                 message: message
             })
