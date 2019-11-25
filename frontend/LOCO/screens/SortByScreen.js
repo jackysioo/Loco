@@ -23,8 +23,8 @@ class SortByScreen extends React.Component {
         criteria: this.props.sort
     }
 
-    componentDidUpdate(prevProps){
-        if (this.props.visible !== prevProps.visible){
+    componentDidUpdate(prevProps) {
+        if (this.props.visible !== prevProps.visible) {
             this.setState({
                 modalVisible: this.props.visible,
                 criteria: this.props.sort
@@ -50,9 +50,9 @@ class SortByScreen extends React.Component {
                         onPress={this.closeModal}
                         style={{ position: "absolute", top: 0, left: 0, padding: 20 }}
                         /*ref={this.props.generateTestHook('CloseSort.Button')}*/>
-                        <Text style={{ fontSize: 18, color: Colors.placeholder }}>X</Text>
+                        <Text style={{ fontSize: 18, color: Colors.placeholder }}>✖</Text>
                     </TouchableOpacity>
-                    <View style={{ flex: 1, marginVertical: 30, marginHorizontal: 30 }}>
+                    <View style={{ flex: 1, marginBottom: 10, marginHorizontal: 30 }}>
                         <HeadingText1 style={{ fontSize: 22, marginVertical: 30, justifyContent: "center", alignSelf: "center" }}>Sort By</HeadingText1>
                         {Object.values(SortBy).map((sort) => {
                             return (
