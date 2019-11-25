@@ -120,7 +120,7 @@ class ChatController extends React.Component {
     }
 
     //retrieves all the messages of a chatroom
-    async loadChat(userID, roomID) {
+    async loadChat(roomID) {
         //GET messages in room of roomID
         try {
             const res = await fetch(chatServer + "/messages?roomId=" + roomID, {
@@ -128,32 +128,9 @@ class ChatController extends React.Component {
                 headers: {
                     "Content-Type": "application/json"
                 }
-            });
-            this.chatManager = new ChatManager({
-                instanceLocator: instanceLocatorId,
-                userId: userID,
-                tokenProvider
-            });
-            this.chatManager
-                .connect()
-                .then((currentUser) => {
-                    currentUser.subscribeToRoom({
-                        roomId: roomID,
-                        hooks: {
-                          onMessage: this.onReceiveMessage,
-                          onUserStartedTyping: this.onUserTypes,
-                          onUserStoppedTyping: this.onUserNotTypes
-                        }
-                    })
-                        .catch(err => {
-                            console.log(`Error joining room ${err}`);
-                        });
-                })
-                .catch(error => {
-                    console.log("error with chat manager", error);
-                });
-            
+            });   
             const messages = await res.json();
+            console.log(messages)
             return (messages);
         }
         catch (error) {
@@ -176,9 +153,8 @@ class ChatController extends React.Component {
             })
         })
             .then((res) => {
-                console.log(res)
                 if (res.ok) {
-                    console.log("successfully sent message in controller")
+                    return 200
                 }
             })
             .catch((err) => {

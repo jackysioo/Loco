@@ -10,11 +10,14 @@ import {
   KeyboardAvoidingView,
   Platform,
   StatusBar,
-  Dimensions
+  Dimensions,
+  Keyboard,
+  RefreshControl
 } from 'react-native';
 import ChatController from '../controllers/ChatController';
 import { Colors } from '../constants';
 import { HeadingText1 } from '../components/Texts';
+import LOCOChatManager from '../controllers/LOCOChatManager';
 const { width, height } = Dimensions.get("screen");
 const chatController = new ChatController()
 
@@ -24,39 +27,41 @@ export default class ChatScreen extends React.Component {
     roomID: this.props.navigation.state.params.roomID,
     userID: this.props.navigation.state.params.userID,
     otherUserID: this.props.navigation.state.params.otherUserID,
-    loadMessages: false,
     message: '',
     messages: [],
-    chatWithUserIsTyping: false
+    chatWithUserIsTyping: false,
+    refreshing: false,
   };
 
   componentDidMount() {
-    chatController.loadChat(this.props.navigation.state.params.userID, this.props.navigation.state.params.roomID)
-      .then((messages) => {
-        let messageList = [...this.state.messages];
-        for (let message of messages) {
-          for (let text of message.parts) {
-            if (text.type === "text/plain") {
-              let isCurrentUser = message.user_id == this.state.userID ? true : false
-              messageList.push({
-                key: message.id.toString(),
-                userID: message.user_id,
-                message: text.content,
-                timestamp: message.created_at,
-                isCurrentUser
-              })
-            }
-          }
-        }
+    this.chatRef.subscribe() 
+    this.scrollViewRef.scrollToEnd({ animated: true })
 
-        this.setState({
-          messages: messageList
-        }, () => {
-          this.setState({
-            loadMessages: true
-          })
-        })
-      })
+    // chatController.loadChat(this.props.navigation.state.params.roomID)
+    //   .then((messages) => {
+    //     let messageList = [...this.state.messages];
+    //     for (let message of messages) {
+    //       for (let text of message.parts) {
+    //         if (text.type === "text/plain") {
+    //           let isCurrentUser = message.user_id == this.state.userID ? true : false
+    //           messageList.push({
+    //             key: message.id.toString(),
+    //             userID: message.user_id,
+    //             message: text.content,
+    //             timestamp: message.created_at,
+    //             isCurrentUser
+    //           })
+    //         }
+    //       }
+    //     }
+    //     this.setState({
+    //       messages: messageList
+    //     }, () => {
+    //       this.setState({
+    //         loadMessages: true
+    //       })
+    //     })
+    //   })
   }
 
   onReceiveMessage = (message) => {
@@ -65,18 +70,54 @@ export default class ChatScreen extends React.Component {
     let messages = [...this.state.messages];
     messages.push({
       key: message.id.toString(),
-      userID: message.sender.name,
+      username: message.sender.name,
       message: message.text,
       timestamp: message.createdAt,
       isCurrentUser
     });
 
     this.setState({ messages }, () => {
-      this.scrollViewRef.scrollToEnd({ animated: true });
-    }
-    );
+      this.scrollViewRef.scrollToEnd({ animated: true })
+    });
+
   };
 
+
+  refresh = () => {
+    const oldestMessageId = Math.min(
+        ...this.state.messages.map(m => parseInt(m.key))
+    );
+    this.setState({
+        refreshing: true
+    });
+    this.chatRef.refresh(oldestMessageId)
+  }
+
+
+  loadPreviousMessages = (messages) => {
+        let currentMessages = [...this.state.messages];
+        let old_messages = [];
+
+        messages.forEach((msg) => {
+          let isCurrentUser =
+            this.state.userID == msg.sender.id ? true : false;
+
+          old_messages.push({
+            key: msg.id.toString(),
+            username: msg.sender.name,
+            message: msg.text,
+            timestamp: msg.createdAt,
+            isCurrentUser
+          });
+        });
+
+        currentMessages = old_messages.concat(currentMessages);
+
+        this.setState({
+          refreshing: false,
+          messages: currentMessages
+        });
+  };
 
   onUserTypes = (user) => {
     this.setState({
@@ -90,18 +131,14 @@ export default class ChatScreen extends React.Component {
     });
   };
 
-  sendMessage = () => {
+  sendMessage = async () => {
     if (this.state.message) {
-      chatController
+      Keyboard.dismiss()
+      await chatController
         .sendMessageToRoom(this.state.userID, this.state.roomID, this.state.message)
-        .then(() => {
-          this.setState({
-            message: ""
-          });
-        })
-        .catch(err => {
-          console.log(`error adding message to room: ${err}`);
-        });
+      this.setState({
+        message: ""
+      });
     }
   };
 
@@ -121,11 +158,18 @@ export default class ChatScreen extends React.Component {
           <ScrollView
             ref={(ref) => { this.scrollViewRef = ref }}
             style={styles.messages}
+            // onContentSizeChange={(contentWidth, contentHeight)=>{        
+            //     this.scrollViewRef.scrollToEnd({animated: true})}}
             contentContainerStyle={styles.scroll_container}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.refresh}
+              />}
           >
-            {this.state.loadMessages && <FlatList
+          <FlatList
               data={this.state.messages}
-              renderItem={this.renderItem} />}
+              renderItem={this.renderItem} />
           </ScrollView>
 
           {this.chatWithUserIsTyping && (
@@ -155,6 +199,16 @@ export default class ChatScreen extends React.Component {
             </View>
           </View>
         </View>
+        <LOCOChatManager 
+          ref={(ref) => { this.chatRef = ref }}
+          userID = {this.state.userID} 
+          roomID = {this.state.roomID}
+          otherUserID = {this.state.otherUserID} 
+          onReceiveMessage = {this.onReceiveMessage}
+          onUserTypes = {this.onUserTypes}
+          onUserNotTypes = {this.onUserNotTypes}
+          loadPreviousMessages = {this.loadPreviousMessages}
+          />
       </KeyboardAvoidingView>
     );
   }
@@ -180,8 +234,8 @@ export default class ChatScreen extends React.Component {
             <Text style={styles[`${box_style}_text`]}>{item.message}</Text>
           </View>
           <Text style={styles[datestamp_style]}>
-              {item.timestamp}
-            </Text>
+            {item.timestamp}
+          </Text>
         </View>
       </View>
     );
@@ -190,10 +244,10 @@ export default class ChatScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      width: width,
-      backgroundColor: '#fff',
-      paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
+    flex: 1,
+    width: width,
+    backgroundColor: '#fff',
+    paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
   },
   body: {
     flex: 9,
@@ -201,15 +255,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
   },
-  header :{
-      color: Colors.primary,
-      alignSelf: 'center',
-      letterSpacing: 2,
-      marginTop: 40,
-      fontSize: 18,
+  header: {
+    color: Colors.primary,
+    alignSelf: 'center',
+    letterSpacing: 2,
+    marginTop: 40,
+    fontSize: 18,
   },
   scroll_container: {
-    paddingBottom: 20,
+    paddingBottom: 50,
   },
   messages: {
     flex: 8,
