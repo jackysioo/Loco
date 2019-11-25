@@ -8,11 +8,13 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  RefreshControl,
+  Platform,
+  StatusBar,
   Dimensions
 } from 'react-native';
 import ChatController from '../controllers/ChatController';
 import { Colors } from '../constants';
+import { HeadingText1 } from '../components/Texts';
 const { width, height } = Dimensions.get("screen");
 const chatController = new ChatController()
 
@@ -25,14 +27,30 @@ export default class ChatScreen extends React.Component {
     loadMessages: false,
     message: '',
     messages: [],
-    chatWithUserIsTyping
+    chatWithUserIsTyping: false
   };
 
   componentDidMount() {
     chatController.loadChat(this.props.navigation.state.params.userID, this.props.navigation.state.params.roomID)
       .then((messages) => {
+        let messageList = [...this.state.messages];
+        for (let message of messages) {
+          for (let text of message.parts) {
+            if (text.type === "text/plain") {
+              let isCurrentUser = message.user_id == this.state.userID ? true : false
+              messageList.push({
+                key: message.id.toString(),
+                userID: message.user_id,
+                message: text.content,
+                timestamp: message.created_at,
+                isCurrentUser
+              })
+            }
+          }
+        }
+
         this.setState({
-          messages: messages
+          messages: messageList
         }, () => {
           this.setState({
             loadMessages: true
@@ -47,9 +65,9 @@ export default class ChatScreen extends React.Component {
     let messages = [...this.state.messages];
     messages.push({
       key: message.id.toString(),
-      username: message.sender.name,
+      userID: message.sender.name,
       message: message.text,
-      datetime: message.createdAt,
+      timestamp: message.createdAt,
       isCurrentUser
     });
 
@@ -66,7 +84,7 @@ export default class ChatScreen extends React.Component {
     });
   };
 
-  onUserNotTypes = user => {
+  onUserNotTypes = (user) => {
     this.setState({
       chatWithUserIsTyping: false
     });
@@ -99,8 +117,9 @@ export default class ChatScreen extends React.Component {
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 
         <View style={styles.body}>
+          <HeadingText1>{this.state.otherUserID}</HeadingText1>
           <ScrollView
-            ref={(ref) => {this.scrollViewRef = ref}}
+            ref={(ref) => { this.scrollViewRef = ref }}
             style={styles.messages}
             contentContainerStyle={styles.scroll_container}
           >
@@ -127,7 +146,7 @@ export default class ChatScreen extends React.Component {
             />
 
             <View style={styles.button_container}>
-              <TouchableOpacity >
+              <TouchableOpacity onPress={this.sendMessage}>
                 <View style={styles.send_button}>
                   <Text style={styles.send_button_text}>Send</Text>
                 </View>
@@ -141,7 +160,6 @@ export default class ChatScreen extends React.Component {
   }
 
   renderItem = ({ item }) => {
-    console.log(item)
     let box_style = item.isCurrentUser ? 'current_user_msg' : 'other_user_msg';
     let username_style = item.isCurrentUser
       ? 'current_user_username'
@@ -152,11 +170,11 @@ export default class ChatScreen extends React.Component {
         <View style={styles.msg_wrapper}>
           <View style={styles.username}>
             <Text style={[styles.username_text, styles[username_style]]}>
-              {item.username}
+              {item.userID}
             </Text>
           </View>
           <View style={[styles.msg_body, styles[box_style]]}>
-            <Text style={styles[`${box_style}_text`]}>{item.msg}</Text>
+            <Text style={styles[`${box_style}_text`]}>{item.message}</Text>
           </View>
         </View>
       </View>
@@ -166,11 +184,16 @@ export default class ChatScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 10,
-    alignSelf: 'stretch',
+      flex: 1,
+      width: width,
+      backgroundColor: '#fff',
+      paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
   },
   body: {
     flex: 9,
+    width: width,
+    backgroundColor: '#fff',
+    paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
   },
   scroll_container: {
     paddingBottom: 20,
@@ -178,7 +201,7 @@ const styles = StyleSheet.create({
   messages: {
     flex: 8,
     flexDirection: 'column',
-    padding: 8,
+    padding: 30,
   },
   current_user_msg: {
     backgroundColor: '#439bff',
@@ -206,7 +229,8 @@ const styles = StyleSheet.create({
   message_box: {
     flex: 0.1,
     flexDirection: 'row',
-    padding: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderTopWidth: 1,
     borderTopColor: '#e5e5e5',
     justifyContent: 'space-between',
@@ -216,13 +240,15 @@ const styles = StyleSheet.create({
   },
   username_text: {
     fontSize: 12,
-    marginBottom: 2,
+    fontWeight: "600",
+    marginBottom: 5,
     marginLeft: 5,
   },
   msg_body: {
     flex: 10,
-    padding: 8,
-    borderRadius: 10,
+    padding: 10,
+    paddingHorizontal: 15,
+    borderRadius: 15,
     maxWidth: 250,
   },
   typing_indicator: {

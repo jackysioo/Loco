@@ -21,7 +21,7 @@ class ChatController extends React.Component {
     sendMessageToUser(userID, otherUserID) {
         var chatExists = false
 
-        fetch(chatServer + "/chats?id=" + userID, {
+        fetch(chatServer + "/messages?id=" + userID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -62,11 +62,11 @@ class ChatController extends React.Component {
             for (let room of rooms) {
                 for (let id of room.member_user_ids) {
                     if (id !== userID) {
-                        const username = await this.getUser(id)
+                        // const username = await this.getUser(id)
                         chats.push({
                             roomID: room.id,
                             otherUserID: id,
-                            otherUsername: username.name
+                            // otherUsername: username.name
                         })
                     }
                 }
@@ -154,18 +154,6 @@ class ChatController extends React.Component {
                 });
             
             const messages = await res.json();
-            console.log(messages)
-            // for (let m of messages) {
-            //     for (let message of m.parts) {
-            //       if (message.type === "text/plain") {
-            //         messageList.push({
-            //             id: 
-            //           userID: m.userId,
-            //           message: message.content
-            //         })
-            //       }
-            //     }
-            //   }
             return (messages);
         }
         catch (error) {
@@ -176,7 +164,7 @@ class ChatController extends React.Component {
 
     //sends a message in the chatroom with roomID
     sendMessageToRoom(userID, roomID, message) {
-        fetch(chatServer + "/message", {
+        fetch(chatServer + "/messages", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -188,6 +176,7 @@ class ChatController extends React.Component {
             })
         })
             .then((res) => {
+                console.log(res)
                 if (res.ok) {
                     console.log("successfully sent message in controller")
                 }

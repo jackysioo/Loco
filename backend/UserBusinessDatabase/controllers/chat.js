@@ -84,6 +84,8 @@ exports.getMessages = (req, res) => {
   console.log("fetching messages from room: " + req.query.roomId)
     chatkit.fetchMultipartMessages({
       roomId: req.query.roomId,
+      direction: "older",
+      limit: 100
     })
       .then((messages) => {
         res.json(messages)
