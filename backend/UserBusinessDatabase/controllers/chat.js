@@ -10,8 +10,16 @@ const chatkit = new Chatkit.default({
 });
 
 
-exports.getMain = (req, res) => {
-  res.send("all green!");
+//GET user data
+exports.getUser = (req, res) => {
+  console.log("fetching user data from: " + req.query.id)
+  chatkit.getUser({
+    userId: req.query.id,
+  })
+    .then((user) => {
+      res.json(user)
+    })
+    .catch(err => console.error(err))
 };
 
 //GET list of chatrooms the current user has chatted with

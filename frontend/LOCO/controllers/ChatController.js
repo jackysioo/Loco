@@ -50,8 +50,6 @@ class ChatController extends React.Component {
 
     //GET all of user's previous chatrooms
     async getChats(userID) {
-        console.log("fetching data of " + userID + " from: " + chatServer)
-
         try {
             const response = await fetch(chatServer + "/chats?id=" + userID, {
                 method: "GET",
@@ -72,9 +70,25 @@ class ChatController extends React.Component {
         catch (error) {
             console.log(error);
         }
-
     }
 
+
+    //GET user's data
+    async getUser(userID) {
+        try {
+            const response = await fetch(chatServer + "/users?id=" + userID, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const user = await response.json();
+            return (user);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
     //retrieves all the messages of a chatroom
     async loadChat(roomID) {
