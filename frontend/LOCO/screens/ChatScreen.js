@@ -12,7 +12,8 @@ import {
   StatusBar,
   Dimensions,
   Keyboard,
-  RefreshControl
+  RefreshControl,
+  ActivityIndicator
 } from 'react-native';
 import ChatController from '../controllers/ChatController';
 import { Colors } from '../constants';
@@ -31,12 +32,11 @@ export default class ChatScreen extends React.Component {
     messages: [],
     chatWithUserIsTyping: false,
     refreshing: false,
+    loading: true
   };
 
   componentDidMount() {
     this.chatRef.subscribe()
-    this.scrollViewRef.scrollToEnd({ animated: true })
-
     // chatController.loadChat(this.props.navigation.state.params.roomID)
     //   .then((messages) => {
     //     let messageList = [...this.state.messages];
@@ -77,6 +77,9 @@ export default class ChatScreen extends React.Component {
     });
 
     this.setState({ messages }, () => {
+      this.setState({
+        loading: false
+      })
       this.scrollViewRef.scrollToEnd({ animated: true })
     });
 
@@ -148,6 +151,15 @@ export default class ChatScreen extends React.Component {
     })
   }
 
+
+  loadingAnimation() {
+    return(
+        <View style={styles.loading}>
+            <ActivityIndicator size="large" color="#51bfbb" />
+        </View>
+    )
+}
+
   render() {
 
     return (
@@ -159,6 +171,7 @@ export default class ChatScreen extends React.Component {
             <HeadingText1 style={{ fontSize: 14, color: Colors.secondary }}>Back</HeadingText1>
           </TouchableOpacity>
         </View>
+        {this.state.loading && this.loadingAnimation()}
         <View style={styles.body}>
           <ScrollView
             ref={(ref) => { this.scrollViewRef = ref }}
@@ -262,6 +275,14 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: Colors.primary,
     paddingVertical: 15,
+  },
+  loading: {
+      position: "absolute",
+      top: height/2,
+      left: width/2,
+      zIndex: 10,
+      justifyContent: 'center',
+      alignItems: 'center'
   },
   headerTitle: {
     fontSize: 20,

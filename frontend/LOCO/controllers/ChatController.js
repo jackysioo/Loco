@@ -199,7 +199,6 @@ class ChatController extends React.Component {
                 }
             });
             const messages = await res.json();
-            console.log(messages.length)
             if (messages.length > 0) {
                 return ({
                     message: messages[0].parts[0].content,
@@ -223,9 +222,7 @@ class ChatController extends React.Component {
     //return loading animation when posting data
     render() {
         return (
-            <View>
-                {this.state.visible && <Image style={{ width: 50, height: 50 }} source={{ uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' }} />}
-            </View>
+            <View></View>
         )
     }
 

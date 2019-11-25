@@ -10,7 +10,7 @@ import {
     Image,
     Text,
     View,
-    ImageBackground,
+    ActivityIndicator,
     TouchableOpacity,
     RefreshControl,
     Modal
@@ -26,7 +26,7 @@ class MessagesScreen extends React.Component {
     state = {
         userID: "Cynthia",
         allChats: [],
-        loadChats: false,
+        loading: true,
         refreshing: false,
     }
 
@@ -37,7 +37,7 @@ class MessagesScreen extends React.Component {
                     allChats: chats
                 }, () => {
                     this.setState({
-                        loadChats: true
+                        loading: false
                     })
                 })
             })
@@ -68,8 +68,15 @@ class MessagesScreen extends React.Component {
             })
     }
 
+    loadingAnimation() {
+        return(
+            <View style={styles.loading}>
+                <ActivityIndicator size="large" color="#51bfbb" />
+            </View>
+        )
+    }
+
     renderChats() {
-        // console.log(this.state.allChats)
         return this.state.allChats.map((chat) => {
             return (
                 <View style={styles.chatItemContainer} key={chat.roomID}>
@@ -95,6 +102,7 @@ class MessagesScreen extends React.Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeadingText1 style={styles.header}>MESSAGES</HeadingText1>
+                {this.state.loading && this.loadingAnimation()}
                 <ScrollView style={styles.container}
                     refreshControl={
                         <RefreshControl
@@ -102,7 +110,7 @@ class MessagesScreen extends React.Component {
                             onRefresh={this.updateChatList}
                         />}
                 >
-                    {this.state.loadChats && this.renderChats()}
+                    {!this.state.loading && this.renderChats()}
                 </ScrollView>
             </SafeAreaView>
         )
@@ -122,6 +130,14 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         margin: 20,
         fontSize: 25,
+    },
+    loading: {
+        position: "absolute",
+        top: height/2,
+        left: width/2,
+        zIndex: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     chatItemContainer: {
         width: width,
