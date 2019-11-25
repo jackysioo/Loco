@@ -72,24 +72,6 @@ UserStack.navigationOptions = {
 
 UserStack.path = '';
 
-// const AppointmentsStack = createStackNavigator(
-//   {
-//     Appointments: AllAppointmentsScreen,
-//   }, {
-//   headerMode: 'none',
-// },
-//   config
-// );
-
-// AppointmentsStack.navigationOptions = {
-//   tabBarLabel: 'Appointments',
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
-//   ),
-// };
-
-// AppointmentsStack.path = '';
-
 const LoginStack = createStackNavigator(
   {
     Login: LoginScreen,
@@ -133,7 +115,6 @@ ChatStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
-  // AppointmentsStack,
   LoginStack,
   ChatStack
 });

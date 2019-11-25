@@ -59,6 +59,24 @@ exports.getUsers = (req, res) => {
 
 
 
+//POST create new user 
+exports.postUser = (req, res) => {
+  const { userID, name } = req.body;
+
+  chatkit.createRoom({
+    id: userID,
+    name: name,
+  })
+    .then(() => {
+      console.log('User created successfully')
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+};
+
+
 //GET array of messages of current chatroom history and the messageID of the next message to be loaded
 //if it's the first time retrieving messages, get messages from chatkit without initial meessage ID
 exports.getMessages = (req, res) => {
@@ -69,17 +87,7 @@ exports.getMessages = (req, res) => {
       roomId: req.query.roomId,
     })
       .then((messages) => {
-        for (let m of messages) {
-          for (let message of m.parts) {
-            if (message.type === "text/plain") {
-              messageList.push({
-                userID: m.userId,
-                message: message.content
-              })
-            }
-          }
-        }
-        res.json(messageList)
+        res.json(messages)
       })
       .catch(err => console.error(err))
   };

@@ -36,7 +36,7 @@ class ChatController extends React.Component {
                             this.loadChat(room.id)
                         }
                     }
-                } 
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -60,10 +60,16 @@ class ChatController extends React.Component {
             const rooms = await response.json();
             var chats = [];
             for (let room of rooms) {
-                chats.push({
-                    roomID: room.id,
-                    userIDs: room.member_user_ids
-                });
+                for (let id of room.member_user_ids) {
+                    if (id !== userID) {
+                        const username = await this.getUser(id)
+                        chats.push({
+                            roomID: room.id,
+                            otherUserID: id,
+                            otherUsername: username.name
+                        })
+                    }
+                }
             }
             return (chats);
         }
@@ -90,10 +96,31 @@ class ChatController extends React.Component {
         }
     }
 
-    //retrieves all the messages of a chatroom
-    async loadChat(roomID) {
-        this.setState({ visible: true });
 
+    //GET user's data
+    async createUser(userID, name) {
+        try {
+            const response = await fetch(chatServer + "/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userID: userID,
+                    name: name
+                })
+            });
+            if (response.ok) {
+                console.log("successfully created new user for chat");
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    //retrieves all the messages of a chatroom
+    async loadChat(userID, roomID) {
         //GET messages in room of roomID
         try {
             const res = await fetch(chatServer + "/messages?roomId=" + roomID, {
@@ -102,13 +129,9 @@ class ChatController extends React.Component {
                     "Content-Type": "application/json"
                 }
             });
-            //trigger callback of loaded messages
-            this.setState({
-                nextLoadMessageID: res.nextMessageID
-            });
             this.chatManager = new ChatManager({
                 instanceLocator: instanceLocatorId,
-                userId: this.state.userID,
+                userId: userID,
                 tokenProvider
             });
             this.chatManager
@@ -124,7 +147,21 @@ class ChatController extends React.Component {
                 .catch(error => {
                     console.log("error with chat manager", error);
                 });
-            return (res.messages);
+            
+            const messages = await res.json();
+            console.log(messages)
+            // for (let m of messages) {
+            //     for (let message of m.parts) {
+            //       if (message.type === "text/plain") {
+            //         messageList.push({
+            //             id: 
+            //           userID: m.userId,
+            //           message: message.content
+            //         })
+            //       }
+            //     }
+            //   }
+            return (messages);
         }
         catch (error) {
             console.log("error in request: ");
