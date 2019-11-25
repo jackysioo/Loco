@@ -1,11 +1,11 @@
 import React from "react";
 import { View, AsyncStorage } from 'react-native';
 
-class ChatCache extends React.Component {
+class UserCache extends React.Component {
 
     async storeData(userID, chats) {
         try {
-            await AsyncStorage.setItem(userID + "-chats", chats);
+            await AsyncStorage.setItem(userID + "-user", chats);
         } catch (error) {
             console.log(error)
         }
@@ -13,7 +13,7 @@ class ChatCache extends React.Component {
 
     async getData(userID) {
         try {
-            const value = await AsyncStorage.getItem(userID + "-chats");
+            const value = await AsyncStorage.getItem(userID + "-user");
             if (value !== null) {
               return (value)
             }
@@ -31,4 +31,4 @@ class ChatCache extends React.Component {
 }
 
 
-export default (ChatCache)
+export default (UserCache)

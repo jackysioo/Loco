@@ -122,7 +122,7 @@ class UserScreen extends React.Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.info}>
-                                    <HeadingText1 style={styles.header}>Y O U R  I N F O R M A T I O N</HeadingText1>
+                                    <HeadingText1 style={styles.header}>YOUR INFORMATION</HeadingText1>
                                     <View style={{ justifyContent: 'space-between', marginTop: 5 }}>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ left: -55 }}>Username:</HeadingText1>
@@ -157,7 +157,7 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={styles.header}>A B O U T  M E</HeadingText1>
+                                    <HeadingText1 style={styles.header}>ABOUT ME</HeadingText1>
                                     <View style={styles.bio}>
                                         <ParagraphText1 style={{ margin: 20 }}>
                                             {user.bio}
@@ -165,7 +165,7 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={styles.header}>Y O U R  S E R V I C E S</HeadingText1>
+                                    <HeadingText1 style={styles.header}>YOUR SERVICES</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
                                         snapToInterval={10}
@@ -176,7 +176,7 @@ class UserScreen extends React.Component {
                                     </ScrollView>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={styles.header}>Y O U R  R E V I E W S</HeadingText1>
+                                    <HeadingText1 style={styles.header}>YOUR REVIEWS</HeadingText1>
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
                                         snapToInterval={10}
@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         color: Colors.primary,
         alignSelf: 'center',
+        letterSpacing: 2,
         /*shadowColor: Colors.placeholder,
         shadowOffset: { width: -2, height: 2 },
         shadowRadius: 0,

@@ -9,29 +9,43 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   RefreshControl,
+  Dimensions
 } from 'react-native';
+import ChatController from '../controllers/ChatController';
+import { Colors } from '../constants';
+const { width, height } = Dimensions.get("screen");
+const chatController = new ChatController()
 
 
 export default class ChatScreen extends React.Component {
-    state = {
-        roomID: this.props.roomID,
-        nextLoadMessageID: null,
-        message: '',
-        messages: [],
-    };
+  state = {
+    roomID: this.props.navigation.state.params.roomID,
+    userID: this.props.navigation.state.params.userID,
+    loadMessages: false,
+    message: '',
+    messages: [],
+  };
 
-    componentDidMount(){
-        this.props.controller.loadChat(this.props.roomID)
-    }
+  componentDidMount() {
+    chatController.loadChat(this.props.navigation.state.params.userID, this.props.navigation.state.params.roomID)
+            .then((messages) => {
+                this.setState({
+                  messages: messages
+                },() => {
+                  this.setState({
+                    loadMessages: true
+                  })
+                })
+            })
+  }
 
-    loadMessage = (messages) => {
-        this.setState({
-            messages: [...messages]
-        })
-    }
+  loadMessage = (messages) => {
+    this.setState({
+      messages: messages
+    })
+  }
 
   render() {
-    const { controller } = this.props;
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -40,36 +54,36 @@ export default class ChatScreen extends React.Component {
           <ScrollView
             style={styles.messages}
             contentContainerStyle={styles.scroll_container}
-            >
-            <FlatList 
-             data={this.state.messages} 
-            renderItem={this.renderItem} />
+          >
+            {this.state.loadMessages && <FlatList
+              data={this.state.messages}
+              renderItem={this.renderItem} />}
           </ScrollView>
 
-          {/* {this.props.chatWithUserIsTyping && (
+          {this.props.chatWithUserIsTyping && (
             <View style={styles.typing_indicator}>
               <Text style={styles.typing_indicator_text}>
                 {this.props.chatWithUser} is typing...
               </Text>
             </View>
-          )} */}
+          )}
 
           <View style={styles.message_box}>
             <TextInput
               style={styles.text_field}
               multiline={true}
-            //   onChangeText={this.props.updateMessage}
+              onChangeText={this.props.updateMessage}
               value={this.props.message}
               placeholder="Type your message..."
             />
 
             <View style={styles.button_container}>
-                <TouchableOpacity >
-                  <View style={styles.send_button}>
-                    <Text style={styles.send_button_text}>Send</Text>
-                  </View>
-                </TouchableOpacity>
-              
+              <TouchableOpacity >
+                <View style={styles.send_button}>
+                  <Text style={styles.send_button_text}>Send</Text>
+                </View>
+              </TouchableOpacity>
+
             </View>
           </View>
         </View>
@@ -78,6 +92,7 @@ export default class ChatScreen extends React.Component {
   }
 
   renderItem = ({ item }) => {
+    console.log(item)
     let box_style = item.isCurrentUser ? 'current_user_msg' : 'other_user_msg';
     let username_style = item.isCurrentUser
       ? 'current_user_username'
@@ -178,7 +193,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   send_button_text: {
-    color: '#0064e1',
+    color: Colors.primary,
     fontWeight: 'bold',
     fontSize: 16,
   },
