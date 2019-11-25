@@ -117,7 +117,7 @@ export default class ChatScreen extends React.Component {
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 
         <View style={styles.body}>
-          <HeadingText1>{this.state.otherUserID}</HeadingText1>
+          <HeadingText1 style={styles.header}>{this.state.otherUserID}</HeadingText1>
           <ScrollView
             ref={(ref) => { this.scrollViewRef = ref }}
             style={styles.messages}
@@ -200,6 +200,13 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: '#fff',
     paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
+  },
+  header :{
+      color: Colors.primary,
+      alignSelf: 'center',
+      letterSpacing: 2,
+      marginTop: 40,
+      fontSize: 18,
   },
   scroll_container: {
     paddingBottom: 20,
