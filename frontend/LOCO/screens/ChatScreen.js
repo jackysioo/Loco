@@ -34,7 +34,7 @@ export default class ChatScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.chatRef.subscribe() 
+    this.chatRef.subscribe()
     this.scrollViewRef.scrollToEnd({ animated: true })
 
     // chatController.loadChat(this.props.navigation.state.params.roomID)
@@ -85,38 +85,38 @@ export default class ChatScreen extends React.Component {
 
   refresh = () => {
     const oldestMessageId = Math.min(
-        ...this.state.messages.map(m => parseInt(m.key))
+      ...this.state.messages.map(m => parseInt(m.key))
     );
     this.setState({
-        refreshing: true
+      refreshing: true
     });
     this.chatRef.refresh(oldestMessageId)
   }
 
 
   loadPreviousMessages = (messages) => {
-        let currentMessages = [...this.state.messages];
-        let old_messages = [];
+    let currentMessages = [...this.state.messages];
+    let old_messages = [];
 
-        messages.forEach((msg) => {
-          let isCurrentUser =
-            this.state.userID == msg.sender.id ? true : false;
+    messages.forEach((msg) => {
+      let isCurrentUser =
+        this.state.userID == msg.sender.id ? true : false;
 
-          old_messages.push({
-            key: msg.id.toString(),
-            username: msg.sender.name,
-            message: msg.text,
-            timestamp: msg.createdAt,
-            isCurrentUser
-          });
-        });
+      old_messages.push({
+        key: msg.id.toString(),
+        username: msg.sender.name,
+        message: msg.text,
+        timestamp: msg.createdAt,
+        isCurrentUser
+      });
+    });
 
-        currentMessages = old_messages.concat(currentMessages);
+    currentMessages = old_messages.concat(currentMessages);
 
-        this.setState({
-          refreshing: false,
-          messages: currentMessages
-        });
+    this.setState({
+      refreshing: false,
+      messages: currentMessages
+    });
   };
 
   onUserTypes = (user) => {
@@ -152,9 +152,14 @@ export default class ChatScreen extends React.Component {
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-
+        <View style={styles.header}>
+          <HeadingText1 style={styles.headerTitle}> {this.state.otherUserID}</HeadingText1>
+          <TouchableOpacity style={styles.backButton}
+            onPress={() => this.props.navigation.goBack()}>
+            <HeadingText1 style={{ fontSize: 14, color: Colors.secondary }}>Back</HeadingText1>
+          </TouchableOpacity>
+        </View>
         <View style={styles.body}>
-          <HeadingText1 style={styles.header}>{this.state.otherUserID}</HeadingText1>
           <ScrollView
             ref={(ref) => { this.scrollViewRef = ref }}
             style={styles.messages}
@@ -167,7 +172,7 @@ export default class ChatScreen extends React.Component {
                 onRefresh={this.refresh}
               />}
           >
-          <FlatList
+            <FlatList
               data={this.state.messages}
               renderItem={this.renderItem} />
           </ScrollView>
@@ -199,16 +204,16 @@ export default class ChatScreen extends React.Component {
             </View>
           </View>
         </View>
-        <LOCOChatManager 
+        <LOCOChatManager
           ref={(ref) => { this.chatRef = ref }}
-          userID = {this.state.userID} 
-          roomID = {this.state.roomID}
-          otherUserID = {this.state.otherUserID} 
-          onReceiveMessage = {this.onReceiveMessage}
-          onUserTypes = {this.onUserTypes}
-          onUserNotTypes = {this.onUserNotTypes}
-          loadPreviousMessages = {this.loadPreviousMessages}
-          />
+          userID={this.state.userID}
+          roomID={this.state.roomID}
+          otherUserID={this.state.otherUserID}
+          onReceiveMessage={this.onReceiveMessage}
+          onUserTypes={this.onUserTypes}
+          onUserNotTypes={this.onUserNotTypes}
+          loadPreviousMessages={this.loadPreviousMessages}
+        />
       </KeyboardAvoidingView>
     );
   }
@@ -227,7 +232,7 @@ export default class ChatScreen extends React.Component {
         <View style={styles.msg_wrapper}>
           <View style={styles.username}>
             <Text style={[styles.username_text, styles[username_style]]}>
-              {item.userID}
+              {item.username}
             </Text>
           </View>
           <View style={[styles.msg_body, styles[box_style]]}>
@@ -246,8 +251,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width,
-    backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
   },
   body: {
     flex: 9,
@@ -256,11 +259,23 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
   },
   header: {
-    color: Colors.primary,
-    alignSelf: 'center',
+    width: width,
+    backgroundColor: Colors.primary,
+    paddingVertical: 15,
+  },
+  headerTitle: {
+    fontSize: 20,
+    marginTop: 15,
     letterSpacing: 2,
-    marginTop: 40,
-    fontSize: 18,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    color: Colors.white,
+  },
+  backButton: {
+    position: "absolute",
+    top: 25,
+    left: 15,
+    padding: 10,
   },
   scroll_container: {
     paddingBottom: 50,

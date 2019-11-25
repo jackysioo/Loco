@@ -12,7 +12,7 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
-    TextInput,
+    RefreshControl,
     Modal
 } from 'react-native';
 import { Images, Colors } from "../constants";
@@ -26,7 +26,8 @@ class MessagesScreen extends React.Component {
     state = {
         userID: "Cynthia",
         allChats: [],
-        loadChats: false
+        loadChats: false,
+        refreshing: false,
     }
 
     componentDidMount() {
@@ -51,19 +52,40 @@ class MessagesScreen extends React.Component {
 
     }
 
+    updateChatList = () => {
+        this.setState({
+            refreshing: true
+        });
+        chatController.getChats(this.state.userID)
+            .then((chats) => {
+                this.setState({
+                    allChats: chats
+                }, () => {
+                    this.setState({
+                        refreshing: false
+                    })
+                })
+            })
+    }
+
     renderChats() {
+        // console.log(this.state.allChats)
         return this.state.allChats.map((chat) => {
             return (
                 <View style={styles.chatItemContainer} key={chat.roomID}>
                     <TouchableOpacity
                         style={styles.chatItem}
                         onPress={() => this.enterChat(chat.roomID, chat.otherUserID)}>
-                            <Image
+                        <Image
                             style={styles.avatar}
                             source={{ uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' }} />
+                        <View styles={{ flexDirection: 'column' }}>
                             <HeadingText1 style={styles.username}> {chat.otherUserID} </HeadingText1>
-
+                            <Text numberOfLines={1} style={styles.message}> {chat.latestMessage}</Text>
+                            <Text style={styles.timestamp}> {chat.latestMessageTimeStamp}</Text>
+                        </View>
                     </TouchableOpacity>
+                    <View style={styles.messagesDivideLine}></View>
                 </View>
             )
         })
@@ -73,7 +95,13 @@ class MessagesScreen extends React.Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeadingText1 style={styles.header}>MESSAGES</HeadingText1>
-                <ScrollView style={styles.container}>
+                <ScrollView style={styles.container}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.updateChatList}
+                        />}
+                >
                     {this.state.loadChats && this.renderChats()}
                 </ScrollView>
             </SafeAreaView>
@@ -88,18 +116,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
     },
-    header :{
+    header: {
         color: Colors.primary,
         alignSelf: 'center',
-        letterSpacing: 2,
+        letterSpacing: 1,
         margin: 20,
-        fontSize: 20,
+        fontSize: 25,
     },
     chatItemContainer: {
         width: width,
         height: 100,
-        borderColor: Colors.placeholder,
-        borderWidth: 1,
     },
     chatItem: {
         margin: 10,
@@ -109,16 +135,34 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         borderRadius: 35,
+        marginLeft: 30,
         justifyContent: 'center',
         alignItems: 'center'
 
     },
+    messagesDivideLine: {
+        marginHorizontal: 25,
+        marginTop: 5,
+        height: 0.5,
+        backgroundColor: Colors.placeholder
+    },
+    message: {
+        fontSize: 15,
+        color: Colors.secondary,
+        marginHorizontal: 25,
+        marginVertical: 5
+    },
+    timestamp: {
+        fontSize: 10,
+        color: Colors.placeholder,
+        marginHorizontal: 25,
+        marginVertical: 5
+    },
     username: {
         color: Colors.primary,
         fontSize: 18,
-        marginHorizontal: 10,
-        marginVertical: 5,
-        letterSpacing: 1
+        letterSpacing: 1,
+        marginHorizontal: 23
     }
 })
 

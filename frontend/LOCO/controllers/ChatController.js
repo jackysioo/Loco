@@ -63,10 +63,13 @@ class ChatController extends React.Component {
                 for (let id of room.member_user_ids) {
                     if (id !== userID) {
                         // const username = await this.getUser(id)
+                        const message = await this._getLatestMessage(room.id)
                         chats.push({
                             roomID: room.id,
                             otherUserID: id,
-                            // otherUsername: username.name
+                            // otherUsername: username.name,
+                            latestMessage: message.message,
+                            latestMessageTimeStamp: message.timestamp
                         })
                     }
                 }
@@ -128,7 +131,7 @@ class ChatController extends React.Component {
                 headers: {
                     "Content-Type": "application/json"
                 }
-            });   
+            });
             const messages = await res.json();
             console.log(messages)
             return (messages);
@@ -183,6 +186,36 @@ class ChatController extends React.Component {
         }
         catch (err) {
             console.log(err);
+        }
+    }
+
+
+    async _getLatestMessage(roomID) {
+        try {
+            const res = await fetch(chatServer + "/messages?roomId=" + roomID, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const messages = await res.json();
+            console.log(messages.length)
+            if (messages.length > 0) {
+                return ({
+                    message: messages[0].parts[0].content,
+                    timestamp: messages[0].created_at
+                    }
+                )
+            } else {
+                return ({
+                    message: '',
+                    timestamp: 'Send your first message.....'
+                    }
+                )
+            }
+        }
+        catch (error) {
+            console.log("error in request: ");
         }
     }
 
