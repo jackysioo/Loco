@@ -17,6 +17,7 @@ import SignupScreen from '../screens/SignupScreen';
 import ChatScreen from '../screens/ChatScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import AddBusinessScreen from '../screens/AddBusinessScreen';
+import EditBusinessScreen from '../screens/EditBusinessScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -57,6 +58,8 @@ const UserStack = createStackNavigator(
     Appointments: AllAppointmentsScreen,
     UserReview: ReviewScreen,
     AddBusiness: AddBusinessScreen,
+    Business: BusinessScreen,
+    EditBusiness: EditBusinessScreen,
   }, {
   headerMode: 'none',
 },

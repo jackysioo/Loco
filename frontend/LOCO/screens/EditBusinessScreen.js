@@ -24,13 +24,13 @@ import { hook } from 'cavy'
 
 class AddBusinessScreen extends React.Component {
     state = {
-        businessTitleInput: '',
-        aboutInput: '',
-        priceInput: '',
-        regionInput: '',
-        tag1Input: '',
-        tag2Input: '',
-        tag3Input: ''
+        businessTitleInput: this.props.navigation.state.params.title,
+        aboutInput: this.props.navigation.state.params.about,
+        priceInput: this.props.navigation.state.params.price,
+        regionInput: this.props.navigation.state.params.region,
+        tag1Input: this.props.navigation.state.params.tags[0],
+        tag2Input: this.props.navigation.state.params.tags[1],
+        tag3Input: this.props.navigation.state.params.tags[2]
     };
 
     updateBusinessTitle = (businessTitleInput) => {
@@ -75,7 +75,7 @@ class AddBusinessScreen extends React.Component {
             <KeyboardAwareScrollView style={styles.container}>
                 <View style={{ flex: 1 }}>
                     <ImageBackground
-                        source={{ uri: businesses[0].images[0] }}
+                        source={{ uri: this.props.navigation.state.params.images[0] }}
                         style={styles.profileContainer}
                         imageStyle={styles.profileBackground}>
                         <ScrollView
@@ -88,7 +88,7 @@ class AddBusinessScreen extends React.Component {
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
-                                    <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
+                                    <Image source={{ uri: this.props.navigation.state.params.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.resultDescription}>
                                     <TextInput

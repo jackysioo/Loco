@@ -44,7 +44,12 @@ class UserScreen extends React.Component {
                     ref={this.props.generateTestHook('Review' + count)}>
                     <View style={styles.userContainer}>
                         <View style={styles.rating}>
-                            <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
+                            <HeadingText1 style={{
+                                color: Colors.white, shadowColor: Colors.black,
+                                shadowOffset: { width: -1, height: 1 },
+                                shadowRadius: 1,
+                                shadowOpacity: 1,
+                            }}> {review.rating} </HeadingText1>
                             <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
                         </View>
                         <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
@@ -63,13 +68,33 @@ class UserScreen extends React.Component {
 
         const services = user.services.map((service) => {
             return (
-                <TouchableWithoutFeedback key={service.title}>
+                <TouchableWithoutFeedback key={service.title}
+                    onPress={() => navigation.navigate('Business', {
+                        item: {
+                            profilePic: service.profilePic,
+                            user: service.user,
+                            about: service.about,
+                            title: service.title,
+                            images: service.images,
+                            rating: service.rating,
+                            price: service.price,
+                            region: service.region,
+                            location: service.location,
+                            reviews: service.reviews,
+                            tags: service.tags
+                        }
+                    })}>
                     <View style={styles.userContainer}>
                         <View style={styles.rating}>
-                            <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
+                            <HeadingText1 style={{
+                                color: Colors.white, shadowColor: Colors.black,
+                                shadowOffset: { width: -1, height: 1 },
+                                shadowRadius: 1,
+                                shadowOpacity: 1,
+                            }}> {service.rating} </HeadingText1>
                             <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
                         </View>
-                        <Image source={{ uri: service.image }} style={styles.reviewImage}></Image>
+                        <Image source={{ uri: service.images[0] }} style={styles.reviewImage}></Image>
                         <View style={{ margin: 15 }}>
                             <View style={styles.review}>
                                 <HeadingText1>{service.title}</HeadingText1>
@@ -294,7 +319,11 @@ const styles = StyleSheet.create({
     ratingIcon: {
         width: 14,
         height: 14,
-        marginTop: -1
+        marginTop: -1,
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
     },
     reviewIcon: {
         width: 15,
@@ -389,7 +418,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: width - 60,
         borderWidth: 1,
-        borderColor: Colors.highlight,
+        borderColor: Colors.primary,
         borderRadius: 20,
         zIndex: 1,
     }

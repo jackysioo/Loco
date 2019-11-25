@@ -34,6 +34,7 @@ class BusinessScreen extends React.Component {
         ratingInput: '',
     };
 
+
     sendMessage(user) {
         //send user message
     }
@@ -76,8 +77,18 @@ class BusinessScreen extends React.Component {
             return (
                 <View key={review.title} style={styles.reviewContainer}>
                     <View style={styles.rating}>
-                        <HeadingText1 style={{ color: Colors.white }}> {review.rating} </HeadingText1>
-                        <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
+                        <HeadingText1 style={{
+                            color: Colors.white, shadowColor: Colors.black,
+                            shadowOffset: { width: -1, height: 1 },
+                            shadowRadius: 1,
+                            shadowOpacity: 1,
+                        }}> {review.rating} </HeadingText1>
+                        <Image style={[styles.ratingIcon, {
+                            shadowColor: Colors.black,
+                            shadowOffset: { width: -1, height: 1 },
+                            shadowRadius: 1,
+                            shadowOpacity: 1,
+                        }]} source={require('../assets/icons/icons8-star-24.png')} />
                     </View>
                     <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
                     <View style={{ margin: 15 }}>
@@ -578,9 +589,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: Colors.white,
         shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.7,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
     },
     upload: {
         flexDirection: 'row',
