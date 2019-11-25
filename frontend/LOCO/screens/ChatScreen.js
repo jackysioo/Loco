@@ -164,6 +164,9 @@ export default class ChatScreen extends React.Component {
     let username_style = item.isCurrentUser
       ? 'current_user_username'
       : 'other_user_username';
+    let datestamp_style = item.isCurrentUser
+      ? 'current_user_datestamp'
+      : 'other_user_datestamp';
 
     return (
       <View key={item.key} style={styles.msg}>
@@ -176,6 +179,9 @@ export default class ChatScreen extends React.Component {
           <View style={[styles.msg_body, styles[box_style]]}>
             <Text style={styles[`${box_style}_text`]}>{item.message}</Text>
           </View>
+          <Text style={styles[datestamp_style]}>
+              {item.timestamp}
+            </Text>
         </View>
       </View>
     );
@@ -204,7 +210,7 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   current_user_msg: {
-    backgroundColor: '#439bff',
+    backgroundColor: Colors.primary,
     alignSelf: 'flex-end',
     alignItems: 'flex-end',
   },
@@ -212,9 +218,17 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   current_user_username: {
-    opacity: 0,
+    color: Colors.primary,
+    alignItems: 'flex-end',
+    alignSelf: 'flex-end'
   },
-
+  current_user_datestamp: {
+    color: Colors.placeholder,
+    marginTop: 5,
+    fontSize: 8,
+    alignItems: 'flex-end',
+    alignSelf: 'flex-end'
+  },
   other_user_msg: {
     backgroundColor: '#f6f8fa',
     alignSelf: 'flex-start',
@@ -225,6 +239,13 @@ const styles = StyleSheet.create({
   },
   other_user_username: {
     color: '#484848',
+  },
+  other_user_datestamp: {
+    color: Colors.placeholder,
+    marginTop: 5,
+    fontSize: 8,
+    alignSelf: 'flex-start',
+    alignItems: 'flex-start',
   },
   message_box: {
     flex: 0.1,
