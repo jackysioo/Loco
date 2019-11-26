@@ -86,13 +86,13 @@ class SearchResultScreen extends React.Component {
             <View style={styles.filterContainer}>
                 <TouchableOpacity style={{ paddingVertical: 5 }}
                     onPress={this.resetSearch}
-                // ref={this.props.generateTestHook('Back.Button')}
+                    ref={this.props.generateTestHook('Back.Button')}
                 >
                     <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Back</HeadingText1>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignSelf: "flex-end" }}>
-                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isSortVisible: true })}}
-                   /* ref={this.props.generateTestHook('Sort.Button')}*/>
+                    <TouchableOpacity style={styles.filter} onPress={() => { this.setState({ isSortVisible: true }) }}
+                        ref={this.props.generateTestHook('Sort.Button')}>
                         <HeadingText2 style={{ fontSize: 12, color: Colors.primary }}>Sort By</HeadingText2>
                     </TouchableOpacity>
                 </View>

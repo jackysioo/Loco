@@ -48,7 +48,7 @@ class SortByScreen extends React.Component {
                     <TouchableOpacity
                         onPress={this.closeModal}
                         style={{ position: "absolute", top: 0, left: 0, padding: 20 }}
-                        /*ref={this.props.generateTestHook('CloseSort.Button')}*/>
+                        ref={this.props.generateTestHook('CloseSort.Button')}>
                         <Text style={{ fontSize: 18, color: Colors.placeholder }}>✖</Text>
                     </TouchableOpacity>
                     <View style={{ flex: 1, marginBottom: 10, marginHorizontal: 30 }}>

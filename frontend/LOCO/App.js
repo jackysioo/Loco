@@ -8,8 +8,14 @@ import { hook } from 'cavy';
 import AppNavigator from './navigation/AppNavigator';
 
 import { Tester, TestHookStore } from 'cavy';
-import UserScreenSpec from './specs/UserScreenSpec';
+import LoginScreenSpec from './specs/LoginScreenSpec';
+import SignupScreenSpec from './specs/SignupScreenSpec';
 import HomeScreenSpec from './specs/HomeScreenSpec';
+import SearchResultScreenSpec from './specs/SearchResultScreenSpec';
+import UserScreenSpec from './specs/UserScreenSpec';
+
+
+
 
 const testHookStore = new TestHookStore();
 
@@ -19,19 +25,25 @@ export default function App(props) {
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
-        <AppLoading
-          startAsync={loadResourcesAsync}
-          onError={handleLoadingError}
-          onFinish={() => handleFinishLoading(setLoadingComplete)}
-        />
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
     );
   } else {
     return (
-      // <Tester specs={[HomeScreenSpec,UserScreenSpec]} store={testHookStore}>
+      <Tester specs={[
+        // SignupScreenSpec,
+        // LoginScreenSpec,
+        // HomeScreenSpec,
+        //SearchResultScreenSpec,
+        // UserScreenSpec,
+      ]} store={testHookStore}>
         <View style={styles.container}>
           <AppNavigator />
         </View>
-      // </Tester>
+      </Tester>
     );
   }
 }

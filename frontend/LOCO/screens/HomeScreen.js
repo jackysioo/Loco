@@ -14,6 +14,7 @@ import {
     View,
     SafeAreaView,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Button,
     Modal
 } from 'react-native';
@@ -24,7 +25,7 @@ import MapScreen from "./MapScreen";
 import SearchResultScreen from "./SearchResultScreen";
 import { Card } from '../components';
 import MapButton from "../components/MapButton";
-import { hook } from 'cavy'
+import { hook, useCavy, wrap } from 'cavy'
 import mapController from "../controllers/MapController";
 import searchController from "../controllers/SearchController";
 
@@ -177,11 +178,10 @@ class HomeScreen extends React.Component {
             count++;
             return (
                 <TouchableOpacity
+                    ref={this.props.generateTestHook('Categories.Button' + count)}
                     key={categoryIcon.name}
                     style={styles.categoryItemView}
-                    onPress={() => this.submitSearchCategory(categoryIcon.name)}
-                // ref={this.props.generateTestHook('Categories.Button' + count)}
-                >
+                    onPress={() => this.submitSearchCategory(categoryIcon.name)}>
                     <Image
                         source={categoryIcon.uri}
                         style={styles.categoryItem} />
@@ -255,18 +255,16 @@ class HomeScreen extends React.Component {
             <View
                 style={styles.searchCancelContainer}>
                 <Button
+                    ref={this.props.generateTestHook('SearchBarCancel.Button')}
                     title="Cancel"
                     color="#51bfbb"
-                    onPress={this.cancelSearch}
-                    ref={this.props.generateTestHook('SearchBarCancel.Button')}
-                >
+                    onPress={this.cancelSearch}>
                 </Button>
                 <Button
+                    ref={this.props.generateTestHook('SearchBar.Button')}
                     title="Search"
                     color="#51bfbb"
-                    onPress={this.search}
-                    ref={this.props.generateTestHook('SearchBar.Button')}
-                >
+                    onPress={this.search}>
                 </Button>
             </View>
         )
@@ -288,7 +286,6 @@ class HomeScreen extends React.Component {
                         inputContainerStyle={{ backgroundColor: '#ffffff' }}
                         inputStyle={{ fontSize: 13 }}
                         searchIcon={{ size: 20 }}
-
                         onChangeText={this.updateLocation}
                         value={location}
                         onSubmitEditing={this.submitSearch}
@@ -305,6 +302,7 @@ class HomeScreen extends React.Component {
 
     render() {
         const { search } = this.state;
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.container}>
@@ -323,7 +321,6 @@ class HomeScreen extends React.Component {
                             returnKeyType="search"
                             placeholder='Search for meals, tutors, beauticians on LOCO'
                             placeholderTextColor='#cccccc'
-
                             onChangeText={this.updateSearch}
                             value={search}
                             onFocus={this.triggerSearch}

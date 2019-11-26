@@ -133,7 +133,7 @@ class SignupScreen extends React.Component {
                             showsVerticalScrollIndicator={false}
                             style={{ marginTop: '5%' }}>
                             <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
-                                ref={this.props.generateTestHook('BioBack.Button')}>
+                                ref={this.props.generateTestHook('SignupBack.Button')}>
                                 <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.save} onPress={() => this.submitChanges()}
@@ -169,7 +169,7 @@ class SignupScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Password:</HeadingText1>
                                             <TextInput
-                                                //ref={this.props.generateTestHook('Username.TextInput')}
+                                                ref={this.props.generateTestHook('Password.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updatePassword}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}

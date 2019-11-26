@@ -35,10 +35,10 @@ class LoginScreen extends React.Component {
     updatePassword = (passwordInput) => {
         this.setState({ passwordInput });
     };
-    
+
     authenticateUser = async () => {
-         await userCache.storeUserID("Cynthia")
-         this.props.navigation.navigate("Main")
+        await userCache.storeUserID("Cynthia")
+        this.props.navigation.navigate("Main")
     }
 
     signup = () => {
@@ -58,7 +58,7 @@ class LoginScreen extends React.Component {
                             <View style={styles.innerInfo}>
                                 <HeadingText1 style={styles.title}>Username:</HeadingText1>
                                 <TextInput
-                                    //ref={this.props.generateTestHook('Birthday.TextInput')}
+                                    ref={this.props.generateTestHook('LoginUsername.TextInput')}
                                     style={[{ height: 30, width: 250 }, styles.messageInput]}
                                     onChangeText={this.updateUsername}
                                     inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -68,7 +68,7 @@ class LoginScreen extends React.Component {
                             <View style={styles.innerInfo}>
                                 <HeadingText1 style={[styles.title, { marginTop: -400 }]}>Password:</HeadingText1>
                                 <TextInput
-                                    //ref={this.props.generateTestHook('Birthday.TextInput')}
+                                    ref={this.props.generateTestHook('LoginPassword.TextInput')}
                                     style={[{ height: 30, width: 250, marginTop: -400 }, styles.messageInput]}
                                     secureTextEntry={true}
                                     onChangeText={this.updatePassword}
@@ -76,10 +76,14 @@ class LoginScreen extends React.Component {
                                     containerStyle={{ backgroundColor: '#ffffff' }}
                                     value={passwordInput} />
                             </View>
-                            <TouchableOpacity style={styles.loginbutton} onPress={this.authenticateUser}>
-                                <HeadingText2 style={{padding: 5, alignSelf: 'center', fontSize: 16 }}>Login</HeadingText2>
+                            <TouchableOpacity
+                                ref={this.props.generateTestHook('Login.Button')}
+                                style={styles.loginbutton} onPress={this.authenticateUser}>
+                                <HeadingText2 style={{ padding: 5, alignSelf: 'center', fontSize: 16 }}>Login</HeadingText2>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.signupbutton} onPress={this.signup}>
+                            <TouchableOpacity 
+                            ref={this.props.generateTestHook('SignUp.Button')}
+                            style={styles.signupbutton} onPress={this.signup}>
                                 <HeadingText2 style={{ color: Colors.white, fontSize: 12 }}>Sign Up</HeadingText2>
                             </TouchableOpacity>
                         </View>
