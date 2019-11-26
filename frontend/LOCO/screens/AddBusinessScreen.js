@@ -80,7 +80,9 @@ class AddBusinessScreen extends React.Component {
                         imageStyle={styles.profileBackground}>
                         <ScrollView
                             showsVerticalScrollIndicator={false}>
-                            <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
+                            <TouchableOpacity
+                                ref={this.props.generateTestHook('AddServiceBack.Button')}
+                                style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
                                 <HeadingText1 style={styles.heading1}>Back</HeadingText1>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.saveButton} onPress={() => this.props.navigation.goBack()}>
@@ -92,6 +94,7 @@ class AddBusinessScreen extends React.Component {
                                 </View>
                                 <View style={styles.resultDescription}>
                                     <TextInput
+                                        ref={this.props.generateTestHook('AddServiceTitle.TextInput')}
                                         style={styles.titleInput}
                                         onChangeText={this.updateBusinessTitle}
                                         inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -101,6 +104,7 @@ class AddBusinessScreen extends React.Component {
                                         placeholder={"Your service title e.g. Homecooked Pasta"}
                                         placeholderTextColor={Colors.placeholder} />
                                     <TextInput
+                                        ref={this.props.generateTestHook('AddServicePrice.TextInput')}
                                         style={styles.titleInput}
                                         onChangeText={this.updatePrice}
                                         inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -110,6 +114,7 @@ class AddBusinessScreen extends React.Component {
                                         placeholder={"Your general price or price range e.g. $30/hr"}
                                         placeholderTextColor={Colors.placeholder} />
                                     <TextInput
+                                        ref={this.props.generateTestHook('AddServiceRegion.TextInput')}
                                         style={styles.titleInput}
                                         onChangeText={this.updateRegion}
                                         inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -120,6 +125,7 @@ class AddBusinessScreen extends React.Component {
                                         placeholderTextColor={Colors.placeholder} />
                                     <View style={{ justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }}>
                                         <TextInput
+                                            ref={this.props.generateTestHook('AddServiceTag1.TextInput')}
                                             style={styles.tagInput}
                                             onChangeText={this.updateTag1}
                                             inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -129,6 +135,7 @@ class AddBusinessScreen extends React.Component {
                                             placeholder={"Tag e.g. fun"}
                                             placeholderTextColor={Colors.placeholder} />
                                         <TextInput
+                                            ref={this.props.generateTestHook('AddServiceTag2.TextInput')}
                                             style={styles.tagInput}
                                             onChangeText={this.updateTag2}
                                             inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -138,6 +145,7 @@ class AddBusinessScreen extends React.Component {
                                             placeholder={"Tag e.g. spa"}
                                             placeholderTextColor={Colors.placeholder} />
                                         <TextInput
+                                            ref={this.props.generateTestHook('AddServiceTag2.TextInput')}
                                             style={styles.tagInput}
                                             onChangeText={this.updateTag3}
                                             inputContainerStyle={{ backgroundColor: Colors.white }}
@@ -148,6 +156,7 @@ class AddBusinessScreen extends React.Component {
                                             placeholderTextColor={Colors.placeholder} />
                                     </View>
                                     <TextInput
+                                        ref={this.props.generateTestHook('AddServiceAbout.TextInput')}
                                         multiline={true}
                                         style={styles.aboutInput}
                                         onChangeText={this.updateAbout}
@@ -304,5 +313,5 @@ const styles = StyleSheet.create({
 });
 
 //export default withNavigation(BusinessScreen);
-const AddBusinessScreenSpec = hook(AddBusinessScreen);
-export default (AddBusinessScreenSpec);
+const AddBusinessSpec = hook(AddBusinessScreen);
+export default (AddBusinessSpec);

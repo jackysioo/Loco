@@ -310,21 +310,25 @@ class HomeScreen extends React.Component {
                     {this.state.isSearchActive && this.renderSearchCancel()}
 
                     <View style={styles.searchContainer}>
-                        <SearchBar
-                            ref={(input) => this.searchBar = input}
-                            round
-                            lightTheme
-                            containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
-                            inputContainerStyle={{ backgroundColor: '#ffffff' }}
-                            inputStyle={{ fontSize: 13 }}
-                            searchIcon={{ size: 20 }}
-                            returnKeyType="search"
-                            placeholder='Search for meals, tutors, beauticians on LOCO'
-                            placeholderTextColor='#cccccc'
-                            onChangeText={this.updateSearch}
-                            value={search}
-                            onFocus={this.triggerSearch}
-                            onSubmitEditing={this.search} />
+                        <TouchableWithoutFeedback
+                            ref={this.props.generateTestHook('Search.Button')}
+                            onPress={this.triggerSearch}>
+                            <SearchBar
+                                ref={(input) => this.searchBar = input, this.props.generateTestHook('Search.TextInput')}
+                                round
+                                lightTheme
+                                containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
+                                inputContainerStyle={{ backgroundColor: '#ffffff' }}
+                                inputStyle={{ fontSize: 13 }}
+                                searchIcon={{ size: 20 }}
+                                returnKeyType="search"
+                                placeholder='Search for meals, tutors, beauticians on LOCO'
+                                placeholderTextColor='#cccccc'
+                                onChangeText={this.updateSearch}
+                                value={search}
+                                onFocus={this.triggerSearch}
+                                onSubmitEditing={this.search} />
+                        </TouchableWithoutFeedback>
                     </View>
 
                     {this.state.isSearchActive && this.renderSearchActive()}

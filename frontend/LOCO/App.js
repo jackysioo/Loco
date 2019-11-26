@@ -10,12 +10,12 @@ import AppNavigator from './navigation/AppNavigator';
 import { Tester, TestHookStore } from 'cavy';
 import LoginScreenSpec from './specs/LoginScreenSpec';
 import SignupScreenSpec from './specs/SignupScreenSpec';
-import HomeScreenSpec from './specs/HomeScreenSpec';
-import SearchResultScreenSpec from './specs/SearchResultScreenSpec';
+import SearchingSpec from './specs/SearchingSpec';
 import UserScreenSpec from './specs/UserScreenSpec';
-
-
-
+import EditBusinessSpec from './specs/EditBusinessSpec';
+import AddBusinessSpec from './specs/AddBusinessSpec';
+import BusinessScreenSpec from './specs/BusinessScreenSpec'
+import SignoutScreenSpec from './specs/SignoutScreenSpec'
 
 const testHookStore = new TestHookStore();
 
@@ -36,9 +36,12 @@ export default function App(props) {
       <Tester specs={[
         // SignupScreenSpec,
         // LoginScreenSpec,
-        // HomeScreenSpec,
-        //SearchResultScreenSpec,
+        // SearchingSpec,
         // UserScreenSpec,
+        // EditBusinessSpec,
+        // AddBusinessSpec,
+        // BusinessScreenSpec,
+        // SignoutScreenSpec,
       ]} store={testHookStore}>
         <View style={styles.container}>
           <AppNavigator />
