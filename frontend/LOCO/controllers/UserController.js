@@ -86,6 +86,7 @@ class UserController extends React.Component {
                 },
                 body: JSON.stringify({ user: user})
             })
+            console.log(res)
             if (res.ok) {
                 console.log("user updated")
             }
@@ -148,7 +149,12 @@ class UserController extends React.Component {
     async updateBusiness(business, businessID) {
         try {
             const res = await fetch(businessServer + "/put/" + businessID, {
-                body: { business: business } 
+                method: "PUT",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ business: business})
             })
             if (res.ok) {
                 console.log("business updated under " + businessID)

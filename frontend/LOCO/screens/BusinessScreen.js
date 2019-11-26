@@ -184,7 +184,6 @@ class BusinessScreen extends React.Component {
                 <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
             </TouchableOpacity>;
         }
-
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>

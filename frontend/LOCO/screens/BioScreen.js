@@ -139,6 +139,7 @@ class BioScreen extends React.Component {
                     <TouchableOpacity
                         ref={this.props.generateTestHook('EditService.Button')}
                         style={styles.edit} onPress={() => this.props.navigation.navigate('EditBusiness', {
+                            id: service._id,
                             title: service.title, user: service.user, about: service.about, profilePic: service.profilePic, images: service.images,
                             rating: service.rating, price: service.price, region: service.region, location: service.location, tags: service.tags
                         })}>

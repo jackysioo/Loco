@@ -25,8 +25,9 @@ class MapScreen extends React.Component {
     }
 
     renderMarkers(results) {
-        console.log('Test PASSED: Map results shown in under 500ms')
+        // console.log('Test PASSED: Map results shown in under 500ms')
         return results.map((result) => {
+            console.log(result)
             return (
                 <Marker
                     key={result.title}
@@ -83,8 +84,8 @@ class MapScreen extends React.Component {
                     customMapStyle={mapStyle}
                     ref={(ref) => { this.map = ref; }}
                     initialRegion={{
-                        latitude: this.props.location.lat,
-                        longitude: this.props.location.long,
+                        latitude: location.lat,
+                        longitude: location.long,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421
                     }}

@@ -14,8 +14,9 @@ import SearchingSpec from './specs/SearchingSpec';
 import UserScreenSpec from './specs/UserScreenSpec';
 import EditBusinessSpec from './specs/EditBusinessSpec';
 import AddBusinessSpec from './specs/AddBusinessSpec';
-import BusinessScreenSpec from './specs/BusinessScreenSpec'
-import SignoutScreenSpec from './specs/SignoutScreenSpec'
+import BusinessScreenSpec from './specs/BusinessScreenSpec';
+import SignoutScreenSpec from './specs/SignoutScreenSpec';
+import CreateUserSpec from './specs/CreateUserSpec'
 
 const testHookStore = new TestHookStore();
 
@@ -34,14 +35,15 @@ export default function App(props) {
   } else {
     return (
       <Tester specs={[
-        //  SignupScreenSpec,
-         LoginScreenSpec,
-        // // SearchingSpec,
-        //  UserScreenSpec,
-        //  EditBusinessSpec,
-        //  AddBusinessSpec,
-        //  BusinessScreenSpec,
-        //  SignoutScreenSpec,
+        // SignupScreenSpec,
+        // LoginScreenSpec,
+        // SearchingSpec,
+        // UserScreenSpec,
+        // EditBusinessSpec,
+        // AddBusinessSpec,
+        // BusinessScreenSpec,
+        // SignoutScreenSpec,
+        // CreateUserSpec,
       ]} store={testHookStore}>
         <View style={styles.container}>
           <AppNavigator />

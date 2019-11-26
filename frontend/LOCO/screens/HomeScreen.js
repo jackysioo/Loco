@@ -122,8 +122,8 @@ class HomeScreen extends React.Component {
             loadSearchResults: false,
             mapVisible: false,
         });
-        // this.searchBar.clear();
-        // this.searchBar.blur();
+        this.searchBar.clear();
+        this.searchBar.blur();
     }
 
     setMapVisible = (visible) => {
@@ -176,8 +176,14 @@ class HomeScreen extends React.Component {
     //send category as search input to searchcontroller to fetch data
     submitSearchCategory = (category) => {
         this.setState({
-            isSearchActive: false,
-        })
+            searchLocation: {
+                lat: 49.2827,
+                long: -123.1207
+            }
+        }, () => {
+            this.setState({
+                isSearchActive: false
+            })})
 
         //calls search api (with default location in Vancouver)
         searchController.search(category, { lat: 49.2827, long: -123.1207 })
@@ -344,7 +350,9 @@ class HomeScreen extends React.Component {
                             ref={this.props.generateTestHook('Search.Button')}
                             onPress={this.triggerSearch}>
                             <SearchBar
-                                ref={(input) => this.searchBar = input, this.props.generateTestHook('Search.TextInput')}
+                                ref={(input) => this.searchBar = input
+                                    // ,this.props.generateTestHook('Search.TextInput')
+                                }
                                 round
                                 lightTheme
                                 containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
