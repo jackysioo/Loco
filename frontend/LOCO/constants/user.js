@@ -176,58 +176,78 @@ export default
     ],
     following: [
       {
-        username: "username1",
-        fullName: "User 1",
+        username: "jackysio",
+        fullName: "Jacky Sio",
         profilePic: 'https://images.unsplash.com/photo-1530103043960-ef38714abb15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3150&q=80',
       }, {
-        username: "username2",
-        fullName: "User 2",
+        username: "alfred.changy",
+        fullName: "Alfred Chang",
         profilePic: "https://images.unsplash.com/photo-1461696114087-397271a7aedc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
       }, {
-        username: "username3",
-        fullName: "User 3",
+        username: "cynzyy",
+        fullName: "Cynthia Zhou",
         profilePic: "https://images.unsplash.com/photo-1548192746-dd526f154ed9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
       }, {
-        username: "username4",
-        fullName: "User 4",
+        username: "lisa.e.chen",
+        fullName: "Lisa Chen",
         profilePic: "https://images.unsplash.com/photo-1526116977494-90748acc0cad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
       }, {
-        username: "username5",
-        fullName: "User 5",
+        username: "alfonso123",
+        fullName: "Alfonso Perez",
         profilePic: "https://images.unsplash.com/photo-1546471180-335a013cb87b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
       }, {
-        username: "username6",
-        fullName: "User 6",
+        username: "bobbiboy",
+        fullName: "Bob Davidson",
         profilePic: "https://images.unsplash.com/photo-1558865869-c93f6f8482af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1401&q=80"
       }, {
-        username: "username7",
-        fullName: "User 7",
-        profilePic: "https://images.unsplash.com/photo-1535837487710-a191373a20ae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80"
+        username: "thecorgicorner",
+        fullName: "Laura Conner",
+        profilePic: "https://images.unsplash.com/photo-1519098901909-b1553a1190af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1334&q=80"
       }, {
-        username: "username8",
-        fullName: "User 8",
-        profilePic: "https://images.unsplash.com/photo-1504083898675-c896ecdae86e?ixlib=rb-1.2.1&auto=format&fit=crop&w=582&q=80"
+        username: "clintography",
+        fullName: "Clinton Chan",
+        profilePic: "https://images.unsplash.com/photo-1520390138845-fd2d229dd553?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80"
       }, {
-        username: "username9",
-        fullName: "User 9",
-        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        username: "adrianaagao",
+        fullName: "Adriana Gao",
+        profilePic: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1510&q=80"
       }, {
-        username: "username10",
-        fullName: "User 10",
-        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        username: "heweluk",
+        fullName: "Hewe Luk",
+        profilePic: "https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1179&q=80"
       }, {
-        username: "username11",
-        fullName: "User 11",
-        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        username: "darrowchen",
+        fullName: "Darrow Chen",
+        profilePic: "https://images.unsplash.com/photo-1495001258031-d1b407bc1776?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
       }, {
-        username: "username12",
-        fullName: "User 12",
-        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        username: "tiny_hypebeast",
+        fullName: "Ian Chen",
+        profilePic: "https://images.unsplash.com/photo-1518362165686-c587a1de1003?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
       }, {
-        username: "username13",
-        fullName: "User 13",
-        profilePic: "https://images.unsplash.com/photo-1537973379379-537685edf2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-      }
+        username: "yunajang98",
+        fullName: "Yuna Jang",
+        profilePic: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+      }, {
+        username: "duhsombodee",
+        fullName: "Nicholas Lei",
+        profilePic: "https://images.unsplash.com/photo-1537210249814-b9a10a161ae4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80"
+      }, {
+        username: "themostwant3d",
+        fullName: "Christopher Wan",
+        profilePic: "https://images.unsplash.com/photo-1541296481353-b1eb3a4e0309?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      }, {
+        username: "kotachang",
+        fullName: "Kota Chang",
+        profilePic: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80"
+      }, {
+        username: "ema.nikolic",
+        fullName: "Ema Nikolic",
+        profilePic: "https://images.unsplash.com/photo-1548681528-6a5c45b66b42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      }, {
+        username: "dvirhilu",
+        fullName: "Dvir Hilu",
+        profilePic: "https://images.unsplash.com/photo-1516684669134-de6f7c473a2a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+      },
     ],
     bio: "ღ✿ Tanya Cooper ✿ღ\n✨ Licensed Nail Tech ✨\n✨ Licensed Eyelash Extention Tech ✨\n📍 Vancouver\n\nAvailabilities for this week:\n  ~ Monday:\n    1:00pm - 3:00pm\n    4:00pm - 6:00pm\n  ~ Wednesday:\n    4:00pm - 6:00pm\n\n♡♥♡ Shoot me a text for pricing! ♡♥♡",
     password: "1234567890"

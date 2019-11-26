@@ -1,6 +1,5 @@
-_ = require('underscore');
-SuggestionDb = require('../models/suggestion');
-SimilarDb = require('../models/suggestion'); 
+const _ = require('underscore');
+const SuggestionDb = require('../models/suggestion');
 var mongoose = require('mongoose');
 
 module.exports = class Suggestion {
@@ -19,15 +18,15 @@ module.exports = class Suggestion {
             const othersSimilarity = others.similarity.map((similar) => {return {user: similar.user.toString(), score: similar.score}});
             
             //find all items the User likes 
-            const userLikes = (await this.engine.likes.itemsByUser(userId)).map((objectId) =>{return objectId.toString()});
+            const userLikes = (await this.engine.likes.itemsByUser(userId)).map((objectId) => {return objectId.toString()});
             //find all items the User dislikes
-            const userDislikes = (await this.engine.dislikes.itemsByUser(userId)).map((objectId) =>{return objectId.toString()});
+            const userDislikes = (await this.engine.dislikes.itemsByUser(userId)).map((objectId) => {return objectId.toString()});
             //for each similar 
 
 
             const items = await Promise.all(othersSimilarity.map(async (other) => {
-                return await Promise.all([this.engine.likes, this.engine.dislikes].map(async rater => {
-                    return (await rater.itemsByUser(mongoose.Types.ObjectId(other.user))).map((objectId) =>{return objectId.toString()});
+                return await Promise.all([this.engine.likes, this.engine.dislikes].map(async (rater) => {
+                    return (await rater.itemsByUser(mongoose.Types.ObjectId(other.user))).map((objectId) => {return objectId.toString()});
                 }));
             }));
 
@@ -36,14 +35,13 @@ module.exports = class Suggestion {
             const suggestions = await Promise.all(uniqueItems.map(async (item) => {
 
                 //find all the users that like and dislike this item
-                const likers = (await this.engine.likes.usersByItem(item)).map((objectId) =>{return objectId.toString()});
-                const dislikers = (await this.engine.dislikes.usersByItem(item)).map((objectId) =>{return objectId.toString()});
+                const likers = (await this.engine.likes.usersByItem(item)).map((objectId) => {return objectId.toString()});
+                const dislikers = (await this.engine.dislikes.usersByItem(item)).map((objectId) => {return objectId.toString()});
 
                 var numerator = 0;
                 //ref is an array of other users that rated this item, exculding the user 
                 const likersLength = _.without(_.flatten(likers), userId.toString()).length;
                 var ref = _.without(_.flatten([likers, dislikers]), userId.toString());
-                var len;
 
                 for (var i = 0, len = ref.length; i < len; i++) {
                     var other = ref[i];

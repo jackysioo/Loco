@@ -17,35 +17,32 @@ import {
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
-import { Colors, user, Images } from '../constants';
+import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
+import UserController from '../controllers/UserController';
+const userController = new UserController()
+
 class BioScreen extends React.Component {
     state = {
-        usernameInput: user.username,
-        firstNameInput: user.firstName,
-        lastNameInput: user.lastName,
-        addressLineInput: user.addressLine,
-        addressCityInput: user.addressCity,
-        addressProvinceInput: user.addressProvince,
-        addressPostalCodeInput: user.addressPostalCode,
-        birthdayInput: user.birthday,
-        phoneInput: user.phoneNumber,
-        emailInput: user.email,
-        bioInput: user.bio,
-        passwordInput: user.password,
+        usernameInput: this.props.navigation.state.params.user.username,
+        firstNameInput: this.props.navigation.state.params.user.firstName,
+        lastNameInput: this.props.navigation.state.params.user.lastName,
+        addressLineInput: this.props.navigation.state.params.user.addressLine,
+        addressCityInput: this.props.navigation.state.params.user.addressCity,
+        addressProvinceInput: this.props.navigation.state.params.user.addressProvince,
+        addressPostalCodeInput: this.props.navigation.state.params.user.addressPostalCode,
+        phoneInput: this.props.navigation.state.params.user.phoneNumber,
+        emailInput: this.props.navigation.state.params.user.email,
+        bioInput: this.props.navigation.state.params.user.bio,
+        userID: this.props.navigation.state.params.userID
     };
 
+
     submitChanges() {
-        fetch("link here", {
-            method: 'PUT', //POST, GET, PUT ..etc,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        userController.updateUser({
                 username: this.state.usernameInput,
                 firstName: this.state.firstNameInput,
                 lastName: this.state.lastNameInput,
@@ -54,11 +51,8 @@ class BioScreen extends React.Component {
                 addressProvince: this.state.addressProvinceInput,
                 addressPostalCode: this.state.addressPostalCodeInput,
                 phoneNumber: this.state.phoneInput,
-                bio: this.state.birthdayInput,
-                birthday: this.state.bioInput,
-                password: this.state.passwordInput,
-            })
-        })
+                bio: this.state.bioInput,
+            }, this.state.userID)
             .then(response => {
                 if (response.json().ok) {
                     console.log("sucessfully updated database")
@@ -69,9 +63,6 @@ class BioScreen extends React.Component {
             })
     }
 
-    updatePassword = (passwordInput) => {
-        this.setState({ passwordInput });
-    };
 
     updateBio = (bioInput) => {
         this.setState({ bioInput });
@@ -113,9 +104,6 @@ class BioScreen extends React.Component {
         this.setState({ addressPostalCodeInput });
     };
 
-    updateBirthdayInput = (birthdayInput) => {
-        this.setState({ birthdayInput });
-    };
 
     render() {
         const { usernameInput } = this.state;
@@ -125,15 +113,13 @@ class BioScreen extends React.Component {
         const { addressCityInput } = this.state;
         const { addressProvinceInput } = this.state;
         const { addressPostalCodeInput } = this.state;
-        const { birthdayInput } = this.state;
         const { phoneInput } = this.state;
         const { emailInput } = this.state;
         const { bioInput } = this.state;
-        const { passwordInput } = this.state;
 
-        const { navigation } = this.props;
+        const { navigation } = this.props.navigation.state.params;
 
-        const services = user.services.map((service) => {
+        const services = this.props.navigation.state.params.user.services.map((service) => {
             return (
                 <View style={styles.userContainer} key={service.title}>
                     <View style={styles.rating}>
@@ -150,10 +136,13 @@ class BioScreen extends React.Component {
                             shadowOpacity: 1,
                         }]} source={require('../assets/icons/icons8-star-24.png')} />
                     </View>
-                    <TouchableOpacity style={styles.edit} onPress={() => navigation.navigate('EditBusiness', {
-                        title: service.title, user: service.user, about: service.about, profilePic: service.profilePic, images: service.images,
-                        rating: service.rating, price: service.price, region: service.region, location: service.location, tags: service.tags
-                    })}>
+                    <TouchableOpacity
+                        ref={this.props.generateTestHook('EditService.Button')}
+                        style={styles.edit} onPress={() => this.props.navigation.navigate('EditBusiness', {
+                            id: service._id,
+                            title: service.title, user: service.user, about: service.about, profilePic: service.profilePic, images: service.images,
+                            rating: service.rating, price: service.price, region: service.region, location: service.location, tags: service.tags
+                        })}>
                         <HeadingText1 style={{
                             color: Colors.white, shadowColor: Colors.black,
                             shadowOffset: { width: -1, height: 1 },
@@ -197,7 +186,7 @@ class BioScreen extends React.Component {
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
-                                    <ImageBackground source={{ uri: user.profilePic }} style={styles.profilePic}>
+                                    <ImageBackground source={{ uri: this.props.navigation.state.params.user.profilePic }} style={styles.profilePic}>
                                         <TouchableOpacity style={styles.UpdatePic}>
                                             <HeadingText2 style={{ color: Colors.white }}>Update </HeadingText2>
                                             <Image style={styles.icon} source={
@@ -220,17 +209,6 @@ class BioScreen extends React.Component {
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
                                                 value={usernameInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Password:</HeadingText1>
-                                            <TextInput
-                                                //ref={this.props.generateTestHook('Username.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updatePassword}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={passwordInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>First Name:</HeadingText1>
@@ -299,17 +277,6 @@ class BioScreen extends React.Component {
                                                 value={addressPostalCodeInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Birthday:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('Birthday.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateBirthdayInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={birthdayInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Phone:</HeadingText1>
                                             <TextInput
                                                 ref={this.props.generateTestHook('Phone.TextInput')}
@@ -366,7 +333,9 @@ class BioScreen extends React.Component {
                                     }}>S E R V I C E S</HeadingText1>
                                     {services}
                                 </View>
-                                <TouchableOpacity style={styles.addService} onPress={() => navigation.navigate('AddBusiness')}>
+                                <TouchableOpacity
+                                    ref={this.props.generateTestHook('AddService.Button')}
+                                    style={styles.addService} onPress={() => this.props.navigation.navigate('AddBusiness')}>
                                     <HeadingText2 style={{ color: Colors.primary }}> Add Service </HeadingText2>
                                     <Image style={styles.icon} source={
                                         require('../assets/icons/icons8-add-new-24-aqua.png')} />

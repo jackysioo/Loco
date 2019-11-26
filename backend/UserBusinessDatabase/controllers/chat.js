@@ -20,7 +20,7 @@ exports.getChats = (req, res) => {
     .then((chatrooms) => {
       res.json(chatrooms)
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
 };
 
 
@@ -33,7 +33,7 @@ exports.getUser = (req, res) => {
     .then((user) => {
       res.json(user)
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
 };
 
 
@@ -55,7 +55,7 @@ exports.getUsers = (req, res) => {
       }
       res.json(userIDs)
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
 };
 
 
@@ -90,7 +90,7 @@ exports.getMessages = (req, res) => {
       .then((messages) => {
         res.json(messages)
       })
-      .catch(err => console.error(err))
+      .catch((err) => console.error(err))
   };
 
 
@@ -141,7 +141,7 @@ exports.deleteRoom = (req, res) => {
     roomId: roomID
   })
     .then(() => res.send(200))
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
 
 }
 

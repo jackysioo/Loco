@@ -8,8 +8,15 @@ import { hook } from 'cavy';
 import AppNavigator from './navigation/AppNavigator';
 
 import { Tester, TestHookStore } from 'cavy';
+import LoginScreenSpec from './specs/LoginScreenSpec';
+import SignupScreenSpec from './specs/SignupScreenSpec';
+import SearchingSpec from './specs/SearchingSpec';
 import UserScreenSpec from './specs/UserScreenSpec';
-import HomeScreenSpec from './specs/HomeScreenSpec';
+import EditBusinessSpec from './specs/EditBusinessSpec';
+import AddBusinessSpec from './specs/AddBusinessSpec';
+import BusinessScreenSpec from './specs/BusinessScreenSpec';
+import SignoutScreenSpec from './specs/SignoutScreenSpec';
+import CreateUserSpec from './specs/CreateUserSpec'
 
 const testHookStore = new TestHookStore();
 
@@ -19,19 +26,29 @@ export default function App(props) {
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
-        <AppLoading
-          startAsync={loadResourcesAsync}
-          onError={handleLoadingError}
-          onFinish={() => handleFinishLoading(setLoadingComplete)}
-        />
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
     );
   } else {
     return (
-      // <Tester specs={[HomeScreenSpec,UserScreenSpec]} store={testHookStore}>
+      <Tester specs={[
+        // SignupScreenSpec,
+        // LoginScreenSpec,
+        // SearchingSpec,
+        // UserScreenSpec,
+        // EditBusinessSpec,
+        // AddBusinessSpec,
+        // BusinessScreenSpec,
+        // SignoutScreenSpec,
+        // CreateUserSpec,
+      ]} store={testHookStore}>
         <View style={styles.container}>
           <AppNavigator />
         </View>
-      // </Tester>
+      </Tester>
     );
   }
 }

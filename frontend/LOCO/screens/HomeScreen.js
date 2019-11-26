@@ -14,8 +14,10 @@ import {
     View,
     SafeAreaView,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Button,
-    Modal
+    Modal,
+    ActivityIndicator
 } from 'react-native';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { Images, Colors, SortBy } from "../constants";
@@ -24,11 +26,14 @@ import MapScreen from "./MapScreen";
 import SearchResultScreen from "./SearchResultScreen";
 import { Card } from '../components';
 import MapButton from "../components/MapButton";
-import { hook } from 'cavy'
+import { hook, useCavy, wrap } from 'cavy'
 import mapController from "../controllers/MapController";
 import searchController from "../controllers/SearchController";
+import UserController from '../controllers/UserController';
+import userCache from '../caches/UserCache'
 
 const { width, height } = Dimensions.get('screen');
+const userController = new UserController()
 
 
 class HomeScreen extends React.Component {
@@ -44,8 +49,27 @@ class HomeScreen extends React.Component {
         mapVisible: false,
         preCallMin: new Date().getMinutes(),
         preCallSec: new Date().getSeconds(),
+        ready : false
     };
 
+
+    constructor(props) {
+        super(props)
+        this.suggestions = null
+    }
+
+    componentWillMount() {
+        userCache.getUserID()
+            .then((id) => {
+                userController.getSuggestions(id)
+                    .then((data) => {
+                        this.suggestions = data.suggestions
+                        this.setState({
+                            ready: true
+                        })
+                    })
+            })
+    }
 
     // calculatePerformance() {
     //     // Testing search performance
@@ -152,8 +176,14 @@ class HomeScreen extends React.Component {
     //send category as search input to searchcontroller to fetch data
     submitSearchCategory = (category) => {
         this.setState({
-            isSearchActive: false,
-        })
+            searchLocation: {
+                lat: 49.2827,
+                long: -123.1207
+            }
+        }, () => {
+            this.setState({
+                isSearchActive: false
+            })})
 
         //calls search api (with default location in Vancouver)
         searchController.search(category, { lat: 49.2827, long: -123.1207 })
@@ -177,11 +207,10 @@ class HomeScreen extends React.Component {
             count++;
             return (
                 <TouchableOpacity
+                    ref={this.props.generateTestHook('Categories.Button' + count)}
                     key={categoryIcon.name}
                     style={styles.categoryItemView}
-                    onPress={() => this.submitSearchCategory(categoryIcon.name)}
-                // ref={this.props.generateTestHook('Categories.Button' + count)}
-                >
+                    onPress={() => this.submitSearchCategory(categoryIcon.name)}>
                     <Image
                         source={categoryIcon.uri}
                         style={styles.categoryItem} />
@@ -255,18 +284,16 @@ class HomeScreen extends React.Component {
             <View
                 style={styles.searchCancelContainer}>
                 <Button
+                    ref={this.props.generateTestHook('SearchBarCancel.Button')}
                     title="Cancel"
                     color="#51bfbb"
-                    onPress={this.cancelSearch}
-                    ref={this.props.generateTestHook('SearchBarCancel.Button')}
-                >
+                    onPress={this.cancelSearch}>
                 </Button>
                 <Button
+                    ref={this.props.generateTestHook('SearchBar.Button')}
                     title="Search"
                     color="#51bfbb"
-                    onPress={this.search}
-                    ref={this.props.generateTestHook('SearchBar.Button')}
-                >
+                    onPress={this.search}>
                 </Button>
             </View>
         )
@@ -288,7 +315,6 @@ class HomeScreen extends React.Component {
                         inputContainerStyle={{ backgroundColor: '#ffffff' }}
                         inputStyle={{ fontSize: 13 }}
                         searchIcon={{ size: 20 }}
-
                         onChangeText={this.updateLocation}
                         value={location}
                         onSubmitEditing={this.submitSearch}
@@ -303,31 +329,44 @@ class HomeScreen extends React.Component {
     }
 
 
-    render() {
-        const { search } = this.state;
+    renderLoading() {
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.loading}>
+                <ActivityIndicator size="large" color="#51bfbb" />
+            </View>
+        )
+    }
+
+    renderReady() {
+        const { search } = this.state;
+
+        return (
                 <View style={styles.container}>
 
                     {this.state.isSearchActive && this.renderSearchCancel()}
 
                     <View style={styles.searchContainer}>
-                        <SearchBar
-                            ref={(input) => this.searchBar = input}
-                            round
-                            lightTheme
-                            containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
-                            inputContainerStyle={{ backgroundColor: '#ffffff' }}
-                            inputStyle={{ fontSize: 13 }}
-                            searchIcon={{ size: 20 }}
-                            returnKeyType="search"
-                            placeholder='Search for meals, tutors, beauticians on LOCO'
-                            placeholderTextColor='#cccccc'
-
-                            onChangeText={this.updateSearch}
-                            value={search}
-                            onFocus={this.triggerSearch}
-                            onSubmitEditing={this.search} />
+                        <TouchableWithoutFeedback
+                            ref={this.props.generateTestHook('Search.Button')}
+                            onPress={this.triggerSearch}>
+                            <SearchBar
+                                ref={(input) => this.searchBar = input
+                                    // ,this.props.generateTestHook('Search.TextInput')
+                                }
+                                round
+                                lightTheme
+                                containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
+                                inputContainerStyle={{ backgroundColor: '#ffffff' }}
+                                inputStyle={{ fontSize: 13 }}
+                                searchIcon={{ size: 20 }}
+                                returnKeyType="search"
+                                placeholder='Search for meals, tutors, beauticians on LOCO'
+                                placeholderTextColor='#cccccc'
+                                onChangeText={this.updateSearch}
+                                value={search}
+                                onFocus={this.triggerSearch}
+                                onSubmitEditing={this.search} />
+                        </TouchableWithoutFeedback>
                     </View>
 
                     {this.state.isSearchActive && this.renderSearchActive()}
@@ -364,8 +403,16 @@ class HomeScreen extends React.Component {
                     </Modal>
 
                 </View>
+        ); 
+    }
+
+    render(){
+        return(
+            <SafeAreaView style={{ flex: 1 }}>
+                {!this.state.ready && this.renderLoading()}
+            {this.state.ready && this.renderReady()}
             </SafeAreaView>
-        );
+        )
     }
 }
 
@@ -376,6 +423,14 @@ const styles = StyleSheet.create({
         width: width,
         backgroundColor: '#fff',
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
+    },
+    loading: {
+        position: "absolute",
+        top: height / 2,
+        left: width / 2,
+        zIndex: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     searchContainer: {
         paddingLeft: 10,

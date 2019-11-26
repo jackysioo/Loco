@@ -12,7 +12,7 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
-    Button,
+    ActivityIndicator,
     Modal
 } from 'react-native';
 
@@ -21,7 +21,11 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy';
 import UserController from '../controllers/UserController';
+import ChatController from '../controllers/ChatController';
+import userCache from '../caches/UserCache'
+
 const userController = new UserController()
+const chatController = new ChatController()
 const { height, width } = Dimensions.get('screen');
 
 class SignupScreen extends React.Component {
@@ -33,30 +37,141 @@ class SignupScreen extends React.Component {
         addressCityInput: '',
         addressProvinceInput: '',
         addressPostalCodeInput: '',
-        birthdayInput: '',
         phoneInput: '',
         emailInput: '',
         bioInput: '',
         passwordInput: '',
+        profilePic: 'https://images.unsplash.com/photo-1485893086445-ed75865251e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80',
+        loading: false,
+        errorSignUp: false,
+        usernameError: null,
+        firstNameError: null,
+        lastNameError: null,
+        passwordError: null,
+        addressLineError: null,
+        addressCityError: null,
+        addressProvinceError: null,
+        addressPostalCodeError: null,
+        emailError: null,
+        formValidForSubmission: false
     };
 
-    submitChanges() {
-        userController.signUp(
-            JSON.stringify({
-                username: this.state.usernameInput,
-                firstName: this.state.firstNameInput,
-                lastName: this.state.lastNameInput,
-                addressLine: this.state.addressLineInput,
-                addressCity: this.state.addressCityInput,
-                addressProvince: this.state.addressProvinceInput,
-                addressPostalCode: this.state.addressPostalCodeInput,
-                phoneNumber: this.state.phoneInput,
-                bio: this.state.birthdayInput,
-                birthday: this.state.bioInput,
-                password: this.state.passwordInput,
-            }))
-            .then(response => {
-                console.log("user created, ID:  " + response)
+
+    //validating each individual input of sign up form
+    //if one required field is not filled out, the form will not submit
+    validateForm() {
+
+        if (this.state.usernameInput.trim() === "") {
+            this.setState(() => ({ usernameError: "* " }));
+        } else {
+            this.setState(() => ({ usernameError: null }));
+        }
+
+        if (this.state.passwordInput.trim() === "") {
+            this.setState(() => ({ passwordError: "* " }));
+        } else {
+            this.setState(() => ({ passwordError: null }));
+        }
+
+        if (this.state.firstNameInput.trim() === "") {
+            this.setState(() => ({ firstNameError: "* " }));
+        } else {
+            this.setState(() => ({ firstNameError: null }));
+        }
+
+        if (this.state.lastNameInput.trim() === "") {
+            this.setState(() => ({ lastNameError: "* " }));
+        } else {
+            this.setState(() => ({ lastNameError: null }));
+        }
+
+        if (this.state.addressLineInput.trim() === "") {
+            this.setState(() => ({ addressLineError: "* " }));
+        } else {
+            this.setState(() => ({ addressLineError: null }));
+        }
+
+        if (this.state.addressCityInput.trim() === "") {
+            this.setState(() => ({ addressCityError: "* " }));
+        } else {
+            this.setState(() => ({ addressCityError: null }));
+        }
+
+        if (this.state.addressProvinceInput.trim() === "") {
+            this.setState(() => ({ addressProvinceError: "* " }));
+        } else {
+            this.setState(() => ({ addressProvinceError: null }));
+        }
+
+        if (this.state.addressPostalCodeInput.trim() === "") {
+            this.setState(() => ({ addressPostalCodeError: "* " }));
+        } else {
+            this.setState(() => ({ addressPostalCodeError: null }));
+        }
+
+        if (this.state.emailInput.trim() === "") {
+            this.setState(() => ({ emailError: "* " }));
+        } else {
+            this.setState(() => ({ emailError: null }));
+        }
+
+        //if all inputs are non-empty, 
+        //then submit form with all the relevant information
+        if ((this.state.usernameInput.trim() !== "") && (this.state.passwordInput.trim() !== "") &&
+            (this.state.firstNameInput.trim() !== "") && (this.state.lastNameInput.trim() !== "") &&
+            (this.state.addressLineInput.trim() !== "") && (this.state.addressCityInput.trim() !== "") &&
+            (this.state.addressProvinceInput.trim() !== "") && (this.state.addressPostalCodeInput.trim() !== "") &&
+            (this.state.emailInput.trim() !== "")) {
+
+            this.submitForm()
+        }
+
+
+    }
+
+
+
+    submitForm() {
+        userController.signUp({
+            username: this.state.usernameInput,
+            password: this.state.passwordInput,
+            firstName: this.state.firstNameInput,
+            lastName: this.state.lastNameInput,
+            profilePic: this.state.profilePic,
+            addressLine: this.state.addressLineInput,
+            addressCity: this.state.addressCityInput,
+            addressProvince: this.state.addressProvinceInput,
+            addressPostalCode: this.state.addressPostalCodeInput,
+            phoneNumber: this.state.phoneInput,
+            email: this.state.emailInput,
+            bio: this.state.bioInput,
+        })
+            .then((response) => {
+                if (response !== 404) {
+                    userCache.storeUserID(response.user._id)
+                    userCache.storeData(response.user._id, response.toString())
+
+                    this.setState({
+                        loading: true
+                    })
+
+                    chatController.createUser(response.user._id, response.user.username)
+                    setTimeout(() => {
+                        this.props.navigation.navigate("Main")
+                    }, 2000)
+
+                } else {
+
+                    this.setState({
+                        loading: true
+                    })
+                    setTimeout(() => {
+                        this.setState({
+                            errorSignUp: true
+                        })
+                    }, 2000)
+
+                }
             })
     }
 
@@ -104,9 +219,18 @@ class SignupScreen extends React.Component {
         this.setState({ addressPostalCodeInput });
     };
 
-    updateBirthdayInput = (birthdayInput) => {
-        this.setState({ birthdayInput });
-    };
+    renderLoading() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={this.state.loading}>
+                <View style={styles.modal}>
+                    <ActivityIndicator style={styles.loading} size="large" color="#ffffff" />
+                </View>
+            </Modal>
+        )
+    }
 
     render() {
         const { usernameInput } = this.state;
@@ -116,200 +240,235 @@ class SignupScreen extends React.Component {
         const { addressCityInput } = this.state;
         const { addressProvinceInput } = this.state;
         const { addressPostalCodeInput } = this.state;
-        const { birthdayInput } = this.state;
         const { phoneInput } = this.state;
         const { emailInput } = this.state;
         const { bioInput } = this.state;
         const { passwordInput } = this.state;
 
         return (
-            <View style={styles.container}>
-                <KeyboardAwareScrollView style={{ flex: 1 }}>
-                    <ImageBackground
-                        source={Images.ProfileBackground}
-                        style={styles.profileContainer}
-                        imageStyle={styles.profileBackground}>
-                        <ScrollView
-                            showsVerticalScrollIndicator={false}
-                            style={{ marginTop: '5%' }}>
-                            <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
-                                ref={this.props.generateTestHook('BioBack.Button')}>
-                                <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.save} onPress={() => this.submitChanges()}
-                                ref={this.props.generateTestHook('SaveChanges.Button')}>
-                                <HeadingText1 style={{ color: Colors.white }}> Save </HeadingText1>
-                            </TouchableOpacity>
-                            <View style={styles.profileCard}>
-                                <View style={styles.profilePicContainer}>
-                                    <ImageBackground source={Images.BlankProfilePic} style={styles.profilePic}>
-                                        <TouchableOpacity style={styles.UpdatePic}>
-                                            <HeadingText2 style={{ color: Colors.white }}>Update </HeadingText2>
-                                            <Image style={styles.icon} source={
-                                                require('../assets/icons/icons8-camera-icon-with-face-24.png')} />
-                                        </TouchableOpacity>
-                                    </ImageBackground>
+            <View style={styles.body}>
+                {this.state.loading && this.renderLoading()}
+                <KeyboardAwareScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.scroll_container}
+                    style={{ marginTop: '5%' }}>
+                    <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
+                        ref={this.props.generateTestHook('SignupBack.Button')}>
+                        <HeadingText1 style={{ color: Colors.white }}> Cancel </HeadingText1>
+                    </TouchableOpacity>
+                    <HeadingText1 style={styles.headerTitle}> Sign Up</HeadingText1>
+                    <TouchableOpacity style={styles.save} onPress={() => this.validateForm()}
+                        ref={this.props.generateTestHook('SaveChanges.Button')}>
+                        <HeadingText1 style={{ color: Colors.highlight }}> Submit </HeadingText1>
+                    </TouchableOpacity>
+
+                    <View style={styles.profileCard}>
+                        <View style={styles.profilePicContainer}>
+                            <ImageBackground source={Images.BlankProfilePic} style={styles.profilePic}>
+                                <TouchableOpacity style={styles.UpdatePic}>
+                                    <HeadingText2 style={{ color: Colors.white }}>Update </HeadingText2>
+                                    <Image style={styles.icon} source={
+                                        require('../assets/icons/icons8-camera-icon-with-face-24.png')} />
+                                </TouchableOpacity>
+                            </ImageBackground>
+                        </View>
+
+                        <View style={styles.info}>
+                            <HeadingText1 style={{
+                                alignSelf: 'center', marginBottom: 15, color: Colors.primary
+                            }}>Y O U R  I N F O R M A T I O N</HeadingText1>
+
+                            <View style={{ justifyContent: 'space-between' }}>
+                                {(!!this.state.usernameError || !!this.state.passwordError ||
+                                    !!this.state.firstNameError || !!this.state.lastNameError ||
+                                    !!this.state.addressLineError || !!this.state.addressCityError ||
+                                    !!this.state.addressPostalCodeError || !!this.state.addressPostalCodeError ||
+                                    !!this.state.emailError)
+                                    && (<Text style={{ marginVertical: 15, color: Colors.error, fontSize: 12 }}>
+                                        * Please fill out the required inputs.</Text>)}
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.usernameError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.usernameError}</Text>)}
+                                        Username:
+                                    </HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('Username.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updateUsername}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={usernameInput} />
                                 </View>
-                                <View style={styles.info}>
-                                    <HeadingText1 style={{
-                                        alignSelf: 'center', marginBottom: 8, color: Colors.primary
-                                    }}>Y O U R  I N F O R M A T I O N</HeadingText1>
-                                    <View style={{ justifyContent: 'space-between' }}>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Username:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('Username.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateUsername}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={usernameInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Password:</HeadingText1>
-                                            <TextInput
-                                                //ref={this.props.generateTestHook('Username.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updatePassword}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={passwordInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>First Name:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('FirstName.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateFirstNameInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={firstNameInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Last Name:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('LastName.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateLastNameInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={lastNameInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Address Line:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('AddressLine.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateAddressLineInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={addressLineInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>City:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('City.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateAddressCityInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={addressCityInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Province:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('Province.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateAddressProvinceInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={addressProvinceInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Postal Code:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('PostalCode.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateAddressPostalCodeInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={addressPostalCodeInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Birthday:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('Birthday.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateBirthdayInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={birthdayInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Phone:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('Phone.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updatePhone}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={phoneInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>E-mail:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('Email.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateEmail}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={emailInput} />
-                                        </View>
-                                        <HeadingText1 style={{
-                                            alignSelf: 'center', marginBottom: 8, color: Colors.primary, marginTop: 30
-                                        }}>A B O U T  M E</HeadingText1>
-                                        <View style={styles.innerInfo}>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('AboutMe.TextInput')}
-                                                multiline={true}
-                                                style={{
-                                                    flex: 1,
-                                                    paddingHorizontal: 20,
-                                                    paddingTop: 20,
-                                                    paddingBottom: 20,
-                                                    textAlignVertical: 'top',
-                                                    width: width - 65,
-                                                    borderWidth: 1,
-                                                    borderColor: Colors.highlight,
-                                                    borderRadius: 20,
-                                                    zIndex: 1,
-                                                }}
-                                                onChangeText={this.updateBio}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={bioInput}
-                                                placeholder={"Write something about yourself!"}
-                                                placeholderTextColor={Colors.placeholder} />
-                                        </View>
-                                    </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.passwordError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.passwordError}</Text>)}
+                                        Password:
+                                            </HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('Password.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updatePassword}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={passwordInput} />
+                                </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.firstNameError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.firstNameError}</Text>)}
+                                        First Name:</HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('FirstName.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updateFirstNameInput}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={firstNameInput} />
+                                </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.lastNameError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.lastNameError}</Text>)}
+                                        Last Name:</HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('LastName.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updateLastNameInput}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={lastNameInput} />
+                                </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.addressLineError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.addressLineError}</Text>)}
+                                        Address Line:</HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('AddressLine.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updateAddressLineInput}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={addressLineInput} />
+                                </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.addressCityError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.addressCityError}</Text>)}
+                                        City:</HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('City.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updateAddressCityInput}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={addressCityInput} />
+                                </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.addressProvinceError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.addressProvinceError}</Text>)}
+                                        Province:</HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('Province.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updateAddressProvinceInput}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={addressProvinceInput} />
+                                </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.addressPostalCodeError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.addressPostalCodeError}</Text>)}
+                                        Postal Code:</HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('PostalCode.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updateAddressPostalCodeInput}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={addressPostalCodeInput} />
+                                </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        Phone:</HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('Phone.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updatePhone}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={phoneInput} />
+                                </View>
+
+                                <View style={styles.innerInfo}>
+                                    <HeadingText1 style={{ paddingRight: 20 }}>
+                                        {!!this.state.emailError &&
+                                            (<Text style={{ color: Colors.error, fontSize: 14 }}>{this.state.emailError}</Text>)}
+                                        E-mail:</HeadingText1>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('Email.TextInput')}
+                                        style={[{ height: 30, width: 200 }, styles.messageInput]}
+                                        onChangeText={this.updateEmail}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={emailInput} />
+                                </View>
+
+                                <HeadingText1 style={{
+                                    alignSelf: 'center', marginBottom: 8, color: Colors.primary, marginTop: 30
+                                }}>A B O U T  M E</HeadingText1>
+                                <View style={styles.innerInfo}>
+                                    <TextInput
+                                        ref={this.props.generateTestHook('AboutMe.TextInput')}
+                                        multiline={true}
+                                        style={{
+                                            flex: 1,
+                                            paddingHorizontal: 20,
+                                            paddingTop: 20,
+                                            paddingBottom: 20,
+                                            textAlignVertical: 'top',
+                                            width: width - 65,
+                                            borderWidth: 1,
+                                            borderColor: Colors.highlight,
+                                            borderRadius: 20,
+                                            zIndex: 1,
+                                        }}
+                                        onChangeText={this.updateBio}
+                                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                                        containerStyle={{ backgroundColor: '#ffffff' }}
+                                        inputStyle={{ fontSize: 13 }}
+                                        value={bioInput}
+                                        placeholder={"Write something about yourself!"}
+                                        placeholderTextColor={Colors.placeholder} />
                                 </View>
                             </View>
-                        </ScrollView>
-                    </ImageBackground>
+                        </View>
+                    </View>
                 </KeyboardAwareScrollView>
-            </View >
+            </View>
         );
     }
 }
@@ -324,11 +483,22 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0)',
     },
-    profileBackground: {
-        height: height / 2,
-        width: width
+    body: {
+        flex: 9,
+        width: width,
+        backgroundColor: Colors.primary
+    },
+    headerTitle: {
+        fontSize: 25,
+        marginTop: 10,
+        letterSpacing: 2,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        color: Colors.white,
+    },
+    scroll_container: {
+        paddingBottom: 60,
     },
     profileContainer: {
         width: width,
@@ -337,12 +507,12 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     profileCard: {
-        marginTop: height / 4.5,
-        marginHorizontal: 10,
+        marginTop: 100,
+        marginHorizontal: 20,
         marginBottom: 20,
         paddingBottom: 10,
         borderRadius: 10,
-        zIndex: 5,
+        // zIndex: 5,
         backgroundColor: Colors.white,
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 0 },
@@ -460,20 +630,12 @@ const styles = StyleSheet.create({
     save: {
         position: "absolute",
         right: 9,
-        margin: 10,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.7,
+        margin: 15,
     },
     back: {
         position: "absolute",
         left: 9,
-        margin: 10,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.7,
+        margin: 15,
     },
     edit: {
         flex: 1,
@@ -494,9 +656,17 @@ const styles = StyleSheet.create({
         right: 20,
         bottom: 15,
         zIndex: 1
+    },
+    modal: {
+        backgroundColor: Colors.black,
+        opacity: 0.5,
+        height: height,
+        width: width
+    },
+    loading: {
+        marginTop: height / 2,
     }
 });
 
-//export default withNavigationFocus(BioScreen);
 const SignupScreenSpec = hook(SignupScreen);
 export default (SignupScreenSpec);

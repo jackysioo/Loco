@@ -8,7 +8,7 @@ const CategoryIcons = [
     {   name: 'Tutor',
         uri: require("../assets/icons/icons8-book-and-pencil-50.png")
     },
-    {   name: 'Meal',
+    {   name: 'Food',
         uri: require("../assets/icons/icons8-meal-50.png")
     },
     {   name: 'Beauty',

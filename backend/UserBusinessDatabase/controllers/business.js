@@ -1,6 +1,7 @@
 const Business = require('../models/business');
 const Search = require('../models/search');
-const geolib = require('geolib');
+const geolib = require('geolib'); 
+const User = require('../models/user');
 
 exports.getBusinessData = (req, res, next) => {
     if (req.query.title) {
@@ -43,7 +44,7 @@ exports.getBusinessData = (req, res, next) => {
         Business.find()
         .populate('reviews')
         .exec()
-        .then(business => { 
+        .then((business) => { 
         res.status(200).json({ businesses: business }) 
         }).catch((err) => {
             if (!err.statusCode) {

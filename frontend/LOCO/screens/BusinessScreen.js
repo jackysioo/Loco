@@ -48,11 +48,13 @@ class BusinessScreen extends React.Component {
         chatController.sendMessageToUser("Hi", this.state.message)
             .then((res) => {
                 if (res === 200) {
-                    this.setState({ 
-                        messageFormVisible: false, });
+                    this.setState({
+                        messageFormVisible: false,
+                    });
                 } else {
-                    this.setState({ 
-                        messageSentError: true, });
+                    this.setState({
+                        messageSentError: true,
+                    });
                 }
             })
     }
@@ -76,46 +78,48 @@ class BusinessScreen extends React.Component {
 
     renderMessageForm() {
         const { message } = this.state;
-        return(
-        <Modal
-            style={{paddingVertical: 50}}
-            animationType="slide"
-            transparent={false}
-            visible={this.state.messageFormVisible}>
-            <TouchableOpacity
-                style={[styles.backButton, {top:50}]}
-                onPress={() => {
-                    this.setState({ messageFormVisible: false })
-                }}>
-                <HeadingText1 style={{ fontSize: 14, color: Colors.placeholder }}>Cancel</HeadingText1>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.sendButton}
-                onPress={() => {
-                    this.sendMessage(this.props.navigation.state.params.item.user);
-                }}>
-                <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
-            </TouchableOpacity>
-          <HeadingText1 style={styles.headerTitle}> Send Message</HeadingText1>
-            <View style={styles.messageFormContainer}>
-                <TextInput
-                    multiline
-                    numberOfLines={6}
-                    style={[{ height: 200 }, styles.messageInput]}
-                    onChangeText={this.updateMessage}
-                    inputContainerStyle={{ backgroundColor: Colors.white }}
-                    containerStyle={{ backgroundColor: '#ffffff' }}
-                    inputStyle={{ fontSize: 13 }}
-                    value={message}
-                    placeholder="Type your message here..."
-                    placeholderTextColor={Colors.placeholder}
-                />
-            </View>
-            {this.state.messageSentError && 
-                <ParagraphText1 style={{ fontSize: 12, color: Colors.error, marginHorizontal: 20 }}>
-                    Oops! There was an error sending your message.
+        return (
+            <Modal
+                style={{ paddingVertical: 50 }}
+                animationType="slide"
+                transparent={false}
+                visible={this.state.messageFormVisible}>
+                <TouchableOpacity
+                    ref={this.props.generateTestHook('CancelMessage.Button')}
+                    style={[styles.backButton, { top: 50 }]}
+                    onPress={() => {
+                        this.setState({ messageFormVisible: false })
+                    }}>
+                    <HeadingText1 style={{ fontSize: 14, color: Colors.placeholder }}>Cancel</HeadingText1>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.sendButton}
+                    onPress={() => {
+                        this.sendMessage(this.props.navigation.state.params.item.user);
+                    }}>
+                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
+                </TouchableOpacity>
+                <HeadingText1 style={styles.headerTitle}> Send Message</HeadingText1>
+                <View style={styles.messageFormContainer}>
+                    <TextInput
+                        ref={this.props.generateTestHook('Message.TextInput')}
+                        multiline
+                        numberOfLines={6}
+                        style={[{ height: 200 }, styles.messageInput]}
+                        onChangeText={this.updateMessage}
+                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                        containerStyle={{ backgroundColor: '#ffffff' }}
+                        inputStyle={{ fontSize: 13 }}
+                        value={message}
+                        placeholder="Type your message here..."
+                        placeholderTextColor={Colors.placeholder}
+                    />
+                </View>
+                {this.state.messageSentError &&
+                    <ParagraphText1 style={{ fontSize: 12, color: Colors.error, marginHorizontal: 20 }}>
+                        Oops! There was an error sending your message.
                 </ParagraphText1>}
-        </Modal>)
+            </Modal>)
     }
 
     render() {
@@ -180,7 +184,6 @@ class BusinessScreen extends React.Component {
                 <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
             </TouchableOpacity>;
         }
-
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -191,7 +194,7 @@ class BusinessScreen extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}>
                             <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}
-                            // ref={this.props.generateTestHook('BusinessBack.Button')}
+                                ref={this.props.generateTestHook('BusinessBack.Button')}
                             >
                                 <HeadingText1 style={styles.heading1}>Back</HeadingText1>
                             </TouchableOpacity>
@@ -221,7 +224,9 @@ class BusinessScreen extends React.Component {
                                     <Text style={{ margin: 10, marginTop: 20, fontSize: 14, color: Colors.placeholder }}>
                                         {this.props.navigation.state.params.item.about}
                                     </Text>
-                                    <TouchableOpacity style={styles.actionButton} onPress={() => { this.setState({ messageFormVisible: true }) }}>
+                                    <TouchableOpacity
+                                        ref={this.props.generateTestHook('Message.Button')}
+                                        style={styles.actionButton} onPress={() => { this.setState({ messageFormVisible: true }) }}>
                                         <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message {this.props.navigation.state.params.item.user}</HeadingText1>
                                     </TouchableOpacity>
                                 </View>
@@ -337,12 +342,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0)'
     },
     headerTitle: {
-      fontSize: 25,
-      marginTop: 45,
-      letterSpacing: 2,
-      alignSelf: 'center',
-      justifyContent: 'center',
-      color: Colors.primary,
+        fontSize: 25,
+        marginTop: 45,
+        letterSpacing: 2,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        color: Colors.primary,
     },
     outerContainer: {
         width: width,
