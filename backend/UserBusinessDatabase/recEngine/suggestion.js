@@ -1,4 +1,4 @@
-_ = require('underscore');
+const _ = require('underscore');
 const SuggestionDb = require('../models/suggestion');
 var mongoose = require('mongoose');
 
@@ -25,7 +25,7 @@ module.exports = class Suggestion {
 
 
             const items = await Promise.all(othersSimilarity.map(async (other) => {
-                return await Promise.all([this.engine.likes, this.engine.dislikes].map(async rater => {
+                return await Promise.all([this.engine.likes, this.engine.dislikes].map(async (rater) => {
                     return (await rater.itemsByUser(mongoose.Types.ObjectId(other.user))).map((objectId) => {return objectId.toString()});
                 }));
             }));

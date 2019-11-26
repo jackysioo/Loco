@@ -131,6 +131,7 @@ class ChatController extends React.Component {
 
     //GET user's data
     async createUser(id, name) {
+        console.log("creating user in chat: " + id + " " + name)
         try {
             const response = await fetch(chatServer + "/users", {
                 method: "POST",
@@ -142,6 +143,7 @@ class ChatController extends React.Component {
                     name: name
                 })
             });
+            console.log(response)
             if (response.ok) {
                 console.log("successfully created new user for chat");
             }

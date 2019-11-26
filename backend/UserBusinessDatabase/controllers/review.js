@@ -6,7 +6,7 @@ const Engine = require('../recEngine/engine');
 
 const e = new Engine(); 
 
-addData = async (rating,userId,businessId) => { 
+async function addData(rating,userId,businessId){ 
     if(rating >= 3.0){ 
         await e.likes.add(userId,businessId);
     } 
@@ -15,7 +15,7 @@ addData = async (rating,userId,businessId) => {
     }
 } 
 
-updateData = async (prevRating,rating,userId,businessId) => { 
+async function updateData(prevRating,rating,userId,businessId){ 
     if(rating >= 3.0 && prevRating < 3.0){ 
         await e.dislikes.remove(userId,businessId); 
         await e.likes.add(userId,businessId);
@@ -26,7 +26,7 @@ updateData = async (prevRating,rating,userId,businessId) => {
     }
 } 
 
-deleteData = async (rating,userId,businessId) => { 
+async function deleteData(rating,userId,businessId){ 
     if(rating >= 3.0){ 
         await e.likes.remove(userId,businessId);
     } 
