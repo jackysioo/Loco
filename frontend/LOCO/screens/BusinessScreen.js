@@ -108,6 +108,11 @@ class BusinessScreen extends React.Component {
         const { reviewInput } = this.state;
         const { ratingInput } = this.state;
 
+        const images = this.props.navigation.state.params.item.images.map((image) => {
+            return (
+                <Image source={{ uri: image }} key={image} style={{ width: 170, height: 170 }} />
+            )
+        })
         const tags = this.props.navigation.state.params.item.tags.map((tag) => {
             return (
                 <View key={tag} style={styles.tag}>
@@ -148,8 +153,8 @@ class BusinessScreen extends React.Component {
 
         // only display 6 or less reviews on Business Screen
         var displayReviews = reviews;
-        if (reviews.length > 6) {
-            displayReviews = displayReviews.slice(0, 6);
+        if (reviews.length > 2) {
+            displayReviews = displayReviews.slice(0, 2);
         }
 
         return (
@@ -208,6 +213,12 @@ class BusinessScreen extends React.Component {
                                     { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}                                   >
                                     <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
                                 </TouchableOpacity>
+                                <View style={styles.photos}>
+                                    <HeadingText1 style={{ marginBottom: 10, alignSelf: 'center', marginTop: 10, color: Colors.placeholder }}>P H O T O S</HeadingText1>
+                                    <View style={styles.gallery}>
+                                        {images}
+                                    </View>
+                                </View>
                             </View>
                         </ScrollView>
                     </ImageBackground>
@@ -310,9 +321,15 @@ const styles = StyleSheet.create({
         padding: 0,
         zIndex: 1
     },
+    photos: {
+        flexDirection: 'column',
+        alignContent: 'center',
+        justifyContent: 'center',
+        color: Colors.placeholder,
+    },
     viewAll: {
         color: Colors.primary,
-        marginTop: -10,
+        marginTop: -13,
         paddingBottom: 5,
     },
     background: {
@@ -642,6 +659,10 @@ const styles = StyleSheet.create({
         shadowRadius: 1,
         shadowOpacity: 1,
     },
+    gallery: {
+        flex: 1,
+        flexDirection: "row",
+    }
 });
 
 //export default withNavigation(BusinessScreen);

@@ -55,8 +55,8 @@ class ReviewScreen extends React.Component {
         if (showEdit == true) {
             editButton = <TouchableOpacity style={styles.edit} onPress={() => { this.setState({ editReviewVisible: true }) }}
                 ref={this.props.generateTestHook('EditReview.Button')}>
-                <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
-                <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
+                <HeadingText1 style={[{ color: Colors.white }, styles.shadow]}> Edit </HeadingText1>
+                <Image style={[styles.icon, styles.shadow]} source={require('../assets/icons/icons8-edit-24.png')} />
             </TouchableOpacity>
         };
 
@@ -73,7 +73,7 @@ class ReviewScreen extends React.Component {
                                 style={styles.itemContainer}>
                                 <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
                                     ref={this.props.generateTestHook('ReviewBack.Button')}>
-                                    <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
+                                    <HeadingText1 style={[{ color: Colors.white }, styles.shadow]}> Back </HeadingText1>
                                 </TouchableOpacity>
                                 {editButton}
                                 <View style={styles.innerContainer}>
@@ -364,6 +364,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         color: Colors.placeholder,
         zIndex: 1,
+    },
+    shadow: {
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
     },
 });
 

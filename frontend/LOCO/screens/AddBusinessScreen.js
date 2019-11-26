@@ -158,7 +158,7 @@ class AddBusinessScreen extends React.Component {
                                         placeholder={"Write about your service..."}
                                         placeholderTextColor={Colors.placeholder} />
                                     <View style={styles.photos}>
-                                        <HeadingText1 style={{ marginBottom: 10, alignSelf: 'center', marginTop: 10 }}>P H O T O S</HeadingText1>
+                                        <HeadingText1 style={{ marginBottom: 10, alignSelf: 'center', marginTop: 10, color: Colors.placeholder }}>P H O T O S</HeadingText1>
                                         <TouchableOpacity style={styles.upload}>
                                             <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.highlight }}>u p l o a d</ParagraphText2>
                                             <Image source={require('../assets/icons/icons8-add-image-96.png')} style={{ height: 18, width: 18 }} />
@@ -246,7 +246,11 @@ const styles = StyleSheet.create({
     },
     heading1: {
         fontSize: 14,
-        color: Colors.white
+        color: Colors.white,
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
     },
     titleInput: {
         width: width - 65,
@@ -296,7 +300,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 30,
         width: width - 65,
-    }
+    },
 });
 
 //export default withNavigation(BusinessScreen);

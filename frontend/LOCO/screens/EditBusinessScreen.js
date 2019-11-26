@@ -246,7 +246,11 @@ const styles = StyleSheet.create({
     },
     heading1: {
         fontSize: 14,
-        color: Colors.white
+        color: Colors.white,
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
     },
     titleInput: {
         width: width - 65,
