@@ -117,13 +117,13 @@ class UserScreen extends React.Component {
                 ref={this.props.generateTestHook('ViewAllReviews.Button')}>
                 <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
             </TouchableOpacity>;
-            reviewTitle = <HeadingText1 style={styles.header}>YOUR REVIEWS</HeadingText1>;
+            reviewTitle = <HeadingText1 style={styles.header}>REVIEWS</HeadingText1>;
         }
 
         // only display "Your Services" header if there are services
         var serviceTitle;
         if (services.length != 0) {
-            serviceTitle = <HeadingText1 style={styles.header}>YOUR SERVICES</HeadingText1>;
+            serviceTitle = <HeadingText1 style={styles.header}>SERVICES</HeadingText1>;
         }
 
         return (
@@ -198,7 +198,7 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={styles.header}>ABOUT ME</HeadingText1>
+                                    <HeadingText1 style={styles.header}>ABOUT</HeadingText1>
                                     <View style={styles.bio}>
                                         <ParagraphText1 style={{ margin: 20 }}>
                                             {user.bio}
