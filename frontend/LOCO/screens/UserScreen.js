@@ -111,7 +111,7 @@ class UserScreen extends React.Component {
         // only display "Your Reviews" header and "view all" buttons if there are reviews 
         var viewall;
         var reviewTitle;
-        if (reviews.length != 0) {
+        if (reviews.length !== 0) {
             viewall = <TouchableOpacity onPress={() => navigation.navigate('Reviews',
                 { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}
                 ref={this.props.generateTestHook('ViewAllReviews.Button')}>
@@ -122,7 +122,7 @@ class UserScreen extends React.Component {
 
         // only display "Your Services" header if there are services
         var serviceTitle;
-        if (services.length != 0) {
+        if (services.length !== 0) {
             serviceTitle = <HeadingText1 style={styles.header}>S E R V I C E S</HeadingText1>;
         }
 
