@@ -62,67 +62,62 @@ class SignupScreen extends React.Component {
     validateForm() {
 
         if (this.state.usernameInput.trim() === "") {
-            this.setState(() => ({ usernameError: "* " }));
+            this.setState(() => ({ usernameError: "* ",  formValidForSubmission: false }));
         } else {
-            this.setState(() => ({ usernameError: null }));
+            this.setState(() => ({ usernameError: null,  formValidForSubmission: true  }));
         }
 
         if (this.state.passwordInput.trim() === "") {
-            this.setState(() => ({ passwordError: "* " }));
+            this.setState(() => ({ passwordError: "* ",  formValidForSubmission: false  }));
         } else {
-            this.setState(() => ({ passwordError: null }));
+            this.setState(() => ({ passwordError: null,  formValidForSubmission: true  }));
         }
 
         if (this.state.firstNameInput.trim() === "") {
-            this.setState(() => ({ firstNameError: "* " }));
+            this.setState(() => ({ firstNameError: "* ",  formValidForSubmission: false  }));
         } else {
-            this.setState(() => ({ firstNameError: null }));
+            this.setState(() => ({ firstNameError: null,  formValidForSubmission: true  }));
         }
 
         if (this.state.lastNameInput.trim() === "") {
-            this.setState(() => ({ lastNameError: "* " }));
+            this.setState(() => ({ lastNameError: "* ",  formValidForSubmission: false  }));
         } else {
-            this.setState(() => ({ lastNameError: null }));
+            this.setState(() => ({ lastNameError: null,  formValidForSubmission: true  }));
         }
 
         if (this.state.addressLineInput.trim() === "") {
-            this.setState(() => ({ addressLineError: "* " }));
+            this.setState(() => ({ addressLineError: "* ",  formValidForSubmission: false  }));
         } else {
-            this.setState(() => ({ addressLineError: null }));
+            this.setState(() => ({ addressLineError: null,  formValidForSubmission: true  }));
         }
 
         if (this.state.addressCityInput.trim() === "") {
-            this.setState(() => ({ addressCityError: "* " }));
+            this.setState(() => ({ addressCityError: "* ",  formValidForSubmission: false  }));
         } else {
-            this.setState(() => ({ addressCityError: null }));
+            this.setState(() => ({ addressCityError: null,  formValidForSubmission: true  }));
         }
 
         if (this.state.addressProvinceInput.trim() === "") {
-            this.setState(() => ({ addressProvinceError: "* " }));
+            this.setState(() => ({ addressProvinceError: "* ",  formValidForSubmission: false  }));
         } else {
-            this.setState(() => ({ addressProvinceError: null }));
+            this.setState(() => ({ addressProvinceError: null,  formValidForSubmission: true  }));
         }
 
         if (this.state.addressPostalCodeInput.trim() === "") {
-            this.setState(() => ({ addressPostalCodeError: "* " }));
+            this.setState(() => ({ addressPostalCodeError: "* ",  formValidForSubmission: false  }));
         } else {
-            this.setState(() => ({ addressPostalCodeError: null }));
+            this.setState(() => ({ addressPostalCodeError: null,  formValidForSubmission: true  }));
         }
 
         if (this.state.emailInput.trim() === "") {
-            this.setState(() => ({ emailError: "* " }));
+            this.setState(() => ({ emailError: "* ",  formValidForSubmission: false  }));
         } else {
-            this.setState(() => ({ emailError: null }));
+            this.setState(() => ({ emailError: null,  formValidForSubmission: true  }));
         }
 
         //if all inputs are non-empty, 
         //then submit form with all the relevant information
-        if ((this.state.usernameInput.trim() !== "") && (this.state.passwordInput.trim() !== "") &&
-            (this.state.firstNameInput.trim() !== "") && (this.state.lastNameInput.trim() !== "") &&
-            (this.state.addressLineInput.trim() !== "") && (this.state.addressCityInput.trim() !== "") &&
-            (this.state.addressProvinceInput.trim() !== "") && (this.state.addressPostalCodeInput.trim() !== "") &&
-            (this.state.emailInput.trim() !== "")) {
-
+        if (this.state.formValidForSubmission) {
             this.submitForm()
         }
 
@@ -279,11 +274,7 @@ class SignupScreen extends React.Component {
                             }}>Y O U R  I N F O R M A T I O N</HeadingText1>
 
                             <View style={{ justifyContent: 'space-between' }}>
-                                {(!!this.state.usernameError || !!this.state.passwordError ||
-                                    !!this.state.firstNameError || !!this.state.lastNameError ||
-                                    !!this.state.addressLineError || !!this.state.addressCityError ||
-                                    !!this.state.addressPostalCodeError || !!this.state.addressPostalCodeError ||
-                                    !!this.state.emailError)
+                                {!this.state.formValidForSubmission 
                                     && (<Text style={{ marginVertical: 15, color: Colors.error, fontSize: 12 }}>
                                         * Please fill out the required inputs.</Text>)}
 

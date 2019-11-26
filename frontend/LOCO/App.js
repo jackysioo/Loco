@@ -36,7 +36,7 @@ export default function App(props) {
     return (
       <Tester specs={[
         // SignupScreenSpec,
-        LoginScreenSpec,
+        // LoginScreenSpec,
         // SearchingSpec,
         // UserScreenSpec,
         // EditBusinessSpec,

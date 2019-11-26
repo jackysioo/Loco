@@ -54,7 +54,7 @@ export default class ChatScreen extends React.Component {
 
 
   onReceiveMessage = (message) => {
-    let isCurrentUser = this.state.userID == message.sender.id ? true : false;
+    let isCurrentUser = this.state.userID === message.sender.id ? true : false;
 
     let messages = [...this.state.messages];
     messages.push({
@@ -92,7 +92,7 @@ export default class ChatScreen extends React.Component {
 
     messages.forEach((msg) => {
       let isCurrentUser =
-        this.state.userID == msg.sender.id ? true : false;
+        this.state.userID === msg.sender.id ? true : false;
 
       old_messages.push({
         key: msg.id.toString(),

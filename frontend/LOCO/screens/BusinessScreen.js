@@ -49,15 +49,15 @@ class BusinessScreen extends React.Component {
         userCache.getUserID()
             .then((id) => {
                 this.setState({
-                    userID: id
+                    userID: ""
                 })
             })
             console.log(this.props.navigation.state.params.item)
     }
 
-    //UPDATE USER TO USER ID
+    //UPDATE USER TO USER : this.props.navigation.state.params.item._id
     sendMessage() {
-        chatController.sendMessageToUser(this.props.navigation.state.params.item.user, this.state.message)
+        chatController.sendMessageToUser("Ryo", this.state.message)
             .then((res) => {
                 if (res === 200) {
                     this.setState({
@@ -285,8 +285,9 @@ class BusinessScreen extends React.Component {
                         rating: review.rating, image: review.image, title: review.title,
                         date: review.date, review: review.review, user: review.user, business: review.business, showEdit: false
                     })}>
-                        {this.state.reviewSuccess && this.renderSuccess()}
                     <View style={styles.reviewContainer}>
+
+                    {this.state.reviewSuccess && this.renderSuccess()}
                         <View style={styles.rating}>
                             <HeadingText1 style={[styles.shadow, { color: Colors.white }]}> {review.rating} </HeadingText1>
                             <Image style={[styles.ratingIcon, styles.shadow]} source={require('../assets/icons/icons8-star-24.png')} />
@@ -310,7 +311,7 @@ class BusinessScreen extends React.Component {
         }
 
         var viewall;
-        if (reviews.length != 0) {
+        if (reviews.length !== 0) {
             viewall = <TouchableOpacity onPress={() => this.props.navigation.navigate('Reviews',
                 { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}                                   >
                 <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
@@ -359,7 +360,7 @@ class BusinessScreen extends React.Component {
                                     <TouchableOpacity
                                         ref={this.props.generateTestHook('Message.Button')}
                                         style={styles.actionButton} onPress={() => { this.setState({ messageFormVisible: true }) }}>
-                                        <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message Cynthia</HeadingText1>
+                                        <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message {this.props.navigation.state.params.item.user}</HeadingText1>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.reviews}>
@@ -699,10 +700,6 @@ const styles = StyleSheet.create({
         shadowRadius: 10,
         shadowOpacity: 0.5,
     },
-    reviewImage: {
-        width: "100%",
-        height: height / 6,
-    },
     shadow: {
         shadowColor: Colors.black,
         shadowOffset: { width: 0, height: 2 },
@@ -741,12 +738,6 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: 'right',
         zIndex: 1,
-    },
-    shadow: {
-        shadowColor: Colors.black,
-        shadowOffset: { width: -1, height: 1 },
-        shadowRadius: 1,
-        shadowOpacity: 1,
     },
     gallery: {
         flexWrap: 'wrap',

@@ -45,7 +45,7 @@ class SearchResult extends React.Component {
                             <Image source={{ uri: item.profilePic }} style={styles.profilePic} />
                         </View>
                         <HeadingText1 style={styles.resultTitle}> {item.title}</HeadingText1>
-                        <Text style={{ fontSize: 16 }}> Cynthia </Text>
+                        <Text style={{ fontSize: 16 }}> {item.user} </Text>
                         <View style={styles.tags}>
                             <Text style={{ fontSize: 12, color: Colors.placeholder}}> {item.price} </Text>
                             <Text style={{ fontSize: 4, color: Colors.placeholder}}> {'\u2B24'} </Text>
