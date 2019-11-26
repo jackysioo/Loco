@@ -15,11 +15,13 @@ import {
     Modal
 } from 'react-native';
 
-const { height, width } = Dimensions.get('screen');
 import { Colors, user, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
-import { onSignOut } from '../controllers/AuthController';
+import UserController from '../controllers/UserController';
+
+const { height, width } = Dimensions.get('screen');
+const userController = new UserController()
 
 
 class UserScreen extends React.Component {
@@ -33,7 +35,8 @@ class UserScreen extends React.Component {
             signingOut: true
         })
         setTimeout(() => {
-            this.props.navigation.navigate("Login")}, 1000)
+            this.props.navigation.navigate("Login")
+        }, 1000)
     }
 
     renderSignOut() {
@@ -87,9 +90,12 @@ class UserScreen extends React.Component {
 
         })
 
+        count = 0;
         const services = user.services.map((service) => {
+            count++;
             return (
                 <TouchableWithoutFeedback key={service.title}
+                    ref={this.props.generateTestHook('Service' + count)}
                     onPress={() => navigation.navigate('Business', {
                         item: {
                             profilePic: service.profilePic,
@@ -163,7 +169,9 @@ class UserScreen extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             style={{ marginTop: '5%' }}>
-                            <TouchableOpacity style={styles.signoutButton} onPress={this.signout}>
+                            <TouchableOpacity
+                                ref={this.props.generateTestHook('Signout.Button')}
+                                style={styles.signoutButton} onPress={this.signout}>
                                 <HeadingText1 style={[styles.shadow, { color: Colors.white }]}>Sign Out</HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>

@@ -12,8 +12,14 @@ class UserController extends React.Component {
     async signUp(user) {
         try {
             const res = await fetch(userServer + "/signUp", {
-                body: { user: user }
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user : user })
             })
+            console.log(res)
             if (res.ok) {
                 console.log("user created")
                 return res.user._id
@@ -27,11 +33,18 @@ class UserController extends React.Component {
     async signIn(username, password) {
         try {
             const res = await fetch(userServer + "/signIn", {
-                body: { username: username, password: password }
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
             })
             if (res.ok) {
-                console.log("user created")
-                return res.user._id
+                const data = await res.json()
+                return data
+            } else {
+                return 404
             }
         }
         catch (error) {
@@ -39,6 +52,16 @@ class UserController extends React.Component {
         }
     }
 
+    async getUser(userID) {
+        try {
+            const res = await fetch(userServer + "/get/" + userID)
+            const user = await res.json();
+            return (user);
+        }
+        catch (error) {
+            return console.log(error);
+        }
+    }
 
     async updateUser(user, userID) {
         try {

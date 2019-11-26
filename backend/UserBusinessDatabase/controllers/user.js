@@ -9,7 +9,7 @@ const Engine = require('../recEngine/engine');
 
 const e = new Engine(); 
 
-createToken = user => { 
+function createToken(user){ 
    return JWT.sign({ 
         iss: 'LOCO', 
         sub: user._id, 

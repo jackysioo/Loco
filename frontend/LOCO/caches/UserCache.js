@@ -20,9 +20,9 @@ class UserCache extends React.Component {
         }
     };
 
-    async storeData(userID, chats) {
+    async storeData(userID, data) {
         try {
-            await AsyncStorage.setItem(userID + "-user", chats);
+            await AsyncStorage.setItem(userID + "-user", data);
         } catch (error) {
             console.log(error)
         }

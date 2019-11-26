@@ -133,7 +133,7 @@ describe('Business Integration Tests', () => {
         done();
       });   
 
-      it('Can make a get request getting a business by id', async done => { 
+      it('Can make a get request getting a business by id', async (done) => { 
         
         const business = await request.post('/business/post').send({business : businessData[0]}); 
         const id = business.body.business._id; 
@@ -146,7 +146,7 @@ describe('Business Integration Tests', () => {
         done();
       }); 
 
-      it('Can make a get request getting a business by id and throw', async done => { 
+      it('Can make a get request getting a business by id and throw', async (done) => { 
         
         const business = await request.post('/business/post').send({business : businessData[0]}); 
         const id = business.body.business._id; 
@@ -156,7 +156,7 @@ describe('Business Integration Tests', () => {
         done();
       });
 
-      it('Can make a get request getting a business by id', async done => { 
+      it('Can make a get request getting a business by id', async (done) => { 
         
         const business = await request.post('/business/post').send({business : businessData[0]}); 
         const id = business.body.business._id; 
@@ -169,7 +169,7 @@ describe('Business Integration Tests', () => {
         done();
       });
       
-      it('Can make a get request getting a business', async done => { 
+      it('Can make a get request getting a business', async (done) => { 
         
         const business = await request.post('/business/post').send({business : businessData[0]}); 
         const id = business.body.business._id; 
@@ -183,7 +183,7 @@ describe('Business Integration Tests', () => {
         done();
       });   
 
-      it('Can make a delete request', async done => { 
+      it('Can make a delete request', async (done) => { 
         
         const business = await request.post('/business/post').send({business : businessData[0]}); 
         const id = business.body.business._id; 
@@ -196,7 +196,7 @@ describe('Business Integration Tests', () => {
         done();
       });  
 
-      it('Can make a put request and update business', async done => { 
+      it('Can make a put request and update business', async (done) => { 
         
         const business = await request.post('/business/post').send({business : businessData[0]}); 
         const id = business.body.business._id; 
@@ -209,7 +209,7 @@ describe('Business Integration Tests', () => {
         done();
       });  
 
-      it('Can search for correct options', async done => { 
+      it('Can search for correct options', async (done) => { 
         
         await request.post('/business/post').send({business : businessData[0]});  
         await request.post('/business/post').send({business : businessData[1]});  
@@ -247,7 +247,7 @@ describe('Business Unit Tests', () => {
 
   
 
-  it('can successfully add data to DB', async done => { 
+  it('can successfully add data to DB', async (done) => { 
     const req = mockRequest(
       {},
       { business : businessData[0] }, 
@@ -262,7 +262,7 @@ describe('Business Unit Tests', () => {
       done();
     });  
 
-    it('can successfully update data in DB', async done => {  
+    it('can successfully update data in DB', async (done) => {  
       const business = new businessModel(businessData[0]);
 
      const id = await business.save();  

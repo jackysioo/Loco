@@ -73,7 +73,7 @@ const reviewData = [
 
   describe('Review Integration Tests', () => {
 
-      it('Can make a post request', async done => { 
+      it('Can make a post request', async (done) => { 
         const business = await request.post('/business/post').send({business : businessData[0]}); 
         const bid = business.body.business._id; 
 
