@@ -64,6 +64,18 @@ class UserController extends React.Component {
         }
     }
 
+    async getSuggestions(userID) {
+        try {
+            const res = await fetch(userServer + "/getSuggestions/" + userID)
+            const businesses = await res.json();
+            return (businesses);
+        }
+        catch (error) {
+            return console.log(error);
+        }
+    }
+    
+
     async updateUser(user, userID) {
         try {
             const res = await fetch(userServer + "/put/" + userID, {
@@ -95,17 +107,25 @@ class UserController extends React.Component {
     async addBusiness(business, userID) {
         try {
             const res = await fetch(businessServer + "/post/" + userID, {
-                body: { business: business } 
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ business: business})
             })
             if (res.ok) {
-                console.log("business added under " + userID)
-                return res.business._id
+                const data = await res.json()
+                return data.business._id
+            } else {
+                return 404
             }
         }
         catch (error) {
             return console.log(error);
         }
     }
+
 
     async getBusiness(businessID) {
         try {
