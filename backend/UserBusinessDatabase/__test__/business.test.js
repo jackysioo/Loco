@@ -231,59 +231,59 @@ describe('Business Integration Tests', () => {
 
 }); 
 
-describe('Business Unit Tests', () => { 
+// describe('Business Unit Tests', () => { 
 
-  const mockRequest = (sessionData, body,params) => ({
-    session: { data: sessionData },
-    body, 
-    params
-  });
+//   const mockRequest = (sessionData, body,params) => ({
+//     session: { data: sessionData },
+//     body, 
+//     params
+//   });
   
-  const mockResponse = () => {
-    const res = {};
-    res.status = jest.fn().mockReturnValue(res);
-    res.json = jest.fn().mockReturnValue(res);
-    return res;
-  }; 
+//   const mockResponse = () => {
+//     const res = {};
+//     res.status = jest.fn().mockReturnValue(res);
+//     res.json = jest.fn().mockReturnValue(res);
+//     return res;
+//   }; 
 
-  const mockNext = jest.fn();
+//   const mockNext = jest.fn();
 
   
 
-  it('can successfully add data to DB', async (done) => { 
-    const req = mockRequest(
-      {},
-      { business : businessData[0] }, 
-      {}
-    ); 
-    const res = mockResponse(); 
-    const next = mockNext;
-    const result =  await businessController.postBusinessData(req, res,next);
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(expect.anything());
+//   it('can successfully add data to DB', async (done) => { 
+//     const req = mockRequest(
+//       {},
+//       { business : businessData[0] }, 
+//       {}
+//     ); 
+//     const res = mockResponse(); 
+//     const next = mockNext;
+//     const result =  await businessController.postBusinessData(req, res,next);
+//       expect(res.status).toHaveBeenCalledWith(201);
+//       expect(res.json).toHaveBeenCalledWith(expect.anything());
       
-      done();
-    });  
+//       done();
+//     });  
 
-    it('can successfully update data in DB', async (done) => {  
-      const business = new businessModel(businessData[0]);
+//     it('can successfully update data in DB', async (done) => {  
+//       const business = new businessModel(businessData[0]);
 
-     const id = await business.save();  
+//      const id = await business.save();  
 
-      const req = mockRequest(
-        {},
-        {business : {title : 'new title'}}, 
-        { businessId : id.id}
-      ); 
-      const res = mockResponse(); 
-      const next = mockNext;
-      const result =  await businessController.updateBusinessData(req, res,next);
-        expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith(expect.anything());
+//       const req = mockRequest(
+//         {},
+//         {business : {title : 'new title'}}, 
+//         { businessId : id.id}
+//       ); 
+//       const res = mockResponse(); 
+//       const next = mockNext;
+//       const result =  await businessController.updateBusinessData(req, res,next);
+//         expect(res.status).toHaveBeenCalledWith(200);
+//         expect(res.json).toHaveBeenCalledWith(expect.anything());
         
-        done();
-      }); 
+//         done();
+//       }); 
 
   
 
-});
+// });
