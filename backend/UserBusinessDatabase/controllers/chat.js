@@ -141,7 +141,7 @@ exports.deleteRoom = (req, res) => {
     roomId: roomID
   })
     .then(() => res.send(200))
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
 
 }
 
