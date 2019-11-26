@@ -6,7 +6,7 @@ class UserCache extends React.Component {
     async getUserID() {
         try {
             const value = await AsyncStorage.getItem("userID");
-              return (value)
+            return (value)
           } catch (error) {
             console.log(error)
           }
