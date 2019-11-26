@@ -5,7 +5,9 @@ const geolib = require('geolib');
 exports.getBusinessData = (req, res, next) => {
     if (req.query.title) {
         const regex = new RegExp(RegExp.escape(req.query.title), 'gi');
-        Business.find({$or:[{title: regex},{tags: regex}]})
+        Business.find({$or:[{title: regex},{tags: regex}]}) 
+            .populate('reviews')
+            .exec()
             .then(async (businesses) => { 
                 if (!businesses) {
                     const error = new Error('Could not find any Businesses');
