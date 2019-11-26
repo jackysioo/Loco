@@ -185,6 +185,7 @@ class UserScreen extends React.Component {
             serviceTitle = <HeadingText1 style={styles.header}>S E R V I C E S</HeadingText1>;
         }
 
+        console.log(this.user);
         return (
             <View style={styles.container}>
                 {this.renderSignOut()}
@@ -239,10 +240,10 @@ class UserScreen extends React.Component {
                                             <View style={{ flexDirection: "column" }}>
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <HeadingText1 style={{ left: -55 }}>Address:</HeadingText1>
-                                                    <HeadingText2 style={{ right: -83 }}>{this.user.addressLine}</HeadingText2>
+                                                    <HeadingText2 style={{ right: -55 }}>{this.user.addressLine}</HeadingText2>
                                                 </View>
-                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -83 }}>{this.user.addressCity}, {this.user.addressProvince}</HeadingText2>
-                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -83 }}>{this.user.addressPostalCode}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -55 }}>{this.user.addressCity}, {this.user.addressProvince}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -55 }}>{this.user.addressPostalCode}</HeadingText2>
                                             </View>
                                         </View>
                                         <View style={styles.innerInfo}>
