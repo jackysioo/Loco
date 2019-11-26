@@ -42,7 +42,7 @@ exports.getBusinessData = (req, res, next) => {
         Business.find()
         .populate('reviews')
         .exec()
-        .then(business => { 
+        .then((business) => { 
         res.status(200).json({ businesses: business }) 
         }).catch((err) => {
             if (!err.statusCode) {
