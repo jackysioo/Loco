@@ -37,7 +37,7 @@ class LoginScreen extends React.Component {
     };
     
     authenticateUser = async () => {
-         await userCache.storeUserID("Lisa")
+         await userCache.storeUserID("Cynthia")
          this.props.navigation.navigate("Main")
     }
 

@@ -36,6 +36,8 @@ class BusinessScreen extends React.Component {
         reviewTitleInput: '',
         reviewInput: '',
         ratingInput: '',
+        messageSent: false,
+        messageSentError: false
     };
 
     componentDidMount() {
@@ -44,8 +46,18 @@ class BusinessScreen extends React.Component {
 
     //UPDATE USER TO USER ID
     sendMessage(user) {
-        chatController.sendMessageToUser("Lisa")
+        chatController.sendMessageToUser("Alfred", this.state.message)
+            .then((res) => {
+                if (res === 200) {
+                    this.setState({ 
+                        messageSent: true, });
+                } else {
+                    this.setState({ 
+                        messageSentError: true, });
+                }
+            })
     }
+
 
     updateMessage = (message) => {
         this.setState({ message });
@@ -65,41 +77,42 @@ class BusinessScreen extends React.Component {
 
     renderMessageForm() {
         const { message } = this.state;
-        return (
-            <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.messageFormVisible}>
-                <TouchableOpacity
-                    style={styles.backButton}
-                    onPress={() => {
-                        this.setState({ messageFormVisible: false })
-                    }}>
-                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Cancel</HeadingText1>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.sendButton}
-                    onPress={() => {
-                        this.sendMessage(this.props.navigation.state.params.item.user);
-                    }}>
-                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
-                </TouchableOpacity>
-                <View style={styles.messageFormContainer}>
-                    <TextInput
-                        multiline
-                        numberOfLines={6}
-                        style={[{ height: 200 }, styles.messageInput]}
-                        onChangeText={this.updateMessage}
-                        inputContainerStyle={{ backgroundColor: Colors.white }}
-                        containerStyle={{ backgroundColor: '#ffffff' }}
-                        inputStyle={{ fontSize: 13 }}
-                        value={message}
-                        placeholder="Type your message here..."
-                        placeholderTextColor={Colors.placeholder}
-                        returnKeyType="send"
-                    />
-                </View>
-            </Modal>)
+        return(
+        <Modal
+            style={{paddingVertical: 50}}
+            animationType="slide"
+            transparent={false}
+            visible={this.state.messageFormVisible}>
+            <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => {
+                    this.setState({ messageFormVisible: false })
+                }}>
+                <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Cancel</HeadingText1>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.sendButton}
+                onPress={() => {
+                    this.sendMessage(this.props.navigation.state.params.item.user);
+                }}>
+                <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
+            </TouchableOpacity>
+            <View style={styles.messageFormContainer}>
+                <TextInput
+                    multiline
+                    numberOfLines={6}
+                    style={[{ height: 200 }, styles.messageInput]}
+                    onChangeText={this.updateMessage}
+                    inputContainerStyle={{ backgroundColor: Colors.white }}
+                    containerStyle={{ backgroundColor: '#ffffff' }}
+                    inputStyle={{ fontSize: 13 }}
+                    value={message}
+                    placeholder="Type your message here..."
+                    placeholderTextColor={Colors.placeholder}
+                    returnKeyType="send"
+                />
+            </View>
+        </Modal>)
     }
 
     render() {
@@ -427,7 +440,7 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: "absolute",
-        top: 20,
+        top: 40,
         left: 10,
         margin: 10,
     },
@@ -458,7 +471,7 @@ const styles = StyleSheet.create({
     },
     sendButton: {
         position: "absolute",
-        top: 20,
+        top: 40,
         right: 10,
         margin: 10,
     },

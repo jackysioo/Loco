@@ -43,7 +43,12 @@ class ChatController extends React.Component {
                     for (let id of room.member_user_ids) {
                         if (otherUserID === id) {
                             chatExists = true
-                            this.sendMessageToRoom(this.userID, room.id, message)
+                            console.log("sending " + message + " to " + otherUserID)
+                            this.sendMessageToRoom(room.id, message)
+                                .then((res) => {
+                                    console.log("response :" + res)
+                                    return res
+                                })
                         }
                     }
                 }
@@ -54,6 +59,14 @@ class ChatController extends React.Component {
 
         if (!chatExists) {
             this._createChat(otherUserID)
+                .then((roomID) => {
+                    console.log("sending " + message + " to " + otherUserID)
+                    this.sendMessageToRoom(roomID, message)
+                    .then((res) => {
+                        console.log("response :" + res)
+                        return res
+                    })
+                })
         }
     }
 
