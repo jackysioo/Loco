@@ -70,6 +70,7 @@ class LoginScreen extends React.Component {
                                 <TextInput
                                     //ref={this.props.generateTestHook('Birthday.TextInput')}
                                     style={[{ height: 30, width: 250, marginTop: -400 }, styles.messageInput]}
+                                    secureTextEntry={true}
                                     onChangeText={this.updatePassword}
                                     inputContainerStyle={{ backgroundColor: Colors.white }}
                                     containerStyle={{ backgroundColor: '#ffffff' }}
