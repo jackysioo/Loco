@@ -18,7 +18,6 @@ import {
 import userCache from '../caches/UserCache'
 import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy';
 
 const { height, width } = Dimensions.get('screen');

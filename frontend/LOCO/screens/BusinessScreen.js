@@ -64,6 +64,8 @@ class BusinessScreen extends React.Component {
     };
 
     renderMessageForm() {
+        const { subject } = this.state;
+        const { message } = this.state;
         return(
         <Modal
             animationType="slide"
@@ -102,8 +104,6 @@ class BusinessScreen extends React.Component {
     }
 
     render() {
-        const { subject } = this.state;
-        const { message } = this.state;
         const { reviewTitleInput } = this.state;
         const { reviewInput } = this.state;
         const { ratingInput } = this.state;
