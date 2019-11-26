@@ -32,6 +32,13 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = {
+  tabBarOptions: { 
+    activeTintColor: '#51bfbb',
+    labelStyle: {
+      fontWeight: '600',
+      fontSize: 10
+    }
+  },
   tabBarLabel: 'Search',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -63,7 +70,14 @@ const UserStack = createStackNavigator(
 );
 
 UserStack.navigationOptions = {
-  tabBarLabel: 'Me',
+  tabBarOptions: { 
+    activeTintColor: '#51bfbb',
+    labelStyle: {
+      fontWeight: '600',
+      fontSize: 10
+    }
+  },
+  tabBarLabel: 'Profile',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'} />
   ),
@@ -71,27 +85,7 @@ UserStack.navigationOptions = {
 
 UserStack.path = '';
 
-// const LoginStack = createStackNavigator(
-//   {
-//     Login: LoginScreen,
-//     Signup: SignupScreen,
-//   }, {
-//     headerMode: 'none',
-//   },
-//     config
-//   );
-
-
-// LoginStack.navigationOptions = {
-//   tabBarLabel: 'Login',
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
-//   )
-// }
-
-// LoginStack.path = '';
     
-//TESTING CHAT
 const ChatStack = createStackNavigator(
   {
     Messages: MessagesScreen,
@@ -103,6 +97,13 @@ const ChatStack = createStackNavigator(
 );
 
 ChatStack.navigationOptions = {
+  tabBarOptions: { 
+    activeTintColor: '#51bfbb',
+    labelStyle: {
+      fontWeight: '600',
+      fontSize: 10
+    }
+  },
   tabBarLabel: 'Messages',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} />
@@ -114,7 +115,6 @@ ChatStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
-  // LoginStack,
   ChatStack
 });
 

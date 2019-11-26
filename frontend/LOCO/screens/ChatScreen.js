@@ -126,7 +126,7 @@ export default class ChatScreen extends React.Component {
   sendMessage = async () => {
     if (this.state.message) {
       Keyboard.dismiss()
-      await chatController
+      chatController
         .sendMessageToRoom(this.state.roomID, this.state.message)
       this.setState({
         message: ""
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   scroll_container: {
-    paddingBottom: 50,
+    paddingBottom: 60,
   },
   messages: {
     flex: 8,

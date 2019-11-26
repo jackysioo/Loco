@@ -30,7 +30,7 @@ class MessagesScreen extends React.Component {
     }
 
     componentDidMount() {
-        chatController.init().then(()=>{
+        chatController.init().then(() => {
             chatController.getChats()
                 .then((chats) => {
                     this.setState({
@@ -70,7 +70,7 @@ class MessagesScreen extends React.Component {
     }
 
     loadingAnimation() {
-        return(
+        return (
             <View style={styles.loading}>
                 <ActivityIndicator size="large" color="#51bfbb" />
             </View>
@@ -102,7 +102,10 @@ class MessagesScreen extends React.Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                <HeadingText1 style={styles.header}>MESSAGES</HeadingText1>
+
+                <View style={styles.header}>
+                    <HeadingText1 style={styles.headerTitle}> MESSAGES</HeadingText1>
+                </View>
                 {this.state.loading && this.loadingAnimation()}
                 <ScrollView style={styles.container}
                     refreshControl={
@@ -126,26 +129,35 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
     },
     header: {
-        color: Colors.primary,
-        alignSelf: 'center',
+        width: width,
+        height: 50,
+        backgroundColor: Colors.primary,
+        paddingVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    headerTitle : {
         letterSpacing: 1,
-        margin: 20,
+        color: Colors.white,
         fontSize: 25,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     loading: {
         position: "absolute",
-        top: height/2,
-        left: width/2,
+        top: height / 2,
+        left: width / 2,
         zIndex: 10,
         justifyContent: 'center',
         alignItems: 'center'
     },
     chatItemContainer: {
+        marginTop: 15,
         width: width,
         height: 100,
     },
     chatItem: {
-        margin: 10,
+        margin: 5,
         flexDirection: 'row',
     },
     avatar: {
@@ -161,7 +173,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 25,
         marginTop: 5,
         height: 0.5,
-        backgroundColor: Colors.placeholder
+        backgroundColor: Colors.placeholder,
+        opacity: 0.5
     },
     message: {
         fontSize: 15,

@@ -36,6 +36,8 @@ class BusinessScreen extends React.Component {
         reviewTitleInput: '',
         reviewInput: '',
         ratingInput: '',
+        messageSent: false,
+        messageSentError: false
     };
 
     componentDidMount() {
@@ -44,8 +46,18 @@ class BusinessScreen extends React.Component {
 
 //UPDATE USER TO USER ID
     sendMessage(user) {
-        chatController.sendMessageToUser("Lisa")
+        chatController.sendMessageToUser("Alfred", this.state.message)
+            .then((res) => {
+                if (res === 200) {
+                    this.setState({ 
+                        messageSent: true, });
+                } else {
+                    this.setState({ 
+                        messageSentError: true, });
+                }
+            })
     }
+
 
     updateMessage = (message) => {
         this.setState({ message });
@@ -67,6 +79,7 @@ class BusinessScreen extends React.Component {
         const { message } = this.state;
         return(
         <Modal
+            style={{paddingVertical: 50}}
             animationType="slide"
             transparent={false}
             visible={this.state.messageFormVisible}>
@@ -422,7 +435,7 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: "absolute",
-        top: 20,
+        top: 40,
         left: 10,
         margin: 10,
     },
@@ -453,7 +466,7 @@ const styles = StyleSheet.create({
     },
     sendButton: {
         position: "absolute",
-        top: 20,
+        top: 40,
         right: 10,
         margin: 10,
     },
