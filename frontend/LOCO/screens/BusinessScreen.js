@@ -16,16 +16,18 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 
-const { height, width } = Dimensions.get('screen');
 import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import NumericInput from 'react-native-numeric-input'
 import ChatController from '../controllers/ChatController';
-import UserCache from '../caches/UserCache'
-const chatController = new ChatController()
+import userCache from '../caches/UserCache'
+import UserController from '../controllers/UserController';
 
+const userController = new UserController()
+const chatController = new ChatController()
+const { height, width } = Dimensions.get('screen');
 
 class BusinessScreen extends React.Component {
     state = {
@@ -36,16 +38,26 @@ class BusinessScreen extends React.Component {
         reviewTitleInput: '',
         reviewInput: '',
         ratingInput: '',
-        messageSentError: false
+        messageSentError: false,
+        reviewSuccess: false,
+        userID: '',
+        businessID: this.props.navigation.state.params.item._id
     };
 
     componentDidMount() {
         chatController.init()
+        userCache.getUserID()
+            .then((id) => {
+                this.setState({
+                    userID: id
+                })
+            })
+            console.log(this.props.navigation.state.params.item)
     }
 
     //UPDATE USER TO USER ID
-    sendMessage(user) {
-        chatController.sendMessageToUser("Hi", this.state.message)
+    sendMessage() {
+        chatController.sendMessageToUser(this.props.navigation.state.params.item.user, this.state.message)
             .then((res) => {
                 if (res === 200) {
                     this.setState({
@@ -76,6 +88,39 @@ class BusinessScreen extends React.Component {
         this.setState({ ratingInput });
     };
 
+    addReview = async () => {
+        userController.addReview({
+            title: this.state.reviewTitleInput,
+            message: this.state.reviewInput,
+            rating: this.state.ratingInput
+        }, this.state.userID, this.props.navigation.state.params.item._id)
+            .then((res) => {
+                if (res !== 404) {
+                    this.setState({
+                        success: true
+                    })
+
+                    setTimeout(() => {
+                        this.props.navigation.goBack()
+                    }, 1000)
+                }
+            })
+        
+    }
+
+    renderSuccess() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={false}
+                visible={this.state.reviewSuccess}>
+                <View style={styles.modal}>
+                        <HeadingText1 style={{ fontSize: 16, marginTop: 30, marginHorizontal: 15, justifyContent: "center", alignSelf: "center" }}>Successfully added new review!</HeadingText1>
+                </View>
+            </Modal>
+        )
+    }
+
     renderMessageForm() {
         const { message } = this.state;
         return (
@@ -95,7 +140,7 @@ class BusinessScreen extends React.Component {
                 <TouchableOpacity
                     style={styles.sendButton}
                     onPress={() => {
-                        this.sendMessage(this.props.navigation.state.params.item.user);
+                        this.sendMessage();
                     }}>
                     <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
                 </TouchableOpacity>
@@ -122,10 +167,95 @@ class BusinessScreen extends React.Component {
             </Modal>)
     }
 
-    render() {
+
+    renderAddReview() {
         const { reviewTitleInput } = this.state;
         const { reviewInput } = this.state;
         const { ratingInput } = this.state;
+        return (
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.addReviewVisible}>
+                <KeyboardAwareScrollView style={styles.container}>
+                    <View style={{ flex: 1 }}>
+                        <View>
+                            <ScrollView
+                                showsVerticalScrollIndicator={false}
+                                style={styles.modalItemContainer}>
+                                <TouchableOpacity
+                                    style={styles.back}
+                                    onPress={() => { this.setState({ addReviewVisible: false }) }}
+                                // ref={this.props.generateTestHook('CancelEditReview.Button')}
+                                >
+                                    <HeadingText1 style={{ color: Colors.placeholder }}> Cancel </HeadingText1>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.save} onPress={this.addReview}
+                                //ref={this.props.generateTestHook('SaveEditReview.Button')}
+                                >
+                                    <HeadingText1 style={{ color: Colors.primary }}> Add Review </HeadingText1>
+                                </TouchableOpacity>
+                                <View style={styles.innerContainer}>
+                                    <View style={styles.list}>
+                                        <TouchableOpacity style={styles.upload}>
+                                            <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.highlight }}>u p l o a d</ParagraphText2>
+                                            <Image source={require('../assets/icons/icons8-add-image-96.png')} style={{ height: 18, width: 18 }} />
+                                        </TouchableOpacity>
+                                        <TextInput
+                                            //ref={this.props.generateTestHook('ReviewTitle.TextInput')}
+                                            style={styles.reviewTitleInput}
+                                            onChangeText={this.updateReviewTitle}
+                                            inputContainerStyle={{ backgroundColor: Colors.white }}
+                                            containerStyle={{ backgroundColor: '#ffffff' }}
+                                            inputStyle={{ fontSize: 13 }}
+                                            value={reviewTitleInput}
+                                            placeholder={"Give your review a title!"}
+                                            placeholderTextColor={Colors.placeholder} />
+                                        <TextInput
+                                            //ref={this.props.generateTestHook('Review.TextInput')}
+                                            multiline={true}
+                                            style={styles.reviewInput}
+                                            onChangeText={this.updateReview}
+                                            inputContainerStyle={{ backgroundColor: Colors.white }}
+                                            containerStyle={{ backgroundColor: '#ffffff' }}
+                                            inputStyle={{ fontSize: 13 }}
+                                            value={reviewInput}
+                                            placeholder={"Write about your experience!"}
+                                            placeholderTextColor={Colors.placeholder} />
+                                        <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
+                                            <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
+                                            <NumericInput
+                                                containerStyle={{ marginRight: 7 }}
+                                                minValue={0}
+                                                maxValue={5}
+                                                initValue={0}
+                                                onChange={this.updateRating}
+                                                totalWidth={100}
+                                                totalHeight={33}
+                                                separatorWidth={0.5}
+                                                step={1}
+                                                valueType='real'
+                                                rounded
+                                                textColor={Colors.black}
+                                                borderColor={Colors.highlight} />
+                                            <Image style={styles.icon} source={require('../assets/icons/icons8-star-24-grey.png')} />
+                                        </View>
+                                        <View style={{ marginTop: 10, flexDirection: 'row' }}>
+                                            <HeadingText1 style={styles.headerLeft}>S e r v i c e   b y</HeadingText1>
+                                            <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.item.user} </HeadingText2>
+                                        </View>
+                                    </View>
+                                </View>
+                            </ScrollView>
+                        </View>
+                    </View>
+                </KeyboardAwareScrollView>
+            </Modal>
+        )
+    }
+
+
+    render() {
 
         const images = this.props.navigation.state.params.item.images.map((image) => {
             return (
@@ -143,7 +273,7 @@ class BusinessScreen extends React.Component {
         const reviews = this.props.navigation.state.params.item.reviews.map((review) => {
             // only display up to 46 characters of review outside of a review
             var displayReview = review.review;
-            if (review.review.length > 84) {
+            if (review.hasOwnProperty('review') && review.review.length > 84) {
                 displayReview = displayReview.slice(0, 84) + " . . .";
             }
 
@@ -151,9 +281,11 @@ class BusinessScreen extends React.Component {
                 <TouchableWithoutFeedback
                     key={review.title}
                     onPress={() => this.props.navigation.navigate('UserReview', {
+                        id: review._id,
                         rating: review.rating, image: review.image, title: review.title,
                         date: review.date, review: review.review, user: review.user, business: review.business, showEdit: false
                     })}>
+                        {this.state.reviewSuccess && this.renderSuccess()}
                     <View style={styles.reviewContainer}>
                         <View style={styles.rating}>
                             <HeadingText1 style={[styles.shadow, { color: Colors.white }]}> {review.rating} </HeadingText1>
@@ -227,7 +359,7 @@ class BusinessScreen extends React.Component {
                                     <TouchableOpacity
                                         ref={this.props.generateTestHook('Message.Button')}
                                         style={styles.actionButton} onPress={() => { this.setState({ messageFormVisible: true }) }}>
-                                        <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message {this.props.navigation.state.params.item.user}</HeadingText1>
+                                        <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message Cynthia</HeadingText1>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.reviews}>
@@ -249,85 +381,8 @@ class BusinessScreen extends React.Component {
                         </ScrollView>
                     </ImageBackground>
                 </View>
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.addReviewVisible}>
-                    <KeyboardAwareScrollView style={styles.container}>
-                        <View style={{ flex: 1 }}>
-                            <View>
-                                <ScrollView
-                                    showsVerticalScrollIndicator={false}
-                                    style={styles.modalItemContainer}>
-                                    <TouchableOpacity
-                                        style={styles.back}
-                                        onPress={() => { this.setState({ addReviewVisible: false }) }}
-                                    // ref={this.props.generateTestHook('CancelEditReview.Button')}
-                                    >
-                                        <HeadingText1 style={{ color: Colors.primary }}> Cancel </HeadingText1>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.save} onPress={() => { this.setState({ addReviewVisible: false }) }}
-                                    //ref={this.props.generateTestHook('SaveEditReview.Button')}
-                                    >
-                                        <HeadingText1 style={{ color: Colors.primary }}> Save </HeadingText1>
-                                    </TouchableOpacity>
-                                    <View style={styles.innerContainer}>
-                                        <View style={styles.list}>
-                                            <TouchableOpacity style={styles.upload}>
-                                                <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.highlight }}>u p l o a d</ParagraphText2>
-                                                <Image source={require('../assets/icons/icons8-add-image-96.png')} style={{ height: 18, width: 18 }} />
-                                            </TouchableOpacity>
-                                            <TextInput
-                                                //ref={this.props.generateTestHook('ReviewTitle.TextInput')}
-                                                style={styles.reviewTitleInput}
-                                                onChangeText={this.updateReviewTitle}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={reviewTitleInput}
-                                                placeholder={"Give your review a title!"}
-                                                placeholderTextColor={Colors.placeholder} />
-                                            <TextInput
-                                                //ref={this.props.generateTestHook('Review.TextInput')}
-                                                multiline={true}
-                                                style={styles.reviewInput}
-                                                onChangeText={this.updateReview}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={reviewInput}
-                                                placeholder={"Write about your experience!"}
-                                                placeholderTextColor={Colors.placeholder} />
-                                            <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
-                                                <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
-                                                <NumericInput
-                                                    containerStyle={{ marginRight: 7 }}
-                                                    minValue={0}
-                                                    maxValue={5}
-                                                    initValue={0}
-                                                    onChange={this.updateRating}
-                                                    totalWidth={100}
-                                                    totalHeight={33}
-                                                    separatorWidth={0.5}
-                                                    step={1}
-                                                    valueType='real'
-                                                    rounded
-                                                    textColor={Colors.black}
-                                                    borderColor={Colors.highlight} />
-                                                <Image style={styles.icon} source={require('../assets/icons/icons8-star-24-grey.png')} />
-                                            </View>
-                                            <View style={{ marginTop: 10, flexDirection: 'row' }}>
-                                                <HeadingText1 style={styles.headerLeft}>S e r v i c e   b y</HeadingText1>
-                                                <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.item.user} </HeadingText2>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </ScrollView>
-                            </View>
-                        </View>
-                    </KeyboardAwareScrollView>
-                </Modal>
 
+                {this.renderAddReview()}
                 {this.renderMessageForm()}
 
             </View>

@@ -25,6 +25,7 @@ import NumericInput from 'react-native-numeric-input'
 
 class ReviewScreen extends React.Component {
     state = {
+        id: this.props.navigation.state.params.id,
         showEdit: this.props.navigation.state.params.showEdit,
         editReviewVisible: false,
         reviewTitleInput: this.props.navigation.state.params.title,

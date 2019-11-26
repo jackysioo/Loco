@@ -47,10 +47,10 @@ class UserScreen extends React.Component {
                 userController.getUser(id)
                     .then((data) => {
                         this.user = data.user
+                        userCache.storeData(id, data.user.toString())
                         this.setState({
                             ready: true
                         })
-                        userCache.storeData(id, data.user.toString())
                     })
             })
     }
@@ -81,11 +81,10 @@ class UserScreen extends React.Component {
 
     renderUser() {
         var count = 0;  // for testing purposes 
-
         const reviews = this.user.reviews.map((review) => {
             // only display up to 46 characters of review outside of a review
             var displayReview = review.review;
-            if (review.review.length > 84) {
+            if (review.hasOwnProperty('review') && review.review.length > 84) {
                 displayReview = displayReview.slice(0, 84) + " . . .";
             }
             count++;
@@ -185,7 +184,6 @@ class UserScreen extends React.Component {
             serviceTitle = <HeadingText1 style={styles.header}>S E R V I C E S</HeadingText1>;
         }
 
-        console.log(this.user);
         return (
             <View style={styles.container}>
                 {this.renderSignOut()}
