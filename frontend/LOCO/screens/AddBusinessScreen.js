@@ -20,6 +20,10 @@ import { Colors, Images, businesses, user } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy'
+import userCache from '../caches/UserCache'
+import mapController from "../controllers/MapController";
+import UserController from '../controllers/UserController';
+const userController = new UserController()
 
 
 class AddBusinessScreen extends React.Component {
@@ -30,8 +34,19 @@ class AddBusinessScreen extends React.Component {
         regionInput: '',
         tag1Input: '',
         tag2Input: '',
-        tag3Input: ''
+        tag3Input: '',
+        userID: '',
+        success: false
     };
+
+    componentDidMount() {
+        userCache.getUserID()
+            .then((id) => {
+                this.setState({
+                    userID: id
+                })
+            })
+    }
 
     updateBusinessTitle = (businessTitleInput) => {
         this.setState({ businessTitleInput });
@@ -61,6 +76,47 @@ class AddBusinessScreen extends React.Component {
         this.setState({ tag3Input });
     };
 
+    addBusiness = async () => {
+        const location = await mapController.geocodeFromCity(this.state.regionInput)
+        const geocode = {
+            lat: location.lat,
+            long: location.long
+        }
+        userController.addBusiness({
+            title: this.state.businessTitleInput,
+            about: this.state.aboutInput,
+            price: this.state.priceInput,
+            region: this.state.regionInput,
+            location: geocode,
+            tags: [this.state.tag1Input, this.state.tag2Input, this.state.tag3Input]
+        }, this.state.userID)
+            .then((res) => {
+                if (res !== 404) {
+                    this.setState({
+                        success: true
+                    })
+
+                    setTimeout(() => {
+                        this.props.navigation.goBack()
+                    }, 1000)
+                }
+            })
+    }
+
+
+    renderSuccess() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={false}
+                visible={this.state.success}>
+                <View style={styles.modal}>
+                        <HeadingText1 style={{ fontSize: 16, marginTop: 30, marginHorizontal: 15, justifyContent: "center", alignSelf: "center" }}>Successfully added new business!</HeadingText1>
+                </View>
+            </Modal>
+        )
+    }
+
     render() {
 
         const { aboutInput } = this.state;
@@ -73,6 +129,7 @@ class AddBusinessScreen extends React.Component {
 
         return (
             <KeyboardAwareScrollView style={styles.container}>
+                {this.state.success && this.renderSuccess()}
                 <View style={{ flex: 1 }}>
                     <ImageBackground
                         source={{ uri: businesses[0].images[0] }}
@@ -83,10 +140,10 @@ class AddBusinessScreen extends React.Component {
                             <TouchableOpacity
                                 ref={this.props.generateTestHook('AddServiceBack.Button')}
                                 style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
-                                <HeadingText1 style={styles.heading1}>Back</HeadingText1>
+                                <HeadingText1 style={styles.heading1}>Cancel</HeadingText1>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.saveButton} onPress={() => this.props.navigation.goBack()}>
-                                <HeadingText1 style={styles.heading1}>Save</HeadingText1>
+                            <TouchableOpacity style={styles.saveButton} onPress={this.addBusiness}>
+                                <HeadingText1 style={styles.heading1}>Add</HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
@@ -188,6 +245,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0)'
+    },
+    modal: {
+        backgroundColor: Colors.white,
+        minHeight: height * 0.15,
+        marginTop: height * 0.45,
+        marginHorizontal: 10,
+        borderRadius: 20,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 150,
+        paddingVertical: 5
     },
     profileBackground: {
         height: height / 2,

@@ -3,11 +3,15 @@ import { withNavigation } from 'react-navigation';
 import PropTypes from 'prop-types';
 import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Text, View } from 'react-native';
 
-const { height, width } = Dimensions.get('screen');
 import { Colors } from '../constants';
+import UserController from '../controllers/UserController';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from './Texts';
 
+const userController = new UserController()
+const { height, width } = Dimensions.get('screen');
+
 class SearchResult extends React.Component {
+
     render() {
         const { navigation, item } = this.props;
         const resultContainer = [styles.result, styles.shadow];

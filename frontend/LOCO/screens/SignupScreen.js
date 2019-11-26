@@ -12,7 +12,7 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
-    KeyboardAvoidingView,
+    ActivityIndicator,
     Modal
 } from 'react-native';
 
@@ -21,9 +21,11 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy';
 import UserController from '../controllers/UserController';
+import ChatController from '../controllers/ChatController';
 import userCache from '../caches/UserCache'
 
 const userController = new UserController()
+const chatController = new ChatController()
 const { height, width } = Dimensions.get('screen');
 
 class SignupScreen extends React.Component {
@@ -39,7 +41,7 @@ class SignupScreen extends React.Component {
         emailInput: '',
         bioInput: '',
         passwordInput: '',
-        profilePic: '',
+        profilePic: 'https://images.unsplash.com/photo-1485893086445-ed75865251e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80',
         loading: false,
         errorSignUp: false,
         usernameError: null,
@@ -147,10 +149,13 @@ class SignupScreen extends React.Component {
             .then((response) => {
                 if (response !== 404) {
                     userCache.storeUserID(response.user._id)
-                    userCache.storeData(response.user._id, data.toString())
+                    userCache.storeData(response.user._id, response.toString())
+
                     this.setState({
                         loading: true
                     })
+
+                    chatController.createUser(response.user._id, response.user.username)
                     setTimeout(() => {
                         this.props.navigation.navigate("Main")
                     }, 2000)
@@ -242,6 +247,7 @@ class SignupScreen extends React.Component {
 
         return (
             <View style={styles.body}>
+                {this.state.loading && this.renderLoading()}
                 <KeyboardAwareScrollView
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scroll_container}
@@ -278,7 +284,7 @@ class SignupScreen extends React.Component {
                                     !!this.state.addressLineError || !!this.state.addressCityError ||
                                     !!this.state.addressPostalCodeError || !!this.state.addressPostalCodeError ||
                                     !!this.state.emailError)
-                                 && (<Text style={{ marginVertical: 15, color: Colors.error, fontSize: 12 }}>
+                                    && (<Text style={{ marginVertical: 15, color: Colors.error, fontSize: 12 }}>
                                         * Please fill out the required inputs.</Text>)}
 
                                 <View style={styles.innerInfo}>

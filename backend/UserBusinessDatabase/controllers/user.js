@@ -78,7 +78,7 @@ exports.getUserData = (req, res, next) => {
     User.find()
         .populate('reviews')
         .exec()
-        .then(users => { 
+        .then((users) => { 
         res.status(200).json({ users: users }) 
         }).catch((err) => {
             if (!err.statusCode) {
