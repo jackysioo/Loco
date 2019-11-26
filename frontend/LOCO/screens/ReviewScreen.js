@@ -52,7 +52,7 @@ class ReviewScreen extends React.Component {
 
         var editButton;
 
-        if (showEdit == true) {
+        if (showEdit === true) {
             editButton = <TouchableOpacity style={styles.edit} onPress={() => { this.setState({ editReviewVisible: true }) }}
                 ref={this.props.generateTestHook('EditReview.Button')}>
                 <HeadingText1 style={[{ color: Colors.white }, styles.shadow]}> Edit </HeadingText1>

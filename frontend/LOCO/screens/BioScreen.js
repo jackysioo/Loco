@@ -208,7 +208,7 @@ class BioScreen extends React.Component {
                                 <View style={styles.info}>
                                     <HeadingText1 style={{
                                         alignSelf: 'center', marginBottom: 8, color: Colors.primary
-                                    }}>Y O U R  I N F O R M A T I O N</HeadingText1>
+                                    }}>A B O U T</HeadingText1>
                                     <View style={{ justifyContent: 'space-between' }}>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Username:</HeadingText1>
@@ -333,7 +333,7 @@ class BioScreen extends React.Component {
                                         </View>
                                         <HeadingText1 style={{
                                             alignSelf: 'center', marginBottom: 8, color: Colors.primary, marginTop: 30
-                                        }}>A B O U T  M E</HeadingText1>
+                                        }}>B I O</HeadingText1>
                                         <View style={styles.innerInfo}>
                                             <TextInput
                                                 ref={this.props.generateTestHook('AboutMe.TextInput')}
@@ -363,7 +363,7 @@ class BioScreen extends React.Component {
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{
                                         marginBottom: 3, color: Colors.primary
-                                    }}>Y O U R  S E R V I C E S</HeadingText1>
+                                    }}>S E R V I C E S</HeadingText1>
                                     {services}
                                 </View>
                                 <TouchableOpacity style={styles.addService} onPress={() => navigation.navigate('AddBusiness')}>
