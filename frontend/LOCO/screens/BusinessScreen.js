@@ -109,7 +109,7 @@ class BusinessScreen extends React.Component {
 
         const images = this.props.navigation.state.params.item.images.map((image) => {
             return (
-                <Image source={{ uri: image }} key={image} style={{ width: 170, height: 170 }} />
+                <Image source={{ uri: image }} key={image} style={{ width: 195, height: 195, margin: 1 }} />
             )
         })
         const tags = this.props.navigation.state.params.item.tags.map((tag) => {
@@ -213,7 +213,7 @@ class BusinessScreen extends React.Component {
                                     <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
                                 </TouchableOpacity>
                                 <View style={styles.photos}>
-                                    <HeadingText1 style={{ marginBottom: 10, alignSelf: 'center', marginTop: 10, color: Colors.placeholder }}>P H O T O S</HeadingText1>
+                                    <HeadingText1 style={{ marginBottom: 10, alignSelf: 'center', marginTop: 10, color: Colors.placeholder }}>P H O T O  G A L L E R Y</HeadingText1>
                                     <View style={styles.gallery}>
                                         {images}
                                     </View>
@@ -659,8 +659,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
     },
     gallery: {
-        flex: 1,
+        flexWrap: 'wrap',
         flexDirection: "row",
+        alignContent: 'center',
+        marginBottom: 20,
     }
 });
 

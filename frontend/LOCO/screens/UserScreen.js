@@ -118,6 +118,9 @@ class UserScreen extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             style={{ marginTop: '5%' }}>
+                            <TouchableOpacity style={styles.signoutButton}>
+                                <HeadingText1 style={[styles.shadow, { color: Colors.white }]}>Sign Out</HeadingText1>
+                            </TouchableOpacity>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
                                     <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
@@ -228,10 +231,6 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         alignSelf: 'center',
         letterSpacing: 2,
-        /*shadowColor: Colors.placeholder,
-        shadowOffset: { width: -2, height: 2 },
-        shadowRadius: 0,
-        shadowOpacity: 1,*/
     },
     itemContainer: {
         flex: 1,
@@ -242,6 +241,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0)',
+    },
+    signoutButton: {
+        position: "absolute",
+        right: 10,
+        margin: 10,
     },
     profileBackground: {
         height: height / 2,
