@@ -7,7 +7,6 @@ import {
 import { ChatManager, TokenProvider } from "@pusher/chatkit-client";
 
 const instanceLocatorId = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
-const chatServer = "http://loco.eastus.cloudapp.azure.com:1337/chat";
 const tokenProvider = new TokenProvider({
     url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0d19d6c4-7553-472b-8f65-3af90e0c9407/token'
 });
@@ -16,13 +15,23 @@ const tokenProvider = new TokenProvider({
 class LOCOChatManager extends React.Component {
     state = {
         roomID: this.props.roomID,
-        userID: this.props.userID,
         otherUserID: this.props.otherUserID,
     }
 
     constructor(props) {
         super(props);
         this.currentUser = null;
+        this.userID = null
+    }
+
+    async init() {
+        try {
+            const userID = await userCache.getUserID()
+            this.userID = userID
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     refresh(oldestMessageId) {
@@ -42,7 +51,7 @@ class LOCOChatManager extends React.Component {
     subscribe() {
         this.chatManager = new ChatManager({
             instanceLocator: instanceLocatorId,
-            userId: this.state.userID,
+            userId: this.userID,
             tokenProvider
         });
         this.chatManager

@@ -19,6 +19,8 @@ import ChatController from '../controllers/ChatController';
 import { Colors } from '../constants';
 import { HeadingText1 } from '../components/Texts';
 import LOCOChatManager from '../controllers/LOCOChatManager';
+import userCache from '../caches/UserCache'
+
 const { width, height } = Dimensions.get("screen");
 const chatController = new ChatController()
 
@@ -26,43 +28,30 @@ const chatController = new ChatController()
 export default class ChatScreen extends React.Component {
   state = {
     roomID: this.props.navigation.state.params.roomID,
-    userID: this.props.navigation.state.params.userID,
     otherUserID: this.props.navigation.state.params.otherUserID,
     message: '',
     messages: [],
     chatWithUserIsTyping: false,
     refreshing: false,
-    loading: true
+    loading: true,
+    userID: ''
   };
 
   componentDidMount() {
-    this.chatRef.subscribe()
-    // chatController.loadChat(this.props.navigation.state.params.roomID)
-    //   .then((messages) => {
-    //     let messageList = [...this.state.messages];
-    //     for (let message of messages) {
-    //       for (let text of message.parts) {
-    //         if (text.type === "text/plain") {
-    //           let isCurrentUser = message.user_id == this.state.userID ? true : false
-    //           messageList.push({
-    //             key: message.id.toString(),
-    //             userID: message.user_id,
-    //             message: text.content,
-    //             timestamp: message.created_at,
-    //             isCurrentUser
-    //           })
-    //         }
-    //       }
-    //     }
-    //     this.setState({
-    //       messages: messageList
-    //     }, () => {
-    //       this.setState({
-    //         loadMessages: true
-    //       })
-    //     })
-    //   })
+    chatController.init()
+      .then(() => {
+        userCache.getUserID()
+          .then((id) => {
+            this.setState({
+              userID: id
+            }, () => {
+              this.chatRef.init()
+                .then(() => { this.chatRef.subscribe() })
+            })
+          })
+      })
   }
+
 
   onReceiveMessage = (message) => {
     let isCurrentUser = this.state.userID == message.sender.id ? true : false;
@@ -153,12 +142,12 @@ export default class ChatScreen extends React.Component {
 
 
   loadingAnimation() {
-    return(
-        <View style={styles.loading}>
-            <ActivityIndicator size="large" color="#51bfbb" />
-        </View>
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color="#51bfbb" />
+      </View>
     )
-}
+  }
 
   render() {
 
@@ -219,7 +208,6 @@ export default class ChatScreen extends React.Component {
         </View>
         <LOCOChatManager
           ref={(ref) => { this.chatRef = ref }}
-          userID={this.state.userID}
           roomID={this.state.roomID}
           otherUserID={this.state.otherUserID}
           onReceiveMessage={this.onReceiveMessage}
@@ -277,12 +265,12 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   loading: {
-      position: "absolute",
-      top: height/2,
-      left: width/2,
-      zIndex: 10,
-      justifyContent: 'center',
-      alignItems: 'center'
+    position: "absolute",
+    top: height / 2,
+    left: width / 2,
+    zIndex: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   headerTitle: {
     fontSize: 20,

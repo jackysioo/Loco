@@ -22,6 +22,9 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 import { hook } from 'cavy';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import NumericInput from 'react-native-numeric-input'
+import ChatController from '../controllers/ChatController';
+import UserCache from '../caches/UserCache'
+const chatController = new ChatController()
 
 
 class BusinessScreen extends React.Component {
@@ -35,14 +38,14 @@ class BusinessScreen extends React.Component {
         ratingInput: '',
     };
 
-
-    sendMessage(user) {
-        //send user message
+    componentDidMount() {
+        chatController.init()
     }
 
-    updateSubject = (subject) => {
-        this.setState({ subject });
-    };
+//UPDATE USER TO USER ID
+    sendMessage(user) {
+        chatController.sendMessageToUser("Lisa")
+    }
 
     updateMessage = (message) => {
         this.setState({ message });
@@ -59,6 +62,44 @@ class BusinessScreen extends React.Component {
     updateRating = (ratingInput) => {
         this.setState({ ratingInput });
     };
+
+    renderMessageForm() {
+        return(
+        <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.messageFormVisible}>
+            <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => {
+                    this.setState({ messageFormVisible: false })
+                }}>
+                <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Cancel</HeadingText1>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.sendButton}
+                onPress={() => {
+                    this.sendMessage(this.props.navigation.state.params.item.user);
+                }}>
+                <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
+            </TouchableOpacity>
+            <View style={styles.messageFormContainer}>
+                <TextInput
+                    multiline
+                    numberOfLines={6}
+                    style={[{ height: 200 }, styles.messageInput]}
+                    onChangeText={this.updateMessage}
+                    inputContainerStyle={{ backgroundColor: Colors.white }}
+                    containerStyle={{ backgroundColor: '#ffffff' }}
+                    inputStyle={{ fontSize: 13 }}
+                    value={message}
+                    placeholder="Type your message here..."
+                    placeholderTextColor={Colors.placeholder}
+                    returnKeyType="send"
+                />
+            </View>
+        </Modal>)
+    }
 
     render() {
         const { subject } = this.state;
@@ -260,50 +301,9 @@ class BusinessScreen extends React.Component {
                         </View>
                     </KeyboardAwareScrollView>
                 </Modal>
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.messageFormVisible}>
-                    <TouchableOpacity
-                        style={styles.backButton}
-                        onPress={() => {
-                            this.setState({ messageFormVisible: false })
-                        }}>
-                        <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Cancel</HeadingText1>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.sendButton}
-                        onPress={() => {
-                            this.sendMessage(this.props.navigation.state.params.item.user);
-                        }}>
-                        <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
-                    </TouchableOpacity>
-                    <View style={styles.messageFormContainer}>
-                        <TextInput
-                            style={[{ height: 40 }, styles.messageInput]}
-                            onChangeText={this.updateSubject}
-                            inputContainerStyle={{ backgroundColor: Colors.white }}
-                            containerStyle={{ backgroundColor: '#ffffff' }}
-                            inputStyle={{ fontSize: 13 }}
-                            value={subject}
-                            placeholder="Subject"
-                            placeholderTextColor={Colors.placeholder}
-                        />
-                        <TextInput
-                            multiline
-                            numberOfLines={6}
-                            style={[{ height: 200 }, styles.messageInput]}
-                            onChangeText={this.updateMessage}
-                            inputContainerStyle={{ backgroundColor: Colors.white }}
-                            containerStyle={{ backgroundColor: '#ffffff' }}
-                            inputStyle={{ fontSize: 13 }}
-                            value={message}
-                            placeholder="Type your message here..."
-                            placeholderTextColor={Colors.placeholder}
-                            returnKeyType="send"
-                        />
-                    </View>
-                </Modal>
+
+                {this.renderMessageForm()}
+
             </View>
         );
     }

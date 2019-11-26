@@ -4,24 +4,34 @@ import {
     Image,
     View,
 } from 'react-native';
-import { ChatManager, TokenProvider } from "@pusher/chatkit-client";
-
-const instanceLocatorId = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
+import userCache from '../caches/UserCache'
 const chatServer = "http://loco.eastus.cloudapp.azure.com:1337/chat";
-const tokenProvider = new TokenProvider({
-    url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0d19d6c4-7553-472b-8f65-3af90e0c9407/token'
-});
 
 
 class ChatController extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.userID = null
+    }
+
+    async init() {
+        try {
+            const userID = await userCache.getUserID()
+            this.userID = userID
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     //check if a chatroom already exists between the current user and the other user
     //if chatroom does not exist, create a chatroom between current user and other user
     //if chatroom exists, load the chatroom between current user and other user
-    sendMessageToUser(userID, otherUserID) {
+    sendMessageToUser(otherUserID, message) {
         var chatExists = false
 
-        fetch(chatServer + "/messages?id=" + userID, {
+        fetch(chatServer + "/messages?id=" + this.userID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -33,7 +43,7 @@ class ChatController extends React.Component {
                     for (let id of room.member_user_ids) {
                         if (otherUserID === id) {
                             chatExists = true
-                            this.loadChat(room.id)
+                            this.sendMessageToRoom(this.userID, room.id, message)
                         }
                     }
                 }
@@ -49,9 +59,9 @@ class ChatController extends React.Component {
 
 
     //GET all of user's previous chatrooms
-    async getChats(userID) {
+    async getChats() {
         try {
-            const response = await fetch(chatServer + "/chats?id=" + userID, {
+            const response = await fetch(chatServer + "/chats?id=" + this.userID, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -59,9 +69,10 @@ class ChatController extends React.Component {
             });
             const rooms = await response.json();
             var chats = [];
+            console.log(chats)
             for (let room of rooms) {
                 for (let id of room.member_user_ids) {
-                    if (id !== userID) {
+                    if (id !== this.userID) {
                         // const username = await this.getUser(id)
                         const message = await this._getLatestMessage(room.id)
                         chats.push({
@@ -83,7 +94,7 @@ class ChatController extends React.Component {
 
 
     //GET user's data
-    async getUser(userID) {
+    async getUser() {
         try {
             const response = await fetch(chatServer + "/users?id=" + userID, {
                 method: "GET",
@@ -101,7 +112,7 @@ class ChatController extends React.Component {
 
 
     //GET user's data
-    async createUser(userID, name) {
+    async createUser(id, name) {
         try {
             const response = await fetch(chatServer + "/users", {
                 method: "POST",
@@ -109,7 +120,7 @@ class ChatController extends React.Component {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    userID: userID,
+                    userID: id,
                     name: name
                 })
             });
@@ -143,7 +154,7 @@ class ChatController extends React.Component {
 
 
     //sends a message in the chatroom with roomID
-    sendMessageToRoom(userID, roomID, message) {
+    sendMessageToRoom(roomID, message) {
         fetch(chatServer + "/messages", {
             method: "POST",
             headers: {
@@ -175,13 +186,13 @@ class ChatController extends React.Component {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    userID: this.state.userID,
+                    userID: this.userID,
                     otherUserID: otherUserID
                 })
             });
             if (res.ok) {
                 console.log("successfully created new room in controller");
-                this.loadChat(res.roomID);
+                return(res.roomID);
             }
         }
         catch (err) {
