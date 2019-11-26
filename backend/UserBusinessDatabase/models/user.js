@@ -30,17 +30,16 @@ const userSchema = new Schema({
   searchId: String
 });  
 
-userSchema.pre('save',async function(next){  
+userSchema.methods.encrypt = async function(){  
   try{ 
    const salt = await bcrypt.genSalt(10); 
   const hashedPassword =  await bcrypt.hash(this.password,salt); 
   this.password = hashedPassword;
-  next();
   }catch(error){ 
-    next(error);
+    throw new Error(error);
   }
 
-}); 
+}; 
 
 userSchema.methods.isValidPassword = async function(newPassword){ 
   try{ 

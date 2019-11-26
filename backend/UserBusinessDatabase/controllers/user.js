@@ -54,7 +54,9 @@ exports.signUp = async (req, res, next) => {
         }
 
         const userObj = { ...req.body.user, searchId: searchId._id };
-        const user = new User(userObj);
+        const user = new User(userObj); 
+
+        await user.encrypt();
 
         const result = await user.save(); 
 
