@@ -61,7 +61,23 @@ describe('User Integration Tests', () => {
         done();
       });   
 
-      
+      it('Can sign in', async done => {
+        const response = await request.post('/user/signIn').send({username : "userData[0].username",password: userData[0].password}); 
+        expect(response.status).toBe(401)
+        done();
+      });   
+
+      it('Can make a get request getting a user by id', async (done) => { 
+        
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
+        const id = user.body.user._id; 
+
+        const response = await request.get('/user/get/'+(id+1)); 
+
+        expect(response.status).toBe(500);
+        
+        done();
+      });    
 
       it('Can make a get request getting a user by id', async (done) => { 
         
@@ -84,12 +100,19 @@ describe('User Integration Tests', () => {
         const response = await request.put('/user/put/'+id).send({user : {username: 'changed name'}}); 
 
         expect(response.status).toBe(200);
-        expect(response.body.user.username).toBe('changed name'); 
+        expect(response.body.user.username).toBe('changed name');  
 
+        const response4 = await request.put('/user/put/').send({user : {username: 'changed name'}}); 
+        expect(response4.status).toBe(404);
+       
         const response2 = await request.delete('/user/delete/'+id); 
 
         expect(response2.status).toBe(200);
-        expect(response2.body.message).toBe('deleted');
+        expect(response2.body.message).toBe('deleted'); 
+
+        const response3 = await request.delete('/user/delete/'+id); 
+        expect(response3.status).toBe(404); 
+
         
         done();
       });   
@@ -97,59 +120,43 @@ describe('User Integration Tests', () => {
     
 }); 
 
-// describe('User Unit Tests', () => { 
+describe('User Unit Tests', () => { 
 
-//   const mockRequest = (sessionData, body,params) => ({
-//     session: { data: sessionData },
-//     body, 
-//     params
-//   });
+  const mockRequest = (sessionData, body,params) => ({
+    session: { data: sessionData },
+    body, 
+    params
+  });
   
-//   const mockResponse = () => {
-//     const res = {};
-//     res.status = jest.fn().mockReturnValue(res);
-//     res.json = jest.fn().mockReturnValue(res);
-//     return res;
-//   }; 
+  const mockResponse = () => {
+    const res = {};
+    res.status = jest.fn().mockReturnValue(res);
+    res.json = jest.fn().mockReturnValue(res);
+    return res;
+  }; 
 
-//   const mockNext = jest.fn();
+  const mockNext = jest.fn();
 
+
+    it('can successfully update data in DB', async (done) => {  
+      const user = new userModel(userData[0]);
+
+     const id = await user.save();  
+
+      const req = mockRequest(
+        {},
+        {user : {title : 'new title'}}, 
+        { userId : id.id}
+      ); 
+      const res = mockResponse(); 
+      const next = mockNext;
+      const result =  await userController.getSuggestions(req, res,next);
+        expect(res.status).toHaveBeenCalledWith(200);
   
-
-//   it('can successfully add data to DB', async (done) => { 
-//     const req = mockRequest(
-//       {},
-//       { user : userData[0] }, 
-//       {}
-//     ); 
-//     const res = mockResponse(); 
-//     const next = mockNext;
-//     const result =  await userController.postUserData(req, res,next);
-//       expect(res.status).toHaveBeenCalledWith(201);
-//       expect(res.json).toHaveBeenCalledWith(expect.anything());
-      
-//       done();
-//     });  
-
-//     it('can successfully update data in DB', async (done) => {  
-//       const user = new userModel(userData[0]);
-
-//      const id = await user.save();  
-
-//       const req = mockRequest(
-//         {},
-//         {user : {title : 'new title'}}, 
-//         { userId : id.id}
-//       ); 
-//       const res = mockResponse(); 
-//       const next = mockNext;
-//       const result =  await userController.updateUserData(req, res,next);
-//         expect(res.status).toHaveBeenCalledWith(200);
-//         expect(res.json).toHaveBeenCalledWith(expect.anything());
         
-//         done();
-//       }); 
+        done();
+      }); 
 
   
 
-// });
+});
