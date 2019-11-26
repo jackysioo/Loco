@@ -1,5 +1,7 @@
 _ = require('underscore');
 SuggestionDb = require('../models/suggestion');
+SimilarDb = require('../models/suggestion'); 
+var mongoose = require('mongoose');
 
 module.exports = class Suggestion {
     constructor(engine) {
@@ -13,17 +15,19 @@ module.exports = class Suggestion {
     async update(userId) {
         try {
             //find one similar by User id 
-            const others = await this.engine.similars.byUser(userId);
+            const others = (await this.engine.similars.byUser(userId));  
+            const othersSimilarity = others.similarity.map((similar) => {return {user: similar.user.toString(), score: similar.score}});
+            
             //find all items the User likes 
-            const userLikes = await this.engine.likes.itemsByUser(userId);
+            const userLikes = (await this.engine.likes.itemsByUser(userId)).map((objectId) =>{return objectId.toString()});
             //find all items the User dislikes
-            const userDislikes = await this.engine.dislikes.itemsByUser(userId);
+            const userDislikes = (await this.engine.dislikes.itemsByUser(userId)).map((objectId) =>{return objectId.toString()});
             //for each similar 
 
 
-            const items = await Promise.all(others.similarity.map(async (other) => {
+            const items = await Promise.all(othersSimilarity.map(async (other) => {
                 return await Promise.all([this.engine.likes, this.engine.dislikes].map(async rater => {
-                    return await rater.itemsByUser(other.user);
+                    return (await rater.itemsByUser(mongoose.Types.ObjectId(other.user))).map((objectId) =>{return objectId.toString()});
                 }));
             }));
 
@@ -32,21 +36,20 @@ module.exports = class Suggestion {
             const suggestions = await Promise.all(uniqueItems.map(async (item) => {
 
                 //find all the users that like and dislike this item
-                const likers = await this.engine.likes.usersByItem(item);
-                const dislikers = await this.engine.dislikes.usersByItem(item);
+                const likers = (await this.engine.likes.usersByItem(item)).map((objectId) =>{return objectId.toString()});
+                const dislikers = (await this.engine.dislikes.usersByItem(item)).map((objectId) =>{return objectId.toString()});
 
                 var numerator = 0;
                 //ref is an array of other users that rated this item, exculding the user 
-                const likersLength = _.without(_.flatten(likers), userId).length;
-                var ref = _.without(_.flatten([likers, dislikers]), userId);
+                const likersLength = _.without(_.flatten(likers), userId.toString()).length;
+                var ref = _.without(_.flatten([likers, dislikers]), userId.toString());
                 var len;
 
                 for (var i = 0, len = ref.length; i < len; i++) {
                     var other = ref[i];
-                    other = _.findWhere(others.similarity, {
+                    other = _.findWhere(othersSimilarity, { 
                         user: other
-                    });
-
+                    }); 
                     // need to check if like or dislike
                     if (other != null) {
                         if (i < likersLength) {
@@ -58,7 +61,7 @@ module.exports = class Suggestion {
                     }
 
                 }
-                return { business: item, weight: numerator / _.union(likers, dislikers).length };
+                return { business: mongoose.Types.ObjectId(item), weight: numerator / _.union(likers, dislikers).length };
             }));
 
             await SuggestionDb.findOneAndUpdate({ user: userId }, { _id: userId, user: userId, suggestions: suggestions }, { new: true, upsert: true });
