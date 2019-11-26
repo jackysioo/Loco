@@ -12,7 +12,8 @@ import {
     ImageBackground,
     TouchableOpacity,
     TextInput,
-    Modal
+    Modal,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
@@ -115,32 +116,41 @@ class BusinessScreen extends React.Component {
             )
         })
         const reviews = this.props.navigation.state.params.item.reviews.map((review) => {
+            // only display up to 46 characters of review outside of a review
+            var displayReview = review.review;
+            if (review.review.length > 84) {
+                displayReview = displayReview.slice(0, 84) + " . . .";
+            }
+
             return (
-                <View key={review.title} style={styles.reviewContainer}>
-                    <View style={styles.rating}>
-                        <HeadingText1 style={{
-                            color: Colors.white, shadowColor: Colors.black,
-                            shadowOffset: { width: -1, height: 1 },
-                            shadowRadius: 1,
-                            shadowOpacity: 1,
-                        }}> {review.rating} </HeadingText1>
-                        <Image style={[styles.ratingIcon, {
-                            shadowColor: Colors.black,
-                            shadowOffset: { width: -1, height: 1 },
-                            shadowRadius: 1,
-                            shadowOpacity: 1,
-                        }]} source={require('../assets/icons/icons8-star-24.png')} />
-                    </View>
-                    <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
-                    <View style={{ margin: 15 }}>
-                        <View style={styles.review}>
-                            <HeadingText1>{review.title}</HeadingText1>
-                            <Text style={{ color: Colors.placeholder }}>{review.date}</Text>
+                <TouchableWithoutFeedback
+                    key={review.title}
+                    onPress={() => this.props.navigation.navigate('UserReview', {
+                        rating: review.rating, image: review.image, title: review.title,
+                        date: review.date, review: review.review, user: review.user, business: review.business, showEdit: false
+                    })}>
+                    <View style={styles.reviewContainer}>
+                        <View style={styles.rating}>
+                            <HeadingText1 style={[styles.shadow, { color: Colors.white }]}> {review.rating} </HeadingText1>
+                            <Image style={[styles.ratingIcon, styles.shadow]} source={require('../assets/icons/icons8-star-24.png')} />
                         </View>
-                        <Text>{review.review}</Text>
+                        <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
+                        <View style={{ margin: 15 }}>
+                            <View style={styles.review}>
+                                <HeadingText1>{review.title}</HeadingText1>
+                                <Text style={{ color: Colors.placeholder }}>{review.date}</Text>
+                            </View>
+                            <Text>{displayReview}</Text>
+                        </View>
                     </View>
-                </View>)
+                </TouchableWithoutFeedback>)
         })
+
+        // only display 6 or less reviews on Business Screen
+        var displayReviews = reviews;
+        if (reviews.length > 6) {
+            displayReviews = displayReviews.slice(0, 6);
+        }
 
         return (
             <View style={styles.container}>
@@ -192,8 +202,12 @@ class BusinessScreen extends React.Component {
                                         <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.primary }}>w r i t e  r e v i e w</ParagraphText2>
                                         <Image source={require('../assets/icons/icons8-inspection-96.png')} style={{ height: 18, width: 18 }} />
                                     </TouchableOpacity>
-                                    {reviews}
+                                    {displayReviews}
                                 </View>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('Reviews',
+                                    { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}                                   >
+                                    <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
+                                </TouchableOpacity>
                             </View>
                         </ScrollView>
                     </ImageBackground>
@@ -295,6 +309,11 @@ const styles = StyleSheet.create({
         height: height,
         padding: 0,
         zIndex: 1
+    },
+    viewAll: {
+        color: Colors.primary,
+        marginTop: -10,
+        paddingBottom: 5,
     },
     background: {
         marginTop: -20,
@@ -616,6 +635,12 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: 'right',
         zIndex: 1,
+    },
+    shadow: {
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
     },
 });
 

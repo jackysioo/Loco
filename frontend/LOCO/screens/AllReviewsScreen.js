@@ -45,7 +45,7 @@ class AllReviewsScreen extends React.Component {
                                             marginTop: 30,
                                             marginBottom: 10,
                                             color: Colors.placeholder,
-                                        }}>A L L  Y O U R  R E V I E W S</HeadingText1>
+                                        }}>A L L  R E V I E W S</HeadingText1>
                                         {this.props.navigation.state.params.reviews}
                                     </View>
                                 </View>
