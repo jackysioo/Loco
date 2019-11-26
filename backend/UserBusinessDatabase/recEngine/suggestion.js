@@ -1,4 +1,4 @@
-_ = require('underscore');
+const _ = require('underscore');
 const SuggestionDb = require('../models/suggestion');
 var mongoose = require('mongoose');
 
