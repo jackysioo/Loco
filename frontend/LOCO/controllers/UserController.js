@@ -12,8 +12,14 @@ class UserController extends React.Component {
     async signUp(user) {
         try {
             const res = await fetch(userServer + "/signUp", {
-                body: { user: user }
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user : user })
             })
+            console.log(res)
             if (res.ok) {
                 console.log("user created")
                 return res.user._id
@@ -36,7 +42,6 @@ class UserController extends React.Component {
             })
             if (res.ok) {
                 const data = await res.json()
-                console.log(data)
                 return data
             } else {
                 return 404
