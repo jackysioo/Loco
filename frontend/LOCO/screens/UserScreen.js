@@ -44,12 +44,7 @@ class UserScreen extends React.Component {
                     ref={this.props.generateTestHook('Review' + count)}>
                     <View style={styles.userContainer}>
                         <View style={styles.rating}>
-                            <HeadingText1 style={{
-                                color: Colors.white, shadowColor: Colors.black,
-                                shadowOffset: { width: -1, height: 1 },
-                                shadowRadius: 1,
-                                shadowOpacity: 1,
-                            }}> {review.rating} </HeadingText1>
+                            <HeadingText1 style={[{ color: Colors.white }, styles.shadow]}> {review.rating} </HeadingText1>
                             <Image style={styles.ratingIcon} source={require('../assets/icons/icons8-star-24.png')} />
                         </View>
                         <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
@@ -383,13 +378,6 @@ const styles = StyleSheet.create({
         width: "100%",
         height: height / 6,
     },
-    shadow: {
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 4,
-        shadowOpacity: 0.1,
-        elevation: 2,
-    },
     editProfile: {
         flex: 1,
         flexDirection: "column",
@@ -421,7 +409,13 @@ const styles = StyleSheet.create({
         borderColor: Colors.primary,
         borderRadius: 20,
         zIndex: 1,
-    }
+    },
+    shadow: {
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
+    },
 });
 
 //export default withNavigationFocus(UserScreen);

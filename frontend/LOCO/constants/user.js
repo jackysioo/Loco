@@ -102,7 +102,13 @@ export default
         about: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         profilePic: 'https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=942&q=80',
         images: ['https://images.unsplash.com/photo-1493422884938-abd42cfa0f29?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80',
-        "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
+          "https://images.unsplash.com/photo-1460904577954-8fadb262612c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3080&q=80",
+          "https://images.unsplash.com/photo-1495707800306-e240c5a0d65f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1790&q=80",
+          "https://images.unsplash.com/photo-1505764922570-e85a4194a120?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1730&q=80",
+          "https://images.unsplash.com/photo-1501644898242-cfea317d7faf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
+          "https://images.unsplash.com/photo-1492618269284-653dce58fd6d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1510&q=80",
+          "https://images.unsplash.com/photo-1507019403270-cca502add9f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
+          "https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=933&q=80",
         ],
         rating: 3.89,
         price: "$80-$120",
@@ -117,25 +123,25 @@ export default
           review: "This experience was incredible! They were so friendly and welcoming.",
           rating: 5,
           image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
-         },{
+        }, {
           title: "Authentic experience",
           date: "Jan 23, 2019",
           review: "Would definitely come back!",
           rating: 4,
           image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
-         },{
+        }, {
           title: "Loved chatting with them",
           date: "Jan 23, 2019",
           review: "The price is slightly pricey, but worth it for the experience",
           rating: 3.5,
           image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
-         },{
+        }, {
           title: "Loved chatting",
           date: "Jan 23, 2019",
           review: "The price is slightly pricey, but worth it for the experience",
           rating: 3.5,
           image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-         }],
+        }],
         tags: ["beauty", "lashes", "spa"]
       }, {
         title: "Calculus I & II Tutor",
@@ -143,7 +149,7 @@ export default
         about: "Arcu cursus euismod quis viverra nibh cras. Nulla pellentesque dignissim enim sit amet venenatis urna cursus eget. Scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt. Fermentum iaculis eu non diam phasellus.",
         profilePic: 'https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=942&q=80',
         images: ['https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80',
-        "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
+          "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
         ],
         rating: 4.40,
         price: "$35/hr",
@@ -158,13 +164,13 @@ export default
           review: "Thank you for explaining everything in detail.",
           rating: 4,
           image: "https://images.unsplash.com/photo-1560785477-d43d2b34e0df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
-         },{
+        }, {
           title: "Loved chatting with them",
           date: "Jan 23, 2019",
           review: "The price is slightly pricey, but worth it for the experience",
           rating: 3.5,
           image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
-         }],
+        }],
         tags: ["tutor", "math", "calculus"]
       }
     ],
