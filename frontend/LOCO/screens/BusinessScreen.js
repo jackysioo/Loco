@@ -52,7 +52,7 @@ class BusinessScreen extends React.Component {
                     userID: ""
                 })
             })
-            console.log(this.props.navigation.state.params.item)
+        console.log(this.props.navigation.state.params.item)
     }
 
     //UPDATE USER TO USER : this.props.navigation.state.params.item._id
@@ -105,7 +105,7 @@ class BusinessScreen extends React.Component {
                     }, 1000)
                 }
             })
-        
+
     }
 
     renderSuccess() {
@@ -115,7 +115,7 @@ class BusinessScreen extends React.Component {
                 transparent={false}
                 visible={this.state.reviewSuccess}>
                 <View style={styles.modal}>
-                        <HeadingText1 style={{ fontSize: 16, marginTop: 30, marginHorizontal: 15, justifyContent: "center", alignSelf: "center" }}>Successfully added new review!</HeadingText1>
+                    <HeadingText1 style={{ fontSize: 16, marginTop: 30, marginHorizontal: 15, justifyContent: "center", alignSelf: "center" }}>Successfully added new review!</HeadingText1>
                 </View>
             </Modal>
         )
@@ -286,8 +286,7 @@ class BusinessScreen extends React.Component {
                         date: review.date, review: review.review, user: review.user, business: review.business, showEdit: false
                     })}>
                     <View style={styles.reviewContainer}>
-
-                    {this.state.reviewSuccess && this.renderSuccess()}
+                        {this.state.reviewSuccess && this.renderSuccess()}
                         <View style={styles.rating}>
                             <HeadingText1 style={[styles.shadow, { color: Colors.white }]}> {review.rating} </HeadingText1>
                             <Image style={[styles.ratingIcon, styles.shadow]} source={require('../assets/icons/icons8-star-24.png')} />
