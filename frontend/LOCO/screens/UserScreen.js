@@ -125,7 +125,7 @@ class UserScreen extends React.Component {
                     ref={this.props.generateTestHook('Service' + count)}
                     onPress={() => navigation.navigate('Business', {
                         item: {
-                            profilePic: service.profilePic,
+                            profilePic: this.user.profilePic,
                             user: service.user,
                             about: service.about,
                             title: service.title,

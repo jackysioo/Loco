@@ -108,7 +108,7 @@ class LoginScreen extends React.Component {
 
                             {this.state.errorLogin &&
                                 <ParagraphText1 style={styles.error}>
-                                    Wrong email or password. Please try again.
+                                    Wrong username or password. Please try again.
                                 </ParagraphText1>}
                             <View>
                                 <TouchableOpacity

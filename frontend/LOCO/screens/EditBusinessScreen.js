@@ -21,9 +21,12 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy'
 
+import UserController from '../controllers/UserController';
+const userController = new UserController()
 
 class EditBusinessScreen extends React.Component {
     state = {
+        id: this.props.navigation.state.params.id,
         businessTitleInput: this.props.navigation.state.params.title,
         aboutInput: this.props.navigation.state.params.about,
         priceInput: this.props.navigation.state.params.price,
@@ -32,6 +35,34 @@ class EditBusinessScreen extends React.Component {
         tag2Input: this.props.navigation.state.params.tags[1],
         tag3Input: this.props.navigation.state.params.tags[2]
     };
+
+    saveChanges = async () => {
+        const location =  mapController.geocodeFromCity(this.state.regionInput)
+        const geocode = {
+            lat: location.lat,
+            long: location.long
+        }
+        userController.updateBusiness({
+            title: this.state.businessTitleInput,
+            about: this.state.aboutInput,
+            price: this.state.priceInput,
+            region: this.state.regionInput,
+            location: geocode,
+            tags: [this.state.tag1Input, this.state.tag2Input, this.state.tag3Input]
+        },
+            this.id)
+            .then((res) => {
+                if (res !== 404) {
+                    this.setState({
+                        success: true
+                    })
+
+                    setTimeout(() => {
+                        this.props.navigation.goBack()
+                    }, 1000)
+                }
+            })
+    }
 
     updateBusinessTitle = (businessTitleInput) => {
         this.setState({ businessTitleInput });
@@ -62,7 +93,6 @@ class EditBusinessScreen extends React.Component {
     };
 
     render() {
-
         const { aboutInput } = this.state;
         const { businessTitleInput } = this.state;
         const { priceInput } = this.state;
@@ -89,9 +119,9 @@ class EditBusinessScreen extends React.Component {
                             <TouchableOpacity
                                 ref={this.props.generateTestHook('EditServiceBack.Button')}
                                 style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
-                                <HeadingText1 style={styles.heading1}>Back</HeadingText1>
+                                <HeadingText1 style={styles.heading1}>Cancel</HeadingText1>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.saveButton} onPress={() => this.props.navigation.goBack()}>
+                            <TouchableOpacity style={styles.saveButton} onPress={this.saveChanges}>
                                 <HeadingText1 style={styles.heading1}>Save</HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
