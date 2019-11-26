@@ -117,13 +117,13 @@ class UserScreen extends React.Component {
                 ref={this.props.generateTestHook('ViewAllReviews.Button')}>
                 <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
             </TouchableOpacity>;
-            reviewTitle = <HeadingText1 style={styles.header}>REVIEWS</HeadingText1>;
+            reviewTitle = <HeadingText1 style={styles.header}>R E V I E W S</HeadingText1>;
         }
 
         // only display "Your Services" header if there are services
         var serviceTitle;
         if (services.length != 0) {
-            serviceTitle = <HeadingText1 style={styles.header}>SERVICES</HeadingText1>;
+            serviceTitle = <HeadingText1 style={styles.header}>S E R V I C E S</HeadingText1>;
         }
 
         return (
@@ -163,7 +163,7 @@ class UserScreen extends React.Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.info}>
-                                    <HeadingText1 style={styles.header}>YOUR INFORMATION</HeadingText1>
+                                    <HeadingText1 style={styles.header}>A B O U T</HeadingText1>
                                     <View style={{ justifyContent: 'space-between', marginTop: 5 }}>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ left: -55 }}>Username:</HeadingText1>
@@ -198,7 +198,7 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={styles.header}>ABOUT</HeadingText1>
+                                    <HeadingText1 style={styles.header}>B I O</HeadingText1>
                                     <View style={styles.bio}>
                                         <ParagraphText1 style={{ margin: 20 }}>
                                             {user.bio}
@@ -244,7 +244,6 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         color: Colors.primary,
         alignSelf: 'center',
-        letterSpacing: 2,
     },
     itemContainer: {
         flex: 1,
