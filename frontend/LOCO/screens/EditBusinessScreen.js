@@ -71,6 +71,12 @@ class AddBusinessScreen extends React.Component {
         const { tag2Input } = this.state;
         const { tag3Input } = this.state;
 
+        const images = this.props.navigation.state.params.images.map((image) => {
+            return (
+                <Image source={{ uri: image }} key={image} style={{ width: 195, height: 195, margin: 1 }} />
+            )
+        })
+
         return (
             <KeyboardAwareScrollView style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -158,11 +164,14 @@ class AddBusinessScreen extends React.Component {
                                         placeholder={"Write about your service..."}
                                         placeholderTextColor={Colors.placeholder} />
                                     <View style={styles.photos}>
-                                        <HeadingText1 style={{ marginBottom: 10, alignSelf: 'center', marginTop: 10 }}>P H O T O S</HeadingText1>
+                                    <HeadingText1 style={{ marginBottom: 10, alignSelf: 'center', marginTop: 10, color: Colors.placeholder }}>P H O T O  G A L L E R Y</HeadingText1>
                                         <TouchableOpacity style={styles.upload}>
                                             <ParagraphText2 style={{ marginRight: 7, fontSize: 12, color: Colors.highlight }}>u p l o a d</ParagraphText2>
                                             <Image source={require('../assets/icons/icons8-add-image-96.png')} style={{ height: 18, width: 18 }} />
                                         </TouchableOpacity>
+                                        <View style={styles.gallery}>
+                                            {images}
+                                        </View>
                                     </View>
                                 </View>
                             </View>
@@ -227,7 +236,7 @@ const styles = StyleSheet.create({
     },
     resultDescription: {
         flex: 1,
-        padding: 15,
+        //padding: 15,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -294,12 +303,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        alignSelf: 'center',
         borderWidth: 1,
         borderRadius: 30,
         borderColor: Colors.highlight,
         paddingVertical: 5,
         paddingHorizontal: 30,
         width: width - 65,
+        marginBottom: 15,
+    },
+    gallery: {
+        flexWrap: 'wrap',
+        flexDirection: "row",
+        alignContent: 'center',
+        marginBottom: 20,
     }
 });
 
