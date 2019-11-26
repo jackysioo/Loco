@@ -35,7 +35,6 @@ class SortByScreen extends React.Component {
     closeModal = () => {
         this.props.updateSort(this.state.criteria)
         this.props.close()
-        // this.setState({ modalVisible: !this.state.modalVisible })
     }
 
 
