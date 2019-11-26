@@ -227,7 +227,7 @@ class BusinessScreen extends React.Component {
                                     <TouchableOpacity
                                         ref={this.props.generateTestHook('Message.Button')}
                                         style={styles.actionButton} onPress={() => { this.setState({ messageFormVisible: true }) }}>
-                                        <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message {this.props.navigation.state.params.item.user}</HeadingText1>
+                                        <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message Cynthia</HeadingText1>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.reviews}>
