@@ -24,9 +24,8 @@ const userSchema = new Schema({
     ref: 'Review'
   }],
   services: [{
-    title: String,
-    rating: Number,
-    image: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Business'
   }], 
   searchId: String
 });  

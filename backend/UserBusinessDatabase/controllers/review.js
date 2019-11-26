@@ -68,7 +68,7 @@ exports.updateReview = async (req, res, next) => {
 exports.addReview = async (req, res, next) => {
     try { 
         const rating = req.body.review.rating;
-        const review = new Review(req.body.review);  
+        const review = new Review({...req.body.review,userId: req.params.userId, businessId: req.params.businessId });  
         const reviewId = await review.save();  
 
         const userId = req.params.userId;
@@ -100,7 +100,7 @@ exports.deleteReview = async (req, res, next) => {
     try {
 
         const reviewId = req.params.reviewId; 
-        const review = await Review.findById(req.params.userId);   
+        const review = await Review.findById(req.params.reviewId);   
 
         console.log(req.params.userId); 
         
