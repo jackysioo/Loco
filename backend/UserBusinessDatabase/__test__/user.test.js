@@ -54,6 +54,15 @@ describe('User Integration Tests', () => {
         done();
       });   
 
+      it('Can sign up', async done => {
+        const response = await request.post('/user/signUp').send({user : userData[0]});
+        expect(response.status).toBe(403);
+        
+        done();
+      });   
+
+      
+
       it('Can make a get request getting a user by id', async (done) => { 
         
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
@@ -67,21 +76,25 @@ describe('User Integration Tests', () => {
         done();
       });   
 
-      it('Can make a delete request', async (done) => { 
+      it('Can make a put request and update user and delete', async (done) => { 
         
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
-      const id = user.body.user._id; 
+        const id = user.body.user._id; 
 
-        const response = await request.delete('/user/delete/'+id); 
+        const response = await request.put('/user/put/'+id).send({user : {username: 'changed name'}}); 
 
         expect(response.status).toBe(200);
-        expect(response.body.message).toBe('deleted');
+        expect(response.body.user.username).toBe('changed name'); 
+
+        const response2 = await request.delete('/user/delete/'+id); 
+
+        expect(response2.status).toBe(200);
+        expect(response2.body.message).toBe('deleted');
         
         done();
-      });  
+      });   
 
-      
-
+    
 }); 
 
 // describe('User Unit Tests', () => { 
