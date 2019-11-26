@@ -25,6 +25,7 @@ import NumericInput from 'react-native-numeric-input'
 
 class ReviewScreen extends React.Component {
     state = {
+        showEdit: this.props.navigation.state.params.showEdit,
         editReviewVisible: false,
         reviewTitleInput: this.props.navigation.state.params.title,
         reviewInput: this.props.navigation.state.params.review,
@@ -47,6 +48,17 @@ class ReviewScreen extends React.Component {
         const { reviewTitleInput } = this.state;
         const { reviewInput } = this.state;
         const { ratingInput } = this.state;
+        const { showEdit } = this.state;
+
+        var editButton;
+
+        if (showEdit == true) {
+            editButton = <TouchableOpacity style={styles.edit} onPress={() => { this.setState({ editReviewVisible: true }) }}
+                ref={this.props.generateTestHook('EditReview.Button')}>
+                <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
+                <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
+            </TouchableOpacity>
+        };
 
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -63,11 +75,7 @@ class ReviewScreen extends React.Component {
                                     ref={this.props.generateTestHook('ReviewBack.Button')}>
                                     <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.edit} onPress={() => { this.setState({ editReviewVisible: true }) }}
-                                    ref={this.props.generateTestHook('EditReview.Button')}>
-                                    <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
-                                    <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
-                                </TouchableOpacity>
+                                {editButton}
                                 <View style={styles.innerContainer}>
                                     <View style={styles.list}>
                                         <Image source={{ uri: this.props.navigation.state.params.image }}

@@ -39,7 +39,7 @@ class UserScreen extends React.Component {
                     key={review.title}
                     onPress={() => navigation.navigate('UserReview', {
                         rating: review.rating, image: review.image, title: review.title,
-                        date: review.date, review: review.review, user: review.user, business: review.business
+                        date: review.date, review: review.review, user: review.user, business: review.business, showEdit: true
                     })}
                     ref={this.props.generateTestHook('Review' + count)}>
                     <View style={styles.userContainer}>
@@ -107,7 +107,7 @@ class UserScreen extends React.Component {
 
         const { navigation } = this.props;
 
-        // only display 6 or less reviews on userScreen
+        // only display 6 or less reviews on User Screen
         var displayReviews = reviews;
         if (reviews.length > 6) {
             displayReviews = displayReviews.slice(0, 6);
