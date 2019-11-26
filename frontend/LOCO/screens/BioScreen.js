@@ -20,6 +20,7 @@ const { height, width } = Dimensions.get('screen');
 import { Colors, user, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 class BioScreen extends React.Component {
     state = {
@@ -130,18 +131,43 @@ class BioScreen extends React.Component {
         const { bioInput } = this.state;
         const { passwordInput } = this.state;
 
+        const { navigation } = this.props;
+
         const services = user.services.map((service) => {
             return (
-                <View style={styles.userContainer}>
+                <View style={styles.userContainer} key={service.title}>
                     <View style={styles.rating}>
-                        <HeadingText1 style={{ color: Colors.white }}> {service.rating} </HeadingText1>
-                        <Image style={styles.icon} source={require('../assets/icons/icons8-star-24.png')} />
+                        <HeadingText1 style={{
+                            color: Colors.white, shadowColor: Colors.black,
+                            shadowOffset: { width: -1, height: 1 },
+                            shadowRadius: 1,
+                            shadowOpacity: 1,
+                        }}> {service.rating} </HeadingText1>
+                        <Image style={[styles.icon, {
+                            shadowColor: Colors.black,
+                            shadowOffset: { width: -1, height: 1 },
+                            shadowRadius: 1,
+                            shadowOpacity: 1,
+                        }]} source={require('../assets/icons/icons8-star-24.png')} />
                     </View>
-                    <TouchableOpacity style={styles.edit}>
-                        <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
-                        <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
+                    <TouchableOpacity style={styles.edit} onPress={() => navigation.navigate('EditBusiness', {
+                        title: service.title, user: service.user, about: service.about, profilePic: service.profilePic, images: service.images,
+                        rating: service.rating, price: service.price, region: service.region, location: service.location, tags: service.tags
+                    })}>
+                        <HeadingText1 style={{
+                            color: Colors.white, shadowColor: Colors.black,
+                            shadowOffset: { width: -1, height: 1 },
+                            shadowRadius: 1,
+                            shadowOpacity: 1,
+                        }}> Edit </HeadingText1>
+                        <Image style={[styles.icon, {
+                            shadowColor: Colors.black,
+                            shadowOffset: { width: -1, height: 1 },
+                            shadowRadius: 1,
+                            shadowOpacity: 1,
+                        }]} source={require('../assets/icons/icons8-edit-24.png')} />
                     </TouchableOpacity>
-                    <Image source={{ uri: service.image }} style={styles.reviewImage}></Image>
+                    <Image source={{ uri: service.images[0] }} style={styles.reviewImage}></Image>
                     <View style={{ margin: 15 }}>
                         <View style={styles.review}>
                             <HeadingText1>{service.title}</HeadingText1>
@@ -182,7 +208,7 @@ class BioScreen extends React.Component {
                                 <View style={styles.info}>
                                     <HeadingText1 style={{
                                         alignSelf: 'center', marginBottom: 8, color: Colors.primary
-                                    }}>Y O U R  I N F O R M A T I O N</HeadingText1>
+                                    }}>A B O U T</HeadingText1>
                                     <View style={{ justifyContent: 'space-between' }}>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Username:</HeadingText1>
@@ -307,7 +333,7 @@ class BioScreen extends React.Component {
                                         </View>
                                         <HeadingText1 style={{
                                             alignSelf: 'center', marginBottom: 8, color: Colors.primary, marginTop: 30
-                                        }}>A B O U T  M E</HeadingText1>
+                                        }}>B I O</HeadingText1>
                                         <View style={styles.innerInfo}>
                                             <TextInput
                                                 ref={this.props.generateTestHook('AboutMe.TextInput')}
@@ -337,10 +363,10 @@ class BioScreen extends React.Component {
                                 <View style={styles.reviews}>
                                     <HeadingText1 style={{
                                         marginBottom: 3, color: Colors.primary
-                                    }}>Y O U R  S E R V I C E S</HeadingText1>
+                                    }}>S E R V I C E S</HeadingText1>
                                     {services}
                                 </View>
-                                <TouchableOpacity style={styles.addService}>
+                                <TouchableOpacity style={styles.addService} onPress={() => navigation.navigate('AddBusiness')}>
                                     <HeadingText2 style={{ color: Colors.primary }}> Add Service </HeadingText2>
                                     <Image style={styles.icon} source={
                                         require('../assets/icons/icons8-add-new-24-aqua.png')} />
@@ -356,6 +382,54 @@ class BioScreen extends React.Component {
 
 
 const styles = StyleSheet.create({
+    photos: {
+        flexDirection: 'column',
+        alignContent: 'center',
+        justifyContent: 'center',
+        color: Colors.placeholder,
+    },
+    aboutInput: {
+        flex: 1,
+        paddingHorizontal: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
+        textAlignVertical: 'top',
+        width: width - 65,
+        borderWidth: 1,
+        borderColor: Colors.highlight,
+        borderRadius: 10,
+        zIndex: 1,
+        marginBottom: 25,
+    },
+    resultDescription: {
+        flex: 1,
+        padding: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    titleInput: {
+        width: width - 65,
+        height: 35,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        borderColor: Colors.highlight,
+        borderWidth: 1,
+        marginBottom: 20,
+    },
+    tagInput: {
+        width: width / 3 - 28,
+        height: 35,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        borderColor: Colors.highlight,
+        borderWidth: 1,
+        marginHorizontal: 5,
+        marginBottom: 20,
+    },
+    modalItemContainer: {
+        marginTop: 20,
+        flex: 1,
+    },
     itemContainer: {
         flex: 1,
         backgroundColor: '#fff',
@@ -536,6 +610,17 @@ const styles = StyleSheet.create({
         right: 20,
         bottom: 15,
         zIndex: 1
+    },
+    upload: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 30,
+        borderColor: Colors.highlight,
+        paddingVertical: 5,
+        paddingHorizontal: 30,
+        width: width - 65,
     }
 });
 

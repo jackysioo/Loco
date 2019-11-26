@@ -9,36 +9,22 @@ import UserScreen from '../screens/UserScreen';
 import BusinessScreen from '../screens/BusinessScreen';
 import BioScreen from '../screens/BioScreen';
 import AllReviewsScreen from '../screens/AllReviewsScreen';
-import AllAppointmentsScreen from '../screens/AllAppointmentsScreen';
 import FollowingScreen from '../screens/FollowingScreen';
 import ReviewScreen from '../screens/ReviewScreen';
-import LoginScreen from '../screens/LoginScreen';
-import SignupScreen from '../screens/SignupScreen';
+import ChatScreen from '../screens/ChatScreen';
+import MessagesScreen from '../screens/MessagesScreen';
+import AddBusinessScreen from '../screens/AddBusinessScreen';
+import EditBusinessScreen from '../screens/EditBusinessScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
-// const tabBarOnPress = ({ navigation, defaultHandler }) => {
-//   const { isFocused, state, goBack } = navigation;
-//   if (isFocused()) {
-//       if (state.routes.length > 1) {
-//           for (let i = 0; i < state.routes.length - 1; i += 1) {
-//               goBack();
-//           }
-//       } else {
-//           // @TODO SCROLL TO TOP OF EACH TAB IF SCROLLABLE, $CALLBACK().
-//       }
-//   } else {
-//       defaultHandler();
-//   }
-// };
-
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Business: BusinessScreen
+    Business: BusinessScreen,
   }, {
   headerMode: 'none',
 },
@@ -46,6 +32,13 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = {
+  tabBarOptions: { 
+    activeTintColor: '#51bfbb',
+    labelStyle: {
+      fontWeight: '600',
+      fontSize: 10
+    }
+  },
   tabBarLabel: 'Search',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -66,8 +59,10 @@ const UserStack = createStackNavigator(
     Bio: BioScreen,
     Reviews: AllReviewsScreen,
     Following: FollowingScreen,
-    Appointments: AllAppointmentsScreen,
     UserReview: ReviewScreen,
+    AddBusiness: AddBusinessScreen,
+    Business: BusinessScreen,
+    EditBusiness: EditBusinessScreen,
   }, {
   headerMode: 'none',
 },
@@ -75,7 +70,14 @@ const UserStack = createStackNavigator(
 );
 
 UserStack.navigationOptions = {
-  tabBarLabel: 'Me',
+  tabBarOptions: { 
+    activeTintColor: '#51bfbb',
+    labelStyle: {
+      fontWeight: '600',
+      fontSize: 10
+    }
+  },
+  tabBarLabel: 'Profile',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'} />
   ),
@@ -83,48 +85,37 @@ UserStack.navigationOptions = {
 
 UserStack.path = '';
 
-const AppointmentsStack = createStackNavigator(
+    
+const ChatStack = createStackNavigator(
   {
-    Appointments: AllAppointmentsScreen,
+    Messages: MessagesScreen,
+    Chat: ChatScreen,
   }, {
   headerMode: 'none',
 },
   config
 );
 
-AppointmentsStack.navigationOptions = {
-  tabBarLabel: 'Appointments',
+ChatStack.navigationOptions = {
+  tabBarOptions: { 
+    activeTintColor: '#51bfbb',
+    labelStyle: {
+      fontWeight: '600',
+      fontSize: 10
+    }
+  },
+  tabBarLabel: 'Messages',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'} />
   ),
 };
 
-AppointmentsStack.path = '';
-
-const LoginStack = createStackNavigator(
-  {
-    Login: LoginScreen,
-    Signup: SignupScreen,
-  }, {
-  headerMode: 'none',
-},
-  config
-);
-
-LoginStack.navigationOptions = {
-  tabBarLabel: 'Login',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
-  ),
-};
-
-LoginStack.path = '';
+ChatStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
-  AppointmentsStack,
-  LoginStack
+  ChatStack
 });
 
 tabNavigator.path = '';

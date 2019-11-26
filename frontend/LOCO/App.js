@@ -5,9 +5,7 @@ import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { hook } from 'cavy';
-
 import AppNavigator from './navigation/AppNavigator';
-import PopUpUI from './screens/PopUpUI';
 
 import { Tester, TestHookStore } from 'cavy';
 import UserScreenSpec from './specs/UserScreenSpec';
@@ -21,27 +19,25 @@ export default function App(props) {
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
-      //<Tester specs={[HomeScreenSpec,UserScreenSpec]} store={testHookStore}>
         <AppLoading
           startAsync={loadResourcesAsync}
           onError={handleLoadingError}
           onFinish={() => handleFinishLoading(setLoadingComplete)}
         />
-      //</Tester>
     );
   } else {
     return (
-      //<Tester specs={[HomeScreenSpec,UserScreenSpec]} store={testHookStore}>
+      // <Tester specs={[HomeScreenSpec,UserScreenSpec]} store={testHookStore}>
         <View style={styles.container}>
           <AppNavigator />
-          {/* <PopUpUI/> */}
         </View>
-      //</Tester>
+      // </Tester>
     );
   }
 }
 
 async function loadResourcesAsync() {
+
   await Promise.all([
     Asset.loadAsync([
     ]),
@@ -55,6 +51,7 @@ async function loadResourcesAsync() {
       'prompt-bold': require('./assets/fonts/Prompt-Bold.ttf'),
     }),
   ]);
+
 }
 
 function handleLoadingError(error) {

@@ -16,11 +16,13 @@ import {
     Modal
 } from 'react-native';
 
-const { height, width } = Dimensions.get('screen');
 import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy';
+import UserController from '../controllers/UserController';
+const userController = new UserController()
+const { height, width } = Dimensions.get('screen');
 
 class SignupScreen extends React.Component {
     state = {
@@ -39,13 +41,8 @@ class SignupScreen extends React.Component {
     };
 
     submitChanges() {
-        fetch("link here", {
-            method: 'PUT', //POST, GET, PUT ..etc,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        userController.signUp(
+            JSON.stringify({
                 username: this.state.usernameInput,
                 firstName: this.state.firstNameInput,
                 lastName: this.state.lastNameInput,
@@ -57,15 +54,9 @@ class SignupScreen extends React.Component {
                 bio: this.state.birthdayInput,
                 birthday: this.state.bioInput,
                 password: this.state.passwordInput,
-            })
-        })
+            }))
             .then(response => {
-                if (response.json().ok) {
-                    console.log("sucessfully updated database")
-                }
-            })
-            .then((data) => {
-                console.log(data)
+                console.log("user created, ID:  " + response)
             })
     }
 

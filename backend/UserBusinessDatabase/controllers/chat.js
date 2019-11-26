@@ -10,10 +10,6 @@ const chatkit = new Chatkit.default({
 });
 
 
-exports.getMain = (req, res) => {
-  res.send("all green!");
-};
-
 //GET list of chatrooms the current user has chatted with
 exports.getChats = (req, res) => {
   console.log("fetching data from: " + req.query.id)
@@ -23,6 +19,19 @@ exports.getChats = (req, res) => {
   })
     .then((chatrooms) => {
       res.json(chatrooms)
+    })
+    .catch(err => console.error(err))
+};
+
+
+//GET user data
+exports.getUser = (req, res) => {
+  console.log("fetching user data from: " + req.query.id)
+  chatkit.getUser({
+    userId: req.query.id,
+  })
+    .then((user) => {
+      res.json(user)
     })
     .catch(err => console.error(err))
 };
@@ -39,7 +48,7 @@ exports.getUsers = (req, res) => {
     .then((rooms) => {
       for (let room of rooms) {
         for (let id of room.member_user_ids) {
-          if (id != req.query.id) {
+          if (id !== req.query.id) {
             userIDs.push(id)
           }
         }
@@ -51,27 +60,35 @@ exports.getUsers = (req, res) => {
 
 
 
+//POST create new user 
+exports.postUser = (req, res) => {
+  const { userID, name } = req.body;
+
+  chatkit.createUser({
+    id: userID,
+    name: name,
+  })
+    .then(() => {
+      console.log('User created successfully')
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+};
+
+
 //GET array of messages of current chatroom history and the messageID of the next message to be loaded
 //if it's the first time retrieving messages, get messages from chatkit without initial meessage ID
 exports.getMessages = (req, res) => {
   console.log("fetching messages from room: " + req.query.roomId)
-  var messageList = []
-
     chatkit.fetchMultipartMessages({
       roomId: req.query.roomId,
+      direction: "older",
+      limit: 5
     })
       .then((messages) => {
-        for (let m of messages) {
-          for (let message of m.parts) {
-            if (message.type == "text/plain") {
-              messageList.push({
-                userID: m.userId,
-                message: message.content
-              })
-            }
-          }
-        }
-        res.json(messageList)
+        res.json(messages)
       })
       .catch(err => console.error(err))
   };

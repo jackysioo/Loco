@@ -83,8 +83,8 @@ class MapScreen extends React.Component {
                     customMapStyle={mapStyle}
                     ref={(ref) => { this.map = ref; }}
                     initialRegion={{
-                        latitude: 49.2827,
-                        longitude: -123.1207,
+                        latitude: this.props.location.lat,
+                        longitude: this.props.location.long,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421
                     }}

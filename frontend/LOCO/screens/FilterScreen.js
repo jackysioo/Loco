@@ -25,7 +25,7 @@ class FilterScreen extends React.Component {
 
     closeModal = () => {
         this.props.updateFilters(this.state.filters)
-        this.setState({modalVisible: false})
+        this.setState({ modalVisible: false })
         this.props.closeFilter
     }
 
@@ -36,14 +36,14 @@ class FilterScreen extends React.Component {
                 animationType="slide"
                 transparent={true}
                 visible={this.state.modalVisible}>
-                <View 
-                style={styles.modal}>
-                <TouchableOpacity
-                    onPress={this.closeModal}
-                    style={{position: "absolute", top:0, left:0,padding: 20}}
+                <View
+                    style={styles.modal}>
+                    <TouchableOpacity
+                        onPress={this.closeModal}
+                        style={{ position: "absolute", top: 0, left: 0, padding: 20 }}
                     /*ref={this.props.generateTestHook('CloseFilters.Button')}*/>
-                    <Text style={{fontSize: 18,color: Colors.placeholder}}>X</Text>
-                </TouchableOpacity>
+                        <Text style={{ fontSize: 18, color: Colors.placeholder }}>X</Text>
+                    </TouchableOpacity>
                 </View>
             </Modal>
         );

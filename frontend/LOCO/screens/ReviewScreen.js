@@ -20,14 +20,16 @@ import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 const { width, height } = Dimensions.get("screen");
 import { hook } from 'cavy';
+import NumericInput from 'react-native-numeric-input'
 
 
 class ReviewScreen extends React.Component {
     state = {
-        messageFormVisible: false,
+        showEdit: this.props.navigation.state.params.showEdit,
+        editReviewVisible: false,
         reviewTitleInput: this.props.navigation.state.params.title,
         reviewInput: this.props.navigation.state.params.review,
-        ratingInput: this.props.navigation.state.params.rating.toString(),
+        ratingInput: this.props.navigation.state.params.rating,
     };
 
     updateReviewTitle = (reviewTitleInput) => {
@@ -46,6 +48,17 @@ class ReviewScreen extends React.Component {
         const { reviewTitleInput } = this.state;
         const { reviewInput } = this.state;
         const { ratingInput } = this.state;
+        const { showEdit } = this.state;
+
+        var editButton;
+
+        if (showEdit === true) {
+            editButton = <TouchableOpacity style={styles.edit} onPress={() => { this.setState({ editReviewVisible: true }) }}
+                ref={this.props.generateTestHook('EditReview.Button')}>
+                <HeadingText1 style={[{ color: Colors.white }, styles.shadow]}> Edit </HeadingText1>
+                <Image style={[styles.icon, styles.shadow]} source={require('../assets/icons/icons8-edit-24.png')} />
+            </TouchableOpacity>
+        };
 
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -60,13 +73,9 @@ class ReviewScreen extends React.Component {
                                 style={styles.itemContainer}>
                                 <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
                                     ref={this.props.generateTestHook('ReviewBack.Button')}>
-                                    <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
+                                    <HeadingText1 style={[{ color: Colors.white }, styles.shadow]}> Back </HeadingText1>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.edit} onPress={() => { this.setState({ messageFormVisible: true }) }}
-                                    ref={this.props.generateTestHook('EditReview.Button')}>
-                                    <HeadingText1 style={{ color: Colors.white }}> Edit </HeadingText1>
-                                    <Image style={styles.icon} source={require('../assets/icons/icons8-edit-24.png')} />
-                                </TouchableOpacity>
+                                {editButton}
                                 <View style={styles.innerContainer}>
                                     <View style={styles.list}>
                                         <Image source={{ uri: this.props.navigation.state.params.image }}
@@ -107,25 +116,22 @@ class ReviewScreen extends React.Component {
                     <Modal
                         animationType="slide"
                         transparent={false}
-                        visible={this.state.messageFormVisible}>
+                        visible={this.state.editReviewVisible}>
                         <KeyboardAwareScrollView style={styles.container}>
                             <View style={{ flex: 1 }}>
-                                <ImageBackground
-                                    source={Images.ProfileBackground}
-                                    style={styles.outerContainer}
-                                    imageStyle={styles.background}>
+                                <View>
                                     <ScrollView
                                         showsVerticalScrollIndicator={false}
                                         style={styles.modalItemContainer}>
                                         <TouchableOpacity
                                             style={styles.back}
-                                            onPress={() => { this.setState({ messageFormVisible: false }) }}
+                                            onPress={() => { this.setState({ editReviewVisible: false }) }}
                                             ref={this.props.generateTestHook('CancelEditReview.Button')}>
-                                            <HeadingText1 style={{ color: Colors.white }}> Cancel </HeadingText1>
+                                            <HeadingText1 style={{ color: Colors.primary }}> Cancel </HeadingText1>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.save} onPress={() => { this.setState({ messageFormVisible: false }) }}
+                                        <TouchableOpacity style={styles.save} onPress={() => { this.setState({ editReviewVisible: false }) }}
                                             ref={this.props.generateTestHook('SaveEditReview.Button')}>
-                                            <HeadingText1 style={{ color: Colors.white }}> Save Changes </HeadingText1>
+                                            <HeadingText1 style={{ color: Colors.primary }}> Save Changes </HeadingText1>
                                         </TouchableOpacity>
                                         <View style={styles.innerContainer}>
                                             <View style={styles.list}>
@@ -160,17 +166,20 @@ class ReviewScreen extends React.Component {
                                                     placeholderTextColor={Colors.placeholder} />
                                                 <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
                                                     <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
-                                                    <TextInput
-                                                        ref={this.props.generateTestHook('Rating.TextInput')}
-                                                        style={styles.ratingInput}
-                                                        onChangeText={this.updateRating}
-                                                        inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                        containerStyle={{ backgroundColor: '#ffffff' }}
-                                                        inputStyle={{ fontSize: 13 }}
-                                                        value={ratingInput}
-                                                        placeholder={"0"}
-                                                        placeholderTextColor={Colors.placeholder}
-                                                        keyboardType={'numeric'} />
+                                                    <NumericInput
+                                                        containerStyle={{ marginRight: 7 }}
+                                                        minValue={0}
+                                                        maxValue={5}
+                                                        initValue={ratingInput}
+                                                        onChange={this.updateRating}
+                                                        totalWidth={100}
+                                                        totalHeight={33}
+                                                        separatorWidth={0.5}
+                                                        step={1}
+                                                        valueType='real'
+                                                        rounded
+                                                        textColor={Colors.black}
+                                                        borderColor={Colors.highlight} />
                                                     <Image style={styles.icon} source={require('../assets/icons/icons8-star-24-grey.png')} />
                                                 </View>
                                                 <View style={{ marginTop: 10, flexDirection: 'row' }}>
@@ -184,7 +193,7 @@ class ReviewScreen extends React.Component {
                                             </View>
                                         </View>
                                     </ScrollView>
-                                </ImageBackground>
+                                </View>
                             </View>
                         </KeyboardAwareScrollView>
                     </Modal>
@@ -303,19 +312,11 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 12,
         top: 10,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.7,
     },
     save: {
         position: "absolute",
         right: 12,
         top: 10,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 10,
-        shadowOpacity: 0.7,
     },
     itemContainer: {
         flex: 1,
@@ -363,6 +364,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         color: Colors.placeholder,
         zIndex: 1,
+    },
+    shadow: {
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
     },
 });
 

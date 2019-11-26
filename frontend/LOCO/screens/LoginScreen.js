@@ -15,12 +15,12 @@ import {
     Button,
     Modal
 } from 'react-native';
-
-const { height, width } = Dimensions.get('screen');
+import userCache from '../caches/UserCache'
 import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy';
+
+const { height, width } = Dimensions.get('screen');
 
 class LoginScreen extends React.Component {
     state = {
@@ -35,11 +35,19 @@ class LoginScreen extends React.Component {
     updatePassword = (passwordInput) => {
         this.setState({ passwordInput });
     };
+    
+    authenticateUser = async () => {
+         await userCache.storeUserID("Cynthia")
+         this.props.navigation.navigate("Main")
+    }
+
+    signup = () => {
+        this.props.navigation.navigate('Signup')
+    }
 
     render() {
         const { usernameInput } = this.state;
         const { passwordInput } = this.state;
-        const { navigation } = this.props;
 
         return (
             <View style={styles.container}>
@@ -62,16 +70,17 @@ class LoginScreen extends React.Component {
                                 <TextInput
                                     //ref={this.props.generateTestHook('Birthday.TextInput')}
                                     style={[{ height: 30, width: 250, marginTop: -400 }, styles.messageInput]}
+                                    secureTextEntry={true}
                                     onChangeText={this.updatePassword}
                                     inputContainerStyle={{ backgroundColor: Colors.white }}
                                     containerStyle={{ backgroundColor: '#ffffff' }}
                                     value={passwordInput} />
                             </View>
-                            <TouchableOpacity style={styles.loginbutton}>
-                                <HeadingText2 style={{ padding: 5, alignSelf: 'center' }}>Login</HeadingText2>
+                            <TouchableOpacity style={styles.loginbutton} onPress={this.authenticateUser}>
+                                <HeadingText2 style={{padding: 5, alignSelf: 'center', fontSize: 16 }}>Login</HeadingText2>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.signupbutton} onPress={() => navigation.navigate('Signup')}>
-                                <HeadingText2 style={{ color: Colors.white }}>Sign Up</HeadingText2>
+                            <TouchableOpacity style={styles.signupbutton} onPress={this.signup}>
+                                <HeadingText2 style={{ color: Colors.white, fontSize: 12 }}>Sign Up</HeadingText2>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -92,7 +101,7 @@ const styles = StyleSheet.create({
     logo: {
         alignSelf: 'center',
         marginBottom: 50,
-        width: 175,
+        width: 200,
         resizeMode: 'contain',
         top: height / 2 - 220,
 
@@ -105,7 +114,7 @@ const styles = StyleSheet.create({
     },
     messageInput: {
         borderRadius: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
         borderColor: Colors.highlight,
         borderWidth: 1,
         backgroundColor: Colors.white,
@@ -121,12 +130,10 @@ const styles = StyleSheet.create({
     },
     loginbutton: {
         borderRadius: 16,
-        borderWidth: 1,
-        borderColor: Colors.highlight,
         backgroundColor: Colors.white,
-        width: 60,
+        width: 80,
         alignSelf: 'center',
-        bottom: height / 2 - 85,
+        bottom: height / 2 - 90,
     },
     signupbutton: {
         alignSelf: 'center',

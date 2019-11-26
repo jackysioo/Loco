@@ -36,8 +36,8 @@ class AllReviewsScreen extends React.Component {
                                 showsVerticalScrollIndicator={false}
                                 style={styles.itemContainer}>
                                 <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
-                                ref={this.props.generateTestHook('AllReviewsBack.Button')}>
-                                    <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
+                                    ref={this.props.generateTestHook('AllReviewsBack.Button')}>
+                                    <HeadingText1 style={[{ color: Colors.white }, styles.shadow]}> Back </HeadingText1>
                                 </TouchableOpacity>
                                 <View style={styles.innerContainer}>
                                     <View style={styles.list}>
@@ -45,7 +45,7 @@ class AllReviewsScreen extends React.Component {
                                             marginTop: 30,
                                             marginBottom: 10,
                                             color: Colors.placeholder,
-                                        }}>A L L  Y O U R  R E V I E W S</HeadingText1>
+                                        }}>A L L  R E V I E W S</HeadingText1>
                                         {this.props.navigation.state.params.reviews}
                                     </View>
                                 </View>
@@ -107,7 +107,13 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowRadius: 10,
         shadowOpacity: 0.7,
-    }
+    },
+    shadow: {
+        shadowColor: Colors.black,
+        shadowOffset: { width: -1, height: 1 },
+        shadowRadius: 1,
+        shadowOpacity: 1,
+    },
 });
 
 //export default withNavigation(AllReviewsScreen);
