@@ -150,10 +150,12 @@ class BioScreen extends React.Component {
                             shadowOpacity: 1,
                         }]} source={require('../assets/icons/icons8-star-24.png')} />
                     </View>
-                    <TouchableOpacity style={styles.edit} onPress={() => navigation.navigate('EditBusiness', {
-                        title: service.title, user: service.user, about: service.about, profilePic: service.profilePic, images: service.images,
-                        rating: service.rating, price: service.price, region: service.region, location: service.location, tags: service.tags
-                    })}>
+                    <TouchableOpacity
+                        ref={this.props.generateTestHook('EditService.Button')}
+                        style={styles.edit} onPress={() => navigation.navigate('EditBusiness', {
+                            title: service.title, user: service.user, about: service.about, profilePic: service.profilePic, images: service.images,
+                            rating: service.rating, price: service.price, region: service.region, location: service.location, tags: service.tags
+                        })}>
                         <HeadingText1 style={{
                             color: Colors.white, shadowColor: Colors.black,
                             shadowOffset: { width: -1, height: 1 },
@@ -366,7 +368,9 @@ class BioScreen extends React.Component {
                                     }}>S E R V I C E S</HeadingText1>
                                     {services}
                                 </View>
-                                <TouchableOpacity style={styles.addService} onPress={() => navigation.navigate('AddBusiness')}>
+                                <TouchableOpacity
+                                    ref={this.props.generateTestHook('AddService.Button')}
+                                    style={styles.addService} onPress={() => navigation.navigate('AddBusiness')}>
                                     <HeadingText2 style={{ color: Colors.primary }}> Add Service </HeadingText2>
                                     <Image style={styles.icon} source={
                                         require('../assets/icons/icons8-add-new-24-aqua.png')} />
