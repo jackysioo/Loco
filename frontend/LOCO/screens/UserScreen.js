@@ -30,26 +30,32 @@ class UserScreen extends React.Component {
     state = {
         signingOut: false,
         userID: '',
-        user: null
+        ready: false
+    }
+
+    constructor(props) {
+        super(props)
+        this.user = null
     }
 
     componentWillMount() {
-        setTimeout(function() {
-            userCache.getUserID()
-                .then((id) => {
-                    this.setState({
-                        userID: id
-                    })
-                    userCache.getData(id)
-                        .then((data) => {
-                            this.setState({
-                                user: data
-                            })
-                        })
+        userCache.getUserID()
+            .then((id) => {
+                this.setState({
+                    userID: id
                 })
-        }, 1000);
+                userController.getUser(id)
+                    .then((data) => {
+                        this.user = data.user
+                        this.setState({
+                            ready: true
+                        })
+                        userCache.storeData(id, data.user.toString())
+                    })
+            })
     }
- 
+
+
 
     signout = () => {
         this.setState({
@@ -73,10 +79,10 @@ class UserScreen extends React.Component {
         )
     }
 
-    render() {
+    renderUser() {
         var count = 0;  // for testing purposes 
 
-        const reviews = this.state.user.reviews.map((review) => {
+        const reviews = this.user.reviews.map((review) => {
             // only display up to 46 characters of review outside of a review
             var displayReview = review.review;
             if (review.review.length > 84) {
@@ -112,7 +118,7 @@ class UserScreen extends React.Component {
         })
 
         count = 0;
-        const services = this.state.user.services.map((service) => {
+        const services = this.user.services.map((service) => {
             count++;
             return (
                 <TouchableWithoutFeedback key={service.title}
@@ -197,10 +203,10 @@ class UserScreen extends React.Component {
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
                                 <View style={styles.profilePicContainer}>
-                                    <Image source={{ uri: this.state.user.profilePic }} style={styles.profilePic} />
+                                    <Image source={{ uri: this.user.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.editProfile}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Bio')}
+                                    <TouchableOpacity onPress={() => navigation.navigate('Bio', {user : this.user, userID: this.state.userID})}
                                         ref={this.props.generateTestHook('EditProfile.Button')}>
                                         <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
                                     </TouchableOpacity>
@@ -208,13 +214,13 @@ class UserScreen extends React.Component {
                                 <View style={styles.resultDescription}>
                                     <TouchableOpacity onPress={() => navigation.navigate('Following')} style={styles.following}
                                         ref={this.props.generateTestHook('Following.Button')}>
-                                        <HeadingText1 style={{ color: Colors.primary }}> {this.state.user.following.length} </HeadingText1>
+                                        <HeadingText1 style={{ color: Colors.primary }}> {this.user.following.length} </HeadingText1>
                                         <HeadingText2 style={{ color: Colors.primary }}> Following </HeadingText2>
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => navigation.navigate('Reviews',
                                         { reviews: reviews })} style={styles.reviewNum}
                                         ref={this.props.generateTestHook('AllReviews.Button')}>
-                                        <HeadingText1 style={{ color: Colors.primary }}> {this.state.user.reviews.length} </HeadingText1>
+                                        <HeadingText1 style={{ color: Colors.primary }}> {this.user.reviews.length} </HeadingText1>
                                         <HeadingText2 style={{ color: Colors.primary }}> Reviews </HeadingText2>
                                     </TouchableOpacity>
                                 </View>
@@ -223,29 +229,29 @@ class UserScreen extends React.Component {
                                     <View style={{ justifyContent: 'space-between', marginTop: 5 }}>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ left: -55 }}>Username:</HeadingText1>
-                                            <HeadingText2 style={{ right: -55 }}>{this.state.user.username}</HeadingText2>
+                                            <HeadingText2 style={{ right: -55 }}>{this.user.username}</HeadingText2>
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ left: -55 }}>Full Name:</HeadingText1>
-                                            <HeadingText2 style={{ right: -55 }}>{this.state.user.firstName} {this.state.user.lastName}</HeadingText2>
+                                            <HeadingText2 style={{ right: -55 }}>{this.user.firstName} {this.user.lastName}</HeadingText2>
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <View style={{ flexDirection: "column" }}>
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <HeadingText1 style={{ left: -55 }}>Address:</HeadingText1>
-                                                    <HeadingText2 style={{ right: -83 }}>{this.state.user.addressLine}</HeadingText2>
+                                                    <HeadingText2 style={{ right: -83 }}>{this.user.addressLine}</HeadingText2>
                                                 </View>
-                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -83 }}>{this.state.user.addressCity}, {this.state.user.addressProvince}</HeadingText2>
-                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -83 }}>{this.state.user.addressPostalCode}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -83 }}>{this.user.addressCity}, {this.user.addressProvince}</HeadingText2>
+                                                <HeadingText2 style={{ alignSelf: 'flex-end', right: -83 }}>{this.user.addressPostalCode}</HeadingText2>
                                             </View>
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ left: -55 }}>Phone:</HeadingText1>
-                                            <HeadingText2 style={{ right: -55 }}>{this.state.user.phoneNumber}</HeadingText2>
+                                            <HeadingText2 style={{ right: -55 }}>{this.user.phoneNumber}</HeadingText2>
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ left: -55 }}>E-mail:</HeadingText1>
-                                            <HeadingText2 style={{ right: -55 }}>{this.state.user.email}</HeadingText2>
+                                            <HeadingText2 style={{ right: -55 }}>{this.user.email}</HeadingText2>
                                         </View>
                                     </View>
                                 </View>
@@ -253,7 +259,7 @@ class UserScreen extends React.Component {
                                     <HeadingText1 style={styles.header}>B I O</HeadingText1>
                                     <View style={styles.bio}>
                                         <ParagraphText1 style={{ margin: 20 }}>
-                                            {this.state.user.bio}
+                                            {this.user.bio}
                                         </ParagraphText1>
                                     </View>
                                 </View>
@@ -284,8 +290,15 @@ class UserScreen extends React.Component {
                         </ScrollView>
                     </ImageBackground>
                 </View>
-            </View >
-        );
+            </View >)
+    }
+
+    render() {
+        return (
+            <View>
+                {this.state.ready && this.renderUser()}
+            </View>
+        )
     }
 }
 

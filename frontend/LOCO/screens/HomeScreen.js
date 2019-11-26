@@ -16,7 +16,8 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Button,
-    Modal
+    Modal,
+    ActivityIndicator
 } from 'react-native';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { Images, Colors, SortBy } from "../constants";
@@ -28,8 +29,11 @@ import MapButton from "../components/MapButton";
 import { hook, useCavy, wrap } from 'cavy'
 import mapController from "../controllers/MapController";
 import searchController from "../controllers/SearchController";
+import UserController from '../controllers/UserController';
+import userCache from '../caches/UserCache'
 
 const { width, height } = Dimensions.get('screen');
+const userController = new UserController()
 
 
 class HomeScreen extends React.Component {
@@ -45,8 +49,27 @@ class HomeScreen extends React.Component {
         mapVisible: false,
         preCallMin: new Date().getMinutes(),
         preCallSec: new Date().getSeconds(),
+        ready : false
     };
 
+
+    constructor(props) {
+        super(props)
+        this.suggestions = null
+    }
+
+    componentWillMount() {
+        userCache.getUserID()
+            .then((id) => {
+                userController.getSuggestions(id)
+                    .then((data) => {
+                        this.suggestions = data.suggestions
+                        this.setState({
+                            ready: true
+                        })
+                    })
+            })
+    }
 
     // calculatePerformance() {
     //     // Testing search performance
@@ -99,8 +122,8 @@ class HomeScreen extends React.Component {
             loadSearchResults: false,
             mapVisible: false,
         });
-        this.searchBar.clear();
-        this.searchBar.blur();
+        // this.searchBar.clear();
+        // this.searchBar.blur();
     }
 
     setMapVisible = (visible) => {
@@ -300,11 +323,18 @@ class HomeScreen extends React.Component {
     }
 
 
-    render() {
+    renderLoading() {
+        return (
+            <View style={styles.loading}>
+                <ActivityIndicator size="large" color="#51bfbb" />
+            </View>
+        )
+    }
+
+    renderReady() {
         const { search } = this.state;
 
         return (
-            <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.container}>
 
                     {this.state.isSearchActive && this.renderSearchCancel()}
@@ -365,8 +395,16 @@ class HomeScreen extends React.Component {
                     </Modal>
 
                 </View>
+        ); 
+    }
+
+    render(){
+        return(
+            <SafeAreaView style={{ flex: 1 }}>
+                {!this.state.ready && this.renderLoading()}
+            {this.state.ready && this.renderReady()}
             </SafeAreaView>
-        );
+        )
     }
 }
 
@@ -377,6 +415,14 @@ const styles = StyleSheet.create({
         width: width,
         backgroundColor: '#fff',
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
+    },
+    loading: {
+        position: "absolute",
+        top: height / 2,
+        left: width / 2,
+        zIndex: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     searchContainer: {
         paddingLeft: 10,

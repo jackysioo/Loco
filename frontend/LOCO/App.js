@@ -35,15 +35,11 @@ export default function App(props) {
     return (
       <Tester specs={[
         //  SignupScreenSpec,
-        //  LoginScreenSpec,
+         LoginScreenSpec,
         // // SearchingSpec,
         //  UserScreenSpec,
         //  EditBusinessSpec,
-<<<<<<< HEAD
-         AddBusinessSpec,
-=======
         //  AddBusinessSpec,
->>>>>>> 27a6867fdf8c5c01c2ab6b7bfc35443995f8471f
         //  BusinessScreenSpec,
         //  SignoutScreenSpec,
       ]} store={testHookStore}>

@@ -46,7 +46,6 @@ class LoginScreen extends React.Component {
             .then((data) => {
                 if (data !== 404) {
                     userCache.storeUserID(data.user._id)
-                    userCache.storeData(data.user._id, data.toString())
                     this.props.navigation.navigate("Main")
                 } else {
                     this.setState({

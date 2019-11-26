@@ -79,7 +79,12 @@ class UserController extends React.Component {
     async updateUser(user, userID) {
         try {
             const res = await fetch(userServer + "/put/" + userID, {
-                body: { user: user }
+                method: "PUT",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user: user})
             })
             if (res.ok) {
                 console.log("user updated")

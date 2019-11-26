@@ -17,35 +17,33 @@ import {
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
-import { Colors, user, Images } from '../constants';
+import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
+import UserController from '../controllers/UserController';
+const userController = new UserController()
+
 class BioScreen extends React.Component {
     state = {
-        usernameInput: user.username,
-        firstNameInput: user.firstName,
-        lastNameInput: user.lastName,
-        addressLineInput: user.addressLine,
-        addressCityInput: user.addressCity,
-        addressProvinceInput: user.addressProvince,
-        addressPostalCodeInput: user.addressPostalCode,
-        birthdayInput: user.birthday,
-        phoneInput: user.phoneNumber,
-        emailInput: user.email,
-        bioInput: user.bio,
-        passwordInput: user.password,
+        usernameInput: this.props.navigation.state.params.user.username,
+        firstNameInput: this.props.navigation.state.params.user.firstName,
+        lastNameInput: this.props.navigation.state.params.user.lastName,
+        addressLineInput: this.props.navigation.state.params.user.addressLine,
+        addressCityInput: this.props.navigation.state.params.user.addressCity,
+        addressProvinceInput: this.props.navigation.state.params.user.addressProvince,
+        addressPostalCodeInput: this.props.navigation.state.params.user.addressPostalCode,
+        phoneInput: this.props.navigation.state.params.user.phoneNumber,
+        emailInput: this.props.navigation.state.params.user.email,
+        bioInput: this.props.navigation.state.params.user.bio,
+        passwordInput: this.props.navigation.state.params.user.password,
+        userID: this.props.navigation.state.params.userID
     };
 
+
     submitChanges() {
-        fetch("link here", {
-            method: 'PUT', //POST, GET, PUT ..etc,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        userController.updateUser({
                 username: this.state.usernameInput,
                 firstName: this.state.firstNameInput,
                 lastName: this.state.lastNameInput,
@@ -54,11 +52,9 @@ class BioScreen extends React.Component {
                 addressProvince: this.state.addressProvinceInput,
                 addressPostalCode: this.state.addressPostalCodeInput,
                 phoneNumber: this.state.phoneInput,
-                bio: this.state.birthdayInput,
-                birthday: this.state.bioInput,
+                bio: this.state.bioInput,
                 password: this.state.passwordInput,
-            })
-        })
+            }, this.state.userID)
             .then(response => {
                 if (response.json().ok) {
                     console.log("sucessfully updated database")
@@ -113,9 +109,6 @@ class BioScreen extends React.Component {
         this.setState({ addressPostalCodeInput });
     };
 
-    updateBirthdayInput = (birthdayInput) => {
-        this.setState({ birthdayInput });
-    };
 
     render() {
         const { usernameInput } = this.state;
@@ -125,15 +118,14 @@ class BioScreen extends React.Component {
         const { addressCityInput } = this.state;
         const { addressProvinceInput } = this.state;
         const { addressPostalCodeInput } = this.state;
-        const { birthdayInput } = this.state;
         const { phoneInput } = this.state;
         const { emailInput } = this.state;
         const { bioInput } = this.state;
         const { passwordInput } = this.state;
 
-        const { navigation } = this.props;
+        const { navigation } = this.props.navigation.state.params;
 
-        const services = user.services.map((service) => {
+        const services = this.props.navigation.state.params.user.services.map((service) => {
             return (
                 <View style={styles.userContainer} key={service.title}>
                     <View style={styles.rating}>
@@ -189,7 +181,7 @@ class BioScreen extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             style={{ marginTop: '5%' }}>
-                            <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
+                            <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.navigation.goBack()}
                                 ref={this.props.generateTestHook('BioBack.Button')}>
                                 <HeadingText1 style={{ color: Colors.white }}> Back </HeadingText1>
                             </TouchableOpacity>
@@ -299,17 +291,6 @@ class BioScreen extends React.Component {
                                                 containerStyle={{ backgroundColor: '#ffffff' }}
                                                 inputStyle={{ fontSize: 13 }}
                                                 value={addressPostalCodeInput} />
-                                        </View>
-                                        <View style={styles.innerInfo}>
-                                            <HeadingText1 style={{ paddingRight: 20 }}>Birthday:</HeadingText1>
-                                            <TextInput
-                                                ref={this.props.generateTestHook('Birthday.TextInput')}
-                                                style={[{ height: 30, width: 250 }, styles.messageInput]}
-                                                onChangeText={this.updateBirthdayInput}
-                                                inputContainerStyle={{ backgroundColor: Colors.white }}
-                                                containerStyle={{ backgroundColor: '#ffffff' }}
-                                                inputStyle={{ fontSize: 13 }}
-                                                value={birthdayInput} />
                                         </View>
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Phone:</HeadingText1>
