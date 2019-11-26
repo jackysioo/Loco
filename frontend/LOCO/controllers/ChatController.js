@@ -13,6 +13,7 @@ class ChatController extends React.Component {
     constructor(props) {
         super(props);
         this.userID = null
+        this.chatExists = null
     }
 
     async init() {
@@ -29,25 +30,19 @@ class ChatController extends React.Component {
     //if chatroom does not exist, create a chatroom between current user and other user
     //if chatroom exists, load the chatroom between current user and other user
     async sendMessageToUser(otherUserID, message) {
-        var chatExists = false
+        this.chatExists = false
         try {
-            const response = await fetch(chatServer + "/messages?id=" + this.userID, {
+            const response = await fetch(chatServer + "/chats?id=" + this.userID, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
-            const rooms = response.json()
+            const rooms = await response.json()
             for (let room of rooms) {
                 for (let id of room.member_user_ids) {
                     if (otherUserID === id) {
-                        chatExists = true
-                        console.log("sending " + message + " to " + otherUserID)
-                        this.sendMessageToRoom(room.id, message)
-                            .then((res) => {
-                                console.log("response :" + res)
-                                return res
-                            })
+                        this.chatExists = true
                     }
                 }
             }
@@ -56,13 +51,23 @@ class ChatController extends React.Component {
             console.log(error);
         }
 
-        if (!chatExists) {
+        if (!this.chatExists) {
             try {
                 const roomID = await this._createChat(otherUserID)
-                console.log("sending " + message + " to " + otherUserID)
-
-                const res = await this.sendMessageToRoom(roomID, message)
-                console.log("response :" + res)
+                console.log(roomID)
+                if (roomID !== 404) {
+                    const res = await this.sendMessageToRoom(roomID, message)
+                    return res
+                } else {
+                    return 404
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        } else {
+            try {
+                const res = await this.sendMessageToRoom(room.id, message)
                 return res
             }
             catch (error) {
@@ -193,7 +198,7 @@ class ChatController extends React.Component {
 
     async _createChat(otherUserID) {
         try {
-            const res = await fetch(chatServer + "/room", {
+            const res = fetch(chatServer + "/room", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -203,9 +208,12 @@ class ChatController extends React.Component {
                     otherUserID: otherUserID
                 })
             });
+            console.log(res)
             if (res.ok) {
                 console.log("successfully created new room in controller");
-                return (res.roomID);
+                return ("room-" + this.userID + "-" + otherUserID);
+            } else {
+                return 404
             }
         }
         catch (err) {

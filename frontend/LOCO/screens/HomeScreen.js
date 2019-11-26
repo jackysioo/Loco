@@ -136,6 +136,7 @@ class HomeScreen extends React.Component {
                         this.setState({
                             searchResults: businesses
                         }, () => {
+                            console.log(businesses)
                             this.setState({
                                 loadSearchResults: true
                             })
@@ -160,6 +161,7 @@ class HomeScreen extends React.Component {
                 this.setState({
                     searchResults: businesses
                 }, () => {
+                    console.log(businesses)
                     this.setState({
                         loadSearchResults: true
                     })

@@ -36,7 +36,6 @@ class BusinessScreen extends React.Component {
         reviewTitleInput: '',
         reviewInput: '',
         ratingInput: '',
-        messageSent: false,
         messageSentError: false
     };
 
@@ -46,11 +45,11 @@ class BusinessScreen extends React.Component {
 
     //UPDATE USER TO USER ID
     sendMessage(user) {
-        chatController.sendMessageToUser("Alfred", this.state.message)
+        chatController.sendMessageToUser("Hi", this.state.message)
             .then((res) => {
                 if (res === 200) {
                     this.setState({ 
-                        messageSent: true, });
+                        messageFormVisible: false, });
                 } else {
                     this.setState({ 
                         messageSentError: true, });
@@ -84,11 +83,11 @@ class BusinessScreen extends React.Component {
             transparent={false}
             visible={this.state.messageFormVisible}>
             <TouchableOpacity
-                style={styles.backButton}
+                style={[styles.backButton, {top:50}]}
                 onPress={() => {
                     this.setState({ messageFormVisible: false })
                 }}>
-                <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Cancel</HeadingText1>
+                <HeadingText1 style={{ fontSize: 14, color: Colors.placeholder }}>Cancel</HeadingText1>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.sendButton}
@@ -97,6 +96,7 @@ class BusinessScreen extends React.Component {
                 }}>
                 <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
             </TouchableOpacity>
+          <HeadingText1 style={styles.headerTitle}> Send Message</HeadingText1>
             <View style={styles.messageFormContainer}>
                 <TextInput
                     multiline
@@ -109,9 +109,12 @@ class BusinessScreen extends React.Component {
                     value={message}
                     placeholder="Type your message here..."
                     placeholderTextColor={Colors.placeholder}
-                    returnKeyType="send"
                 />
             </View>
+            {this.state.messageSentError && 
+                <ParagraphText1 style={{ fontSize: 12, color: Colors.error, marginHorizontal: 20 }}>
+                    Oops! There was an error sending your message.
+                </ParagraphText1>}
         </Modal>)
     }
 
@@ -132,6 +135,7 @@ class BusinessScreen extends React.Component {
                 </View>
             )
         })
+
         const reviews = this.props.navigation.state.params.item.reviews.map((review) => {
             // only display up to 46 characters of review outside of a review
             var displayReview = review.review;
@@ -332,6 +336,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0)'
     },
+    headerTitle: {
+      fontSize: 25,
+      marginTop: 45,
+      letterSpacing: 2,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      color: Colors.primary,
+    },
     outerContainer: {
         width: width,
         height: height,
@@ -440,7 +452,7 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: "absolute",
-        top: 40,
+        top: 25,
         left: 10,
         margin: 10,
     },
@@ -471,7 +483,7 @@ const styles = StyleSheet.create({
     },
     sendButton: {
         position: "absolute",
-        top: 40,
+        top: 50,
         right: 10,
         margin: 10,
     },
@@ -579,7 +591,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     messageFormContainer: {
-        marginVertical: 80,
+        marginVertical: 40,
         marginHorizontal: 20
     },
     messageInput: {
