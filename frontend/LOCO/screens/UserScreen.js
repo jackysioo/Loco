@@ -1,5 +1,4 @@
 import React from 'react';
-import { withNavigationFocus } from 'react-navigation';
 import {
     Dimensions,
     Platform,
@@ -12,7 +11,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     TouchableWithoutFeedback,
-    Button,
+    ActivityIndicator,
     Modal
 } from 'react-native';
 
@@ -20,8 +19,35 @@ const { height, width } = Dimensions.get('screen');
 import { Colors, user, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
+import { onSignOut } from '../controllers/AuthController';
+
 
 class UserScreen extends React.Component {
+
+    state = {
+        signingOut: false
+    }
+
+    signout = () => {
+        this.setState({
+            signingOut: true
+        })
+        setTimeout(() => {
+            this.props.navigation.navigate("Login")}, 1000)
+    }
+
+    renderSignOut() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={this.state.signingOut}>
+                <View style={styles.modal}>
+                    <ActivityIndicator style={styles.loading} size="large" color="#ffffff" />
+                </View>
+            </Modal>
+        )
+    }
 
     render() {
         var count = 0;  // for testing purposes 
@@ -128,6 +154,7 @@ class UserScreen extends React.Component {
 
         return (
             <View style={styles.container}>
+                {this.renderSignOut()}
                 <View style={{ flex: 1 }}>
                     <ImageBackground
                         source={Images.ProfileBackground}
@@ -136,7 +163,7 @@ class UserScreen extends React.Component {
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             style={{ marginTop: '5%' }}>
-                            <TouchableOpacity style={styles.signoutButton}>
+                            <TouchableOpacity style={styles.signoutButton} onPress={this.signout}>
                                 <HeadingText1 style={[styles.shadow, { color: Colors.white }]}>Sign Out</HeadingText1>
                             </TouchableOpacity>
                             <View style={styles.profileCard}>
@@ -259,6 +286,15 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 10,
         margin: 10,
+    },
+    modal: {
+        backgroundColor: Colors.black,
+        opacity: 0.5,
+        height: height,
+        width: width
+    },
+    loading: {
+        marginTop: height / 2,
     },
     profileBackground: {
         height: height / 2,
