@@ -10,7 +10,7 @@ import {
     Text,
     TextInput,
     View,
-    ImageBackground,
+    TouchableWithoutFeedback,
     TouchableOpacity,
     Button,
     Modal,
@@ -73,18 +73,20 @@ class LoginScreen extends React.Component {
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
                     <View style={styles.logincontainer}>
+                        <TouchableWithoutFeedback style={{flex: 1}} onPress={Keyboard.dismiss} accessible={false}>
                         <View style={{ alignSelf: 'center', flexDirection: 'column' }}>
                             <Image source={Images.Logo} style={styles.logo} />
                             <View style={styles.innerInfo}>
                                 <HeadingText1 style={styles.title}>Username:</HeadingText1>
                                 <TextInput
                                     ref={this.props.generateTestHook('LoginUsername.TextInput')}
-                                    style={[{ height: 30, width: 250 }, styles.messageInput]}
+                                    style={[{ height: 35, width: 250 }, styles.messageInput]}
                                     onChangeText={this.updateUsername}
                                     inputContainerStyle={{ backgroundColor: Colors.white }}
                                     containerStyle={{ backgroundColor: '#ffffff' }}
                                     value={usernameInput}                               
                                     returnKeyType="next"
+                                    placeholder="username"
                                     onSubmitEditing={() => { this.password.focus(); }}
                                     blurOnSubmit={false}
                                     />
@@ -92,14 +94,15 @@ class LoginScreen extends React.Component {
                             <View style={styles.innerInfo}>
                                 <HeadingText1 style={[styles.title, { marginTop: -400 }]}>Password:</HeadingText1>
                                 <TextInput
-                                    ref={(input) => { this.password = input, this.props.generateTestHook('LoginPassword.TextInput')}}
-                                    style={[{ height: 30, width: 250, marginTop: -400 }, styles.messageInput]}
+                                    ref={(input) =>  this.password = input, this.props.generateTestHook('LoginPassword.TextInput')}
+                                    style={[{ height: 35, width: 250, marginTop: -400 }, styles.messageInput]}
                                     secureTextEntry={true}
                                     onChangeText={this.updatePassword}
                                     inputContainerStyle={{ backgroundColor: Colors.white }}
                                     containerStyle={{ backgroundColor: '#ffffff' }}
                                     value={passwordInput}                                  
                                     returnKeyType="go"
+                                    placeholder="password"
                                     onSubmitEditing={this.authenticateUser}
                                     />
                             </View>
@@ -112,7 +115,7 @@ class LoginScreen extends React.Component {
                                 <TouchableOpacity
                                     ref={this.props.generateTestHook('Login.Button')}
                                     style={styles.loginbutton} onPress={this.authenticateUser}>
-                                    <HeadingText2 style={{ padding: 5, alignSelf: 'center', fontSize: 16 }}>Login</HeadingText2>
+                                    <HeadingText2 style={{ padding: 5, alignSelf: 'center', fontSize: 14 }}>Login</HeadingText2>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     ref={this.props.generateTestHook('SignUp.Button')}
@@ -122,6 +125,7 @@ class LoginScreen extends React.Component {
 
                             </View>
                         </View>
+                    </TouchableWithoutFeedback>
                     </View>
                 </View>
             </View>
@@ -152,10 +156,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     messageInput: {
-        borderRadius: 10,
+        borderRadius: 15,
         paddingHorizontal: 15,
-        borderColor: Colors.highlight,
-        borderWidth: 1,
+        // borderColor: Colors.highlight,
+        // borderWidth: 1,
         backgroundColor: Colors.white,
     },
     info: {
@@ -178,13 +182,13 @@ const styles = StyleSheet.create({
     loginbutton: {
         borderRadius: 16,
         backgroundColor: Colors.white,
-        width: 80,
+        width: 180,
         alignSelf: 'center',
         bottom: height / 2 - 120,
     },
     signupbutton: {
         alignSelf: 'center',
-        bottom: height / 2 - 130,
+        bottom: height / 2 - 140,
     },
 });
 
