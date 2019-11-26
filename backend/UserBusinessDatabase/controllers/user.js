@@ -74,21 +74,6 @@ exports.signUp = async (req, res, next) => {
     };
 }
 
-exports.getUserData = (req, res, next) => {
-    User.find()
-        .populate('reviews')
-        .exec()
-        .then((users) => { 
-        res.status(200).json({ users: users }) 
-        }).catch((err) => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        });
-}
-
-
 exports.getUserDataById = (req, res, next) => {
     const userId = req.params.userId;
     User.findById(userId) 
@@ -154,48 +139,6 @@ exports.updateUserData = async (req, res, next) => {
 
 }
 
-
-
-
-
-exports.updateService = async (req, res, next) => {
-    try {
-        const userId = req.params.userId;
-        const user = await User.findById(userId);
-
-        const service = await user.services.id(req.body.service._id);
-        await service.set(req.body.service);
-
-        const result = await user.save();
-        result.services.find((service) => { return service._id === req.body.service._id });
-
-        res.status(200).json({ message: 'updated', service: service });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-}
-
-exports.addService = async (req, res, next) => {
-    try {
-        const userId = req.params.userId;
-        const user = await User.findById(userId);
-
-        await user.services.push(req.body.service);
-
-        const result = await user.save();
-        const service = result.services[result.services.length - 1];
-
-        res.status(200).json({ message: 'updated', service: service });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-} 
 
 exports.getSuggestions = async (req, res, next) => {
     try {
