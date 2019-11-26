@@ -10,6 +10,7 @@ const dbHandler = require('./db');
 const userData = [
   {
       username: "tanya_cooper123",
+      password: "123",
       firstName: "Tanya",
       lastName: "Cooper",
       profilePic: 'https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=942&q=80',
@@ -125,8 +126,10 @@ const businessData = [
 
 describe('Business Integration Tests', () => {
 
-    it('Can make a post request', async done => {
-        const response = await request.post('/business/post').send({business : businessData[0]});
+    it('Can make a post request', async (done) => { 
+      const user = await request.post('/user/signUp').send({user : userData[0]}); 
+      const id = user.body.user._id; 
+        const response = await request.post('/business/post/'+id).send({business : businessData[0]});
         expect(response.status).toBe(201);
         expect(response.body.business.title).toBe(businessData[0].title);
         
