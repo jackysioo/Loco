@@ -151,6 +151,20 @@ describe('Business Integration Tests', () => {
         done();
       }); 
 
+      it('getting a business by id error handling', async (done) => { 
+        
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
+        const uid = user.body.user._id; 
+          const business = await request.post('/business/post/'+uid).send({business : businessData[0]}); 
+        const id = business.body.business._id; 
+
+        const response = await request.get('/business/get/'+-1); 
+
+        expect(response.status).toBe(500);
+        
+        done();
+      }); 
+
 
       it('Can make a get request getting a business by id', async (done) => { 
         
@@ -181,7 +195,7 @@ describe('Business Integration Tests', () => {
         console.log(response);
         
         done();
-      });   
+      });
 
       it('Can make a delete request', async (done) => { 
         
@@ -213,6 +227,32 @@ describe('Business Integration Tests', () => {
         done();
       });  
 
+      it('Testing error handling for update business', async (done) => { 
+        
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password});  
+        const uid = user.body.user._id; 
+  
+        const response = await request.put('/business/put/').send({business : {title: 'changed title'}}); 
+
+        expect(response.status).toBe(404);
+        
+        done();
+      });  
+
+      it('more error handling for update business', async (done) => { 
+        
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password});  
+        const uid = user.body.user._id; 
+        const business = await request.post('/business/post/'+uid).send({business : businessData[0]}); 
+        const id = business.body.business._id; 
+
+        const response = await request.put('/business/put/'+-1).send({business : {title: 'changed title'}}); 
+
+        expect(response.status).toBe(500);
+        
+        done();
+      });  
+
       it('Can search for correct options', async (done) => { 
         
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password});  
@@ -229,7 +269,7 @@ describe('Business Integration Tests', () => {
         done();
       });  
 
-}); 
+  });
 
 // describe('Business Unit Tests', () => { 
 
