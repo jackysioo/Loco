@@ -6,7 +6,8 @@ const businessSchema = new Schema({
         type: String
     },
     user: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
     },
     about: {
         type: String

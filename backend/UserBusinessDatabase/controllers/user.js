@@ -1,9 +1,13 @@
 const User = require('../models/user');
-const Business = require('../models/business');
+const Business = require('../models/business'); 
+const Suggestion = require('../models/suggestion');
 const Search = require('../models/search');
 const Review = require('../models/review'); 
 const JWT = require('jsonwebtoken');  
-const {JWT_SECRET} = require('../configuration/index');
+const {JWT_SECRET} = require('../configuration/index'); 
+const Engine = require('../recEngine/engine'); 
+
+const e = new Engine(); 
 
 createToken = user => { 
    return JWT.sign({ 
@@ -36,13 +40,13 @@ exports.signUp = async (req, res, next) => {
         const userObj = { ...req.body.user, searchId: searchId._id };
         const user = new User(userObj);
 
-        await user.save(); 
+        const result = await user.save(); 
 
         const token = createToken(user);
         
         res.status(201).json({
             message: 'add user success',
-            user: user, 
+            user: result, 
             token: token
         });
 
@@ -167,6 +171,22 @@ exports.addService = async (req, res, next) => {
         const service = result.services[result.services.length - 1];
 
         res.status(200).json({ message: 'updated', service: service });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+} 
+
+exports.getSuggestions = async (req, res, next) => {
+    try {
+        const userId = req.params.userId; 
+       await e.similars.update(userId); 
+       await e.suggestions.update(userId); 
+        const suggestions = await Suggestion.findOne({user: userId}).populate('suggestions.business').exec();
+
+        res.status(200).json({ message: 'suggestions', suggestions: suggestions.suggestions });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

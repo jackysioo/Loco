@@ -7,7 +7,9 @@ const reviewSchema = new Schema({
     review: String,
     rating: Number,
     image: String,
-    user: String
+    user: String, 
+    userId: mongoose.Schema.Types.ObjectId, 
+    businessId: mongoose.Schema.Types.ObjectId
 });
 
 module.exports = mongoose.model('Review', reviewSchema);

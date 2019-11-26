@@ -7,7 +7,11 @@ const businessRoutes = require('./routes/business');
 const reviewRoutes = require('./routes/review');
 const chatRoutes = require('./routes/chat');
 app.use(bodyParser.json());  
-app.use(bodyParser.urlencoded()); 
+app.use(bodyParser.urlencoded({ extended: true }));  
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
