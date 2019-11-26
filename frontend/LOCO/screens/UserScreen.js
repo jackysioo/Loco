@@ -108,6 +108,24 @@ class UserScreen extends React.Component {
             displayReviews = displayReviews.slice(0, 6);
         }
 
+        // only display "Your Reviews" header and "view all" buttons if there are reviews 
+        var viewall;
+        var reviewTitle;
+        if (reviews.length != 0) {
+            viewall = <TouchableOpacity onPress={() => navigation.navigate('Reviews',
+                { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}
+                ref={this.props.generateTestHook('ViewAllReviews.Button')}>
+                <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
+            </TouchableOpacity>;
+            reviewTitle = <HeadingText1 style={styles.header}>YOUR REVIEWS</HeadingText1>;
+        }
+
+        // only display "Your Services" header if there are services
+        var serviceTitle;
+        if (services.length != 0) {
+            serviceTitle = <HeadingText1 style={styles.header}>YOUR SERVICES</HeadingText1>;
+        }
+
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -188,7 +206,7 @@ class UserScreen extends React.Component {
                                     </View>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={styles.header}>YOUR SERVICES</HeadingText1>
+                                    {serviceTitle}
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
                                         snapToInterval={10}
@@ -199,7 +217,7 @@ class UserScreen extends React.Component {
                                     </ScrollView>
                                 </View>
                                 <View style={styles.reviews}>
-                                    <HeadingText1 style={styles.header}>YOUR REVIEWS</HeadingText1>
+                                    {reviewTitle}
                                     <ScrollView horizontal={true}
                                         decelerationRate={0}
                                         snapToInterval={10}
@@ -208,11 +226,7 @@ class UserScreen extends React.Component {
                                         style={styles.itemContainer}>
                                         {displayReviews}
                                     </ScrollView>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Reviews',
-                                        { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}
-                                        ref={this.props.generateTestHook('ViewAllReviews.Button')}>
-                                        <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
-                                    </TouchableOpacity>
+                                    {viewall}
                                 </View>
                             </View>
                         </ScrollView>

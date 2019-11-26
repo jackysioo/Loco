@@ -42,7 +42,7 @@ class BusinessScreen extends React.Component {
         chatController.init()
     }
 
-//UPDATE USER TO USER ID
+    //UPDATE USER TO USER ID
     sendMessage(user) {
         chatController.sendMessageToUser("Lisa")
     }
@@ -65,41 +65,41 @@ class BusinessScreen extends React.Component {
 
     renderMessageForm() {
         const { message } = this.state;
-        return(
-        <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.messageFormVisible}>
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => {
-                    this.setState({ messageFormVisible: false })
-                }}>
-                <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Cancel</HeadingText1>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.sendButton}
-                onPress={() => {
-                    this.sendMessage(this.props.navigation.state.params.item.user);
-                }}>
-                <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
-            </TouchableOpacity>
-            <View style={styles.messageFormContainer}>
-                <TextInput
-                    multiline
-                    numberOfLines={6}
-                    style={[{ height: 200 }, styles.messageInput]}
-                    onChangeText={this.updateMessage}
-                    inputContainerStyle={{ backgroundColor: Colors.white }}
-                    containerStyle={{ backgroundColor: '#ffffff' }}
-                    inputStyle={{ fontSize: 13 }}
-                    value={message}
-                    placeholder="Type your message here..."
-                    placeholderTextColor={Colors.placeholder}
-                    returnKeyType="send"
-                />
-            </View>
-        </Modal>)
+        return (
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.messageFormVisible}>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => {
+                        this.setState({ messageFormVisible: false })
+                    }}>
+                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Cancel</HeadingText1>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.sendButton}
+                    onPress={() => {
+                        this.sendMessage(this.props.navigation.state.params.item.user);
+                    }}>
+                    <HeadingText1 style={{ fontSize: 14, color: Colors.primary }}>Send</HeadingText1>
+                </TouchableOpacity>
+                <View style={styles.messageFormContainer}>
+                    <TextInput
+                        multiline
+                        numberOfLines={6}
+                        style={[{ height: 200 }, styles.messageInput]}
+                        onChangeText={this.updateMessage}
+                        inputContainerStyle={{ backgroundColor: Colors.white }}
+                        containerStyle={{ backgroundColor: '#ffffff' }}
+                        inputStyle={{ fontSize: 13 }}
+                        value={message}
+                        placeholder="Type your message here..."
+                        placeholderTextColor={Colors.placeholder}
+                        returnKeyType="send"
+                    />
+                </View>
+            </Modal>)
     }
 
     render() {
@@ -156,6 +156,14 @@ class BusinessScreen extends React.Component {
             displayReviews = displayReviews.slice(0, 2);
         }
 
+        var viewall;
+        if (reviews.length != 0) {
+            viewall = <TouchableOpacity onPress={() => this.props.navigation.navigate('Reviews',
+                { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}                                   >
+                <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
+            </TouchableOpacity>;
+        }
+
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -208,10 +216,7 @@ class BusinessScreen extends React.Component {
                                     </TouchableOpacity>
                                     {displayReviews}
                                 </View>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('Reviews',
-                                    { reviews: reviews })} style={{ alignSelf: "flex-end", paddingRight: 20 }}                                   >
-                                    <ParagraphText1 style={styles.viewAll}> View All ({reviews.length}) </ParagraphText1>
-                                </TouchableOpacity>
+                                {viewall}
                                 <View style={styles.photos}>
                                     <HeadingText1 style={{ marginBottom: 10, alignSelf: 'center', marginTop: 10, color: Colors.placeholder }}>P H O T O  G A L L E R Y</HeadingText1>
                                     <View style={styles.gallery}>
