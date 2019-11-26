@@ -9,11 +9,8 @@ import UserScreen from '../screens/UserScreen';
 import BusinessScreen from '../screens/BusinessScreen';
 import BioScreen from '../screens/BioScreen';
 import AllReviewsScreen from '../screens/AllReviewsScreen';
-import AllAppointmentsScreen from '../screens/AllAppointmentsScreen';
 import FollowingScreen from '../screens/FollowingScreen';
 import ReviewScreen from '../screens/ReviewScreen';
-import LoginScreen from '../screens/LoginScreen';
-import SignupScreen from '../screens/SignupScreen';
 import ChatScreen from '../screens/ChatScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import AddBusinessScreen from '../screens/AddBusinessScreen';
@@ -55,7 +52,6 @@ const UserStack = createStackNavigator(
     Bio: BioScreen,
     Reviews: AllReviewsScreen,
     Following: FollowingScreen,
-    Appointments: AllAppointmentsScreen,
     UserReview: ReviewScreen,
     AddBusiness: AddBusinessScreen,
     Business: BusinessScreen,
@@ -75,25 +71,25 @@ UserStack.navigationOptions = {
 
 UserStack.path = '';
 
-const LoginStack = createStackNavigator(
-  {
-    Login: LoginScreen,
-    Signup: SignupScreen,
-  }, {
-    headerMode: 'none',
-  },
-    config
-  );
+// const LoginStack = createStackNavigator(
+//   {
+//     Login: LoginScreen,
+//     Signup: SignupScreen,
+//   }, {
+//     headerMode: 'none',
+//   },
+//     config
+//   );
 
 
-LoginStack.navigationOptions = {
-  tabBarLabel: 'Login',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
-  )
-}
+// LoginStack.navigationOptions = {
+//   tabBarLabel: 'Login',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
+//   )
+// }
 
-LoginStack.path = '';
+// LoginStack.path = '';
     
 //TESTING CHAT
 const ChatStack = createStackNavigator(
@@ -118,7 +114,7 @@ ChatStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   UserStack,
-  LoginStack,
+  // LoginStack,
   ChatStack
 });
 

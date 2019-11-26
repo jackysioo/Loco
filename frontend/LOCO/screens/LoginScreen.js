@@ -15,12 +15,13 @@ import {
     Button,
     Modal
 } from 'react-native';
-
-const { height, width } = Dimensions.get('screen');
+import userCache from '../caches/UserCache'
 import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy';
+
+const { height, width } = Dimensions.get('screen');
 
 class LoginScreen extends React.Component {
     state = {
@@ -35,11 +36,19 @@ class LoginScreen extends React.Component {
     updatePassword = (passwordInput) => {
         this.setState({ passwordInput });
     };
+    
+    authenticateUser = async () => {
+         await userCache.storeUserID("Cynthia")
+         this.props.navigation.navigate("Main")
+    }
+
+    signup = () => {
+        this.props.navigation.navigate('Signup')
+    }
 
     render() {
         const { usernameInput } = this.state;
         const { passwordInput } = this.state;
-        const { navigation } = this.props;
 
         return (
             <View style={styles.container}>
@@ -67,10 +76,10 @@ class LoginScreen extends React.Component {
                                     containerStyle={{ backgroundColor: '#ffffff' }}
                                     value={passwordInput} />
                             </View>
-                            <TouchableOpacity style={styles.loginbutton}>
+                            <TouchableOpacity style={styles.loginbutton} onPress={this.authenticateUser}>
                                 <HeadingText2 style={{ padding: 5, alignSelf: 'center' }}>Login</HeadingText2>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.signupbutton} onPress={() => navigation.navigate('Signup')}>
+                            <TouchableOpacity style={styles.signupbutton} onPress={this.signup}>
                                 <HeadingText2 style={{ color: Colors.white }}>Sign Up</HeadingText2>
                             </TouchableOpacity>
                         </View>

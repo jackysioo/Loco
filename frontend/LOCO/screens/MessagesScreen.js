@@ -24,28 +24,29 @@ const chatController = new ChatController()
 
 class MessagesScreen extends React.Component {
     state = {
-        userID: "Cynthia",
         allChats: [],
         loading: true,
         refreshing: false,
     }
 
     componentDidMount() {
-        chatController.getChats(this.state.userID)
-            .then((chats) => {
-                this.setState({
-                    allChats: chats
-                }, () => {
+        chatController.init().then(()=>{
+            chatController.getChats()
+                .then((chats) => {
                     this.setState({
-                        loading: false
+                        allChats: chats
+                    }, () => {
+                        this.setState({
+                            loading: false
+                        })
                     })
                 })
-            })
+        })
     }
 
 
     enterChat(roomID, otherUserID) {
-        this.props.navigation.navigate('Chat', { userID: this.state.userID, roomID: roomID, otherUserID: otherUserID })
+        this.props.navigation.navigate('Chat', { roomID: roomID, otherUserID: otherUserID })
     }
 
     newRoomID = (roomID) => {
@@ -56,7 +57,7 @@ class MessagesScreen extends React.Component {
         this.setState({
             refreshing: true
         });
-        chatController.getChats(this.state.userID)
+        chatController.getChats()
             .then((chats) => {
                 this.setState({
                     allChats: chats
