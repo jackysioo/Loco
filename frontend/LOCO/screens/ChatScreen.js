@@ -127,7 +127,7 @@ export default class ChatScreen extends React.Component {
     if (this.state.message) {
       Keyboard.dismiss()
       await chatController
-        .sendMessageToRoom(this.state.userID, this.state.roomID, this.state.message)
+        .sendMessageToRoom(this.state.roomID, this.state.message)
       this.setState({
         message: ""
       });

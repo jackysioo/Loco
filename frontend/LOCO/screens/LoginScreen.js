@@ -76,10 +76,10 @@ class LoginScreen extends React.Component {
                                     value={passwordInput} />
                             </View>
                             <TouchableOpacity style={styles.loginbutton} onPress={this.authenticateUser}>
-                                <HeadingText2 style={{ padding: 5, alignSelf: 'center' }}>Login</HeadingText2>
+                                <HeadingText2 style={{padding: 5, alignSelf: 'center', fontSize: 16 }}>Login</HeadingText2>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.signupbutton} onPress={this.signup}>
-                                <HeadingText2 style={{ color: Colors.white }}>Sign Up</HeadingText2>
+                                <HeadingText2 style={{ color: Colors.white, fontSize: 12 }}>Sign Up</HeadingText2>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     },
     messageInput: {
         borderRadius: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
         borderColor: Colors.highlight,
         borderWidth: 1,
         backgroundColor: Colors.white,
@@ -129,12 +129,10 @@ const styles = StyleSheet.create({
     },
     loginbutton: {
         borderRadius: 16,
-        borderWidth: 1,
-        borderColor: Colors.highlight,
         backgroundColor: Colors.white,
-        width: 60,
+        width: 80,
         alignSelf: 'center',
-        bottom: height / 2 - 85,
+        bottom: height / 2 - 90,
     },
     signupbutton: {
         alignSelf: 'center',

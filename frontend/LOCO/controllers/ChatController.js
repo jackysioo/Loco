@@ -69,7 +69,6 @@ class ChatController extends React.Component {
             });
             const rooms = await response.json();
             var chats = [];
-            console.log(chats)
             for (let room of rooms) {
                 for (let id of room.member_user_ids) {
                     if (id !== this.userID) {
@@ -161,7 +160,7 @@ class ChatController extends React.Component {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                userID: userID,
+                userID: this.userID,
                 roomID: roomID,
                 message: message
             })

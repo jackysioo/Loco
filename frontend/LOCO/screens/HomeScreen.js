@@ -47,7 +47,6 @@ class HomeScreen extends React.Component {
     };
 
 
-
     // calculatePerformance() {
     //     // Testing search performance
     //     var postCallMin = new Date().getMinutes(); //Current Minutes

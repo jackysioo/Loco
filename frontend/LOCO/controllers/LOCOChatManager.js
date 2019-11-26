@@ -5,6 +5,7 @@ import {
     View,
 } from 'react-native';
 import { ChatManager, TokenProvider } from "@pusher/chatkit-client";
+import userCache from '../caches/UserCache'
 
 const instanceLocatorId = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
 const tokenProvider = new TokenProvider({
@@ -21,7 +22,7 @@ class LOCOChatManager extends React.Component {
     constructor(props) {
         super(props);
         this.currentUser = null;
-        this.userID = null
+        this.userID = ''
     }
 
     async init() {
