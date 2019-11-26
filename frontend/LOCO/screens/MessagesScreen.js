@@ -101,7 +101,7 @@ class MessagesScreen extends React.Component {
 
     render() {
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
 
                 <View style={styles.header}>
                     <HeadingText1 style={styles.headerTitle}> MESSAGES</HeadingText1>
@@ -116,7 +116,7 @@ class MessagesScreen extends React.Component {
                 >
                     {!this.state.loading && this.renderChats()}
                 </ScrollView>
-            </SafeAreaView>
+            </View>
         )
     }
 }
@@ -130,18 +130,16 @@ const styles = StyleSheet.create({
     },
     header: {
         width: width,
-        height: 50,
         backgroundColor: Colors.primary,
-        paddingVertical: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
+        paddingVertical: 15,
     },
     headerTitle : {
-        letterSpacing: 1,
-        color: Colors.white,
         fontSize: 25,
+        marginTop: 10,
+        letterSpacing: 2,
+        alignSelf: 'center',
         justifyContent: 'center',
-        alignItems: 'center'
+        color: Colors.white,
     },
     loading: {
         position: "absolute",

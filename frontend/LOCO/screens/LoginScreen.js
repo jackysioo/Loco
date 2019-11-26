@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     logo: {
         alignSelf: 'center',
         marginBottom: 50,
-        width: 175,
+        width: 200,
         resizeMode: 'contain',
         top: height / 2 - 220,
 

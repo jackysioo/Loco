@@ -28,45 +28,46 @@ class ChatController extends React.Component {
     //check if a chatroom already exists between the current user and the other user
     //if chatroom does not exist, create a chatroom between current user and other user
     //if chatroom exists, load the chatroom between current user and other user
-    sendMessageToUser(otherUserID, message) {
+    async sendMessageToUser(otherUserID, message) {
         var chatExists = false
-
-        fetch(chatServer + "/messages?id=" + this.userID, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(response => response.json())
-            .then((rooms) => {
-                for (let room of rooms) {
-                    for (let id of room.member_user_ids) {
-                        if (otherUserID === id) {
-                            chatExists = true
-                            console.log("sending " + message + " to " + otherUserID)
-                            this.sendMessageToRoom(room.id, message)
-                                .then((res) => {
-                                    console.log("response :" + res)
-                                    return res
-                                })
-                        }
-                    }
+        try {
+            const response = await fetch(chatServer + "/messages?id=" + this.userID, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
                 }
             })
-            .catch(error => {
-                console.log(error);
-            });
+            const rooms = response.json()
+            for (let room of rooms) {
+                for (let id of room.member_user_ids) {
+                    if (otherUserID === id) {
+                        chatExists = true
+                        console.log("sending " + message + " to " + otherUserID)
+                        this.sendMessageToRoom(room.id, message)
+                            .then((res) => {
+                                console.log("response :" + res)
+                                return res
+                            })
+                    }
+                }
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
 
         if (!chatExists) {
-            this._createChat(otherUserID)
-                .then((roomID) => {
-                    console.log("sending " + message + " to " + otherUserID)
-                    this.sendMessageToRoom(roomID, message)
-                    .then((res) => {
-                        console.log("response :" + res)
-                        return res
-                    })
-                })
+            try {
+                const roomID = await this._createChat(otherUserID)
+                console.log("sending " + message + " to " + otherUserID)
+
+                const res = await this.sendMessageToRoom(roomID, message)
+                console.log("response :" + res)
+                return res
+            }
+            catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -166,26 +167,26 @@ class ChatController extends React.Component {
 
 
     //sends a message in the chatroom with roomID
-    sendMessageToRoom(roomID, message) {
-        fetch(chatServer + "/messages", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userID: this.userID,
-                roomID: roomID,
-                message: message
+    async sendMessageToRoom(roomID, message) {
+        try {
+            const res = await fetch(chatServer + "/messages", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userID: this.userID,
+                    roomID: roomID,
+                    message: message
+                })
             })
-        })
-            .then((res) => {
-                if (res.ok) {
-                    return 200
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            if (res.ok) {
+                return 200
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
 
     }
 
@@ -204,7 +205,7 @@ class ChatController extends React.Component {
             });
             if (res.ok) {
                 console.log("successfully created new room in controller");
-                return(res.roomID);
+                return (res.roomID);
             }
         }
         catch (err) {
@@ -226,13 +227,13 @@ class ChatController extends React.Component {
                 return ({
                     message: messages[0].parts[0].content,
                     timestamp: messages[0].created_at
-                    }
+                }
                 )
             } else {
                 return ({
                     message: '',
                     timestamp: 'Send your first message.....'
-                    }
+                }
                 )
             }
         }
