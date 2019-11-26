@@ -64,7 +64,6 @@ class BusinessScreen extends React.Component {
     };
 
     renderMessageForm() {
-        const { subject } = this.state;
         const { message } = this.state;
         return(
         <Modal
