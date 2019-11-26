@@ -15,11 +15,14 @@ import {
     Modal
 } from 'react-native';
 
-const { height, width } = Dimensions.get('screen');
 import { Colors, user, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
 import { onSignOut } from '../controllers/AuthController';
+import UserController from '../controllers/UserController';
+
+const { height, width } = Dimensions.get('screen');
+const userController = new UserController()
 
 
 class UserScreen extends React.Component {
