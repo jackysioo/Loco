@@ -182,11 +182,17 @@ class UserController extends React.Component {
     async addReview(review, userID, businessID) {
         try {
             const res = await fetch(reviewServer + "/post/" + userID + "/" + businessID, {
-                body: {review : review}
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ review: review})
             })
             if (res.ok) {
-                console.log("review added under " + businessID)
-                return res.review._id
+                const data = await res.json()
+                console.log(data)
+                return data.review._id
             }
         }
         catch (error) {

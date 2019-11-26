@@ -36,9 +36,6 @@ class SearchResultScreen extends React.Component {
             this.setState({
                 loadSearchResults: this.props.loadSearchResults,
             })
-            if (this.props.loadSearchResults) {
-                console.log('Test PASSED: Search results shown in under 100ms')
-            }
         }
         if (this.props.searchResults !== prevProps.searchResults) {
             this.setState({
