@@ -1,6 +1,7 @@
 const Business = require('../models/business');
 const Search = require('../models/search');
-const geolib = require('geolib');
+const geolib = require('geolib'); 
+const User = require('../models/user');
 
 exports.getBusinessData = (req, res, next) => {
     if (req.query.title) {

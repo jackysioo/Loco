@@ -10,6 +10,7 @@ const dbHandler = require('./db');
 const userData = [
   {
       username: "tanya_cooper123",
+      password: "123",
       firstName: "Tanya",
       lastName: "Cooper",
       profilePic: 'https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=942&q=80',
@@ -125,8 +126,10 @@ const businessData = [
 
 describe('Business Integration Tests', () => {
 
-    it('Can make a post request', async done => {
-        const response = await request.post('/business/post').send({business : businessData[0]});
+    it('Can make a post request', async (done) => { 
+      const user = await request.post('/user/signUp').send({user : userData[0]}); 
+      const id = user.body.user._id; 
+        const response = await request.post('/business/post/'+id).send({business : businessData[0]});
         expect(response.status).toBe(201);
         expect(response.body.business.title).toBe(businessData[0].title);
         
@@ -135,7 +138,9 @@ describe('Business Integration Tests', () => {
 
       it('Can make a get request getting a business by id', async (done) => { 
         
-        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
+        const uid = user.body.user._id; 
+          const business = await request.post('/business/post/'+uid).send({business : businessData[0]}); 
         const id = business.body.business._id; 
 
         const response = await request.get('/business/get/'+id); 
@@ -146,19 +151,12 @@ describe('Business Integration Tests', () => {
         done();
       }); 
 
-      it('Can make a get request getting a business by id and throw', async (done) => { 
-        
-        const business = await request.post('/business/post').send({business : businessData[0]}); 
-        const id = business.body.business._id; 
-
-        expect(await request.get('/business/get/'+(id+1)).toThrow());
-        
-        done();
-      });
 
       it('Can make a get request getting a business by id', async (done) => { 
         
-        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
+      const uid = user.body.user._id; 
+        const business = await request.post('/business/post/'+uid).send({business : businessData[0]});
         const id = business.body.business._id; 
 
         const response = await request.get('/business/get/'+id); 
@@ -171,8 +169,10 @@ describe('Business Integration Tests', () => {
       
       it('Can make a get request getting a business', async (done) => { 
         
-        const business = await request.post('/business/post').send({business : businessData[0]}); 
-        const id = business.body.business._id; 
+         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
+        const uid = user.body.user._id; 
+        const business = await request.post('/business/post/'+uid).send({business : businessData[0]}); 
+         
 
         const response = await request.get('/business/get/'); 
 
@@ -185,7 +185,9 @@ describe('Business Integration Tests', () => {
 
       it('Can make a delete request', async (done) => { 
         
-        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password});  
+        const uid = user.body.user._id; 
+        const business = await request.post('/business/post/'+uid).send({business : businessData[0]}); 
         const id = business.body.business._id; 
 
         const response = await request.delete('/business/delete/'+id); 
@@ -198,7 +200,9 @@ describe('Business Integration Tests', () => {
 
       it('Can make a put request and update business', async (done) => { 
         
-        const business = await request.post('/business/post').send({business : businessData[0]}); 
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password});  
+        const uid = user.body.user._id; 
+        const business = await request.post('/business/post/'+uid).send({business : businessData[0]}); 
         const id = business.body.business._id; 
 
         const response = await request.put('/business/put/'+id).send({business : {title: 'changed title'}}); 
@@ -211,15 +215,14 @@ describe('Business Integration Tests', () => {
 
       it('Can search for correct options', async (done) => { 
         
-        await request.post('/business/post').send({business : businessData[0]});  
-        await request.post('/business/post').send({business : businessData[1]});  
-        await request.post('/business/post').send({business : businessData[2]});  
-        await request.post('/business/post').send({business : businessData[3]});   
-
-        const user = await request.post('/user/post').send({user : userData[0]}); 
+        const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password});  
         const id = user.body.user._id; 
+        await request.post('/business/post/'+id).send({business : businessData[0]});  
+        await request.post('/business/post/'+id).send({business : businessData[1]});  
+        await request.post('/business/post/'+id).send({business : businessData[2]}); 
+        await request.post('/business/post/'+id).send({business : businessData[3]}); 
 
-        const response = await request.get('/business/get?title=home&lat=50&long=20&userId='+id); 
+         const response = await request.get('/business/get?title=home&lat=50&long=20&userId='+id); 
 
         expect(response.status).toBe(200);
 
