@@ -74,7 +74,7 @@ exports.getUserData = (req, res, next) => {
 exports.getUserDataById = (req, res, next) => {
     const userId = req.params.userId;
     User.findById(userId) 
-        .populate('reviews') 
+        .populate('reviews services') 
         .exec()
         .then((user) => {
             if (!user) {
@@ -125,7 +125,7 @@ exports.updateUserData = async (req, res, next) => {
             throw error;
         }
          const user = await User.findById(userId);  
-         const result = await user.populate('reviews').execPopulate();
+         const result = await user.populate('reviews services').execPopulate();
         res.status(200).json({ message: 'updated', user: result });
     } catch (err) {
         if (!err.statusCode) {

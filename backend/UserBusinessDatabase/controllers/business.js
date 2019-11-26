@@ -54,11 +54,17 @@ exports.getBusinessData = (req, res, next) => {
 
 exports.postBusinessData = async (req, res, next) => {
 
-    try {
-        const business = new Business(req.body.business);
+    try { 
+        const userId = req.params.userId;
+        const business = new Business({...req.body.business,user: userId});
+        const businessId = await business.save();  
 
-        await business.save(); 
-        const result = await business.populate('reviews').execPopulate();
+    
+        const user = await User.findById(userId);  
+        user.services.push({_id: businessId._id});  
+        await user.save();  
+
+        const result = await business.populate('reviews user').execPopulate();
         
         res.status(201).json({
             message: 'add user success',
@@ -73,10 +79,12 @@ exports.postBusinessData = async (req, res, next) => {
 
 exports.getBusinessDataById = (req, res, next) => {
     const businessId = req.params.businessId;
-    Business.findById(businessId)
+    Business.findById(businessId) 
+        .populate('reviews user') 
+        .exec()
         .then((business) => {
             if (!business) {
-                const error = new Error('Could not find Business');
+                const error = new Error('Could not find business');
                 error.statusCode = 404;
                 throw error;
             }
@@ -90,26 +98,27 @@ exports.getBusinessDataById = (req, res, next) => {
         })
 };
 
-exports.deleteBusiness = (req, res, next) => {
-    const businessId = req.params.businessId;
-    Business.findById(businessId)
-        .then((business) => {
-            if (!business) {
-                const error = new Error('Could not find Business');
-                error.statusCode = 404;
-                throw error;
-            }
-            return Business.findByIdAndDelete(businessId);
-        })
-        .then((result) => {
-            res.status(200).json({ message: 'deleted', business: result });
-        })
-        .catch((err) => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        })
+exports.deleteBusiness = async (req, res, next) => {
+    try {
+
+        const businessId = req.params.businessId; 
+        const business = await Business.findById(req.params.businessId);   
+        
+        await User.update(
+            {  "_id": business.userId,"services": businessId },
+            { "$pull": { "services": businessId } },
+            { "multi": true });   
+
+        const result = await Business.findByIdAndDelete(businessId); 
+        
+        res.status(200).json({ message: 'deleted', review: result});
+
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
 }
 
 exports.updateBusinessData = async (req, res, next) => {
@@ -123,7 +132,7 @@ exports.updateBusinessData = async (req, res, next) => {
             throw error;
         }
         const business = await Business.findById(businessId);  
-        const result = await business.populate('reviews').execPopulate();
+        const result = await business.populate('reviews user').execPopulate();
         res.status(200).json({ message: 'updated', business: result });
     } catch (err) {
         if (!err.statusCode) {
