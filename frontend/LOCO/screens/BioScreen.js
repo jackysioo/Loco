@@ -226,7 +226,7 @@ class BioScreen extends React.Component {
                                         <View style={styles.innerInfo}>
                                             <HeadingText1 style={{ paddingRight: 20 }}>Password:</HeadingText1>
                                             <TextInput
-                                                //ref={this.props.generateTestHook('Username.TextInput')}
+                                                ref={this.props.generateTestHook('Password.TextInput')}
                                                 style={[{ height: 30, width: 250 }, styles.messageInput]}
                                                 onChangeText={this.updatePassword}
                                                 inputContainerStyle={{ backgroundColor: Colors.white }}

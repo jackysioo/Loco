@@ -22,8 +22,6 @@ export default function (spec) {
             await spec.pause(500);
             await spec.fillIn('PostalCode.TextInput', 'A8A 8A8');
             await spec.pause(500);
-            await spec.fillIn('Birthday.TextInput', 'Jan 1, 2019');
-            await spec.pause(500);
             await spec.fillIn('Phone.TextInput', '888-888-8888');
             await spec.pause(500);
             await spec.fillIn('Email.TextInput', 'email123@hotmail.com');

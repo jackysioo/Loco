@@ -2,7 +2,10 @@ export default function (spec) {
 
     spec.describe('UserScreen Testing', function () {
         spec.it('W O R K S', async function () {
-            // Wait 5 seconds before starting test
+            await spec.pause(1000);
+            await spec.fillIn('LoginUsername.TextInput', 'CYNTHIA');
+            await spec.fillIn('LoginPassword.TextInput', '123');
+            await spec.press('Login.Button');
             await spec.pause(5000);
             await spec.press('EditProfile.Button');
             await spec.pause(1000);
@@ -25,6 +28,8 @@ export default function (spec) {
             await spec.fillIn('LastName.TextInput', 'TESTING LAST NAME INPUT');
             await spec.pause(500);
             await spec.fillIn('FirstName.TextInput', 'TESTING FIRST NAME INPUT');
+            await spec.pause(500);
+            await spec.fillIn('Password.TextInput', 'TESTING PASSWORD INPUT');
             await spec.pause(500);
             await spec.fillIn('Username.TextInput', 'TESTING USERNAME INPUT');
             await spec.pause(1000);

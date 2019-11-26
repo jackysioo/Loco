@@ -34,14 +34,14 @@ export default function App(props) {
   } else {
     return (
       <Tester specs={[
-        // SignupScreenSpec,
-        // LoginScreenSpec,
+         SignupScreenSpec,
+         LoginScreenSpec,
         // SearchingSpec,
-        // UserScreenSpec,
-        // EditBusinessSpec,
-        // AddBusinessSpec,
-        // BusinessScreenSpec,
-        // SignoutScreenSpec,
+         UserScreenSpec,
+         EditBusinessSpec,
+         AddBusinessSpec,
+         BusinessScreenSpec,
+         SignoutScreenSpec,
       ]} store={testHookStore}>
         <View style={styles.container}>
           <AppNavigator />

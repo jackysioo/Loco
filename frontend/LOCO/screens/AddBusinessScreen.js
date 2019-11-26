@@ -145,7 +145,7 @@ class AddBusinessScreen extends React.Component {
                                             placeholder={"Tag e.g. spa"}
                                             placeholderTextColor={Colors.placeholder} />
                                         <TextInput
-                                            ref={this.props.generateTestHook('AddServiceTag2.TextInput')}
+                                            ref={this.props.generateTestHook('AddServiceTag3.TextInput')}
                                             style={styles.tagInput}
                                             onChangeText={this.updateTag3}
                                             inputContainerStyle={{ backgroundColor: Colors.white }}

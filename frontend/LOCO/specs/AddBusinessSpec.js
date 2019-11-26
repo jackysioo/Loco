@@ -3,7 +3,11 @@ export default function (spec) {
     spec.describe('AddBusiness Testing', function () {
         spec.it('W O R K S', async function () {
             await spec.pause(1000);
-            await spec.press('AddProfile.Button');
+            await spec.fillIn('LoginUsername.TextInput', 'CYNTHIA');
+            await spec.fillIn('LoginPassword.TextInput', '123');
+            await spec.press('Login.Button');
+            await spec.pause(5000);
+            await spec.press('EditProfile.Button');
             await spec.pause(1000);
             await spec.press('AddService.Button');
             await spec.pause(1000);
