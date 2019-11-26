@@ -53,7 +53,7 @@ describe('User Integration Tests', () => {
         done();
       });   
 
-      it('Can make a get request getting a user by id', async done => { 
+      it('Can make a get request getting a user by id', async (done) => { 
         
         const user = await request.post('/user/post').send({user : userData[0]}); 
         const id = user.body.user._id; 
@@ -66,7 +66,7 @@ describe('User Integration Tests', () => {
         done();
       });   
 
-      it('Can make a delete request', async done => { 
+      it('Can make a delete request', async (done) => { 
         
         const user = await request.post('/user/post').send({user : userData[0]}); 
         const id = user.body.user._id; 
@@ -79,7 +79,7 @@ describe('User Integration Tests', () => {
         done();
       });  
 
-      it('Can make a put request and update user', async done => { 
+      it('Can make a put request and update user', async (done) => { 
         
         const user = await request.post('/user/post').send({user : userData[0]}); 
         const id = user.body.user._id; 
@@ -92,7 +92,7 @@ describe('User Integration Tests', () => {
         done();
       });   
 
-      it('Can add a service', async done => { 
+      it('Can add a service', async (done) => { 
 
         const user = await request.post('/user/post').send({user : userData[0]}); 
         const id = user.body.user._id;  
@@ -106,7 +106,7 @@ describe('User Integration Tests', () => {
         done();
       });    
 
-      it('Can update a service', async done => { 
+      it('Can update a service', async (done) => { 
 
         const user = await request.post('/user/post').send({user : userData[0]}); 
         const id = user.body.user._id;  
@@ -142,7 +142,7 @@ describe('User Unit Tests', () => {
 
   
 
-  it('can successfully add data to DB', async done => { 
+  it('can successfully add data to DB', async (done) => { 
     const req = mockRequest(
       {},
       { user : userData[0] }, 
@@ -157,7 +157,7 @@ describe('User Unit Tests', () => {
       done();
     });  
 
-    it('can successfully update data in DB', async done => {  
+    it('can successfully update data in DB', async (done) => {  
       const user = new userModel(userData[0]);
 
      const id = await user.save();  
