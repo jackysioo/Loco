@@ -19,10 +19,11 @@ class UserController extends React.Component {
                 },
                 body: JSON.stringify({ user : user })
             })
-            console.log(res)
             if (res.ok) {
-                console.log("user created")
-                return res.user._id
+                const data = await res.json()
+                return data
+            } else {
+                return 404
             }
         }
         catch (error) {
