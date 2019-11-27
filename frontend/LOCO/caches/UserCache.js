@@ -20,9 +20,9 @@ class UserCache extends React.Component {
         }
     };
 
-    async storeData(userID, data) {
+    async storeData(key, data) {
         try {
-            await AsyncStorage.setItem(userID + "-user", data);
+            await AsyncStorage.setItem(key + "-user", data);
         } catch (error) {
             console.log(error)
         }
@@ -32,12 +32,29 @@ class UserCache extends React.Component {
         try {
             const value = await AsyncStorage.getItem(userID + "-user");
             if (value !== null) {
-              return (value)
+              return (JSON.parse(value))
             }
           } catch (error) {
             console.log(error)
           }
     };
+
+
+    async removeData(key) {
+        try {
+            await AsyncStorage.removeItem(key + "-user")
+          } catch (error) {
+            console.log(error)
+          }
+    }
+
+    async clear() {
+        try {
+            await AsyncStorage.clear()
+          } catch (error) {
+            console.log(error)
+          }
+    }
 
     render() {
         return (

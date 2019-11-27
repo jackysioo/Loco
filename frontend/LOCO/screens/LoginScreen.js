@@ -20,10 +20,9 @@ import userCache from '../caches/UserCache'
 import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
-import UserController from '../controllers/UserController';
 
 const { height, width } = Dimensions.get('screen');
-const userController = new UserController()
+import userController from '../controllers/UserController';
 
 class LoginScreen extends React.Component {
     state = {
@@ -42,19 +41,18 @@ class LoginScreen extends React.Component {
 
     authenticateUser = async () => {
         Keyboard.dismiss()
-
-        this.props.navigation.navigate("Main")
-        // userController.signIn(this.state.usernameInput, this.state.passwordInput)
-        //     .then((data) => {
-        //         if (data !== 404) {
-        //             userCache.storeUserID(data.user._id)
-        //             this.props.navigation.navigate("Main")
-        //         } else {
-        //             this.setState({
-        //                 errorLogin: true
-        //             })
-        //         }
-        //     })
+        userController.signIn(this.state.usernameInput, this.state.passwordInput)
+            .then((data) => {
+                if (data !== 404) {
+                    userCache.storeUserID(data.user._id)
+                    userCache.storeData(data.user._id, JSON.stringify(data))
+                    this.props.navigation.navigate("Main")
+                } else {
+                    this.setState({
+                        errorLogin: true
+                    })
+                }
+            })
     }
 
     signup = () => {
@@ -95,7 +93,9 @@ class LoginScreen extends React.Component {
                             <View style={styles.innerInfo}>
                                 <HeadingText1 style={[styles.title, { marginTop: -400 }]}>Password:</HeadingText1>
                                 <TextInput
-                                    ref={(input) =>  this.password = input, this.props.generateTestHook('LoginPassword.TextInput')}
+                                    ref={(input) =>  this.password = input
+                                        // ,this.props.generateTestHook('LoginPassword.TextInput')
+                                    }
                                     style={[{ height: 35, width: 250, marginTop: -400 }, styles.messageInput]}
                                     secureTextEntry={true}
                                     onChangeText={this.updatePassword}

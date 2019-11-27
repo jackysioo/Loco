@@ -18,11 +18,10 @@ import {
 import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
-import UserController from '../controllers/UserController';
 import userCache from '../caches/UserCache'
 
 const { height, width } = Dimensions.get('screen');
-const userController = new UserController()
+import userController from '../controllers/UserController';
 
 
 class UserScreen extends React.Component {
@@ -30,6 +29,7 @@ class UserScreen extends React.Component {
     state = {
         signingOut: false,
         userID: '',
+        key: 0,
         ready: false
     }
 
@@ -39,10 +39,15 @@ class UserScreen extends React.Component {
     }
 
     componentWillMount() {
+        this.loadUser()
+    }
+
+    loadUser = () => {
         userCache.getUserID()
             .then((id) => {
                 this.setState({
-                    userID: id
+                    userID: id,
+                    key: this.state.key + 1
                 })
                 userController.getUser(id)
                     .then((data) => {
@@ -56,11 +61,11 @@ class UserScreen extends React.Component {
     }
 
 
-
     signout = () => {
         this.setState({
             signingOut: true
         })
+        userCache.clear()
         setTimeout(() => {
             this.props.navigation.navigate("Login")
         }, 1000)
@@ -185,7 +190,7 @@ class UserScreen extends React.Component {
         }
 
         return (
-            <View style={styles.container}>
+            <View style={styles.container} key={this.state.key}>
                 {this.renderSignOut()}
                 <View style={{ flex: 1 }}>
                     <ImageBackground
@@ -205,7 +210,7 @@ class UserScreen extends React.Component {
                                     <Image source={{ uri: this.user.profilePic }} style={styles.profilePic} />
                                 </View>
                                 <View style={styles.editProfile}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Bio', {user : this.user, userID: this.state.userID})}
+                                    <TouchableOpacity onPress={() => navigation.navigate('Bio', {user : this.user, loadUser: this.loadUser})}
                                         ref={this.props.generateTestHook('EditProfile.Button')}>
                                         <ParagraphText1 style={{ color: Colors.primary }}> Edit Profile </ParagraphText1>
                                     </TouchableOpacity>

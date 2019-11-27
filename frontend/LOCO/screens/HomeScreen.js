@@ -27,13 +27,13 @@ import SearchResultScreen from "./SearchResultScreen";
 import { Card } from '../components';
 import MapButton from "../components/MapButton";
 import { hook, useCavy, wrap } from 'cavy'
-import mapController from "../controllers/MapController";
 import searchController from "../controllers/SearchController";
-import UserController from '../controllers/UserController';
+import mapController from "../controllers/MapController";
+import chatController from '../controllers/UserController';
+import userController from '../controllers/UserController';
 import userCache from '../caches/UserCache'
 
 const { width, height } = Dimensions.get('screen');
-const userController = new UserController()
 
 
 class HomeScreen extends React.Component {
@@ -49,7 +49,7 @@ class HomeScreen extends React.Component {
         mapVisible: false,
         preCallMin: new Date().getMinutes(),
         preCallSec: new Date().getSeconds(),
-        ready : true
+        ready: true
     };
 
 
@@ -59,18 +59,18 @@ class HomeScreen extends React.Component {
     }
 
     componentWillMount() {
-        console.log("Test PASSED: Chat messages shown in under 3s")
-        // userCache.getUserID()
-        //     .then((id) => {
-        //         userController.getSuggestions(id)
-        //             .then((data) => {
-        //                 this.suggestions = data.suggestions
-        //                 this.setState({
-        //                     ready: true
-        //                 })
-        //             })
-        //     })
+        userController.init()
+        chatController.init()
+        searchController.init()
+        userController.getSuggestions()
+            .then((data) => {
+                this.suggestions = data.suggestions
+                this.setState({
+                    ready: true
+                })
+            })
     }
+
 
     calculatePerformance() {
         // Testing search performance
@@ -155,24 +155,17 @@ class HomeScreen extends React.Component {
                     })
                 })
 
-                this.setState({
-                    searchResults: [businesses[0],businesses[1],businesses[2]]
-                }, () => {
-                    this.setState({
-                        loadSearchResults: true
+                // calls search api
+                searchController.search(this.state.search, geocode)
+                    .then((businesses) => {
+                        this.setState({
+                            searchResults: businesses
+                        }, () => {
+                            this.setState({
+                                loadSearchResults: true
+                            })
+                        })
                     })
-                })
-                //calls search api
-                // searchController.search(this.state.search, geocode)
-                //     .then((businesses) => {
-                //         this.setState({
-                //             searchResults: businesses
-                //         }, () => {
-                //             this.setState({
-                //                 loadSearchResults: true
-                //             })
-                //         })
-                //     })
                 this.searchBar.blur();
             });
     }
@@ -190,7 +183,8 @@ class HomeScreen extends React.Component {
         }, () => {
             this.setState({
                 isSearchActive: false
-            })})
+            })
+        })
 
         //calls search api (with default location in Vancouver)
         searchController.search(category, { lat: 49.2827, long: -123.1207 })
@@ -348,76 +342,76 @@ class HomeScreen extends React.Component {
         const { search } = this.state;
 
         return (
-                <View style={styles.container}>
+            <View style={styles.container}>
 
-                    {this.state.isSearchActive && this.renderSearchCancel()}
+                {this.state.isSearchActive && this.renderSearchCancel()}
 
-                    <View style={styles.searchContainer}>
-                        <TouchableWithoutFeedback
-                            ref={this.props.generateTestHook('Search.Button')}
-                            onPress={this.triggerSearch}>
-                            <SearchBar
-                                ref={(input) => this.searchBar = input
-                                    // ,this.props.generateTestHook('Search.TextInput')
-                                }
-                                round
-                                lightTheme
-                                containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
-                                inputContainerStyle={{ backgroundColor: '#ffffff' }}
-                                inputStyle={{ fontSize: 13 }}
-                                searchIcon={{ size: 20 }}
-                                returnKeyType="search"
-                                placeholder='Search for meals, tutors, beauticians on LOCO'
-                                placeholderTextColor='#cccccc'
-                                onChangeText={this.updateSearch}
-                                value={search}
-                                onFocus={this.triggerSearch}
-                                onSubmitEditing={this.search} />
-                        </TouchableWithoutFeedback>
-                    </View>
-
-                    {this.state.isSearchActive && this.renderSearchActive()}
-
-                    <MapButton visible={this.state.loadSearchResults} setMapVisible={this.setMapVisible} />
-                    {!this.state.loadSearchResults && this.renderRecommendations()}
-                    <SearchResultScreen
-                        resetSearch={this.resetSearch}
-                        loadSearchResults={this.state.loadSearchResults}
-                        searchResults={this.state.searchResults}
-                        preCallMin={this.state.preCallMin}
-                        preCallSec={this.state.preCallSec}
-                    />
-
-
-                    <Modal
-                        animationType="slide"
-                        transparent={false}
-                        visible={this.state.mapVisible}>
-                        <View>
-                            <TouchableOpacity
-                                style={styles.closeMapButtonContainer}
-                                onPress={() => {
-                                    this.setMapVisible(!this.state.mapVisible);
-                                }}
-                            // ref={this.props.generateTestHook('MapClose.Button')}
-                            >
-                                <Image
-                                    style={styles.mapButton}
-                                    source={require('../assets/icons/icons8-cancel-64.png')} />
-                            </TouchableOpacity>
-                            <MapScreen item={this.mapItem} location={this.state.searchLocation} results={this.state.searchResults} />
-                        </View>
-                    </Modal>
-
+                <View style={styles.searchContainer}>
+                    <TouchableWithoutFeedback
+                        ref={this.props.generateTestHook('Search.Button')}
+                        onPress={this.triggerSearch}>
+                        <SearchBar
+                            ref={(input) => this.searchBar = input
+                                // ,this.props.generateTestHook('Search.TextInput')
+                            }
+                            round
+                            lightTheme
+                            containerStyle={{ backgroundColor: '#ffffff', padding: 2, margin: 10, borderWidth: 0 }}
+                            inputContainerStyle={{ backgroundColor: '#ffffff' }}
+                            inputStyle={{ fontSize: 13 }}
+                            searchIcon={{ size: 20 }}
+                            returnKeyType="search"
+                            placeholder='Search for meals, tutors, beauticians on LOCO'
+                            placeholderTextColor='#cccccc'
+                            onChangeText={this.updateSearch}
+                            value={search}
+                            onFocus={this.triggerSearch}
+                            onSubmitEditing={this.search} />
+                    </TouchableWithoutFeedback>
                 </View>
-        ); 
+
+                {this.state.isSearchActive && this.renderSearchActive()}
+
+                <MapButton visible={this.state.loadSearchResults} setMapVisible={this.setMapVisible} />
+                {!this.state.loadSearchResults && this.renderRecommendations()}
+                <SearchResultScreen
+                    resetSearch={this.resetSearch}
+                    loadSearchResults={this.state.loadSearchResults}
+                    searchResults={this.state.searchResults}
+                    preCallMin={this.state.preCallMin}
+                    preCallSec={this.state.preCallSec}
+                />
+
+
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.mapVisible}>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.closeMapButtonContainer}
+                            onPress={() => {
+                                this.setMapVisible(!this.state.mapVisible);
+                            }}
+                        // ref={this.props.generateTestHook('MapClose.Button')}
+                        >
+                            <Image
+                                style={styles.mapButton}
+                                source={require('../assets/icons/icons8-cancel-64.png')} />
+                        </TouchableOpacity>
+                        <MapScreen item={this.mapItem} location={this.state.searchLocation} results={this.state.searchResults} />
+                    </View>
+                </Modal>
+
+            </View>
+        );
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <SafeAreaView style={{ flex: 1 }}>
                 {!this.state.ready && this.renderLoading()}
-            {this.state.ready && this.renderReady()}
+                {this.state.ready && this.renderReady()}
             </SafeAreaView>
         )
     }

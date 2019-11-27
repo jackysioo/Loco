@@ -20,10 +20,8 @@ import { Colors, Images, businesses, user } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy'
-import userCache from '../caches/UserCache'
 import mapController from "../controllers/MapController";
-import UserController from '../controllers/UserController';
-const userController = new UserController()
+import userController from '../controllers/UserController';
 
 
 class AddBusinessScreen extends React.Component {
@@ -35,17 +33,10 @@ class AddBusinessScreen extends React.Component {
         tag1Input: '',
         tag2Input: '',
         tag3Input: '',
-        userID: '',
         success: false
     };
 
     componentDidMount() {
-        userCache.getUserID()
-            .then((id) => {
-                this.setState({
-                    userID: id
-                })
-            })
     }
 
     updateBusinessTitle = (businessTitleInput) => {

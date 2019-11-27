@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Text, View } from 'react-native';
 
 import { Colors } from '../constants';
-import UserController from '../controllers/UserController';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from './Texts';
 
-const userController = new UserController()
 const { height, width } = Dimensions.get('screen');
 
 class SearchResult extends React.Component {

@@ -17,9 +17,8 @@ import {
 } from 'react-native';
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
-import ChatController from '../controllers/ChatController';
+import chatController from '../controllers/ChatController';
 const { width, height } = Dimensions.get("screen");
-const chatController = new ChatController()
 
 
 class MessagesScreen extends React.Component {
@@ -30,18 +29,16 @@ class MessagesScreen extends React.Component {
     }
 
     componentDidMount() {
-        chatController.init().then(() => {
-            chatController.getChats()
-                .then((chats) => {
+        chatController.getChats()
+            .then((chats) => {
+                this.setState({
+                    allChats: chats
+                }, () => {
                     this.setState({
-                        allChats: chats
-                    }, () => {
-                        this.setState({
-                            loading: false
-                        })
+                        loading: false
                     })
                 })
-        })
+            })
     }
 
 
@@ -133,7 +130,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary,
         paddingVertical: 15,
     },
-    headerTitle : {
+    headerTitle: {
         fontSize: 25,
         marginTop: 10,
         letterSpacing: 2,

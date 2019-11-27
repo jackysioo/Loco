@@ -15,14 +15,13 @@ import {
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
-import ChatController from '../controllers/ChatController';
+import chatController from '../controllers/ChatController';
 import { Colors } from '../constants';
 import { HeadingText1 } from '../components/Texts';
 import LOCOChatManager from '../controllers/LOCOChatManager';
 import userCache from '../caches/UserCache'
 
 const { width, height } = Dimensions.get("screen");
-const chatController = new ChatController()
 
 
 export default class ChatScreen extends React.Component {
@@ -38,17 +37,14 @@ export default class ChatScreen extends React.Component {
   };
 
   componentDidMount() {
-    chatController.init()
-      .then(() => {
-        userCache.getUserID()
-          .then((id) => {
-            this.setState({
-              userID: id
-            }, () => {
-              this.chatRef.init()
-                .then(() => { this.chatRef.subscribe() })
-            })
-          })
+    userCache.getUserID()
+      .then((id) => {
+        this.setState({
+          userID: id
+        }, () => {
+          this.chatRef.init()
+            .then(() => { this.chatRef.subscribe() })
+        })
       })
   }
 

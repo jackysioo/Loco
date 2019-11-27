@@ -14,13 +14,16 @@ class ChatController extends React.Component {
         super(props);
         this.userID = null
         this.chatExists = null
-        this.allChats = null
+        this.allChats = null,
+        this.userToken = null
     }
 
     async init() {
         try {
             const userID = await userCache.getUserID()
+            const user = await userCache.getData(userID)
             this.userID = userID
+            this.userToken = user.token
         }
         catch (error) {
             console.log(error);
@@ -113,7 +116,7 @@ class ChatController extends React.Component {
     //GET user's data
     async getUser() {
         try {
-            const response = await fetch(chatServer + "/users?id=" + userID, {
+            const response = await fetch(chatServer + "/users?id=" + this.userID, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -261,4 +264,6 @@ class ChatController extends React.Component {
 
 }
 
-export default (ChatController)
+
+const chatController = new ChatController()
+export default (chatController)
