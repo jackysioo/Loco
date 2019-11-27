@@ -46,7 +46,7 @@ const userData = [
 
 describe('User Integration Tests', () => {
 
-    it('Can sign up', async done => {
+    it('Can sign up', async (done) => {
         const response = await request.post('/user/signUp').send({user : userData[0]});
         expect(response.status).toBe(201);
         expect(response.body.user.title).toBe(userData[0].title);
@@ -61,7 +61,7 @@ describe('User Integration Tests', () => {
         done();
       });   
 
-      it('Can sign in', async done => {
+      it('Can sign in', async (done) => {
         const response = await request.post('/user/signIn').send({username : "userData[0].username",password: userData[0].password}); 
         expect(response.status).toBe(401)
         done();
