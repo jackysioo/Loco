@@ -43,6 +43,87 @@ export default [
       tags: ["food", "homecooked", "pasta", "meal"]
     },
     {
+      title: "Authentic Japanese Cuisine",
+      user: "Ryo",
+      about: "Having worked at a local Japanese restaurant for 5 years, I decided to start offering in-house dining sets for small events and special dinners.",
+      profilePic: 'https://images.unsplash.com/photo-1473106235427-b7202ef5453d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1565941072372-0f0f10c8b7dd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80'],
+      rating: 3.80,
+      region: "East Vancouver",
+      location: {
+        lat: 49.253,
+        long: -123.066
+      },
+      price: "$25/set",
+      reviews: [{
+        title: "Great food!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+       },{
+        title: "Authentic experience",
+        date: "Jan 23, 2019",
+        review: "Would definitely come back!",
+        rating: 4,
+        image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
+       },{
+        title: "Loved chatting with them",
+        date: "Jan 23, 2019",
+        review: "The price is slightly pricey, but worth it for the experience",
+        rating: 3.5,
+        image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
+       },{
+        title: "Loved chatting with them",
+        date: "Jan 23, 2019",
+        review: "The price is slightly pricey, but worth it for the experience",
+        rating: 3.5,
+        image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+       }],
+      tags: ["food", "homecooked", "japanese"]
+    },
+    {
+      title: "Make Your Own Ice Cream",
+      user: "Maria",
+      about: "Learn how to make your own ice cream. Offered in 5 different flavours, including the most popular matcha.",
+      profilePic: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+      images: ['https://images.unsplash.com/photo-1501443762994-82bd5dace89a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80'],
+      rating: 4.55,
+      region: "Kerrisdale",
+      location: {
+        lat: 49.2341,
+        long: -123.1554
+      },
+      price: "$50/person",
+      reviews: [{
+        title: "Great food!",
+        date: "Jan 23, 2019",
+        review: "This experience was incredible! They were so friendly and welcoming.",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=637&q=80"
+       },{
+        title: "Authentic experience",
+        date: "Jan 23, 2019",
+        review: "Would definitely come back!",
+        rating: 4,
+        image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
+       },{
+        title: "Loved chatting with them",
+        date: "Jan 23, 2019",
+        review: "The price is slightly pricey, but worth it for the experience",
+        rating: 3.5,
+        image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=653&q=80"
+       },{
+        title: "Loved chatting with them",
+        date: "Jan 23, 2019",
+        review: "The price is slightly pricey, but worth it for the experience",
+        rating: 3.5,
+        image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+       }],
+      tags: ["food", "homecooked", "pasta", "meal"]
+    },
+    {
       title: "3D Volume Lash Extensions",
       user: "Sasha",
       about: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",

@@ -42,17 +42,19 @@ class LoginScreen extends React.Component {
 
     authenticateUser = async () => {
         Keyboard.dismiss()
-        userController.signIn(this.state.usernameInput, this.state.passwordInput)
-            .then((data) => {
-                if (data !== 404) {
-                    userCache.storeUserID(data.user._id)
-                    this.props.navigation.navigate("Main")
-                } else {
-                    this.setState({
-                        errorLogin: true
-                    })
-                }
-            })
+
+        this.props.navigation.navigate("Main")
+        // userController.signIn(this.state.usernameInput, this.state.passwordInput)
+        //     .then((data) => {
+        //         if (data !== 404) {
+        //             userCache.storeUserID(data.user._id)
+        //             this.props.navigation.navigate("Main")
+        //         } else {
+        //             this.setState({
+        //                 errorLogin: true
+        //             })
+        //         }
+        //     })
     }
 
     signup = () => {
