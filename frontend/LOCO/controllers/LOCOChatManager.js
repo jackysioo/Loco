@@ -25,10 +25,9 @@ class LOCOChatManager extends React.Component {
         this.userID = ''
     }
 
-    async init() {
+    async init(id) {
         try {
-            const userID = await userCache.getUserID()
-            this.userID = userID
+            this.userID = id
         }
         catch (error) {
             console.log(error);

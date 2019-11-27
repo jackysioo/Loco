@@ -42,7 +42,7 @@ export default class ChatScreen extends React.Component {
         this.setState({
           userID: id
         }, () => {
-          this.chatRef.init()
+          this.chatRef.init(id)
             .then(() => { this.chatRef.subscribe() })
         })
       })
@@ -262,8 +262,8 @@ const styles = StyleSheet.create({
   },
   loading: {
     position: "absolute",
-    top: height / 2,
-    left: width / 2,
+    top: height*0.45,
+    left: width*0.45,
     zIndex: 10,
     justifyContent: 'center',
     alignItems: 'center'

@@ -52,7 +52,7 @@ class UserScreen extends React.Component {
                 userController.getUser(id)
                     .then((data) => {
                         this.user = data.user
-                        userCache.storeData(id, data.user.toString())
+                        userCache.storeData(id, JSON.stringify(data.user))
                         this.setState({
                             ready: true
                         })

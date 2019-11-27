@@ -21,9 +21,10 @@ class ChatController extends React.Component {
     async init() {
         try {
             const userID = await userCache.getUserID()
-            const user = await userCache.getData(userID)
+            const data = await userCache.getData(userID)
             this.userID = userID
-            this.userToken = user.token
+            this.userToken = data.token
+            return(true)
         }
         catch (error) {
             console.log(error);
@@ -91,16 +92,10 @@ class ChatController extends React.Component {
                     'Authorization': this.userToken
                 }
             });
-            console.log(response)
+
             const rooms = await response.json();
             //add admin support chat to all users
-            const supportMsg = await this._getLatestMessage("d218554c-4dec-4475-8f84-eac7216e020a")
-            var chats = [{
-                roomID: "d218554c-4dec-4475-8f84-eac7216e020a",
-                otherUserID: "Admin",
-                latestMessage: supportMsg.message,
-                latestMessageTimeStamp: supportMsg.timestamp
-            }];
+            var chats = [];
 
             for (let room of rooms) {
                 for (let id of room.member_user_ids) {
@@ -162,7 +157,6 @@ class ChatController extends React.Component {
                     name: name
                 })
             });
-            console.log(response)
             if (response.ok) {
                 console.log("successfully created new user for chat");
             }
@@ -279,8 +273,6 @@ class ChatController extends React.Component {
         }
     }
 
-
-    //return loading animation when posting data
     render() {
         return (
             <View></View>

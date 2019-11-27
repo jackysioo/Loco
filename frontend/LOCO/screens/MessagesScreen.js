@@ -23,7 +23,6 @@ const { width, height } = Dimensions.get("screen");
 
 class MessagesScreen extends React.Component {
     state = {
-        allChats: [],
         loading: true,
         refreshing: false,
     }
@@ -34,7 +33,9 @@ class MessagesScreen extends React.Component {
     }
 
     componentWillMount() {
-        chatController.getChats()
+        chatController.init()
+        .then(() =>{
+            chatController.getChats()
             .then((chats) => {
                 console.log(chats)
                 this.allChats = chats
@@ -43,6 +44,7 @@ class MessagesScreen extends React.Component {
                 })
 
             })
+        })
     }
 
 
@@ -57,12 +59,9 @@ class MessagesScreen extends React.Component {
         });
         chatController.getChats()
             .then((chats) => {
+                this.allChats = chats
                 this.setState({
-                    allChats: chats
-                }, () => {
-                    this.setState({
-                        refreshing: false
-                    })
+                    refreshing: false
                 })
             })
     }
@@ -141,8 +140,8 @@ const styles = StyleSheet.create({
     },
     loading: {
         position: "absolute",
-        top: height / 2,
-        left: width / 2,
+        top: height*0.45,
+        left: width*0.45,
         zIndex: 10,
         justifyContent: 'center',
         alignItems: 'center'
@@ -176,7 +175,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: Colors.secondary,
         marginHorizontal: 25,
-        marginVertical: 5
+        marginVertical: 5,
+        width: width*0.6
+
     },
     timestamp: {
         fontSize: 10,
