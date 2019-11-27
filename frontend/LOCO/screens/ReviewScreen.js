@@ -8,7 +8,7 @@ import {
     ScrollView,
     StyleSheet,
     Image,
-    Text,
+    ActivityIndicator,
     View,
     ImageBackground,
     TouchableOpacity,
@@ -21,6 +21,12 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText
 const { width, height } = Dimensions.get("screen");
 import { hook } from 'cavy';
 import NumericInput from 'react-native-numeric-input'
+import userController from '../controllers/UserController';
+import { NavigationActions, StackActions } from 'react-navigation';
+const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'User' })],
+    });
 
 
 class ReviewScreen extends React.Component {
@@ -31,6 +37,8 @@ class ReviewScreen extends React.Component {
         reviewTitleInput: this.props.navigation.state.params.title,
         reviewInput: this.props.navigation.state.params.review,
         ratingInput: this.props.navigation.state.params.rating,
+        success: false,
+        loading: false
     };
 
     updateReviewTitle = (reviewTitleInput) => {
@@ -44,6 +52,61 @@ class ReviewScreen extends React.Component {
     updateRating = (ratingInput) => {
         this.setState({ ratingInput });
     };
+
+    saveChanges =  async() => {
+        userController.updateReview({
+            title: this.state.reviewTitleInput,
+            review: this.state.reviewInput,
+            rating: this.state.ratingInput,
+        }, this.state.id)
+            .then((res) => {
+                if (res !== 404) {
+                    this.setState({
+                        loading: true 
+                    })
+
+                    setTimeout(() => {
+                        this.setState({
+                            success: true,
+                            loading: false
+                        })
+                    }, 500)
+
+                    setTimeout(() => {
+                        this.props.navigation.dispatch(resetAction);
+                    }, 1500)
+                }
+            })
+    }
+
+
+    renderSuccess() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={false}
+                visible={this.state.success}>
+                <View style={styles.modal}>
+                        <HeadingText1 style={{ fontSize: 16, marginTop: 30, marginHorizontal: 15, justifyContent: "center", alignSelf: "center" }}>Successfully edited your review!</HeadingText1>
+                </View>
+            </Modal>
+        )
+    }
+
+
+
+    renderLoading() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={this.state.loading}>
+                <View style={styles.loadingModal}>
+                    <ActivityIndicator style={styles.loading} size="large" color="#ffffff" />
+                </View>
+            </Modal>
+        )
+    }
 
     render() {
         const { reviewTitleInput } = this.state;
@@ -64,6 +127,8 @@ class ReviewScreen extends React.Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.container}>
+                {this.state.success && this.renderSuccess()}
+                {this.state.loading && this.renderLoading()}
                     <View style={{ flex: 1 }}>
                         <ImageBackground
                             source={Images.ProfileBackground}
@@ -93,10 +158,6 @@ class ReviewScreen extends React.Component {
                                         <View style={{ marginTop: 15, flexDirection: 'row' }}>
                                             <HeadingText1 style={styles.headerLeft}>S e r v i c e   b y</HeadingText1>
                                             <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.business} </HeadingText2>
-                                        </View>
-                                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                            <HeadingText1 style={styles.headerLeft}>D a t e</HeadingText1>
-                                            <HeadingText2 style={styles.headerRight}> {this.props.navigation.state.params.date} </HeadingText2>
                                         </View>
                                         <View style={{ marginTop: 15, flexDirection: 'row' }}>
                                             <HeadingText1 style={styles.headerLeft}>R a t i n g</HeadingText1>
@@ -130,7 +191,7 @@ class ReviewScreen extends React.Component {
                                             ref={this.props.generateTestHook('CancelEditReview.Button')}>
                                             <HeadingText1 style={{ color: Colors.primary }}> Cancel </HeadingText1>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.save} onPress={() => { this.setState({ editReviewVisible: false }) }}
+                                        <TouchableOpacity style={styles.save} onPress={this.saveChanges}
                                             ref={this.props.generateTestHook('SaveEditReview.Button')}>
                                             <HeadingText1 style={{ color: Colors.primary }}> Save Changes </HeadingText1>
                                         </TouchableOpacity>
@@ -371,6 +432,27 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -1, height: 1 },
         shadowRadius: 1,
         shadowOpacity: 1,
+    },
+    modal: {
+        backgroundColor: Colors.white,
+        minHeight: height * 0.15,
+        marginTop: height * 0.45,
+        marginHorizontal: 25,
+        borderRadius: 20,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 150,
+        paddingVertical: 5
+    },
+    loadingModal: {
+        backgroundColor: Colors.black,
+        opacity: 0.5,
+        height: height,
+        width: width
+    },
+    loading: {
+        marginTop: height / 2,
     },
 });
 

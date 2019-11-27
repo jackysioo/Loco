@@ -13,9 +13,10 @@ import {
     TouchableOpacity,
     TextInput,
     Modal,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    ActivityIndicator
 } from 'react-native';
-
+import { NavigationActions, StackActions } from 'react-navigation';
 import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
@@ -24,6 +25,10 @@ import NumericInput from 'react-native-numeric-input'
 import chatController from '../controllers/ChatController';
 import userCache from '../caches/UserCache'
 import userController from '../controllers/UserController';
+const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+    });
 
 const { height, width } = Dimensions.get('screen');
 
@@ -38,16 +43,16 @@ class BusinessScreen extends React.Component {
         ratingInput: '',
         messageSentError: false,
         reviewSuccess: false,
-        businessID: this.props.navigation.state.params.item._id
+        businessID: this.props.navigation.state.params.item._id,
+        loading: false,
+        success: false
     };
 
     componentDidMount() {
-        console.log(this.props.navigation.state.params.item)
     }
 
-    //UPDATE USER TO USER : this.props.navigation.state.params.item._id
     sendMessage() {
-        chatController.sendMessageToUser("Ryo", this.state.message)
+        chatController.sendMessageToUser(this.props.navigation.state.params.item._id, this.state.message)
             .then((res) => {
                 if (res === 200) {
                     this.setState({
@@ -81,17 +86,24 @@ class BusinessScreen extends React.Component {
     addReview = async () => {
         userController.addReview({
             title: this.state.reviewTitleInput,
-            message: this.state.reviewInput,
+            review: this.state.reviewInput,
             rating: this.state.ratingInput
         }, this.props.navigation.state.params.item._id)
             .then((res) => {
                 if (res !== 404) {
                     this.setState({
-                        success: true
+                        loading: true 
                     })
 
                     setTimeout(() => {
-                        this.props.navigation.goBack()
+                        this.setState({
+                            reviewSuccess: true,
+                            loading: false
+                        })
+                    }, 500)
+
+                    setTimeout(() => {
+                        this.props.navigation.dispatch(resetAction);
                     }, 1000)
                 }
             })
@@ -110,6 +122,19 @@ class BusinessScreen extends React.Component {
             </Modal>
         )
     }
+
+
+    renderLoading() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={this.state.loading}>
+                <View style={styles.loadingModal}>
+                    <ActivityIndicator style={styles.loading} size="large" color="#ffffff" />
+                </View>
+            </Modal>
+        )}
 
     renderMessageForm() {
         const { message } = this.state;
@@ -167,6 +192,8 @@ class BusinessScreen extends React.Component {
                 animationType="slide"
                 transparent={false}
                 visible={this.state.addReviewVisible}>
+                {this.state.success && this.renderSuccess()}
+                {this.state.loading && this.renderLoading()}
                 <KeyboardAwareScrollView style={styles.container}>
                     <View style={{ flex: 1 }}>
                         <View>
@@ -273,7 +300,7 @@ class BusinessScreen extends React.Component {
                     onPress={() => this.props.navigation.navigate('UserReview', {
                         id: review._id,
                         rating: review.rating, image: review.image, title: review.title,
-                        date: review.date, review: review.review, user: review.user, business: review.business, showEdit: false
+                        review: review.review, user: review.user, business: review.business, showEdit: false
                     })}>
                     <View style={styles.reviewContainer}>
                         {this.state.reviewSuccess && this.renderSuccess()}
@@ -283,10 +310,6 @@ class BusinessScreen extends React.Component {
                         </View>
                         <Image source={{ uri: review.image }} style={styles.reviewImage}></Image>
                         <View style={{ margin: 15 }}>
-                            <View style={styles.review}>
-                                <HeadingText1>{review.title}</HeadingText1>
-                                <Text style={{ color: Colors.placeholder }}>{review.date}</Text>
-                            </View>
                             <Text>{displayReview}</Text>
                         </View>
                     </View>
@@ -415,6 +438,15 @@ const styles = StyleSheet.create({
         marginTop: -20,
         height: height / 2,
         width: width
+    },
+    loadingModal: {
+        backgroundColor: Colors.black,
+        opacity: 0.5,
+        height: height,
+        width: width
+    },
+    loading: {
+        marginTop: height / 2,
     },
     modalItemContainer: {
         marginTop: 20,

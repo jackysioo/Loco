@@ -39,7 +39,9 @@ class ChatController extends React.Component {
             const response = await fetch(chatServer + "/chats?id=" + this.userID, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 }
             })
 
@@ -53,7 +55,7 @@ class ChatController extends React.Component {
             //     }
             // }
 
-            for (let chat of this.chats) {
+            for (let chat of this.allChats) {
                 if (chat.otherUserID === otherUserID) {
                     const res = await this.sendMessageToRoom(chat.roomID, message)
                     return res
@@ -84,11 +86,22 @@ class ChatController extends React.Component {
             const response = await fetch(chatServer + "/chats?id=" + this.userID, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 }
             });
+            console.log(response)
             const rooms = await response.json();
-            var chats = [];
+            //add admin support chat to all users
+            const supportMsg = await this._getLatestMessage("d218554c-4dec-4475-8f84-eac7216e020a")
+            var chats = [{
+                roomID: "d218554c-4dec-4475-8f84-eac7216e020a",
+                otherUserID: "Admin",
+                latestMessage: supportMsg.message,
+                latestMessageTimeStamp: supportMsg.timestamp
+            }];
+
             for (let room of rooms) {
                 for (let id of room.member_user_ids) {
                     if (id !== this.userID) {
@@ -104,7 +117,7 @@ class ChatController extends React.Component {
                     }
                 }
             }
-            this.chats = chats
+            this.allChats = chats
             return (chats);
         }
         catch (error) {
@@ -119,7 +132,9 @@ class ChatController extends React.Component {
             const response = await fetch(chatServer + "/users?id=" + this.userID, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 }
             });
             const user = await response.json();
@@ -138,7 +153,9 @@ class ChatController extends React.Component {
             const response = await fetch(chatServer + "/users", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 },
                 body: JSON.stringify({
                     userID: id,
@@ -162,7 +179,9 @@ class ChatController extends React.Component {
             const res = await fetch(chatServer + "/messages?roomId=" + roomID, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 }
             });
             const messages = await res.json();
@@ -181,7 +200,9 @@ class ChatController extends React.Component {
             const res = await fetch(chatServer + "/messages", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 },
                 body: JSON.stringify({
                     userID: this.userID,
@@ -205,7 +226,9 @@ class ChatController extends React.Component {
             const res = fetch(chatServer + "/room", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 },
                 body: JSON.stringify({
                     userID: this.userID,
@@ -231,8 +254,10 @@ class ChatController extends React.Component {
             const res = await fetch(chatServer + "/messages?roomId=" + roomID, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
-                }
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
+                },
             });
             const messages = await res.json();
             if (messages.length > 0) {

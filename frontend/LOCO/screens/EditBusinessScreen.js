@@ -12,7 +12,8 @@ import {
     ImageBackground,
     TouchableOpacity,
     TextInput,
-    Modal
+    Modal,
+    ActivityIndicator
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
@@ -22,6 +23,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import { hook } from 'cavy'
 import mapController from "../controllers/MapController";
 import userController from '../controllers/UserController';
+import { NavigationActions, StackActions } from 'react-navigation';
+const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'User' })],
+    });
 
 class EditBusinessScreen extends React.Component {
     state = {
@@ -32,7 +38,9 @@ class EditBusinessScreen extends React.Component {
         regionInput: this.props.navigation.state.params.region,
         tag1Input: this.props.navigation.state.params.tags[0],
         tag2Input: this.props.navigation.state.params.tags[1],
-        tag3Input: this.props.navigation.state.params.tags[2]
+        tag3Input: this.props.navigation.state.params.tags[2],
+        success: false,
+        loading: false
     };
 
     saveChanges = async () => {
@@ -49,16 +57,23 @@ class EditBusinessScreen extends React.Component {
             location: geocode,
             tags: [this.state.tag1Input, this.state.tag2Input, this.state.tag3Input]
         },
-            this.id)
+            this.state.id)
             .then((res) => {
                 if (res !== 404) {
                     this.setState({
-                        success: true
+                        loading: true 
                     })
 
                     setTimeout(() => {
-                        this.props.navigation.goBack()
-                    }, 1000)
+                        this.setState({
+                            success: true,
+                            loading: false
+                        })
+                    }, 500)
+
+                    setTimeout(() => {
+                        this.props.navigation.dispatch(resetAction);
+                    }, 1500)
                 }
             })
     }
@@ -91,6 +106,36 @@ class EditBusinessScreen extends React.Component {
         this.setState({ tag3Input });
     };
 
+
+
+    renderSuccess() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={false}
+                visible={this.state.success}>
+                <View style={styles.modal}>
+                        <HeadingText1 style={{ fontSize: 16, marginTop: 30, marginHorizontal: 15, justifyContent: "center", alignSelf: "center" }}>Successfully edited your service!</HeadingText1>
+                </View>
+            </Modal>
+        )
+    }
+
+
+
+    renderLoading() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={this.state.loading}>
+                <View style={styles.loadingModal}>
+                    <ActivityIndicator style={styles.loading} size="large" color="#ffffff" />
+                </View>
+            </Modal>
+        )
+    }
+
     render() {
         const { aboutInput } = this.state;
         const { businessTitleInput } = this.state;
@@ -109,6 +154,8 @@ class EditBusinessScreen extends React.Component {
         return (
             <KeyboardAwareScrollView style={styles.container}>
                 <View style={{ flex: 1 }}>
+                {this.state.success && this.renderSuccess()}
+                {this.state.loading && this.renderLoading()}
                     <ImageBackground
                         source={{ uri: this.props.navigation.state.params.images[0] }}
                         style={styles.profileContainer}
@@ -355,7 +402,28 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignContent: 'center',
         marginBottom: 20,
-    }
+    },
+    modal: {
+        backgroundColor: Colors.white,
+        minHeight: height * 0.15,
+        marginTop: height * 0.45,
+        marginHorizontal: 25,
+        borderRadius: 20,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 150,
+        paddingVertical: 5
+    },
+    loadingModal: {
+        backgroundColor: Colors.black,
+        opacity: 0.5,
+        height: height,
+        width: width
+    },
+    loading: {
+        marginTop: height / 2,
+    },
 });
 
 //export default withNavigation(BusinessScreen);

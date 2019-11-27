@@ -28,16 +28,20 @@ class MessagesScreen extends React.Component {
         refreshing: false,
     }
 
-    componentDidMount() {
+    constructor(props) {
+        super(props)
+        this.allChats = null
+    }
+
+    componentWillMount() {
         chatController.getChats()
             .then((chats) => {
+                console.log(chats)
+                this.allChats = chats
                 this.setState({
-                    allChats: chats
-                }, () => {
-                    this.setState({
-                        loading: false
-                    })
+                    loading: false
                 })
+
             })
     }
 
@@ -46,9 +50,6 @@ class MessagesScreen extends React.Component {
         this.props.navigation.navigate('Chat', { roomID: roomID, otherUserID: otherUserID })
     }
 
-    newRoomID = (roomID) => {
-
-    }
 
     updateChatList = () => {
         this.setState({
@@ -75,7 +76,7 @@ class MessagesScreen extends React.Component {
     }
 
     renderChats() {
-        return this.state.allChats.map((chat) => {
+        return this.allChats.map((chat) => {
             return (
                 <View style={styles.chatItemContainer} key={chat.roomID}>
                     <TouchableOpacity

@@ -132,7 +132,13 @@ class UserController extends React.Component {
 
     async deletdUser() {
         try {
-            const res = await fetch(userServer + "/delete/" + this.userID)
+            const res = await fetch(userServer + "/delete/" + this.userID, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
+                }
+            })
             if (res.ok) {
                 console.log("user deleted")
             }
@@ -149,8 +155,9 @@ class UserController extends React.Component {
             const res = await fetch(businessServer + "/post/" + this.userID, {
                 method: "POST",
                 headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 },
                 body: JSON.stringify({ business: business})
             })
@@ -169,7 +176,12 @@ class UserController extends React.Component {
 
     async getBusiness(businessID) {
         try {
-            const res = await fetch(businessServer + "/get/" + businessID)
+            const res = await fetch(businessServer + "/get/" + businessID, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
+                }})
             const business = await res.json();
             return (business);
         }
@@ -185,8 +197,9 @@ class UserController extends React.Component {
             const res = await fetch(businessServer + "/put/" + businessID, {
                 method: "PUT",
                 headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 },
                 body: JSON.stringify({ business: business})
             })
@@ -202,7 +215,12 @@ class UserController extends React.Component {
 
     async deleteBusiness(businessID) {
         try {
-            const res = await fetch(businessServer + "/delete/" + businessID)
+            const res = await fetch(businessServer + "/delete/" + businessID, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
+                }})
             if (res.ok) {
                 console.log("business deleted")
             }
@@ -218,14 +236,14 @@ class UserController extends React.Component {
             const res = await fetch(reviewServer + "/post/" + this.userID + "/" + businessID, {
                 method: "POST",
                 headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 },
                 body: JSON.stringify({ review: review})
             })
             if (res.ok) {
                 const data = await res.json()
-                console.log(data)
                 return data.review._id
             }
         }
@@ -238,7 +256,13 @@ class UserController extends React.Component {
     async updateReview(review, reviewID) {
         try {
             const res = await fetch(reviewServer + "/put/" + reviewID, {
-                body: { review : review }
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
+                },
+                body: JSON.stringify({ review: review})
             })
             if (res.ok) {
                 console.log("review updated under " + reviewID)
@@ -251,7 +275,13 @@ class UserController extends React.Component {
 
     async deleteReview(reviewID) {
         try {
-            const res = await fetch(reviewServer + "/delete/" + reviewID)
+            const res = await fetch(reviewServer + "/delete/" + reviewID, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
+                },
+            })
             if (res.ok) {
                 console.log("review deleted")
             }

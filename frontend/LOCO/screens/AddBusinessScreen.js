@@ -7,7 +7,7 @@ import {
     ScrollView,
     StyleSheet,
     Image,
-    Text,
+    ActivityIndicator,
     View,
     ImageBackground,
     TouchableOpacity,
@@ -22,6 +22,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import { hook } from 'cavy'
 import mapController from "../controllers/MapController";
 import userController from '../controllers/UserController';
+import { NavigationActions, StackActions } from 'react-navigation';
+const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'User' })],
+    });
 
 
 class AddBusinessScreen extends React.Component {
@@ -33,7 +38,8 @@ class AddBusinessScreen extends React.Component {
         tag1Input: '',
         tag2Input: '',
         tag3Input: '',
-        success: false
+        success: false,
+        loading: false
     };
 
     componentDidMount() {
@@ -80,16 +86,23 @@ class AddBusinessScreen extends React.Component {
             region: this.state.regionInput,
             location: geocode,
             tags: [this.state.tag1Input, this.state.tag2Input, this.state.tag3Input]
-        }, this.state.userID)
+        })
             .then((res) => {
                 if (res !== 404) {
                     this.setState({
-                        success: true
+                        loading: true 
                     })
 
                     setTimeout(() => {
-                        this.props.navigation.goBack()
+                        this.setState({
+                            success: true,
+                            loading: false
+                        })
                     }, 1000)
+
+                    setTimeout(() => {
+                        this.props.navigation.dispatch(resetAction);
+                    }, 2000)
                 }
             })
     }
@@ -108,6 +121,21 @@ class AddBusinessScreen extends React.Component {
         )
     }
 
+
+
+    renderLoading() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={this.state.loading}>
+                <View style={styles.loadingModal}>
+                    <ActivityIndicator style={styles.loading} size="large" color="#ffffff" />
+                </View>
+            </Modal>
+        )
+    }
+
     render() {
 
         const { aboutInput } = this.state;
@@ -121,6 +149,7 @@ class AddBusinessScreen extends React.Component {
         return (
             <KeyboardAwareScrollView style={styles.container}>
                 {this.state.success && this.renderSuccess()}
+                {this.state.loading && this.renderLoading()}
                 <View style={{ flex: 1 }}>
                     <ImageBackground
                         source={{ uri: businesses[0].images[0] }}
@@ -248,6 +277,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 150,
         paddingVertical: 5
+    },
+    loadingModal: {
+        backgroundColor: Colors.black,
+        opacity: 0.5,
+        height: height,
+        width: width
+    },
+    loading: {
+        marginTop: height / 2,
     },
     profileBackground: {
         height: height / 2,

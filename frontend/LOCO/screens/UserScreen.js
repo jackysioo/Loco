@@ -12,6 +12,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     ActivityIndicator,
+    RefreshControl,
     Modal
 } from 'react-native';
 
@@ -29,8 +30,8 @@ class UserScreen extends React.Component {
     state = {
         signingOut: false,
         userID: '',
-        key: 0,
-        ready: false
+        ready: false,
+        refreshing: false
     }
 
     constructor(props) {
@@ -47,7 +48,6 @@ class UserScreen extends React.Component {
             .then((id) => {
                 this.setState({
                     userID: id,
-                    key: this.state.key + 1
                 })
                 userController.getUser(id)
                     .then((data) => {
@@ -60,6 +60,15 @@ class UserScreen extends React.Component {
             })
     }
 
+    refreshing = () => {
+        this.setState({
+            refreshing: true
+        });
+        this.loadUser();
+        this.setState({
+            refreshing: false
+        })
+    }
 
     signout = () => {
         this.setState({
@@ -87,6 +96,7 @@ class UserScreen extends React.Component {
     renderUser() {
         var count = 0;  // for testing purposes 
         const reviews = this.user.reviews.map((review) => {
+            console.log(review)
             // only display up to 46 characters of review outside of a review
             var displayReview = review.review;
             if (review.hasOwnProperty('review') && review.review.length > 84) {
@@ -111,7 +121,6 @@ class UserScreen extends React.Component {
                         <View style={{ margin: 15 }}>
                             <View style={styles.review}>
                                 <HeadingText1>{review.title}</HeadingText1>
-                                <ParagraphText1 style={{ color: Colors.placeholder }}>{review.date}</ParagraphText1>
                             </View>
                             <ParagraphText2>{displayReview}</ParagraphText2>
                         </View>
@@ -190,7 +199,7 @@ class UserScreen extends React.Component {
         }
 
         return (
-            <View style={styles.container} key={this.state.key}>
+            <View style={styles.container}>
                 {this.renderSignOut()}
                 <View style={{ flex: 1 }}>
                     <ImageBackground
@@ -198,6 +207,11 @@ class UserScreen extends React.Component {
                         style={styles.profileContainer}
                         imageStyle={styles.profileBackground}>
                         <ScrollView
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={this.state.refreshing}
+                                    onRefresh={this.refreshing}
+                                />}
                             showsVerticalScrollIndicator={false}
                             style={{ marginTop: '5%' }}>
                             <TouchableOpacity

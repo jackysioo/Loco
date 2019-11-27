@@ -31,7 +31,9 @@ class SearchController extends React.Component {
         try {
             const response = await fetch(searchServer + "/get?title=" + input + "&lat=" + location.lat + "&long=" + location.long, {
                 headers: {
-
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userToken
                 }
             })
             const data = await response.json();

@@ -21,6 +21,11 @@ import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { hook } from 'cavy';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import { NavigationActions, StackActions } from 'react-navigation';
+const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'User' })],
+    });
 
 import userController from '../controllers/UserController';
 
@@ -36,23 +41,23 @@ class BioScreen extends React.Component {
         phoneInput: this.props.navigation.state.params.user.phoneNumber,
         emailInput: this.props.navigation.state.params.user.email,
         bioInput: this.props.navigation.state.params.user.bio,
-        loading: false
+        loading: false,
+        refreshing: false,
     };
-
 
     submitChanges() {
         userController.updateUser({
-                username: this.state.usernameInput,
-                firstName: this.state.firstNameInput,
-                lastName: this.state.lastNameInput,
-                addressLine: this.state.addressLineInput,
-                addressCity: this.state.addressCityInput,
-                addressProvince: this.state.addressProvinceInput,
-                addressPostalCode: this.state.addressPostalCodeInput,
-                phoneNumber: this.state.phoneInput,
-                bio: this.state.bioInput,
-                email: this.state.emailInput
-            })
+            username: this.state.usernameInput,
+            firstName: this.state.firstNameInput,
+            lastName: this.state.lastNameInput,
+            addressLine: this.state.addressLineInput,
+            addressCity: this.state.addressCityInput,
+            addressProvince: this.state.addressProvinceInput,
+            addressPostalCode: this.state.addressPostalCodeInput,
+            phoneNumber: this.state.phoneInput,
+            bio: this.state.bioInput,
+            email: this.state.emailInput
+        })
             .then(response => {
                 if (response) {
                     this.setState({
@@ -60,8 +65,7 @@ class BioScreen extends React.Component {
                     })
 
                     setTimeout(() => {
-                        this.props.navigation.state.params.loadUser();
-                        this.props.navigation.goBack()
+                        this.props.navigation.dispatch(resetAction);
                     }, 1000)
                 }
             })
@@ -156,8 +160,7 @@ class BioScreen extends React.Component {
                     </View>
                     <TouchableOpacity
                         ref={this.props.generateTestHook('EditService.Button')}
-                        style={styles.edit} onPress={() => this.props.navigation.navigate('EditBusiness', {
-                            id: service._id,
+                        style={styles.edit} onPress={() => this.props.navigation.navigate('EditBusiness', { id: service._id,
                             title: service.title, user: service.user, about: service.about, profilePic: service.profilePic, images: service.images,
                             rating: service.rating, price: service.price, region: service.region, location: service.location, tags: service.tags
                         })}>
@@ -192,7 +195,7 @@ class BioScreen extends React.Component {
                         source={Images.ProfileBackground}
                         style={styles.profileContainer}
                         imageStyle={styles.profileBackground}>
-                        <ScrollView
+                        <KeyboardAwareScrollView
                             showsVerticalScrollIndicator={false}
                             style={{ marginTop: '5%' }}>
                             <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}
@@ -360,7 +363,7 @@ class BioScreen extends React.Component {
                                         require('../assets/icons/icons8-add-new-24-aqua.png')} />
                                 </TouchableOpacity>
                             </View>
-                        </ScrollView>
+                        </KeyboardAwareScrollView>
                     </ImageBackground>
                 </View>
             </View >
