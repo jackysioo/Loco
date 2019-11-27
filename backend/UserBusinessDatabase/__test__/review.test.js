@@ -86,7 +86,7 @@ const reviewData = [
         done();
       });   
 
-      it('Can make a put request and update business', async done => { 
+      it('Can make a put request and update business', async (done) => { 
       
 
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
@@ -124,7 +124,7 @@ const reviewData = [
         done();
       });   
 
-      it('it can handle invalid put requests', async done => { 
+      it('it can handle invalid put requests', async (done) => { 
         
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
         const uid = user.body.user._id; 
@@ -141,7 +141,7 @@ const reviewData = [
         done();
       });   
 
-      it('it can handle not finding reviews', async done => { 
+      it('it can handle not finding reviews', async (done) => { 
         
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
         const uid = user.body.user._id; 
@@ -171,7 +171,7 @@ const reviewData = [
         done();
       });
       
-      it('it can handle invalid delete requests', async done => { 
+      it('it can handle invalid delete requests', async (done) => { 
         
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
         const uid = user.body.user._id; 
