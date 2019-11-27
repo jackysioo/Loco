@@ -5,7 +5,7 @@ const passport = require('passport');
 const passportConf = require('../passport');
 
 Router.get('/chats',passport.authenticate('jwt',{session: false}),chatController.getChats);
-Router.get('/users',passport.authenticate('jwt',{session: false}),chatController.getUser); 
+Router.get('/user',passport.authenticate('jwt',{session: false}),chatController.getUser); 
 Router.get('/users',passport.authenticate('jwt',{session: false}),chatController.getUsers); 
 Router.post('/users',passport.authenticate('jwt',{session: false}),chatController.postUser); 
 Router.get('/messages',passport.authenticate('jwt',{session: false}),chatController.getMessages); 
