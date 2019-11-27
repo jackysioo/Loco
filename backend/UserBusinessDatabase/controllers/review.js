@@ -33,6 +33,14 @@ async function deleteData(rating,userId,businessId){
     else{  
       await  e.dislikes.remove(userId,businessId);
     }
+} 
+
+async function calcRating(businessId){ 
+   const business = await Business.findById(businessId)
+        .populate('reviews')
+        .exec();
+    const result = (business.reviews.reduce((a, { rating }) => a + rating, 0) / business.reviews.length);
+    return result;
 }
 
 exports.updateReview = async (req, res, next) => {
@@ -45,7 +53,7 @@ exports.updateReview = async (req, res, next) => {
         const businessId = prevReview.businessId; 
         const prevRating = prevReview.prevRating;
 
-        const result = await Review.findOneAndUpdate({ _id: reviewId }, req.body.review, { new: true })
+        const result = await Review.findOneAndUpdate({ _id: reviewId }, req.body.review, { new: true });
 
         if (!result) {
             const error = new Error('Could not find review');
@@ -53,7 +61,10 @@ exports.updateReview = async (req, res, next) => {
             throw error;
         } 
 
-        await updateData(prevRating,rating,userId,businessId); 
+        await updateData(prevRating,rating,userId,businessId);  
+        const newRating = await calcRating(result.businessId); 
+        await Business.findOneAndUpdate({ _id: result.businessId }, {rating: newRating}, { new: true });
+
         const resultReview = await Review.findById(reviewId);
         var populateResult = await resultReview.populate('userId').populate({ 
             path: 'businessId',
@@ -87,7 +98,9 @@ exports.addReview = async (req, res, next) => {
         business.reviews.push({_id: reviewId._id});  
         await business.save();   
 
-        await addData(rating,userId,businessId);
+        await addData(rating,userId,businessId); 
+        const newRating = await calcRating(reviewId.businessId); 
+        await Business.findOneAndUpdate({ _id: reviewId.businessId }, {rating: newRating}, { new: true });
 
         const popReview = await Review.findById(reviewId._id);
         const result = await popReview.populate('userId').populate({ 
@@ -131,6 +144,8 @@ exports.deleteReview = async (req, res, next) => {
         const result = await Review.findByIdAndDelete(reviewId); 
         
         await deleteData(reviewId,review.userId,review.businessId);
+        const newRating = await calcRating(review.businessId); 
+        await Business.findOneAndUpdate({ _id: review.businessId }, {rating: newRating}, { new: true });
         res.status(200).json({ message: 'deleted', review: result});
 
     } catch (err) {
