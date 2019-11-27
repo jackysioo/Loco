@@ -105,7 +105,7 @@ const reviewData = [
         done();
       });   
     
-      it('Can make a delete request', async done => { 
+      it('Can make a delete request', async (done) => { 
         
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
         const uid = user.body.user._id; 
@@ -158,7 +158,7 @@ const reviewData = [
         done();
       });
 
-      it('it can handle invalid post requests', async done => { 
+      it('it can handle invalid post requests', async (done) => { 
         const user = await request.post('/user/signIn').send({username : userData[0].username,password: userData[0].password}); 
         const uid = user.body.user._id; 
 

@@ -20,9 +20,8 @@ import { Colors, Images, businesses, user } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy'
-
-import UserController from '../controllers/UserController';
-const userController = new UserController()
+import mapController from "../controllers/MapController";
+import userController from '../controllers/UserController';
 
 class EditBusinessScreen extends React.Component {
     state = {

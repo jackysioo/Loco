@@ -12,7 +12,7 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
-    Button,
+    ActivityIndicator,
     Modal
 } from 'react-native';
 
@@ -22,8 +22,7 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 import { hook } from 'cavy';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
-import UserController from '../controllers/UserController';
-const userController = new UserController()
+import userController from '../controllers/UserController';
 
 class BioScreen extends React.Component {
     state = {
@@ -37,7 +36,7 @@ class BioScreen extends React.Component {
         phoneInput: this.props.navigation.state.params.user.phoneNumber,
         emailInput: this.props.navigation.state.params.user.email,
         bioInput: this.props.navigation.state.params.user.bio,
-        userID: this.props.navigation.state.params.userID
+        loading: false
     };
 
 
@@ -52,14 +51,19 @@ class BioScreen extends React.Component {
                 addressPostalCode: this.state.addressPostalCodeInput,
                 phoneNumber: this.state.phoneInput,
                 bio: this.state.bioInput,
-            }, this.state.userID)
-            .then(response => {
-                if (response.json().ok) {
-                    console.log("sucessfully updated database")
-                }
+                email: this.state.emailInput
             })
-            .then((data) => {
-                console.log(data)
+            .then(response => {
+                if (response) {
+                    this.setState({
+                        loading: true
+                    })
+
+                    setTimeout(() => {
+                        this.props.navigation.state.params.loadUser();
+                        this.props.navigation.goBack()
+                    }, 1000)
+                }
             })
     }
 
@@ -104,6 +108,20 @@ class BioScreen extends React.Component {
         this.setState({ addressPostalCodeInput });
     };
 
+
+
+    renderLoading() {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={this.state.loading}>
+                <View style={styles.modal}>
+                    <ActivityIndicator style={styles.loading} size="large" color="#ffffff" />
+                </View>
+            </Modal>
+        )
+    }
 
     render() {
         const { usernameInput } = this.state;
@@ -168,6 +186,7 @@ class BioScreen extends React.Component {
 
         return (
             <View style={styles.container}>
+                {this.state.loading && this.renderLoading()}
                 <View style={{ flex: 1 }}>
                     <ImageBackground
                         source={Images.ProfileBackground}
@@ -395,9 +414,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         marginBottom: 20,
     },
-    modalItemContainer: {
-        marginTop: 20,
-        flex: 1,
+    modal: {
+        backgroundColor: Colors.black,
+        opacity: 0.5,
+        height: height,
+        width: width
+    },
+    loading: {
+        marginTop: height / 2,
     },
     itemContainer: {
         flex: 1,

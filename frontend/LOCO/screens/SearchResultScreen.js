@@ -15,7 +15,6 @@ import { SortBy, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 import SearchResult from "../components/SearchResult";
 const { width, height } = Dimensions.get("screen");
-import FilterScreen from "./FilterScreen";
 import SortByScreen from "./SortByScreen";
 import { hook } from 'cavy';
 
@@ -23,9 +22,7 @@ class SearchResultScreen extends React.Component {
     state = {
         loadSearchResults: this.props.loadSearchResults,
         searchResults: this.props.searchResults,
-        isFilterVisible: false,
         isSortVisible: false,
-        filters: {},
         sort: SortBy.recommended
 
     }
@@ -48,17 +45,9 @@ class SearchResultScreen extends React.Component {
         this.props.resetSearch()
     }
 
-    updateFilters = (filters) => {
-        this.setState({ filters: filters });
-    };
-
     updateSort = (sort) => {
         this.setState({ sort: sort });
     };
-
-    closeFilter = () => {
-        this.setState({ isFilterVisible: false });
-    }
 
     closeSort = () => {
         this.setState({ isSortVisible: false });

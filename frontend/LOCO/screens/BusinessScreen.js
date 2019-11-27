@@ -21,12 +21,10 @@ import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../c
 import { hook } from 'cavy';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import NumericInput from 'react-native-numeric-input'
-import ChatController from '../controllers/ChatController';
+import chatController from '../controllers/ChatController';
 import userCache from '../caches/UserCache'
-import UserController from '../controllers/UserController';
+import userController from '../controllers/UserController';
 
-const userController = new UserController()
-const chatController = new ChatController()
 const { height, width } = Dimensions.get('screen');
 
 class BusinessScreen extends React.Component {
@@ -40,18 +38,10 @@ class BusinessScreen extends React.Component {
         ratingInput: '',
         messageSentError: false,
         reviewSuccess: false,
-        userID: '',
         businessID: this.props.navigation.state.params.item._id
     };
 
     componentDidMount() {
-        chatController.init()
-        userCache.getUserID()
-            .then((id) => {
-                this.setState({
-                    userID: ""
-                })
-            })
         console.log(this.props.navigation.state.params.item)
     }
 
@@ -93,7 +83,7 @@ class BusinessScreen extends React.Component {
             title: this.state.reviewTitleInput,
             message: this.state.reviewInput,
             rating: this.state.ratingInput
-        }, this.state.userID, this.props.navigation.state.params.item._id)
+        }, this.props.navigation.state.params.item._id)
             .then((res) => {
                 if (res !== 404) {
                     this.setState({

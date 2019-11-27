@@ -20,12 +20,10 @@ import { Colors, Images } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from '../components/Texts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { hook } from 'cavy';
-import UserController from '../controllers/UserController';
-import ChatController from '../controllers/ChatController';
+import userController from '../controllers/UserController';
+import chatController from '../controllers/ChatController';
 import userCache from '../caches/UserCache'
 
-const userController = new UserController()
-const chatController = new ChatController()
 const { height, width } = Dimensions.get('screen');
 
 class SignupScreen extends React.Component {
@@ -53,14 +51,15 @@ class SignupScreen extends React.Component {
         addressProvinceError: null,
         addressPostalCodeError: null,
         emailError: null,
-        formValidForSubmission: false
+        formValidForSubmission: true
     };
 
 
     //validating each individual input of sign up form
     //if one required field is not filled out, the form will not submit
     validateForm() {
-
+        this.setState({formValidForSubmission: true })
+        
         if (this.state.usernameInput.trim() === "") {
             this.setState(() => ({ usernameError: "* ",  formValidForSubmission: false }));
         } else {
@@ -144,7 +143,7 @@ class SignupScreen extends React.Component {
             .then((response) => {
                 if (response !== 404) {
                     userCache.storeUserID(response.user._id)
-                    userCache.storeData(response.user._id, response.toString())
+                    userCache.storeData(response.user._id, JSON.stringify(response))
 
                     this.setState({
                         loading: true
