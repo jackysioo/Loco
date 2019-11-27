@@ -15,8 +15,11 @@ exports.getBusinessData = (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 } 
-            
 
+                if(req.query.sort == "ratings"){ 
+                    res.status(200).json({ businesses: businesses.sort((a, b) => Number(b.rating) - Number(a.rating)) }) 
+                } 
+                else{
                 const businessScores = businesses.map((business) => {
                     const score = geolib.getDistance({ latitude: req.query.lat, longitude: req.query.long }, { latitude: business.location.lat, longitude: business.location.long });
 
@@ -31,7 +34,8 @@ exports.getBusinessData = (req, res, next) => {
                 const result = businessScores.map((businessScore) => {
                     return businessScore.business;
                 });
-                res.status(200).json({ businesses: result })
+                res.status(200).json({ businesses: result }) 
+                }
             })
             .catch((err) => {
                 if (!err.statusCode) {
