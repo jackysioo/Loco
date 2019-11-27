@@ -8,8 +8,8 @@ const reviewSchema = new Schema({
     rating: Number,
     image: String,
     user: String, 
-    userId: mongoose.Schema.Types.ObjectId, 
-    businessId: mongoose.Schema.Types.ObjectId
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, 
+    businessId: {type: mongoose.Schema.Types.ObjectId, ref: 'Business'}
 });
 
 module.exports = mongoose.model('Review', reviewSchema);

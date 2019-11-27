@@ -54,8 +54,8 @@ exports.updateReview = async (req, res, next) => {
         } 
 
         await updateData(prevRating,rating,userId,businessId);
-
-        res.status(200).json({ message: 'updated', review: result });
+        populateResult = await result.populate('userId businessId').execPopulate();
+        res.status(200).json({ message: 'updated', review: populateResult });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -83,8 +83,8 @@ exports.addReview = async (req, res, next) => {
 
         await addData(rating,userId,businessId);
 
-        const result = await user.populate('reviews').execPopulate(); 
-        res.status(200).json({ message: 'added', review: result.reviews[result.reviews.length - 1]});
+        const result = await review.populate('userId businessId').execPopulate(); 
+        res.status(200).json({ message: 'added', review: result});
  
     } catch (err) {
         if (!err.statusCode) {
