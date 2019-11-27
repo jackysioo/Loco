@@ -14,6 +14,7 @@ class ChatController extends React.Component {
         super(props);
         this.userID = null
         this.chatExists = null
+        this.allChats = null
     }
 
     async init() {
@@ -30,7 +31,7 @@ class ChatController extends React.Component {
     //if chatroom does not exist, create a chatroom between current user and other user
     //if chatroom exists, load the chatroom between current user and other user
     async sendMessageToUser(otherUserID, message) {
-        this.chatExists = false
+        // this.chatExists = false
         try {
             const response = await fetch(chatServer + "/chats?id=" + this.userID, {
                 method: "GET",
@@ -38,42 +39,39 @@ class ChatController extends React.Component {
                     "Content-Type": "application/json"
                 }
             })
-            const rooms = await response.json()
-            for (let room of rooms) {
-                for (let id of room.member_user_ids) {
-                    if (otherUserID === id) {
-                        this.chatExists = true
-                    }
+
+            // const rooms = await response.json()
+            // for (let room of rooms) {
+            //     for (let id of room.member_user_ids) {
+            //         if (otherUserID === id) {
+            //             const res = await this.sendMessageToRoom(room.id, message)
+            //             return res
+            //         }
+            //     }
+            // }
+
+            for (let chat of this.chats) {
+                if (chat.otherUserID === otherUserID) {
+                    const res = await this.sendMessageToRoom(chat.roomID, message)
+                    return res
                 }
             }
+
+            const roomID = await this._createChat(otherUserID)
+            console.log(roomID)
+            if (roomID !== 404) {
+                const res = await this.sendMessageToRoom(roomID, message)
+                return res
+            } else {
+                return 404
+            }
+
         }
         catch (error) {
             console.log(error);
         }
 
-        if (!this.chatExists) {
-            try {
-                const roomID = await this._createChat(otherUserID)
-                console.log(roomID)
-                if (roomID !== 404) {
-                    const res = await this.sendMessageToRoom(roomID, message)
-                    return res
-                } else {
-                    return 404
-                }
-            }
-            catch (error) {
-                console.log(error);
-            }
-        } else {
-            try {
-                const res = await this.sendMessageToRoom(room.id, message)
-                return res
-            }
-            catch (error) {
-                console.log(error);
-            }
-        }
+
     }
 
 
@@ -103,6 +101,7 @@ class ChatController extends React.Component {
                     }
                 }
             }
+            this.chats = chats
             return (chats);
         }
         catch (error) {
