@@ -53,8 +53,14 @@ exports.updateReview = async (req, res, next) => {
             throw error;
         } 
 
-        await updateData(prevRating,rating,userId,businessId);
-        populateResult = await result.populate('userId businessId').execPopulate();
+        await updateData(prevRating,rating,userId,businessId); 
+        const resultReview = await Review.findById(reviewId);
+        populateResult = await resultReview.populate('userId').populate({ 
+            path: 'businessId',
+            populate: {
+                path: 'user',
+            } 
+        }).execPopulate(); 
         res.status(200).json({ message: 'updated', review: populateResult });
     } catch (err) {
         if (!err.statusCode) {
@@ -83,7 +89,13 @@ exports.addReview = async (req, res, next) => {
 
         await addData(rating,userId,businessId);
 
-        const result = await review.populate('userId businessId').execPopulate(); 
+        const popReview = await Review.findById(reviewId._id);
+        const result = await popReview.populate('userId').populate({ 
+            path: 'businessId',
+            populate: {
+                path: 'user',
+            } 
+        }).execPopulate(); 
         res.status(200).json({ message: 'added', review: result});
  
     } catch (err) {
