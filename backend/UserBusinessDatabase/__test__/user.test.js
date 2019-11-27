@@ -54,7 +54,7 @@ describe('User Integration Tests', () => {
         done();
       });   
 
-      it('Can sign up', async done => {
+      it('Can sign up', async (done) => {
         const response = await request.post('/user/signUp').send({user : userData[0]});
         expect(response.status).toBe(403);
         
