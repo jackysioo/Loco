@@ -5,31 +5,54 @@ import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Text, View } f
 
 const { height, width } = Dimensions.get('screen');
 import { Colors } from '../constants';
+import userController from '../controllers/UserController';
 
 
 class Card extends React.Component {
-  render() {
+  state = {
+    ready: false,
+    username: ''
+  }
+
+  componentWillMount() {
+    userController.getUser(this.props.item.business.user)
+    .then((data) => {
+      this.setState({
+        username: data.user.firstName
+      }, () => {
+        this.setState({
+          ready: true
+        })
+      })
+    })
+  }
+
+  renderReady() {
     const { navigation, item, style, ctaColor, imageStyle } = this.props;
-    const imageStyles = [ styles.horizontalImage, imageStyle
-    ];
+    const imageStyles = [ styles.horizontalImage, imageStyle];
     const cardContainer = [styles.card, styles.shadow, style];
     const imgContainer = [styles.imageContainer, styles.horizontalStyles, styles.shadow
     ];
-
-    return (
+    return(
       <View style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Me')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Business',{item: item.business, username: this.state.username})}>
           <View style={imgContainer}>
-            <Image source={{uri: item.images[0]}} style={imageStyles} />
+            <Image source={{uri: item.business.images[0]}} style={imageStyles} />
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Me')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Business',{item: item.business, username: this.state.username})}>
           <View style={styles.cardDescription}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-            <Text size={10} muted={!ctaColor} color={ctaColor || Colors.primary} bold>Service by {item.user}</Text>
+            <Text style={styles.cardTitle}>{item.business.title}</Text>
+            <Text size={10} muted={!ctaColor} color={ctaColor || Colors.primary} bold>Service by {this.state.username}</Text>
           </View>
         </TouchableWithoutFeedback>
-      </View>
+      </View>)
+
+  }
+
+  render() {
+    return (
+      <View>{this.state.ready && this.renderReady()}</View>
     );
   }
 }
@@ -64,7 +87,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     borderRadius: 3,
-    elevation: 1,
     flex:1,
     overflow: 'hidden',
   },
@@ -81,7 +103,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     shadowOpacity: 0.1,
-    elevation: 2,
   },
 });
 

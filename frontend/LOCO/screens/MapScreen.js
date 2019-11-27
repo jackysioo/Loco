@@ -27,7 +27,6 @@ class MapScreen extends React.Component {
     renderMarkers(results) {
         // console.log('Test PASSED: Map results shown in under 500ms')
         return results.map((result) => {
-            console.log(result)
             return (
                 <Marker
                     key={result.title}

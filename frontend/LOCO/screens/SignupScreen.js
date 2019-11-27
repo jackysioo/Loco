@@ -39,7 +39,7 @@ class SignupScreen extends React.Component {
         emailInput: '',
         bioInput: '',
         passwordInput: '',
-        profilePic: 'https://images.unsplash.com/photo-1485893086445-ed75865251e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80',
+        profilePic: 'https://source.unsplash.com/featured/?people',
         loading: false,
         errorSignUp: false,
         usernameError: null,

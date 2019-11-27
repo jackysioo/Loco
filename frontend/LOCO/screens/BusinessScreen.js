@@ -52,7 +52,7 @@ class BusinessScreen extends React.Component {
     }
 
     sendMessage() {
-        chatController.sendMessageToUser(this.props.navigation.state.params.item._id, this.state.message)
+        chatController.sendMessageToUser(this.props.navigation.state.params.item.user, this.state.message)
             .then((res) => {
                 if (res === 200) {
                     this.setState({
@@ -87,7 +87,8 @@ class BusinessScreen extends React.Component {
         userController.addReview({
             title: this.state.reviewTitleInput,
             review: this.state.reviewInput,
-            rating: this.state.ratingInput
+            rating: this.state.ratingInput,
+            image: 'https://source.unsplash.com/featured/?'+this.props.navigation.state.params.item.tags[0]
         }, this.props.navigation.state.params.item._id)
             .then((res) => {
                 if (res !== 404) {
@@ -279,7 +280,7 @@ class BusinessScreen extends React.Component {
                 <Image source={{ uri: image }} key={image} style={{ width: 195, height: 195, margin: 1 }} />
             )
         })
-        const tags = this.props.navigation.state.params.item.tags.map((tag) => {
+        const tags = this.props.navigation.state.params.item.tags.slice(0,3).map((tag) => {
             return (
                 <View key={tag} style={styles.tag}>
                     <Text style={{ fontSize: 10, color: Colors.primary }}> #{tag} </Text>
@@ -357,7 +358,7 @@ class BusinessScreen extends React.Component {
                                         <Image style={styles.reviewIcon} source={require('../assets/icons/icons8-chat-24-aqua.png')} />
                                     </View>
                                     <HeadingText1 style={styles.resultTitle}> {this.props.navigation.state.params.item.title} </HeadingText1>
-                                    <Text style={{ fontSize: 16 }}> {this.props.navigation.state.params.item.user} </Text>
+                                    <Text style={{ fontSize: 16 }}> {this.props.navigation.state.params.username} </Text>
                                     <View style={styles.tags}>
                                         <Text style={{ fontSize: 12, color: Colors.placeholder }}> {this.props.navigation.state.params.item.price} </Text>
                                         <Text style={{ fontSize: 4, color: Colors.placeholder }}> {'\u2B24'} </Text>
@@ -372,7 +373,7 @@ class BusinessScreen extends React.Component {
                                     <TouchableOpacity
                                         ref={this.props.generateTestHook('Message.Button')}
                                         style={styles.actionButton} onPress={() => { this.setState({ messageFormVisible: true }) }}>
-                                        <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message {this.props.navigation.state.params.item.user}</HeadingText1>
+                                        <HeadingText1 style={{ fontSize: 12, color: Colors.white }}>Message {this.props.navigation.state.params.username}</HeadingText1>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.reviews}>

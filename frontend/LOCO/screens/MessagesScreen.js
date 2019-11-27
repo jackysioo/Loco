@@ -18,6 +18,7 @@ import {
 import { Images, Colors } from "../constants";
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2, HeadingText3 } from '../components/Texts';
 import chatController from '../controllers/ChatController';
+import userController from '../controllers/UserController';
 const { width, height } = Dimensions.get("screen");
 
 
@@ -33,18 +34,17 @@ class MessagesScreen extends React.Component {
     }
 
     componentWillMount() {
-        chatController.init()
-        .then(() => {
+        // chatController.init()
+        // .then(() => {
             chatController.getChats()
             .then((chats) => {
-                console.log(chats)
                 this.allChats = chats
                 this.setState({
                     loading: false
                 })
 
             })
-        })
+        // })
     }
 
 
@@ -76,6 +76,7 @@ class MessagesScreen extends React.Component {
 
     renderChats() {
         return this.allChats.map((chat) => {
+            console.log(chat)
             return (
                 <View style={styles.chatItemContainer} key={chat.roomID}>
                     <TouchableOpacity

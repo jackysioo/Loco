@@ -96,7 +96,6 @@ class UserScreen extends React.Component {
     renderUser() {
         var count = 0;  // for testing purposes 
         const reviews = this.user.reviews.map((review) => {
-            console.log(review)
             // only display up to 46 characters of review outside of a review
             var displayReview = review.review;
             if (review.hasOwnProperty('review') && review.review.length > 84) {

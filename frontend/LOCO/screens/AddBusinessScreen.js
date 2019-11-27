@@ -85,7 +85,8 @@ class AddBusinessScreen extends React.Component {
             price: this.state.priceInput,
             region: this.state.regionInput,
             location: geocode,
-            tags: [this.state.tag1Input, this.state.tag2Input, this.state.tag3Input]
+            tags: [this.state.tag1Input, this.state.tag2Input, this.state.tag3Input],
+            images: ['https://source.unsplash.com/featured/?'+this.state.tag1Input, 'https://source.unsplash.com/featured/?'+this.state.tag2Input]
         })
             .then((res) => {
                 if (res !== 404) {

@@ -29,7 +29,7 @@ import MapButton from "../components/MapButton";
 import { hook, useCavy, wrap } from 'cavy'
 import searchController from "../controllers/SearchController";
 import mapController from "../controllers/MapController";
-import chatController from '../controllers/UserController';
+import chatController from '../controllers/ChatController';
 import userController from '../controllers/UserController';
 import userCache from '../caches/UserCache'
 
@@ -49,7 +49,7 @@ class HomeScreen extends React.Component {
         mapVisible: false,
         preCallMin: new Date().getMinutes(),
         preCallSec: new Date().getSeconds(),
-        ready: true
+        ready: false
     };
 
 
@@ -60,15 +60,20 @@ class HomeScreen extends React.Component {
 
     componentWillMount() {
         userController.init()
+            .then(() => {
+                userController.getSuggestions()
+                    .then((data) => {
+                        this.suggestions = data.suggestions
+                        this.setState({
+                            ready: true
+                        })
+                    })
+            })
+    }
+
+    componentDidMount() {
         chatController.init()
         searchController.init()
-        userController.getSuggestions()
-            .then((data) => {
-                this.suggestions = data.suggestions
-                this.setState({
-                    ready: true
-                })
-            })
     }
 
 
@@ -192,7 +197,6 @@ class HomeScreen extends React.Component {
                 this.setState({
                     searchResults: businesses
                 }, () => {
-                    console.log(businesses)
                     this.setState({
                         loadSearchResults: true
                     })
@@ -223,8 +227,12 @@ class HomeScreen extends React.Component {
         });
     }
 
-
     renderRecommendations() {
+        const suggestions = this.suggestions.map((suggestion) => {
+            return (
+                <Card item={suggestion} key={suggestion._id} style={{ marginRight: width / 30 }} />
+            )
+        })
         return (
             <ScrollView ref="scrollView"
                 showsVerticalScrollIndicator={false}
@@ -232,21 +240,6 @@ class HomeScreen extends React.Component {
                 contentContainerStyle={styles.contentContainer}>
                 <View style={styles.categoryContainer}>
                     {this.renderCategories()}
-                </View>
-                <View style={styles.recommendationContainer}>
-                    <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
-                        Discover Near You
-                                </HeadingText1>
-                    <ScrollView horizontal={true}
-                        decelerationRate={0}
-                        snapToInterval={300}
-                        snapToAlignment={"center"}
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.itemContainer}>
-                        <Card item={businesses[0]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[2]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[4]} />
-                    </ScrollView>
                 </View>
                 <View style={styles.recommendationContainer}>
                     <HeadingText1 style={{ marginLeft: 10, fontSize: 20 }}>
@@ -258,8 +251,7 @@ class HomeScreen extends React.Component {
                         snapToAlignment={"center"}
                         showsHorizontalScrollIndicator={false}
                         style={styles.itemContainer}>
-                        <Card item={businesses[3]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[4]} />
+                        {suggestions}
                     </ScrollView>
                 </View>
                 <View style={styles.recommendationContainer}>
@@ -272,8 +264,8 @@ class HomeScreen extends React.Component {
                         snapToAlignment={"center"}
                         showsHorizontalScrollIndicator={false}
                         style={styles.itemContainer}>
-                        <Card item={businesses[1]} style={{ marginRight: width / 30 }} />
-                        <Card item={businesses[0]} />
+                        <Card item={businesses[0]} style={{ marginRight: width / 30 }} />
+                        <Card item={businesses[1]} />
                     </ScrollView>
                 </View>
             </ScrollView>

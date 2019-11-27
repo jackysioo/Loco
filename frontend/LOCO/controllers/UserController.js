@@ -91,15 +91,7 @@ class UserController extends React.Component {
 
     async getSuggestions() {
         try {
-            const res = await fetch(userServer + "/getSuggestions/" + this.userID,{
-                method: "GET",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': this.userToken
-                }
-            })
-            console.log(response)
+            const res = await fetch(userServer + "/getSuggestions/" + this.userID)
             const businesses = await res.json();
             return (businesses);
         }

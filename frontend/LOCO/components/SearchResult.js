@@ -5,16 +5,28 @@ import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Text, View } f
 
 import { Colors } from '../constants';
 import { ParagraphText1, ParagraphText2, HeadingText1, HeadingText2 } from './Texts';
+import userController from '../controllers/UserController';
 
 const { height, width } = Dimensions.get('screen');
 
 class SearchResult extends React.Component {
+    state = {
+      username: ''
+    }
+
+    componentWillMount() {
+        userController.getUser(this.props.item.user)
+        .then((data) => {
+          this.setState({
+            username: data.user.firstName
+          })
+        })}
 
     render() {
         const { navigation, item } = this.props;
         const resultContainer = [styles.result, styles.shadow];
         const imgContainer = [styles.imageContainer, styles.shadow];
-        const tags = item.tags.map((tag) => {
+        const tags = item.tags.slice(0,3).map((tag) => {
             return (
                 <View key={tag} style={styles.tag}>
                     <Text style={{ fontSize: 10, color: Colors.primary }}> #{tag} </Text>
@@ -24,7 +36,7 @@ class SearchResult extends React.Component {
 
         return (
             <View style={resultContainer}>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate('Business', {item: item})}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Business', {item: item, username: this.state.username})}>
                     <View style={imgContainer}>
                         <View style={styles.rating}>
                             <HeadingText1 style={{ color: Colors.white }}> {item.rating} </HeadingText1>
@@ -37,13 +49,13 @@ class SearchResult extends React.Component {
                         <Image source={{ uri: item.images[0] }} style={styles.coverImage} />
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate('Business', {item: item})}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Business', {item: item, username: this.state.username})}>
                     <View style={styles.resultDescription}>
                         <View style={styles.profilePicContainer}>
                             <Image source={{ uri: item.profilePic }} style={styles.profilePic} />
                         </View>
                         <HeadingText1 style={styles.resultTitle}> {item.title}</HeadingText1>
-                        <Text style={{ fontSize: 16 }}> {item.user} </Text>
+                        <Text style={{ fontSize: 16 }}> {this.state.username} </Text>
                         <View style={styles.tags}>
                             <Text style={{ fontSize: 12, color: Colors.placeholder}}> {item.price} </Text>
                             <Text style={{ fontSize: 4, color: Colors.placeholder}}> {'\u2B24'} </Text>
