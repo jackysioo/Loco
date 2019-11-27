@@ -58,7 +58,7 @@ class BioScreen extends React.Component {
             bio: this.state.bioInput,
             email: this.state.emailInput
         })
-            .then(response => {
+            .then((response) => {
                 if (response) {
                     this.setState({
                         loading: true

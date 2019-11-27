@@ -55,7 +55,7 @@ exports.updateReview = async (req, res, next) => {
 
         await updateData(prevRating,rating,userId,businessId); 
         const resultReview = await Review.findById(reviewId);
-        populateResult = await resultReview.populate('userId').populate({ 
+        var populateResult = await resultReview.populate('userId').populate({ 
             path: 'businessId',
             populate: {
                 path: 'user',

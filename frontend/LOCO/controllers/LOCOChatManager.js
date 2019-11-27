@@ -66,11 +66,11 @@ class LOCOChatManager extends React.Component {
                         onUserStoppedTyping: this.props.onUserNotTypes
                     }
                 })
-                    .catch(err => {
+                    .catch((err) => {
                         console.log(`Error joining room ${err}`);
                     });
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log("error with chat manager", error);
             });
     }

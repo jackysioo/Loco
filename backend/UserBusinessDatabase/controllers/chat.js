@@ -1,12 +1,12 @@
 
 const Chatkit = require("@pusher/chatkit-server");
 
-const instance_locator_id = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
-const chatkit_secret = "4ed3e048-d5fe-4872-96bc-dac27927a3c7:63sb/WHWfDrL3TPGwImk2MS1xdtfXZlIjLQJ+HRom5s=";
+const instanceLocatorId = "v1:us1:0d19d6c4-7553-472b-8f65-3af90e0c9407";
+const chatkitSecret = "4ed3e048-d5fe-4872-96bc-dac27927a3c7:63sb/WHWfDrL3TPGwImk2MS1xdtfXZlIjLQJ+HRom5s=";
 
 const chatkit = new Chatkit.default({
-  instanceLocator: instance_locator_id,
-  key: chatkit_secret
+  instanceLocator: instanceLocatorId,
+  key: chatkitSecret
 });
 
 

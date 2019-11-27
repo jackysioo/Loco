@@ -34,7 +34,7 @@ class MessagesScreen extends React.Component {
 
     componentWillMount() {
         chatController.init()
-        .then(() =>{
+        .then(() => {
             chatController.getChats()
             .then((chats) => {
                 console.log(chats)
